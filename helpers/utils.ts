@@ -78,7 +78,7 @@ export const cookieParser = (request: Request): CookieInterface => {
 };
 
 export const standardCookieConfig: CookieOptions = {
-    sameSite: "strict",
+    sameSite: "none",
     secure: true,
     domain: ENV("ENVIRONMENT") === "LOCAL" ? "localhost" : 
             "studiomusic.herokuapp.com",
@@ -87,7 +87,7 @@ export const standardCookieConfig: CookieOptions = {
 };
 
 export const redirectUriCookieConfig: CookieOptions = {
-    sameSite: "strict",
+    sameSite: "none",
     secure: true,
     domain: ENV("ENVIRONMENT") === "LOCAL" ? "localhost" : 
             "studiomusic.herokuapp.com",

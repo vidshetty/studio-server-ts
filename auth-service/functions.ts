@@ -101,7 +101,7 @@ const __cookieFound = async (request: Request): Promise<FoundResponse> => {
     return await __verifyAccessToken(token);
 };
 
-const __notifyAdmin = async (googleAccount: GoogleProfileInfo) => {
+const __notifyAdmin = async (googleAccount: GoogleProfileInfo, type: String) => {
 
     try {
 
@@ -116,7 +116,7 @@ const __notifyAdmin = async (googleAccount: GoogleProfileInfo) => {
 
         const options: NodemailerOptions = {
             to: "toriumcar@gmail.com",
-            subject: "New Sign-Up",
+            subject: type === "signup" ? "New Sign-Up" : "Just Logged In",
             html: data
         };
 
@@ -124,6 +124,49 @@ const __notifyAdmin = async (googleAccount: GoogleProfileInfo) => {
 
     }
     catch(e) {}
+
+};
+
+const __notifyUser = async (user: UserInterface, type: String) => {
+
+    try {
+
+        const duration: number = user.accountAccess.duration;
+        const today = moment().tz(timezone);
+        const addedToday = moment(today).add(duration,"s");
+        const dur = moment.duration(moment(addedToday).diff(moment(today)));
+
+        const period = calcPeriod(dur);
+        const date = moment(addedToday).format("DD MMMM YYYY");
+        const time = moment(addedToday).format("hh:mm A");
+
+        const data = await ejsRender(
+            type === "signup" ?
+            path.join(process.cwd(), buildroot, "views", "newsignup_user.ejs") :
+            path.join(process.cwd(), buildroot, "views", "login_user.ejs"),
+            { 
+                period,
+                date,
+                time
+            }
+        );
+
+        const options = {
+            to: user.googleAccount.email,
+            subject: type === "signup" ? "You just signed up!" : "You just logged in!",
+            html: data
+        };
+
+        try {
+            await sendEmail(options);
+        } catch(e) {
+            console.log("email",e);
+        }
+
+    } catch(e) {
+        console.log("e",e);
+        return false;
+    }
 
 };
 
@@ -146,16 +189,13 @@ export const googleAuthCheck = async (request: Request, response: Response, next
     
     if (user) {
 
-        // let { accountAccess } = user;
-
-        // Object.assign(user, { accountAccess });
-
-        // await user.save();
-
         response.user = {
             _id: user._id || "",
             error: false
         };
+
+        __notifyAdmin(user.googleAccount, "login");
+        if (user.accountAccess.type !== "expired") __notifyUser(user, "login");
 
     }
     else {
@@ -185,8 +225,8 @@ export const googleAuthCheck = async (request: Request, response: Response, next
             error: false
         };
 
-        __notifyAdmin(user.googleAccount);
-        // __notifyUser();
+        __notifyAdmin(user.googleAccount, "signup");
+        __notifyUser(user, "signup");
 
     }
 
