@@ -19,14 +19,15 @@ const compare = (a, b) => {
     return 1;
 };
 const [NewReleases, RecentlyAdded] = (() => {
-    const LIST = [...archiveGateway_1.default];
-    const nr = LIST.sort(compare).slice(0, 6);
-    const ra = LIST.reverse().filter(each => {
-        const { _albumId } = each;
-        const index = nr.findIndex(each => each._albumId === _albumId);
-        return index === -1;
-    }).slice(0, 6);
-    return [nr, ra];
+    const newReleases = [...archiveGateway_1.default].sort(compare).slice(0, 6);
+    const recentlyAdded = [];
+    const len = archiveGateway_1.default.length;
+    for (let i = len - 1; i >= 0 && recentlyAdded.length < 6; i--) {
+        const index = newReleases.findIndex(each => each._albumId === archiveGateway_1.default[i]._albumId);
+        if (index === -1)
+            recentlyAdded.push(archiveGateway_1.default[i]);
+    }
+    return [newReleases, recentlyAdded];
 })();
 const compareRecents = (a, b) => {
     if (a.last < b.last)
