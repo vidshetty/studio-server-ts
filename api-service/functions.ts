@@ -53,15 +53,17 @@ const compare = (a: AlbumList, b: AlbumList): number => {
 
 const [NewReleases, RecentlyAdded] = (() => {
 
-    const LIST = [ ...ALBUMLIST ];
-    const nr = LIST.sort(compare).slice(0,6);
-    const ra = LIST.reverse().filter(each => {
-        const { _albumId } = each;
-        const index = nr.findIndex(each => each._albumId === _albumId);
-        return index === -1;
-    }).slice(0,6);
+    const newReleases = [...ALBUMLIST].sort(compare).slice(0,6);
 
-    return [nr,ra];
+    const recentlyAdded = [];
+    const len = ALBUMLIST.length;
+
+    for (let i=len-1; i>=0 && recentlyAdded.length < 6; i--) {
+        const index = newReleases.findIndex(each => each._albumId === ALBUMLIST[i]._albumId);
+        if (index === -1) recentlyAdded.push(ALBUMLIST[i]);
+    }
+
+    return [newReleases, recentlyAdded];
 
 })();
 

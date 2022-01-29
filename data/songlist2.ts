@@ -1223,6 +1223,20 @@ const songlist: (Single|Album)[] = [
         Artist: "AP Dhillon, Gurinder Gill, Intense",
         Type: "Single",
         releaseDate: date("24-07-2020")
+    },
+    {
+        _albumId: "61f512bd92c8fdab6123aadd",
+        _trackId: "61f512bd92c8fdab6123aadd",
+        Album: "Insane",
+        AlbumArtist: "AP Dhillon, Shinda Kahlon, Gurinder Gill, Gminxr",
+        Year: "2021",
+        Color: "rgba(152,112,112,1)",
+        Thumbnail: "https://lh3.googleusercontent.com/KeEBJiN7-fZM1K8i9Kzvo3lvMCOik6rfSV-pQETMJZnJzEh760ICEeFnJQFCFzB5DbOYFc97UfaBuRpymQ=w544-h544-l90-rj",
+        url: `${server[3]}/listen/Insane - AP Dhillon`,
+        Duration: "3: 26",
+        Artist: "AP Dhillon, Shinda Kahlon, Gurinder Gill, Gminxr",
+        Type: "Single",
+        releaseDate: date("16-04-2021")
     }
 ];
 
