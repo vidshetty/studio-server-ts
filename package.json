@@ -4,7 +4,7 @@
     "description": "",
     "main": "server.js",
     "scripts": {
-        "start": "nodemon production/server.js",
+        "start": "node production/server.js",
         "server": "nodemon server.ts",
         "build": "tsc && nodemon production/server.js",
         "generate": "ts-node ./data/generator.ts"
