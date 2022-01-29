@@ -16,7 +16,7 @@ import apiservice from "./api-service";
 import adminservice from "./admin-service";
 
 const app: Application = express();
-const PORT: number = 5000;
+const PORT: number = parseInt(process.env.PORT || "5000");
 const server = http.createServer(app);
 
 mongohandler();

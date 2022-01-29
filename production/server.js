@@ -19,7 +19,7 @@ const auth_service_1 = __importDefault(require("./auth-service"));
 const api_service_1 = __importDefault(require("./api-service"));
 const admin_service_1 = __importDefault(require("./admin-service"));
 const app = (0, express_1.default)();
-const PORT = 5000;
+const PORT = parseInt(process.env.PORT || "5000");
 const server = http_1.default.createServer(app);
 (0, mongohandler_1.default)();
 app.use(passport_1.default.initialize());
