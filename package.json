@@ -6,7 +6,7 @@
     "scripts": {
         "start": "node production/server.js",
         "server": "nodemon server.ts",
-        "build": "tsc && nodemon production/server.js",
+        "buildserver": "tsc && nodemon production/server.js",
         "generate": "ts-node ./data/generator.ts"
     },
     "keywords": [],
