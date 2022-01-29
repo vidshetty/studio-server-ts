@@ -4,9 +4,9 @@
     "description": "",
     "main": "server.js",
     "scripts": {
-        "start": "nodemon out/server.js",
+        "start": "nodemon production/server.js",
         "server": "nodemon server.ts",
-        "build": "tsc && nodemon out/server.js",
+        "build": "tsc && nodemon production/server.js",
         "generate": "ts-node ./data/generator.ts"
     },
     "keywords": [],
