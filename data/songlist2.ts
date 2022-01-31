@@ -1186,7 +1186,7 @@ const songlist: (Single|Album)[] = [
     },
     {
         _albumId: "61ee5fdf29abfc526ee8531d",
-        Album: "Garuda Gamana Vrishabha Vahana (Original Motion Picture Soundtrack)",
+        Album: "Garuda Gamana Vrishabha Vahana",
         AlbumArtist: "Midhun Mukundan",
         Type: "Album",
         Year: "2021",
@@ -1237,6 +1237,39 @@ const songlist: (Single|Album)[] = [
         Artist: "AP Dhillon, Shinda Kahlon, Gurinder Gill, Gminxr",
         Type: "Single",
         releaseDate: date("16-04-2021")
+    },
+    {
+        _albumId: "61f7da84630ef2ada31c7d1f",
+        Album: "HIDDEN GEMS",
+        AlbumArtist: "Various Artists",
+        Type: "Album",
+        Year: "2021",
+        Color: "rgba(136,176,192,1)",
+        releaseDate: date("21-11-2021"),
+        Thumbnail: "https://lh3.googleusercontent.com/ciA_XfgFe6uevhFb3AimcHHFbXZBD6sV9Vj3tTgjNcNwXsdozzE9ESOMUJD9LVke8DA9KWqEwQSEwvIk=w544-h544-l90-rj",
+        Tracks: [
+            {
+                _trackId: "61f7da941c12066f17bbd74e",
+                Title: "DESIRES",
+                Artist: "AP Dhillon, Gurinder Gill",
+                Duration: "2: 48",
+                url: `${server[3]}/listen/Desires - AP Dhillon`
+            }
+        ]
+    },
+    {
+        _albumId: "61f7daa03d50ac2162ffd6e3",
+        _trackId: "61f7daa03d50ac2162ffd6e3",
+        Album: "Saada Pyaar",
+        AlbumArtist: "AP Dhillon, Gurinder Gill, Money Musik",
+        Year: "2021",
+        Color: "rgba(192,104,104,1)",
+        Thumbnail: "https://lh3.googleusercontent.com/pU8_889hY9-x1v-fFWaCAggLbf90jchYYxXUmDMd5sy6-aIoyv4TA-DcdQkAqzOtb9_KvqhQX_CyTX6E=w544-h544-l90-rj",
+        url: `${server[3]}/listen/Saada Pyaar - AP Dhillon`,
+        Duration: "3: 33",
+        Artist: "AP Dhillon, Gurinder Gill, Money Musik",
+        Type: "Single",
+        releaseDate: date("19-12-2021")
     }
 ];
 
