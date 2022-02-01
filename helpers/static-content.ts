@@ -50,6 +50,12 @@ router.get("/*", (request: Request, response: Response, next: NextFunction) => {
 
     if (exists("latest-blueblack.jpg", request.path)) returnpath = getpath("latest-blueblack.jpg");
 
+    if (exists("16x16.png", request.path)) returnpath = getpath("16x16.png");
+
+    if (exists("32x32.png", request.path)) returnpath = getpath("32x32.png");
+
+    if (exists("192x192.png", request.path)) returnpath = getpath("192x192.png");
+
     if (exists("manifest.json", request.url)) returnpath = getpath("manifest.json");
 
     if (exists("registerSW.js", request.url)) returnpath = getpath("registerSW.js");
