@@ -104,7 +104,7 @@ self.__precacheManifest = [
     "url": "./static/media/lyrics-white.b2fce63b.svg"
   },
   {
-    "revision": "ecb04b06a5edf7b1c7f914a0302ee0a7",
+    "revision": "d8e96709979ab1e8fb3f8dc7ad1d82ea",
     "url": "./index.html"
   }
 ];
