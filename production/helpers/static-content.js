@@ -27,6 +27,14 @@ router.use([
 ], playerstaticrouter_1.default);
 router.get("/*", (request, response, next) => {
     let returnpath = null;
+    if (exists("preview-studio-black.png", request.path))
+        returnpath = getpath("preview-studio-black.png");
+    if (exists("preview-studio-white.png", request.path))
+        returnpath = getpath("preview-studio-white.png");
+    if (exists("preview-studiomusic-black.png", request.path))
+        returnpath = getpath("preview-studiomusic-black.png");
+    if (exists("preview-studiomusic-white.png", request.path))
+        returnpath = getpath("preview-studiomusic-white.png");
     if (exists("latest-bluewhite.png", request.path))
         returnpath = getpath("latest-bluewhite.png");
     if (exists("latest-bluewhite.svg", request.path))
