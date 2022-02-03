@@ -35,6 +35,8 @@ router.get("/*", (request, response, next) => {
         returnpath = getpath("preview-studiomusic-black.png");
     if (exists("preview-studiomusic-white.png", request.path))
         returnpath = getpath("preview-studiomusic-white.png");
+    if (exists("preview-studiomusic-white.svg", request.path))
+        returnpath = getpath("preview-studiomusic-white.svg");
     if (exists("latest-bluewhite.png", request.path))
         returnpath = getpath("latest-bluewhite.png");
     if (exists("latest-bluewhite.svg", request.path))
