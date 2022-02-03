@@ -37,6 +37,14 @@ router.get("/*", (request, response, next) => {
         returnpath = getpath("latest-bluetransparent.svg");
     if (exists("latest-blueblack.png", request.path))
         returnpath = getpath("latest-blueblack.png");
+    if (exists("latest-blueblack-black.png", request.path))
+        returnpath = getpath("latest-blueblack-black.png");
+    if (exists("latest-blueblack-black.svg", request.path))
+        returnpath = getpath("latest-blueblack-black.svg");
+    if (exists("latest-blueblack-transparent.png", request.path))
+        returnpath = getpath("latest-blueblack-transparent.png");
+    if (exists("latest-blueblack-transparent.svg", request.path))
+        returnpath = getpath("latest-blueblack-transparent.svg");
     if (exists("latest-blueblack.svg", request.path))
         returnpath = getpath("latest-blueblack.svg");
     if (exists("latest-blueblack.jpg", request.path))
