@@ -1253,6 +1253,13 @@ const songlist = [
                 Artist: "AP Dhillon, Gurinder Gill",
                 Duration: "2: 48",
                 url: `${utils_1.server[3]}/listen/Desires - AP Dhillon`
+            },
+            {
+                _trackId: "6203dc38e8924d614f5c4381",
+                Title: "TERE TE",
+                Artist: "AP Dhillon, Gurinder Gill",
+                Duration: "1: 54",
+                url: `${utils_1.server[3]}/listen/Tere Te - AP Dhillon`
             }
         ]
     },
