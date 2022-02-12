@@ -1277,7 +1277,26 @@ const songlist: (Single|Album)[] = [
         Artist: "AP Dhillon, Gurinder Gill, Money Musik",
         Type: "Single",
         releaseDate: date("19-12-2021")
-    }
+    },
+    {
+        _albumId: "62074f10bbb6250989a312bd",
+        Album: "The Carnival",
+        AlbumArtist: "King",
+        Type: "Album",
+        Year: "2020",
+        Color: "rgba(184,8,32,1)",
+        releaseDate: date("21-09-2020"),
+        Thumbnail: "https://lh3.googleusercontent.com/BhJJKc9QEjxLIu4yL7Dd0HixVF5QHC4B9VEF8dbCQlUB2CV8HPMUU3Xe-G9ggCPsDbrDUQmOtgQ67pU=w544-h544-l90-rj",
+        Tracks: [
+            {
+                _trackId: "62074f256eeadc2d59864985",
+                Title: "Tu Aake Dekhle",
+                Artist: "King",
+                Duration: "4: 30",
+                url: `${server[3]}/listen/Tu Aake Dekhle - King`
+            }
+        ]
+    },
 ];
 
 
