@@ -1297,6 +1297,20 @@ const songlist: (Single|Album)[] = [
             }
         ]
     },
+    {
+        _albumId: "6207a6f8d09acb843e445a21",
+        _trackId: "6207a6f8d09acb843e445a21",
+        Album: "Dhokha",
+        AlbumArtist: "Arijit Singh, Manan Bhardwaj",
+        Year: "2022",
+        Color: "rgba(16,64,152,1)",
+        Thumbnail: "https://lh3.googleusercontent.com/EXgS1qTaFeZxoV1GCbQ-v0lkCuDk_qFU3WJ4yxtaFsfv3jXhU_VN69-M-CtwEt-AX61p_UHwVDjYxQg=w544-h544-l90-rj",
+        url: `${server[3]}/listen/Dhokha - Arijit Singh`,
+        Duration: "4: 05",
+        Artist: "Arijit Singh, Manan Bhardwaj",
+        Type: "Single",
+        releaseDate: date("10-02-2022")
+    }
 ];
 
 
