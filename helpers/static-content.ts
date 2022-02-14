@@ -1,5 +1,5 @@
 import { Request, Response, NextFunction, Router } from "express";
-import { ipAddress, httpsRedirect, userAgentCheck } from "../helpers/middlewares";
+import { ipAddress, httpsRedirect, userAgentCheck, updateHtmlHead } from "../helpers/middlewares";
 import { googleAuthCheck, rootAccessCheck, rootAuthCheck } from "../auth-service/functions";
 import { setRedirectUriCookie, buildroot } from "../helpers/utils";
 import passport from "passport";
@@ -107,7 +107,8 @@ router.get(
 router.get(
     [
         "/player",
-        "/player/album/*",
+        "/player/album/:albumId",
+        "/player/album/:albumId/*",
         "/player/track/:albumId/:trackId",
         "/player/track/:albumId/:trackId/*",
         "/player/search"
@@ -115,18 +116,21 @@ router.get(
     ipAddress,
     userAgentCheck,
     httpsRedirect,
-    rootAuthCheck,
-    rootAccessCheck,
-    (request: Request, response: Response) => {
+    // rootAuthCheck,
+    // rootAccessCheck,
+    async (request: Request, response: Response) => {
 
-        const { result } = request;
+        const data: string = await updateHtmlHead(request);
+        return response.send(data);
 
-        if (!result.found) {
-            setRedirectUriCookie(request.url, response);
-            return response.redirect("/");
-        }
+        // const { result } = request;
 
-        return response.sendFile(path.join(process.cwd(), buildroot, "player-build", "index.html"));
+        // if (!result.found) {
+        //     setRedirectUriCookie(request.url, response);
+        //     return response.redirect("/");
+        // }
+
+        // return response.sendFile(path.join(process.cwd(), buildroot, "player-build", "index.html"));
 
     }
 );

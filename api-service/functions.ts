@@ -481,6 +481,44 @@ const __rp = async (toBeExcluded: string, userId: string): Promise<(AlbumWithTra
 
 
 
+export const getAlbum = (request: Request) => {
+
+    const { albumId }: RequestQuery = request.query as unknown as RequestQuery;
+
+    if (!albumId) return null;
+
+    const album = ALBUMLIST.find(each => each._albumId === albumId);
+    if (!album) return null;
+
+    return album;
+
+};
+
+export const getTrack = (request: Request) => {
+
+    const { albumId, trackId }: RequestQuery = request.query as unknown as RequestQuery;
+
+    if (!albumId || !trackId) return null;
+
+    const album = ALBUMLIST.find(each => each._albumId === albumId);
+    if (!album) return null;
+
+    let track = null;
+    if (album.Type === "Single") {
+        track = { ...(album as Single) };
+    }
+    else if (album.Type === "Album") {
+        (album as Album).Tracks.forEach(t => {
+            if (String(t._trackId) !== trackId) return;
+            track = { ...(album as Album), ...t };
+            track.Tracks = [];
+        });
+    }
+
+    return track;
+
+};
+
 export const homeAlbums = async (request: Request, _:any) => {
 
     const { id: userId } = request.ACCOUNT;
@@ -523,41 +561,11 @@ export const getLibrary = async (request: Request, response: Response) => {
 };
 
 export const getTrackDetails = async (request: Request, _:any) => {
-
-    const { albumId, trackId }: RequestQuery = request.query as unknown as RequestQuery;
-
-    if (!albumId || !trackId) return { track: null };
-
-    const album = ALBUMLIST.find(each => each._albumId === albumId);
-    if (!album) return { track: null };
-
-    let track = null;
-    if (album.Type === "Single") {
-        track = { ...(album as Single) };
-    }
-    else if (album.Type === "Album") {
-        (album as Album).Tracks.forEach(t => {
-            if (String(t._trackId) !== trackId) return;
-            track = { ...(album as Album), ...t };
-            track.Tracks = [];
-        });
-    }
-
-    return { track };
-
+    return { track: getTrack(request) };
 };
 
 export const getAlbumDetails = async (request: Request, _:any) => {
-
-    const { albumId }: RequestQuery = request.query as unknown as RequestQuery;
-
-    if (!albumId) return { album: null };
-
-    const album = ALBUMLIST.find(each => each._albumId === albumId);
-    if (!album) return { album: null };
-
-    return { album };
-
+    return { album: getAlbum(request) };
 };
 
 export const search = async (request: Request, _:any) => {

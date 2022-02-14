@@ -3,7 +3,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.signOut = exports.getProfile = exports.activateCheck = exports.recordTime = exports.startRadio = exports.getLyrics = exports.addToRecentlyPlayed = exports.search = exports.getAlbumDetails = exports.getTrackDetails = exports.getLibrary = exports.homeAlbums = void 0;
+exports.signOut = exports.getProfile = exports.activateCheck = exports.recordTime = exports.startRadio = exports.getLyrics = exports.addToRecentlyPlayed = exports.search = exports.getAlbumDetails = exports.getTrackDetails = exports.getLibrary = exports.homeAlbums = exports.getTrack = exports.getAlbum = void 0;
 const Users_1 = require("../models/Users");
 const utils_1 = require("../helpers/utils");
 const moment_timezone_1 = __importDefault(require("moment-timezone"));
@@ -341,6 +341,38 @@ const __rp = async (toBeExcluded, userId) => {
     ;
     return final;
 };
+const getAlbum = (request) => {
+    const { albumId } = request.query;
+    if (!albumId)
+        return null;
+    const album = archiveGateway_1.default.find(each => each._albumId === albumId);
+    if (!album)
+        return null;
+    return album;
+};
+exports.getAlbum = getAlbum;
+const getTrack = (request) => {
+    const { albumId, trackId } = request.query;
+    if (!albumId || !trackId)
+        return null;
+    const album = archiveGateway_1.default.find(each => each._albumId === albumId);
+    if (!album)
+        return null;
+    let track = null;
+    if (album.Type === "Single") {
+        track = Object.assign({}, album);
+    }
+    else if (album.Type === "Album") {
+        album.Tracks.forEach(t => {
+            if (String(t._trackId) !== trackId)
+                return;
+            track = Object.assign(Object.assign({}, album), t);
+            track.Tracks = [];
+        });
+    }
+    return track;
+};
+exports.getTrack = getTrack;
 const homeAlbums = async (request, _) => {
     const { id: userId } = request.ACCOUNT;
     const mostPlayed = await getMostPlayed(userId);
@@ -370,35 +402,11 @@ const getLibrary = async (request, response) => {
 };
 exports.getLibrary = getLibrary;
 const getTrackDetails = async (request, _) => {
-    const { albumId, trackId } = request.query;
-    if (!albumId || !trackId)
-        return { track: null };
-    const album = archiveGateway_1.default.find(each => each._albumId === albumId);
-    if (!album)
-        return { track: null };
-    let track = null;
-    if (album.Type === "Single") {
-        track = Object.assign({}, album);
-    }
-    else if (album.Type === "Album") {
-        album.Tracks.forEach(t => {
-            if (String(t._trackId) !== trackId)
-                return;
-            track = Object.assign(Object.assign({}, album), t);
-            track.Tracks = [];
-        });
-    }
-    return { track };
+    return { track: (0, exports.getTrack)(request) };
 };
 exports.getTrackDetails = getTrackDetails;
 const getAlbumDetails = async (request, _) => {
-    const { albumId } = request.query;
-    if (!albumId)
-        return { album: null };
-    const album = archiveGateway_1.default.find(each => each._albumId === albumId);
-    if (!album)
-        return { album: null };
-    return { album };
+    return { album: (0, exports.getAlbum)(request) };
 };
 exports.getAlbumDetails = getAlbumDetails;
 const search = async (request, _) => {

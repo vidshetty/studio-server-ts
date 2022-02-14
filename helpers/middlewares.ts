@@ -1,5 +1,8 @@
 import { Request, Response, NextFunction } from "express";
+import { getAlbum, getTrack } from "../api-service/functions";
 import { lookup, Lookup } from "geoip-lite";
+import { ejsRender, buildroot } from "../helpers/utils";
+import path from "path";
 
 
 export const userAgentCheck = (request: Request, response: Response, next: NextFunction) => {
@@ -70,4 +73,45 @@ export const ipAddress = (request: Request, response: Response, next: NextFuncti
     } finally {
         return next();
     }
+};
+
+export const updateHtmlHead = async (request: Request) : Promise<string> => {
+
+    const defaultImageUrl: string = "https://studiomusic.herokuapp.com/preview-studio-black.png";
+
+    if (request.url.includes("album")) {
+
+        request.query = { albumId: request.params.albumId };
+        const album = getAlbum(request);
+
+        return await ejsRender(
+            path.join(process.cwd(), buildroot, "views", "index.ejs"),
+            {
+                title: album !== null ? `${album.Album} - ${album.AlbumArtist}` : "StudioMusic",
+                image: album !== null ? album.Thumbnail : defaultImageUrl
+            }
+        );
+
+    }
+
+    if (request.url.includes("track")) {
+
+        request.query = {
+            albumId: request.params.albumId,
+            trackId: request.params.trackId
+        };
+        const track: any = getTrack(request);
+
+        return await ejsRender(
+            path.join(process.cwd(), buildroot, "views", "index.ejs"),
+            {
+                title: track !== null ? `${track.Title || track.Album} - ${track.AlbumArtist}` : "StudioMusic",
+                image: track !== null ? track.Thumbnail : defaultImageUrl
+            }
+        );
+
+    }
+
+    return "";
+
 };

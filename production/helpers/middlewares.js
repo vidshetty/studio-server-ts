@@ -1,7 +1,13 @@
 "use strict";
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.ipAddress = exports.httpsRedirect = exports.userAgentCheck = void 0;
+exports.updateHtmlHead = exports.ipAddress = exports.httpsRedirect = exports.userAgentCheck = void 0;
+const functions_1 = require("../api-service/functions");
 const geoip_lite_1 = require("geoip-lite");
+const utils_1 = require("../helpers/utils");
+const path_1 = __importDefault(require("path"));
 const userAgentCheck = (request, response, next) => {
     const ua = (request.headers["user-agent"] || "").toLowerCase();
     let found = false;
@@ -62,4 +68,28 @@ const ipAddress = (request, response, next) => {
     }
 };
 exports.ipAddress = ipAddress;
+const updateHtmlHead = async (request) => {
+    const defaultImageUrl = "https://studiomusic.herokuapp.com/preview-studio-black.png";
+    if (request.url.includes("album")) {
+        request.query = { albumId: request.params.albumId };
+        const album = (0, functions_1.getAlbum)(request);
+        return await (0, utils_1.ejsRender)(path_1.default.join(process.cwd(), utils_1.buildroot, "views", "index.ejs"), {
+            title: album !== null ? `${album.Album} - ${album.AlbumArtist}` : "StudioMusic",
+            image: album !== null ? album.Thumbnail : defaultImageUrl
+        });
+    }
+    if (request.url.includes("track")) {
+        request.query = {
+            albumId: request.params.albumId,
+            trackId: request.params.trackId
+        };
+        const track = (0, functions_1.getTrack)(request);
+        return await (0, utils_1.ejsRender)(path_1.default.join(process.cwd(), utils_1.buildroot, "views", "index.ejs"), {
+            title: track !== null ? `${track.Title || track.Album} - ${track.AlbumArtist}` : "StudioMusic",
+            image: track !== null ? track.Thumbnail : defaultImageUrl
+        });
+    }
+    return "";
+};
+exports.updateHtmlHead = updateHtmlHead;
 //# sourceMappingURL=middlewares.js.map
