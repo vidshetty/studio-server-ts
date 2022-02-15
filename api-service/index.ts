@@ -1,4 +1,4 @@
-import { Router, Response } from "express";
+import { Router, Request, Response, NextFunction } from "express";
 import { apiAuthCheck, apiAccessCheck } from "../auth-service/functions";
 import { responseMid } from "../helpers/responsehandler";
 import {
@@ -27,7 +27,7 @@ router.get("/whosthis", responseMid(getProfile));
 
 router.use(apiAccessCheck);
 
-// router.use((request: Request, _:any, next: NextFunction) => {
+// router.use((request: Request, _:Response, next: NextFunction) => {
 //     request.ACCOUNT = { id: "60eede351b955d0015eab8e0" };
 //     return next();
 // });

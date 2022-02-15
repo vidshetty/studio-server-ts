@@ -3,7 +3,7 @@ import { config } from "dotenv";
 import path from "path";
 config({ path: path.join(process.cwd(), "ENV", ".env") });
 
-import express, { Application } from "express";
+import express, { Application, Request, Response } from "express";
 import passport from "passport";
 import http from "http";
 import "./nodemailer-service";
@@ -28,6 +28,10 @@ app.use(corshandler);
 app.use(express.json());
 
 
+
+app.options("*", (_:Request, res:Response) => {
+    return res.status(200).end();
+});
 
 app.use("/admin", adminservice);
 

@@ -107,30 +107,41 @@ router.get(
 router.get(
     [
         "/player",
-        "/player/album/:albumId",
-        "/player/album/:albumId/*",
-        "/player/track/:albumId/:trackId",
-        "/player/track/:albumId/:trackId/*",
         "/player/search"
     ],
     ipAddress,
     userAgentCheck,
     httpsRedirect,
-    // rootAuthCheck,
-    // rootAccessCheck,
+    rootAuthCheck,
+    rootAccessCheck,
+    (request: Request, response: Response) => {
+
+        const { result } = request;
+
+        if (!result.found) {
+            setRedirectUriCookie(request.url, response);
+            return response.redirect("/");
+        }
+
+        return response.sendFile(path.join(process.cwd(), buildroot, "player-build", "index.html"));
+
+    }
+);
+
+router.get(
+    [
+        "/player/album/:albumId",
+        "/player/album/:albumId/*",
+        "/player/track/:albumId/:trackId",
+        "/player/track/:albumId/:trackId/*"
+    ],
+    ipAddress,
+    userAgentCheck,
+    httpsRedirect,
     async (request: Request, response: Response) => {
 
         const data: string = await updateHtmlHead(request);
         return response.send(data);
-
-        // const { result } = request;
-
-        // if (!result.found) {
-        //     setRedirectUriCookie(request.url, response);
-        //     return response.redirect("/");
-        // }
-
-        // return response.sendFile(path.join(process.cwd(), buildroot, "player-build", "index.html"));
 
     }
 );
