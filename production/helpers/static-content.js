@@ -89,23 +89,23 @@ router.get("/google-signin", passport_1.default.authenticate("google", { failure
 });
 router.get([
     "/player",
+    "/player/search"
+], middlewares_1.ipAddress, middlewares_1.userAgentCheck, middlewares_1.httpsRedirect, functions_1.rootAuthCheck, functions_1.rootAccessCheck, (request, response) => {
+    const { result } = request;
+    if (!result.found) {
+        (0, utils_1.setRedirectUriCookie)(request.url, response);
+        return response.redirect("/");
+    }
+    return response.sendFile(path_1.default.join(process.cwd(), utils_1.buildroot, "player-build", "index.html"));
+});
+router.get([
     "/player/album/:albumId",
     "/player/album/:albumId/*",
     "/player/track/:albumId/:trackId",
-    "/player/track/:albumId/:trackId/*",
-    "/player/search"
-], middlewares_1.ipAddress, middlewares_1.userAgentCheck, middlewares_1.httpsRedirect, 
-// rootAuthCheck,
-// rootAccessCheck,
-async (request, response) => {
+    "/player/track/:albumId/:trackId/*"
+], middlewares_1.ipAddress, middlewares_1.userAgentCheck, middlewares_1.httpsRedirect, async (request, response) => {
     const data = await (0, middlewares_1.updateHtmlHead)(request);
     return response.send(data);
-    // const { result } = request;
-    // if (!result.found) {
-    //     setRedirectUriCookie(request.url, response);
-    //     return response.redirect("/");
-    // }
-    // return response.sendFile(path.join(process.cwd(), buildroot, "player-build", "index.html"));
 });
 router.get("/", middlewares_1.ipAddress, middlewares_1.userAgentCheck, middlewares_1.httpsRedirect, (_, response) => {
     return response.sendFile(path_1.default.join(process.cwd(), utils_1.buildroot, "build", "index.html"));

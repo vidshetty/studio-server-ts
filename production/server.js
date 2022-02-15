@@ -25,6 +25,9 @@ const server = http_1.default.createServer(app);
 app.use(passport_1.default.initialize());
 app.use(corshandler_1.default);
 app.use(express_1.default.json());
+app.options("*", (_, res) => {
+    return res.status(200).end();
+});
 app.use("/admin", admin_service_1.default);
 app.use("/api/auth", auth_service_1.default);
 app.use("/api", api_service_1.default);

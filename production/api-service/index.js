@@ -8,7 +8,7 @@ const router = (0, express_1.Router)();
 router.use(functions_1.apiAuthCheck);
 router.get("/whosthis", (0, responsehandler_1.responseMid)(functions_2.getProfile));
 router.use(functions_1.apiAccessCheck);
-// router.use((request: Request, _:any, next: NextFunction) => {
+// router.use((request: Request, _:Response, next: NextFunction) => {
 //     request.ACCOUNT = { id: "60eede351b955d0015eab8e0" };
 //     return next();
 // });
