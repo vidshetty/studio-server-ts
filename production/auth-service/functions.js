@@ -427,7 +427,8 @@ const continueAuthSignin = async (request, response) => {
     });
     await user.save();
     const redirectUri = (0, utils_1.checkRedirectUri)(request);
-    response.clearCookie("REDIRECT_URI", utils_1.redirectUriCookieConfig);
+    if (redirectUri !== null)
+        response.clearCookie("REDIRECT_URI", utils_1.redirectUriCookieConfig);
     return {
         success: true,
         username: user.username,

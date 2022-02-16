@@ -569,7 +569,7 @@ export const continueAuthSignin = async (request: Request, response: Response) =
     await user.save();
 
     const redirectUri = checkRedirectUri(request);
-    response.clearCookie("REDIRECT_URI", redirectUriCookieConfig);
+    if (redirectUri !== null) response.clearCookie("REDIRECT_URI", redirectUriCookieConfig);
 
     return {
         success: true,
