@@ -109,15 +109,6 @@ const __notifyUser = async (user, type) => {
 const __setExpired = async (userId) => {
     const update = await Users_1.Users.updateOne({ _id: userId }, { "accountAccess.type": "expired" });
 };
-const __setRedirect = (request, response) => {
-    return;
-    // if (
-    //     request.url.includes("album") ||
-    //     request.url.includes("track")
-    // ) {
-    //     setRedirectUriCookie(request.headers["referer"], response);
-    // }
-};
 const googleAuthCheck = async (request, response, next) => {
     var _a;
     const { sub, name, picture, email, email_verified } = (_a = request.user) === null || _a === void 0 ? void 0 : _a._json;
@@ -213,7 +204,6 @@ const apiAuthCheck = async (request, response, next) => {
             return next();
         }
         else {
-            __setRedirect(request, response);
             return response.status(200).send({ redirect: true, to: "/" });
         }
     }
@@ -228,16 +218,13 @@ const apiAuthCheck = async (request, response, next) => {
                     return next();
                 }
                 else {
-                    __setRedirect(request, response);
                     return response.status(200).send({ redirect: true, to: "/" });
                 }
             }
             catch (e) {
-                __setRedirect(request, response);
                 return response.status(200).send({ redirect: true, to: "/" });
             }
         }
-        __setRedirect(request, response);
         return response.status(200).send({ redirect: true, to: "/" });
     }
 };
@@ -440,8 +427,7 @@ const continueAuthSignin = async (request, response) => {
     });
     await user.save();
     const redirectUri = (0, utils_1.checkRedirectUri)(request);
-    if (redirectUri !== null)
-        response.clearCookie("REDIRECT_URI", utils_1.redirectUriCookieConfig);
+    response.clearCookie("REDIRECT_URI", utils_1.redirectUriCookieConfig);
     return {
         success: true,
         username: user.username,

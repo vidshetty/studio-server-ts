@@ -531,6 +531,7 @@ const signOut = async (request, response) => {
         await user.save();
         response.clearCookie("ACCOUNT", utils_1.standardCookieConfig);
         response.clearCookie("ACCOUNT_REFRESH", utils_1.standardCookieConfig);
+        response.clearCookie("REDIRECT_URI", utils_1.redirectUriCookieConfig);
         return { success: true };
     }
     return { success: false };
