@@ -179,16 +179,6 @@ const __setExpired = async (userId: string) => {
 
 };
 
-const __setRedirect = (request: Request, response: Response) => {
-    return;
-    // if (
-    //     request.url.includes("album") ||
-    //     request.url.includes("track")
-    // ) {
-    //     setRedirectUriCookie(request.headers["referer"], response);
-    // }
-};
-
 
 
 export const googleAuthCheck = async (request: Request, response: Response, next: NextFunction) => {
@@ -312,7 +302,6 @@ export const apiAuthCheck = async (request: Request, response: Response, next: N
             return next();
         }
         else {
-            __setRedirect(request,response);
             return response.status(200).send({ redirect: true, to: "/" });
         }
 
@@ -329,16 +318,13 @@ export const apiAuthCheck = async (request: Request, response: Response, next: N
                     return next();
                 }
                 else {
-                    __setRedirect(request,response);
                     return response.status(200).send({ redirect: true, to: "/" });
                 }
             } catch(e) {
-                __setRedirect(request,response);
                 return response.status(200).send({ redirect: true, to: "/" });
             }
         }
 
-        __setRedirect(request,response);
         return response.status(200).send({ redirect: true, to: "/" });
 
     }
@@ -583,7 +569,7 @@ export const continueAuthSignin = async (request: Request, response: Response) =
     await user.save();
 
     const redirectUri = checkRedirectUri(request);
-    if (redirectUri !== null) response.clearCookie("REDIRECT_URI", redirectUriCookieConfig);
+    response.clearCookie("REDIRECT_URI", redirectUriCookieConfig);
 
     return {
         success: true,

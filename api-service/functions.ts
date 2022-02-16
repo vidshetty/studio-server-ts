@@ -13,7 +13,8 @@ import {
 import {
     timezone,
     server,
-    standardCookieConfig
+    standardCookieConfig,
+    redirectUriCookieConfig
 } from "../helpers/utils";
 import moment from "moment-timezone";
 import fs from "fs";
@@ -745,6 +746,7 @@ export const signOut = async (request: Request, response: Response) => {
 
         response.clearCookie("ACCOUNT", standardCookieConfig);
         response.clearCookie("ACCOUNT_REFRESH", standardCookieConfig);
+        response.clearCookie("REDIRECT_URI", redirectUriCookieConfig);
 
         return { success: true };
 
