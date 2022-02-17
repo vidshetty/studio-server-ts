@@ -1309,6 +1309,20 @@ const songlist = [
         Artist: "Arijit Singh, Manan Bhardwaj",
         Type: "Single",
         releaseDate: (0, utils_1.date)("10-02-2022")
+    },
+    {
+        _albumId: "620e853704d56a3ca0316f7e",
+        _trackId: "620e853704d56a3ca0316f7e",
+        Album: 'Arabic Kuthu - Halamithi Habibo (From "Beast")',
+        AlbumArtist: "Anirudh Ravichander, Jonita Gandhi",
+        Year: "2022",
+        Color: "rgba(96,48,8,1)",
+        Thumbnail: "https://lh3.googleusercontent.com/O4RhrlnxH-04BkiZEGih1ZfpkRwsbF4gsF-fGJL0jUactIoK732grGn3FWbKdhTqkBvRK9Hvw2riIetI=w544-h544-l90-rj",
+        url: `${utils_1.server[3]}/listen/Arabic Kuthu - Beast`,
+        Duration: "4: 39",
+        Artist: "Anirudh Ravichander, Jonita Gandhi",
+        Type: "Single",
+        releaseDate: (0, utils_1.date)("14-02-2022")
     }
 ];
 exports.default = songlist;

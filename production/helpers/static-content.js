@@ -89,23 +89,27 @@ router.get("/google-signin", passport_1.default.authenticate("google", { failure
 });
 router.get([
     "/player",
-    "/player/search"
-], middlewares_1.ipAddress, middlewares_1.userAgentCheck, middlewares_1.httpsRedirect, functions_1.rootAuthCheck, functions_1.rootAccessCheck, (request, response) => {
-    const { result } = request;
-    if (!result.found) {
-        (0, utils_1.setRedirectUriCookie)(request.url, response);
-        return response.redirect("/");
-    }
-    return response.sendFile(path_1.default.join(process.cwd(), utils_1.buildroot, "player-build", "index.html"));
-});
-router.get([
+    "/player/search",
     "/player/album/:albumId",
     "/player/album/:albumId/*",
     "/player/track/:albumId/:trackId",
     "/player/track/:albumId/:trackId/*"
-], middlewares_1.ipAddress, middlewares_1.userAgentCheck, middlewares_1.httpsRedirect, async (request, response) => {
-    const data = await (0, middlewares_1.updateHtmlHead)(request);
-    return response.send(data);
+], middlewares_1.ipAddress, middlewares_1.userAgentCheck, middlewares_1.httpsRedirect, functions_1.rootAuthCheck, functions_1.rootAccessCheck, async (request, response) => {
+    const { result } = request;
+    if (request.path === "/player" ||
+        request.path === "/player/search") {
+        if (!result.found) {
+            (0, utils_1.setRedirectUriCookie)(request.url, response);
+            return response.redirect("/");
+        }
+        return response.sendFile(path_1.default.join(process.cwd(), utils_1.buildroot, "player-build", "index.html"));
+    }
+    else {
+        if (!result.found)
+            (0, utils_1.setRedirectUriCookie)(request.url, response);
+        const data = await (0, middlewares_1.updateHtmlHead)(request);
+        return response.send(data);
+    }
 });
 router.get("/", middlewares_1.ipAddress, middlewares_1.userAgentCheck, middlewares_1.httpsRedirect, (_, response) => {
     return response.sendFile(path_1.default.join(process.cwd(), utils_1.buildroot, "build", "index.html"));

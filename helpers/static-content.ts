@@ -107,29 +107,7 @@ router.get(
 router.get(
     [
         "/player",
-        "/player/search"
-    ],
-    ipAddress,
-    userAgentCheck,
-    httpsRedirect,
-    rootAuthCheck,
-    rootAccessCheck,
-    (request: Request, response: Response) => {
-
-        const { result } = request;
-
-        if (!result.found) {
-            setRedirectUriCookie(request.url, response);
-            return response.redirect("/");
-        }
-
-        return response.sendFile(path.join(process.cwd(), buildroot, "player-build", "index.html"));
-
-    }
-);
-
-router.get(
-    [
+        "/player/search",
         "/player/album/:albumId",
         "/player/album/:albumId/*",
         "/player/track/:albumId/:trackId",
@@ -138,9 +116,32 @@ router.get(
     ipAddress,
     userAgentCheck,
     httpsRedirect,
+    rootAuthCheck,
+    rootAccessCheck,
     async (request: Request, response: Response) => {
-        const data: string = await updateHtmlHead(request);
-        return response.send(data);
+
+        const { result } = request;
+
+        if (
+            request.path === "/player" ||
+            request.path === "/player/search"
+        ) {
+
+            if (!result.found) {
+                setRedirectUriCookie(request.url, response);
+                return response.redirect("/");
+            }
+            return response.sendFile(path.join(process.cwd(), buildroot, "player-build", "index.html"));
+
+        }
+        else {
+
+            if (!result.found) setRedirectUriCookie(request.url, response);
+            const data: string = await updateHtmlHead(request);
+            return response.send(data);
+
+        }
+
     }
 );
 
