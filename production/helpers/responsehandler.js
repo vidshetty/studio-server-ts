@@ -4,9 +4,6 @@ exports.responseMid = void 0;
 const responseMid = (routeFunc) => async (req, res) => {
     try {
         const data = await routeFunc(req, res);
-        if (req.url.includes("continue-oauth-signin")) {
-            console.log("response", data);
-        }
         return res.status(200).send(data);
     }
     catch (e) {
