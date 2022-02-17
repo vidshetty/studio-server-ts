@@ -110,7 +110,7 @@ export const calcPeriod = (duration: Duration): string => {
     const months = __math(duration.asMonths());
     const years = __math(duration.asYears());
 
-    if (years) {
+    if (years > 0) {
         // if (years > 1) return "unlimited";
         let time = `${years} ${years > 1 ? "years" : "year"}`;
         const rem = months - (years * 12);
@@ -118,32 +118,32 @@ export const calcPeriod = (duration: Duration): string => {
         return time;
     }
     
-    if (months) {
+    if (months > 0) {
         let time = `${months} ${months > 1 ? "months" : "month"}`;
         const rem = days - (months * 30);
         if (rem > 0) time += ` ${rem} ${rem > 1 ? "days" : "day"}`;
         return time;
     }
     
-    if (days) {
+    if (days > 0) {
         let time = `${days} ${days > 1 ? "days" : "day"}`;
         const rem = hours - (days * 24);
         if (rem > 0) time += ` ${rem} ${rem > 1 ? "hours" : "hour"}`;
         return time;
     }
     
-    if (hours) {
+    if (hours > 0) {
         let time = `${hours} ${hours > 1 ? "hours" : "hour"}`;
         const rem = mins - (hours * 60);
         if (rem > 0) time += ` ${rem} ${rem > 1 ? "minutes" : "minute"}`;
         return time;
     }
     
-    if (mins) {
+    if (mins > 0) {
         return `${mins} ${mins > 1 ? "minutes" : "minute"}`;
     }
     
-    if (seconds) {
+    if (seconds > 0) {
         return `${seconds} ${seconds > 1 ? "seconds" : "second"}`;
     }
 
@@ -178,7 +178,7 @@ export const checkRedirectUri = (request: Request): string | null => {
 };
 
 export const defaultAccess = 20*60;
-export const timezone = "Asia/Singapore";
+export const timezone = "Asia/Kolkata";
 export const accessTokenExpiry = "1h";
 export const refreshTokenExpiry = "30d";
 export const issuer = "StudioMusic";

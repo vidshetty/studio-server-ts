@@ -131,14 +131,18 @@ const __notifyUser = async (user: UserInterface, type: String) => {
 
     try {
 
-        const duration: number = user.accountAccess.duration;
-        const today = moment().tz(timezone);
-        const addedToday = moment(today).add(duration,"s");
-        const dur = moment.duration(moment(addedToday).diff(moment(today)));
+        const { duration, timeLimit } = user.accountAccess;
+        const now = moment().tz(timezone);
+        let diff: Duration;
+        if (timeLimit) {
+            diff = moment.duration(moment(timeLimit).diff(moment(now)));
+        }
+        else {
+            const newdate = moment(now).add(duration,"s").tz(timezone);
+            diff = moment.duration(moment(newdate).diff(moment(now).tz(timezone)));
+        }
 
-        const period = calcPeriod(dur);
-        const date = moment(addedToday).format("DD MMMM YYYY");
-        const time = moment(addedToday).format("hh:mm A");
+        const period = calcPeriod(diff);
 
         const data = await ejsRender(
             type === "signup" ?
@@ -146,8 +150,8 @@ const __notifyUser = async (user: UserInterface, type: String) => {
             path.join(process.cwd(), buildroot, "views", "login_user.ejs"),
             { 
                 period,
-                date,
-                time
+                // date,
+                // time
             }
         );
 
@@ -503,79 +507,55 @@ export const oauthCheck = async (request: Request, _:any) => {
         };
     }
 
-    if (seen) {
+    const [diff, secs] = (() => {
 
-        const diff = moment.duration(moment(timeLimit).diff(moment().tz(timezone)));
-        const secs = Math.floor(diff.asSeconds());
-        if (secs <= 30) {
-            return {
-                status: 404,
-                type: "expired",
-                request_button: true,
-                user: { name: username || name, picture, email, _id }
-            };
+        if (seen) {
+            const diff = moment.duration(moment(timeLimit).diff(moment().tz(timezone)));
+            const secs = Math.floor(diff.asSeconds());
+            return [diff, secs];
         }
         else {
-            if (!user.username) {
-                return {
-                    // status: 400,
-                    set_username: true,
-                    period: calcPeriod(diff),
-                    user: { name: username || name, picture, email, _id },
-                    newSignUp: loggedIn === "signed up"
-                };
-            } else {
-                return {
-                    // status: 400,
-                    only_button: true,
-                    period: calcPeriod(diff),
-                    user: { name: username || name, picture, email, _id },
-                    newSignUp: loggedIn === "signed up"
-                };
+            const now = moment().tz(timezone);
+            let diff: Duration;
+            if (timeLimit) {
+                diff = moment.duration(moment(timeLimit).diff(moment(now)));
             }
+            else {
+                const newdate = moment(now).add(duration,"s").tz(timezone);
+                diff = moment.duration(moment(newdate).diff(moment(now).tz(timezone)));
+            }
+            const secs = diff.asSeconds();
+            return [diff, secs];
         }
 
+    })();
+
+    if (secs <= 30) {
+        return {
+            status: 404,
+            type: "expired",
+            request_button: true,
+            user: { name: username || name, picture, email, _id }
+        };
+    }
+
+    if (!user.username) {
+        return {
+            // status: 400,
+            set_username: true,
+            period: calcPeriod(diff),
+            user: { name: username || name, picture, email, _id },
+            newSignUp: loggedIn === "signed up"
+        };
     }
     else {
-
-        const now = moment().tz(timezone);
-        let diff: Duration;
-        if (timeLimit) {
-            diff = moment.duration(moment(timeLimit).diff(moment(now)));
-        } else {
-            const newdate = moment(now).add(duration,"s").tz(timezone);
-            diff = moment.duration(moment(newdate).diff(moment(now).tz(timezone)));
-        }
-
-        const secs = diff.asSeconds();
-
-        if (secs <= 30) {
-            return {
-                request_button: true,
-                status: 404,
-                type: "expired",
-                user: { name: username || name, picture, email, _id }
-            };
-        }      
-                    
-        if (!user.username) {
-            return {
-                // status: 400,
-                set_username: true,
-                period: calcPeriod(diff),
-                user: { name: username || name, picture, email, _id },
-                newSignUp: loggedIn === "signed up"
-            };
-        } else {
-            return {
-                // status: 400,
-                only_button: true,
-                period: calcPeriod(diff),
-                user: { name: username || name, picture, email, _id },
-                newSignUp: loggedIn === "signed up"
-            };
-        }
-
+        return {
+            // status: 400,
+            only_button: true,
+            period: calcPeriod(diff),
+            user: { name: username || name, picture, email, _id },
+            newSignUp: loggedIn === "signed up"
+        };
     }
 
 };

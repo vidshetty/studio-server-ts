@@ -75,19 +75,23 @@ const __notifyAdmin = async (googleAccount, type) => {
 };
 const __notifyUser = async (user, type) => {
     try {
-        const duration = user.accountAccess.duration;
-        const today = (0, moment_timezone_1.default)().tz(utils_1.timezone);
-        const addedToday = (0, moment_timezone_1.default)(today).add(duration, "s");
-        const dur = moment_timezone_1.default.duration((0, moment_timezone_1.default)(addedToday).diff((0, moment_timezone_1.default)(today)));
-        const period = (0, utils_1.calcPeriod)(dur);
-        const date = (0, moment_timezone_1.default)(addedToday).format("DD MMMM YYYY");
-        const time = (0, moment_timezone_1.default)(addedToday).format("hh:mm A");
+        const { duration, timeLimit } = user.accountAccess;
+        const now = (0, moment_timezone_1.default)().tz(utils_1.timezone);
+        let diff;
+        if (timeLimit) {
+            diff = moment_timezone_1.default.duration((0, moment_timezone_1.default)(timeLimit).diff((0, moment_timezone_1.default)(now)));
+        }
+        else {
+            const newdate = (0, moment_timezone_1.default)(now).add(duration, "s").tz(utils_1.timezone);
+            diff = moment_timezone_1.default.duration((0, moment_timezone_1.default)(newdate).diff((0, moment_timezone_1.default)(now).tz(utils_1.timezone)));
+        }
+        const period = (0, utils_1.calcPeriod)(diff);
         const data = await (0, utils_1.ejsRender)(type === "signup" ?
             path_1.default.join(process.cwd(), utils_1.buildroot, "views", "newsignup_user.ejs") :
             path_1.default.join(process.cwd(), utils_1.buildroot, "views", "login_user.ejs"), {
             period,
-            date,
-            time
+            // date,
+            // time
         });
         const options = {
             to: user.googleAccount.email,
@@ -368,75 +372,51 @@ const oauthCheck = async (request, _) => {
             user: { name: username || name, picture, email, _id }
         };
     }
-    if (seen) {
-        const diff = moment_timezone_1.default.duration((0, moment_timezone_1.default)(timeLimit).diff((0, moment_timezone_1.default)().tz(utils_1.timezone)));
-        const secs = Math.floor(diff.asSeconds());
-        if (secs <= 30) {
-            return {
-                status: 404,
-                type: "expired",
-                request_button: true,
-                user: { name: username || name, picture, email, _id }
-            };
+    const [diff, secs] = (() => {
+        if (seen) {
+            const diff = moment_timezone_1.default.duration((0, moment_timezone_1.default)(timeLimit).diff((0, moment_timezone_1.default)().tz(utils_1.timezone)));
+            const secs = Math.floor(diff.asSeconds());
+            return [diff, secs];
         }
         else {
-            if (!user.username) {
-                return {
-                    // status: 400,
-                    set_username: true,
-                    period: (0, utils_1.calcPeriod)(diff),
-                    user: { name: username || name, picture, email, _id },
-                    newSignUp: loggedIn === "signed up"
-                };
+            const now = (0, moment_timezone_1.default)().tz(utils_1.timezone);
+            let diff;
+            if (timeLimit) {
+                diff = moment_timezone_1.default.duration((0, moment_timezone_1.default)(timeLimit).diff((0, moment_timezone_1.default)(now)));
             }
             else {
-                return {
-                    // status: 400,
-                    only_button: true,
-                    period: (0, utils_1.calcPeriod)(diff),
-                    user: { name: username || name, picture, email, _id },
-                    newSignUp: loggedIn === "signed up"
-                };
+                const newdate = (0, moment_timezone_1.default)(now).add(duration, "s").tz(utils_1.timezone);
+                diff = moment_timezone_1.default.duration((0, moment_timezone_1.default)(newdate).diff((0, moment_timezone_1.default)(now).tz(utils_1.timezone)));
             }
+            const secs = diff.asSeconds();
+            return [diff, secs];
         }
+    })();
+    if (secs <= 30) {
+        return {
+            status: 404,
+            type: "expired",
+            request_button: true,
+            user: { name: username || name, picture, email, _id }
+        };
+    }
+    if (!user.username) {
+        return {
+            // status: 400,
+            set_username: true,
+            period: (0, utils_1.calcPeriod)(diff),
+            user: { name: username || name, picture, email, _id },
+            newSignUp: loggedIn === "signed up"
+        };
     }
     else {
-        const now = (0, moment_timezone_1.default)().tz(utils_1.timezone);
-        let diff;
-        if (timeLimit) {
-            diff = moment_timezone_1.default.duration((0, moment_timezone_1.default)(timeLimit).diff((0, moment_timezone_1.default)(now)));
-        }
-        else {
-            const newdate = (0, moment_timezone_1.default)(now).add(duration, "s").tz(utils_1.timezone);
-            diff = moment_timezone_1.default.duration((0, moment_timezone_1.default)(newdate).diff((0, moment_timezone_1.default)(now).tz(utils_1.timezone)));
-        }
-        const secs = diff.asSeconds();
-        if (secs <= 30) {
-            return {
-                request_button: true,
-                status: 404,
-                type: "expired",
-                user: { name: username || name, picture, email, _id }
-            };
-        }
-        if (!user.username) {
-            return {
-                // status: 400,
-                set_username: true,
-                period: (0, utils_1.calcPeriod)(diff),
-                user: { name: username || name, picture, email, _id },
-                newSignUp: loggedIn === "signed up"
-            };
-        }
-        else {
-            return {
-                // status: 400,
-                only_button: true,
-                period: (0, utils_1.calcPeriod)(diff),
-                user: { name: username || name, picture, email, _id },
-                newSignUp: loggedIn === "signed up"
-            };
-        }
+        return {
+            // status: 400,
+            only_button: true,
+            period: (0, utils_1.calcPeriod)(diff),
+            user: { name: username || name, picture, email, _id },
+            newSignUp: loggedIn === "signed up"
+        };
     }
 };
 exports.oauthCheck = oauthCheck;
