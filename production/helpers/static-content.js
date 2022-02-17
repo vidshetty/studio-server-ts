@@ -105,7 +105,6 @@ router.get([
     "/player/track/:albumId/:trackId/*"
 ], middlewares_1.ipAddress, middlewares_1.userAgentCheck, middlewares_1.httpsRedirect, async (request, response) => {
     const data = await (0, middlewares_1.updateHtmlHead)(request);
-    (0, utils_1.setRedirectUriCookie)(request.url, response);
     return response.send(data);
 });
 router.get("/", middlewares_1.ipAddress, middlewares_1.userAgentCheck, middlewares_1.httpsRedirect, (_, response) => {

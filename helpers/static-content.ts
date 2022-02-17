@@ -140,7 +140,6 @@ router.get(
     httpsRedirect,
     async (request: Request, response: Response) => {
         const data: string = await updateHtmlHead(request);
-        setRedirectUriCookie(request.url, response);
         return response.send(data);
     }
 );

@@ -179,6 +179,40 @@ const __setExpired = async (userId: string) => {
 
 };
 
+const __setRedirect = (request: Request, response: Response) => {
+
+    const list = ["album","track"];
+    let referer: string = request.headers.referer || "";
+
+    let found = false;
+    for (let i=0; i<list.length; i++) {
+        if (referer.includes(list[i])) {
+            found = true;
+            break;
+        }
+    }
+
+    if (!found) return;
+
+    const domains = [
+        "http://localhost:3000",
+        "http://localhost:5000",
+        "http://studiomusic.herokuapp.com",
+        "https://studiomusic.herokuapp.com"
+    ];
+
+    for (let i=0; i<domains.length; i++) {
+        if (referer.includes(domains[i])) {
+            referer = referer.replace(new RegExp(domains[i],"g"), "");
+        }
+    }
+
+    if (referer === "") return;
+
+    setRedirectUriCookie(referer, response);
+
+};
+
 
 
 export const googleAuthCheck = async (request: Request, response: Response, next: NextFunction) => {
@@ -302,6 +336,7 @@ export const apiAuthCheck = async (request: Request, response: Response, next: N
             return next();
         }
         else {
+            __setRedirect(request,response);
             return response.status(200).send({ redirect: true, to: "/" });
         }
 
@@ -318,13 +353,16 @@ export const apiAuthCheck = async (request: Request, response: Response, next: N
                     return next();
                 }
                 else {
+                    __setRedirect(request,response);
                     return response.status(200).send({ redirect: true, to: "/" });
                 }
             } catch(e) {
+                __setRedirect(request,response);
                 return response.status(200).send({ redirect: true, to: "/" });
             }
         }
 
+        __setRedirect(request,response);
         return response.status(200).send({ redirect: true, to: "/" });
 
     }
@@ -345,6 +383,7 @@ export const apiAccessCheck = async (request: Request, response: Response, next:
 
     if (type === "under_review" || type === "revoked" || !seen) {
         // const uid = await __uidToRedirect(user._id);
+        __setRedirect(request,response);
         return response.status(200).send({ redirect: true, to: `/google-oauth-signin/${id}` });
     }
 
@@ -354,6 +393,7 @@ export const apiAccessCheck = async (request: Request, response: Response, next:
     if (secs <= 30) {
         // const uid = await __uidToRedirect(user._id);
         __setExpired(id);
+        __setRedirect(request,response);
         return response.status(200).send({ redirect: true, to: `/google-oauth-signin/${id}` });
     }
     else return next();
