@@ -134,7 +134,7 @@ export const update = async (request: Request, _:any) => {
 
 export const getUser = async (_:any, _1:any) => {
 
-    const user: UserInterface = await Users.findOne({ _id: "60eede351b955d0015eab8e0" });
+    const user: UserInterface = await Users.findOne({ _id: "620e2e2693c8702fed063743" });
     return {
         length: user.recentlyPlayed.length,
         recentlyPlayed: user.recentlyPlayed,
