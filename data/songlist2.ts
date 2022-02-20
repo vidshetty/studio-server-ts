@@ -1324,7 +1324,26 @@ const songlist: (Single|Album)[] = [
         Artist: "Anirudh Ravichander, Jonita Gandhi",
         Type: "Single",
         releaseDate: date("14-02-2022")
-    }
+    },
+    {
+        _albumId: "6211d3efb88608687a3aadde",
+        Album: "Insaan",
+        AlbumArtist: "MC STAN",
+        Type: "Album",
+        Year: "2022",
+        Color: "rgba(72,24,16,1)",
+        releaseDate: date("18-02-2022"),
+        Thumbnail: "https://lh3.googleusercontent.com/GGCm9oWw7Y3QqAzt8s88mG1Sx1oBbOqS1m-HrO2RleH2LuQ7US2keO3wvLONNeV8Wg8gP7q91czbWS7u=w544-h544-l90-rj",
+        Tracks: [
+            {
+                _trackId: "6211d4158189f980eaed3c78",
+                Title: "Insaan",
+                Artist: "MC STAN",
+                Duration: "3: 25",
+                url: `${server[3]}/listen/Insaan - MC STAN`
+            }
+        ]
+    },
 ];
 
 
