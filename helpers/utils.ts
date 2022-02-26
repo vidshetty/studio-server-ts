@@ -1,6 +1,7 @@
 import { Request, Response, CookieOptions } from "express";
 import moment, { Duration } from "moment-timezone";
 import ejs from "ejs";
+import fs from "fs";
 import { CookieInterface } from "../helpers/interfaces";
 
 
@@ -175,6 +176,42 @@ export const checkRedirectUri = (request: Request): string | null => {
             replace(/%3D/g,"=").replace(/%26/g,"&")
     ) || null;
 
+};
+
+export const __replace = (string: string = "", list: string[] = [], replaceWith: string = ""): string => {
+
+    let i = 0;
+
+    while (i < string.length) {
+        if (list.includes(string[i])) {
+            const sep = string.split("");
+            sep[i] = replaceWith;
+            string = sep.join("");
+        } else {
+            i++;
+        }
+    }
+
+    return string;
+
+};
+
+export const readFileAsync = (fileName: string): Promise<string> => {
+    return new Promise((resolve,reject) => {
+        fs.readFile(fileName, { encoding: "utf-8" }, (err,data) => {
+            if (err) reject(err);
+            else resolve(data);
+        });
+    });
+};
+
+export const writeFileAsync = (fileName: string, writeData: string): Promise<string> => {
+    return new Promise((resolve,reject) => {
+        fs.writeFile(fileName, writeData, (err) => {
+            if (err) reject(err);
+            else resolve("");
+        });
+    });
 };
 
 export const defaultAccess = 20*60;

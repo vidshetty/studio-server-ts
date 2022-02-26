@@ -6,7 +6,8 @@ import {
     UserInterface,
     AlbumList,
     Album,
-    Single
+    Single,
+    SpotifyLyrics
 } from "../helpers/interfaces";
 import { sendEmail } from "../nodemailer-service";
 import ALBUMLIST from "../data/archiveGateway";
@@ -14,7 +15,10 @@ import {
     timezone,
     calcPeriod,
     ejsRender,
-    buildroot
+    buildroot,
+    readFileAsync,
+    writeFileAsync,
+    __replace
 } from "../helpers/utils";
 
 
@@ -209,5 +213,45 @@ export const deleteAlbumFromRecents = async (request: Request, _:any) => {
     }
 
     return true;
+
+};
+
+export const fixJson = async (request: Request, _:any) => {
+
+    let { name } = request.query as any;
+    name = __replace(name, ['"',':'], "");
+
+    const fileName: string = path.join(
+        process.cwd(),
+        "data",
+        "lyrics",
+        "json",
+        `${name}.json`
+    );
+
+    try {
+
+        const data: SpotifyLyrics[] = JSON.parse(await readFileAsync(fileName));
+
+        const list = data.map<SpotifyLyrics>((each: SpotifyLyrics) => {
+            each.startTimeMs = parseInt(`${each.startTimeMs}`);
+            return each;
+        });
+
+        await writeFileAsync(fileName, JSON.stringify(list));
+
+        return {
+            done: true
+        };
+
+    }
+    catch(e) {
+        if (e instanceof Error) {
+            return {
+                name: e.name,
+                msg: e.message
+            };
+        }
+    }
 
 };

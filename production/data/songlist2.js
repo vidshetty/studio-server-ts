@@ -288,6 +288,8 @@ const songlist = [
                 Title: "The Ringer",
                 Artist: "Eminem",
                 Duration: "5: 37",
+                lyrics: true,
+                sync: true,
                 url: `${utils_1.server[0]}/listen/The Ringer - Kamikaze`
             },
             // {
@@ -303,6 +305,7 @@ const songlist = [
                 Artist: "Eminem, Joyner Lucas",
                 Duration: "4: 04",
                 lyrics: true,
+                sync: true,
                 url: `${utils_1.server[0]}/listen/Lucky You - Kamikaze`
             },
             // {
@@ -1360,6 +1363,8 @@ const songlist = [
         Thumbnail: "https://lh3.googleusercontent.com/YSYw9bEsPrFrSl4fp4GN0zBUE95KJ99nsWgrZEfvHCIlnyxN4yl3FcDV2T4g4EsJKaWqmB4OeBJA5FHE=w544-h544-l90-rj",
         url: `${utils_1.server[3]}/listen/Afsanay - Young Stunners`,
         Duration: "5: 43",
+        lyrics: true,
+        sync: true,
         Artist: "Talhah Yunus, Talha Anjum, Young Stunners",
         Type: "Single",
         releaseDate: (0, utils_1.date)("30-03-2021")

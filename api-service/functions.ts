@@ -8,16 +8,20 @@ import {
     UserInterface,
     RecentlyPlayed,
     ModifiedAlbumList,
-    AlbumWithTrack
+    AlbumWithTrack,
+    Lyrics,
+    SpotifyLyrics
 } from "../helpers/interfaces";
 import {
     timezone,
     server,
     standardCookieConfig,
-    redirectUriCookieConfig
+    redirectUriCookieConfig,
+    readFileAsync,
+    __replace
 } from "../helpers/utils";
 import moment from "moment-timezone";
-import fs from "fs";
+import path from "path";
 import ALBUMLIST from "../data/archiveGateway";
 
 
@@ -29,12 +33,6 @@ interface RequestQuery{
     name?: string;
     exclude?: string;
     type?: string;
-}
-interface Lyrics {
-    from: number;
-    to: number;
-    text: string;
-    key: number;
 }
 interface RecentsMap {
     [key: string]: boolean;
@@ -340,24 +338,6 @@ const getAlbums = (name: string): AlbumList[] => {
 
 };
 
-const __replace = (string: string = "", list: string[] = [], replaceWith: string = ""): string => {
-
-    let i = 0;
-
-    while (i < string.length) {
-        if (list.includes(string[i])) {
-            const sep = string.split("");
-            sep[i] = replaceWith;
-            string = sep.join("");
-        } else {
-            i++;
-        }
-    }
-
-    return string;
-
-};
-
 const __qr = async (toBeExcluded: string, userId: string): Promise<(AlbumWithTrack|Single)[]> => {
 
     const user: UserInterface = await Users.findOne({ _id: userId });
@@ -610,26 +590,21 @@ export const getLyrics = async (request: Request, _:any) => {
     let { name }: RequestQuery = request.query as unknown as RequestQuery;
     name = __replace(name, ['"',':'], "");
 
-    const fileName: string = `${process.cwd()}/data/lyrics/${name}.txt`;
+    const fileName: string = path.join(
+        process.cwd(),
+        "data",
+        "lyrics",
+        "json",
+        `${name}.json`
+    );
 
     try {
 
-        let data: string = fs.readFileSync(fileName, { encoding: "utf-8" });
-        data = data.replace(/\r\n/g,"");
+        const data: SpotifyLyrics[] = JSON.parse(await readFileAsync(fileName));
 
-        let arr: string[] = data.split(";");
-        arr.splice(data.length-1,1);
-
-        const list = arr.map<Lyrics>((each: string, i: number) => {
-            const obj: Lyrics = {
-                from: 0, to: 0, text: "", key: 0
-            };
-            const [numbers, lyric] = each.split(":");
-            obj.from = parseFloat(numbers.split("-")[0]);
-            obj.to = parseFloat(numbers.split("-")[1]);
-            obj.text = lyric;
-            obj.key = i;
-            return obj;
+        const list = data.map<SpotifyLyrics>((each: SpotifyLyrics, i: number) => {
+            each.key = i;
+            return each;
         });
 
         return list;
@@ -638,6 +613,33 @@ export const getLyrics = async (request: Request, _:any) => {
     catch(e) {
         return [];
     }
+
+    // try {
+
+    //     let data: string = fs.readFileSync(fileName, { encoding: "utf-8" });
+    //     data = data.replace(/\r\n/g,"");
+
+    //     let arr: string[] = data.split(";");
+    //     arr.splice(data.length-1,1);
+
+    //     const list = arr.map<Lyrics>((each: string, i: number) => {
+    //         const obj: Lyrics = {
+    //             from: 0, to: 0, text: "", key: 0
+    //         };
+    //         const [numbers, lyric] = each.split(":");
+    //         obj.from = parseFloat(numbers.split("-")[0]);
+    //         obj.to = parseFloat(numbers.split("-")[1]);
+    //         obj.text = lyric;
+    //         obj.key = i;
+    //         return obj;
+    //     });
+
+    //     return list;
+
+    // }
+    // catch(e) {
+    //     return [];
+    // }
 
 };
 

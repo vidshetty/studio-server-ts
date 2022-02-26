@@ -62,6 +62,19 @@ export interface CookieInterface {
     REDIRECT_URI?: string;
 };
 
+export interface Lyrics {
+    from: number;
+    to: number;
+    text: string;
+    key: number;
+}
+
+export interface SpotifyLyrics {
+    startTimeMs: number;
+    words: string;
+    key: number;
+}
+
 export interface JwtPayload extends jwt.JwtPayload {
     _id: string;
     email: string;

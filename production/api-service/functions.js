@@ -7,7 +7,7 @@ exports.signOut = exports.getProfile = exports.activateCheck = exports.recordTim
 const Users_1 = require("../models/Users");
 const utils_1 = require("../helpers/utils");
 const moment_timezone_1 = __importDefault(require("moment-timezone"));
-const fs_1 = __importDefault(require("fs"));
+const path_1 = __importDefault(require("path"));
 const archiveGateway_1 = __importDefault(require("../data/archiveGateway"));
 const ALBUM_MAP = archiveGateway_1.default.reduce((acc, each) => {
     acc[each._albumId] = each;
@@ -224,20 +224,6 @@ const getAlbums = (name) => {
         return acc;
     }, []);
 };
-const __replace = (string = "", list = [], replaceWith = "") => {
-    let i = 0;
-    while (i < string.length) {
-        if (list.includes(string[i])) {
-            const sep = string.split("");
-            sep[i] = replaceWith;
-            string = sep.join("");
-        }
-        else {
-            i++;
-        }
-    }
-    return string;
-};
 const __qr = async (toBeExcluded, userId) => {
     const user = await Users_1.Users.findOne({ _id: userId });
     const { recentlyPlayed: recents = [] } = user;
@@ -437,29 +423,40 @@ const addToRecentlyPlayed = async (request, _) => {
 exports.addToRecentlyPlayed = addToRecentlyPlayed;
 const getLyrics = async (request, _) => {
     let { name } = request.query;
-    name = __replace(name, ['"', ':'], "");
-    const fileName = `${process.cwd()}/data/lyrics/${name}.txt`;
+    name = (0, utils_1.__replace)(name, ['"', ':'], "");
+    const fileName = path_1.default.join(process.cwd(), "data", "lyrics", "json", `${name}.json`);
     try {
-        let data = fs_1.default.readFileSync(fileName, { encoding: "utf-8" });
-        data = data.replace(/\r\n/g, "");
-        let arr = data.split(";");
-        arr.splice(data.length - 1, 1);
-        const list = arr.map((each, i) => {
-            const obj = {
-                from: 0, to: 0, text: "", key: 0
-            };
-            const [numbers, lyric] = each.split(":");
-            obj.from = parseFloat(numbers.split("-")[0]);
-            obj.to = parseFloat(numbers.split("-")[1]);
-            obj.text = lyric;
-            obj.key = i;
-            return obj;
+        const data = JSON.parse(await (0, utils_1.readFileAsync)(fileName));
+        const list = data.map((each, i) => {
+            each.key = i;
+            return each;
         });
         return list;
     }
     catch (e) {
         return [];
     }
+    // try {
+    //     let data: string = fs.readFileSync(fileName, { encoding: "utf-8" });
+    //     data = data.replace(/\r\n/g,"");
+    //     let arr: string[] = data.split(";");
+    //     arr.splice(data.length-1,1);
+    //     const list = arr.map<Lyrics>((each: string, i: number) => {
+    //         const obj: Lyrics = {
+    //             from: 0, to: 0, text: "", key: 0
+    //         };
+    //         const [numbers, lyric] = each.split(":");
+    //         obj.from = parseFloat(numbers.split("-")[0]);
+    //         obj.to = parseFloat(numbers.split("-")[1]);
+    //         obj.text = lyric;
+    //         obj.key = i;
+    //         return obj;
+    //     });
+    //     return list;
+    // }
+    // catch(e) {
+    //     return [];
+    // }
 };
 exports.getLyrics = getLyrics;
 const startRadio = async (request, _) => {

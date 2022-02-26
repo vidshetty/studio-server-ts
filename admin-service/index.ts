@@ -5,7 +5,8 @@ import {
     update,
     getUser,
     getAlbum,
-    deleteAlbumFromRecents
+    deleteAlbumFromRecents,
+    fixJson
 } from "./functions";
 
 const router = Router();
@@ -37,6 +38,8 @@ router.get("/getuser", responseMid(getUser));
 router.get("/album", responseMid(getAlbum));
 
 router.delete("/deleteFromRecents", responseMid(deleteAlbumFromRecents));
+
+router.get("/fixJson", responseMid(fixJson));
 
 router.use("*", (_:any, response: Response) => {
     return response.status(404).end();

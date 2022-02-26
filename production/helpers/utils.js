@@ -3,9 +3,10 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.buildroot = exports.issuer = exports.refreshTokenExpiry = exports.accessTokenExpiry = exports.timezone = exports.defaultAccess = exports.checkRedirectUri = exports.calcPeriod = exports.setRedirectUriCookie = exports.redirectUriCookieConfig = exports.standardCookieConfig = exports.cookieParser = exports.server = exports.date = exports.ejsRender = exports.wait = exports.ENV = void 0;
+exports.buildroot = exports.issuer = exports.refreshTokenExpiry = exports.accessTokenExpiry = exports.timezone = exports.defaultAccess = exports.writeFileAsync = exports.readFileAsync = exports.__replace = exports.checkRedirectUri = exports.calcPeriod = exports.setRedirectUriCookie = exports.redirectUriCookieConfig = exports.standardCookieConfig = exports.cookieParser = exports.server = exports.date = exports.ejsRender = exports.wait = exports.ENV = void 0;
 const moment_timezone_1 = __importDefault(require("moment-timezone"));
 const ejs_1 = __importDefault(require("ejs"));
+const fs_1 = __importDefault(require("fs"));
 const ENV = (type) => {
     return process.env[type] || "";
 };
@@ -156,6 +157,43 @@ const checkRedirectUri = (request) => {
             replace(/%3D/g, "=").replace(/%26/g, "&")) || null;
 };
 exports.checkRedirectUri = checkRedirectUri;
+const __replace = (string = "", list = [], replaceWith = "") => {
+    let i = 0;
+    while (i < string.length) {
+        if (list.includes(string[i])) {
+            const sep = string.split("");
+            sep[i] = replaceWith;
+            string = sep.join("");
+        }
+        else {
+            i++;
+        }
+    }
+    return string;
+};
+exports.__replace = __replace;
+const readFileAsync = (fileName) => {
+    return new Promise((resolve, reject) => {
+        fs_1.default.readFile(fileName, { encoding: "utf-8" }, (err, data) => {
+            if (err)
+                reject(err);
+            else
+                resolve(data);
+        });
+    });
+};
+exports.readFileAsync = readFileAsync;
+const writeFileAsync = (fileName, writeData) => {
+    return new Promise((resolve, reject) => {
+        fs_1.default.writeFile(fileName, writeData, (err) => {
+            if (err)
+                reject(err);
+            else
+                resolve("");
+        });
+    });
+};
+exports.writeFileAsync = writeFileAsync;
 exports.defaultAccess = 20 * 60;
 exports.timezone = "Asia/Kolkata";
 exports.accessTokenExpiry = "1h";

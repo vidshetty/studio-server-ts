@@ -20,6 +20,7 @@ router.post("/update", (0, responsehandler_1.responseMid)(functions_1.update));
 router.get("/getuser", (0, responsehandler_1.responseMid)(functions_1.getUser));
 router.get("/album", (0, responsehandler_1.responseMid)(functions_1.getAlbum));
 router.delete("/deleteFromRecents", (0, responsehandler_1.responseMid)(functions_1.deleteAlbumFromRecents));
+router.get("/fixJson", (0, responsehandler_1.responseMid)(functions_1.fixJson));
 router.use("*", (_, response) => {
     return response.status(404).end();
 });

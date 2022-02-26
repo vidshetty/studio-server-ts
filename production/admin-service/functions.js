@@ -3,7 +3,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.deleteAlbumFromRecents = exports.getAlbum = exports.getUser = exports.update = void 0;
+exports.fixJson = exports.deleteAlbumFromRecents = exports.getAlbum = exports.getUser = exports.update = void 0;
 const Users_1 = require("../models/Users");
 const moment_timezone_1 = __importDefault(require("moment-timezone"));
 const path_1 = __importDefault(require("path"));
@@ -143,4 +143,29 @@ const deleteAlbumFromRecents = async (request, _) => {
     return true;
 };
 exports.deleteAlbumFromRecents = deleteAlbumFromRecents;
+const fixJson = async (request, _) => {
+    let { name } = request.query;
+    name = (0, utils_1.__replace)(name, ['"', ':'], "");
+    const fileName = path_1.default.join(process.cwd(), "data", "lyrics", "json", `${name}.json`);
+    try {
+        const data = JSON.parse(await (0, utils_1.readFileAsync)(fileName));
+        const list = data.map((each) => {
+            each.startTimeMs = parseInt(`${each.startTimeMs}`);
+            return each;
+        });
+        await (0, utils_1.writeFileAsync)(fileName, JSON.stringify(list));
+        return {
+            done: true
+        };
+    }
+    catch (e) {
+        if (e instanceof Error) {
+            return {
+                name: e.name,
+                msg: e.message
+            };
+        }
+    }
+};
+exports.fixJson = fixJson;
 //# sourceMappingURL=functions.js.map
