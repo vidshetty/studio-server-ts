@@ -1350,6 +1350,20 @@ const songlist = [
             }
         ]
     },
+    {
+        _albumId: "621a1005c91e656764dc741f",
+        _trackId: "621a1005c91e656764dc741f",
+        Album: "Afsanay",
+        AlbumArtist: "Talhah Yunus, Talha Anjum, Young Stunners",
+        Year: "2021",
+        Color: "rgba(32,48,72,1)",
+        Thumbnail: "https://lh3.googleusercontent.com/YSYw9bEsPrFrSl4fp4GN0zBUE95KJ99nsWgrZEfvHCIlnyxN4yl3FcDV2T4g4EsJKaWqmB4OeBJA5FHE=w544-h544-l90-rj",
+        url: `${utils_1.server[3]}/listen/Afsanay - Young Stunners`,
+        Duration: "5: 43",
+        Artist: "Talhah Yunus, Talha Anjum, Young Stunners",
+        Type: "Single",
+        releaseDate: (0, utils_1.date)("30-03-2021")
+    }
 ];
 exports.default = songlist;
 //# sourceMappingURL=songlist2.js.map
