@@ -915,7 +915,7 @@ const songlist = [
     {
         _albumId: "610e187f30612c1ca08b0da8",
         Album: `War`,
-        AlbumArtist: `Vishal-Shekar`,
+        AlbumArtist: `Vishal-Shekhar`,
         Type: `Album`,
         Year: `2019`,
         Color: `rgba(208,176,104,1)`,

@@ -794,7 +794,7 @@ const songlist = [
     {
         _albumId: "6172d317e9951aa9fe793c0c",
         Album: "Ra-One",
-        AlbumArtist: "Vishal-Shekar",
+        AlbumArtist: "Vishal-Shekhar",
         Type: "Album",
         Year: "2011",
         Color: "rgba(200,16,40,1)",
