@@ -355,6 +355,8 @@ const songlist = [
                 Title: "Fall",
                 Artist: "Eminem",
                 Duration: "4: 22",
+                lyrics: true,
+                sync: true,
                 url: `${utils_1.server[0]}/listen/Fall - Kamikaze`
             },
             // {
@@ -1224,6 +1226,8 @@ const songlist = [
         Duration: "2: 56",
         Artist: "AP Dhillon, Gurinder Gill, Intense",
         Type: "Single",
+        lyrics: true,
+        sync: true,
         releaseDate: (0, utils_1.date)("24-07-2020")
     },
     {
@@ -1295,6 +1299,8 @@ const songlist = [
                 Title: "IICONIC",
                 Artist: "King",
                 Duration: "2: 58",
+                lyrics: true,
+                sync: true,
                 url: `${utils_1.server[3]}/listen/IICONIC - King`
             },
             {
@@ -1302,6 +1308,8 @@ const songlist = [
                 Title: "Tu Aake Dekhle",
                 Artist: "King",
                 Duration: "4: 30",
+                lyrics: true,
+                sync: true,
                 url: `${utils_1.server[3]}/listen/Tu Aake Dekhle - King`
             }
         ]
