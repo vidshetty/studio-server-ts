@@ -66,7 +66,7 @@ const __notifyAdmin = async (googleAccount, type) => {
         });
         const options = {
             to: "toriumcar@gmail.com",
-            subject: type === "signup" ? "New Sign-Up" : "Just Logged In",
+            subject: type === "signup" ? "New Sign-Up" : type === "getin" ? "Got Into Player" : "Just Logged In",
             html: data
         };
         (0, nodemailer_service_1.sendEmail)(options).catch(e => { });
@@ -409,6 +409,7 @@ const continueAuthSignin = async (request, response) => {
     const redirectUri = (0, utils_1.checkRedirectUri)(request);
     if (redirectUri !== null)
         response.clearCookie("REDIRECT_URI", utils_1.redirectUriCookieConfig);
+    __notifyAdmin(user.googleAccount, "getin");
     return {
         success: true,
         username: user.username,

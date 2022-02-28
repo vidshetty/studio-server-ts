@@ -468,6 +468,8 @@ const songlist = [
         // _trackId: "61173d78c0400e0f207c3b6b",
         Artist: "Eminem",
         Duration: "4: 38",
+        lyrics: true,
+        sync: true,
         url: `${utils_1.server[1]}/listen/Space Bound - Eminem`
     },
     {
@@ -496,6 +498,8 @@ const songlist = [
         Duration: "4: 13",
         Artist: "Eminem",
         Type: "Single",
+        lyrics: true,
+        sync: true,
         releaseDate: (0, utils_1.date)("19-09-2018")
     },
     {
@@ -970,6 +974,8 @@ const songlist = [
         Duration: "3: 25",
         Artist: "KR$NA",
         Type: "Single",
+        lyrics: true,
+        sync: true,
         releaseDate: (0, utils_1.date)("10-11-2021")
     },
     {

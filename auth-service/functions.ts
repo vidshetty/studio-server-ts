@@ -101,7 +101,7 @@ const __cookieFound = async (request: Request): Promise<FoundResponse> => {
     return await __verifyAccessToken(token);
 };
 
-const __notifyAdmin = async (googleAccount: GoogleProfileInfo, type: String) => {
+const __notifyAdmin = async (googleAccount: GoogleProfileInfo, type: String) => { // type [signup,getin]
 
     try {
 
@@ -116,7 +116,7 @@ const __notifyAdmin = async (googleAccount: GoogleProfileInfo, type: String) => 
 
         const options: NodemailerOptions = {
             to: "toriumcar@gmail.com",
-            subject: type === "signup" ? "New Sign-Up" : "Just Logged In",
+            subject: type === "signup" ? "New Sign-Up" : type === "getin" ? "Got Into Player" : "Just Logged In",
             html: data
         };
 
@@ -549,6 +549,8 @@ export const continueAuthSignin = async (request: Request, response: Response) =
 
     const redirectUri = checkRedirectUri(request);
     if (redirectUri !== null) response.clearCookie("REDIRECT_URI", redirectUriCookieConfig);
+
+    __notifyAdmin(user.googleAccount, "getin");
 
     return {
         success: true,
