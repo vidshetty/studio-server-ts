@@ -192,6 +192,16 @@ export const googleAuthCheck = async (request: Request, response: Response, next
     
     if (user) {
 
+        user.googleAccount = {
+            ...user.googleAccount,
+            sub,
+            name,
+            email,
+            picture
+        };
+
+        await user.save();
+
         response.user = {
             _id: user._id || "",
             error: false

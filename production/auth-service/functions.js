@@ -118,6 +118,11 @@ const googleAuthCheck = async (request, response, next) => {
     const { sub, name, picture, email, email_verified } = (_a = request.user) === null || _a === void 0 ? void 0 : _a._json;
     let user = await Users_1.Users.findOne({ "email.id": email });
     if (user) {
+        user.googleAccount = Object.assign(Object.assign({}, user.googleAccount), { sub,
+            name,
+            email,
+            picture });
+        await user.save();
         response.user = {
             _id: user._id || "",
             error: false
