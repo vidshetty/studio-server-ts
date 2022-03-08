@@ -1383,6 +1383,20 @@ const songlist: (Single|Album)[] = [
         Artist: "Talhah Yunus, Talha Anjum, Young Stunners",
         Type: "Single",
         releaseDate: date("30-03-2021")
+    },
+    {
+        _albumId: "62270853834d3ac25efb1efc",
+        _trackId: "62270853834d3ac25efb1efc",
+        Album: 'Tabahi',
+        AlbumArtist: "Badshah",
+        Year: "2022",
+        Color: "rgba(224,24,32,1)",
+        Thumbnail: "https://lh3.googleusercontent.com/lSP9COqnZECoCXRaCcPrnfdIJfGLXFVUycqIHMEdMWYZ9h7bqOkXHOrjeVSr7ZzXYeKza1UK7lGmlXud4Q=w544-h544-l90-rj",
+        url: `${server[3]}/listen/Tabahi - Badshah`,
+        Duration: "2: 48",
+        Artist: "Badshah",
+        Type: "Single",
+        releaseDate: date("08-03-2022")
     }
 ];
 
