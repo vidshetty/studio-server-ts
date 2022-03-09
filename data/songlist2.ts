@@ -1397,6 +1397,20 @@ const songlist: (Single|Album)[] = [
         Artist: "Badshah",
         Type: "Single",
         releaseDate: date("08-03-2022")
+    },
+    {
+        _albumId: "6228c283a0c4690fdd1836c6",
+        _trackId: "6228c283a0c4690fdd1836c6",
+        Album: 'Saare Bolo Bewafa (From "Bachchhan Paandey")',
+        AlbumArtist: "B Praak",
+        Year: "2022",
+        Color: "rgba(120,32,40,1)",
+        Thumbnail: "https://lh3.googleusercontent.com/mB2UiSPMVZDcGEEVoPDIZxh4UWmpu-QW2WSboec5Y4OBHbv4MWM7BP1NmAGKxgLJ7Rb78AsiNNHxdWly=w544-h544-l90-rj",
+        url: `${server[3]}/listen/Saare Bolo Bewafa - Bachchhan Paandey`,
+        Duration: "3: 46",
+        Artist: "B Praak",
+        Type: "Single",
+        releaseDate: date("07-03-2022")
     }
 ];
 
