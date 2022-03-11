@@ -1411,6 +1411,20 @@ const songlist: (Single|Album)[] = [
         Artist: "B Praak",
         Type: "Single",
         releaseDate: date("07-03-2022")
+    },
+    {
+        _albumId: "622b4f2b3ed66d16a2a3da24",
+        _trackId: "622b4f2b3ed66d16a2a3da24",
+        Album: "Blowing Up",
+        AlbumArtist: "KR$NA",
+        Year: "2022",
+        Color: "rgba(168,0,16,1)",
+        Thumbnail: "https://lh3.googleusercontent.com/3TmeIq-T8Xs199YMt3U2ISMYTTUqx-AZ2QCKxbGdSX-Zav2Ir3qUSXuQJOpqI2_FKEuEE4xr3_k8vcIB=w544-h544-l90-rj",
+        url: `${server[3]}/listen/Blowing Up - KR$NA`,
+        Duration: "4: 07",
+        Artist: "KR$NA",
+        Type: "Single",
+        releaseDate: date("10-03-2022")
     }
 ];
 
