@@ -1424,6 +1424,20 @@ const songlist = [
         Artist: "KR$NA",
         Type: "Single",
         releaseDate: (0, utils_1.date)("10-03-2022")
+    },
+    {
+        _albumId: "622ef59e3d10f74c27e3e980",
+        _trackId: "622ef59e3d10f74c27e3e980",
+        Album: "Sab Jaanta Hai",
+        AlbumArtist: "Ikka",
+        Year: "2022",
+        Color: "rgba(136,48,144,1)",
+        Thumbnail: "https://lh3.googleusercontent.com/6HcKZnA2vAoflil4ouuo79tHXNI6J-9NjxRZMZ2utgEsT6DKILxGMrDX32Q1TFyoWLu4Q-_4pQITjgFy=w544-h544-l90-rj",
+        url: `${utils_1.server[3]}/listen/Sab Jaanta Hai - Ikka`,
+        Duration: "3: 00",
+        Artist: "Ikka",
+        Type: "Single",
+        releaseDate: (0, utils_1.date)("27-01-2022")
     }
 ];
 exports.default = songlist;
