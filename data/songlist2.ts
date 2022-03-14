@@ -835,20 +835,6 @@ const songlist: (Single|Album)[] = [
         ]
     },
     {
-        _albumId: "6177a86d0cbd934ee47012b0",
-        _trackId: "6177a86d0cbd934ee47012b0",
-        Album: 'Jugnu',
-        AlbumArtist: "Badshah",
-        Year: "2021",
-        Color: "rgba(160,112,104,1)",
-        Thumbnail: "https://lh3.googleusercontent.com/9egV13RBSp9lLgGglBsMc4Evz-H-rGketLDS-hKglwNtK8_Mv5fHxPWiP0qaJMpHpaLsN35QABTBQViH=w544-h544-l90-rj",
-        url: `${server[0]}/listen/Jugnu - Badshah`,
-        Duration: "3: 51",
-        Artist: "Badshah, Nikhita Gandhi",
-        Type: "Single",
-        releaseDate: date("26-10-2021")
-    },
-    {
         _albumId: "617bc05c66c9ef59824b03b0",
         _trackId: "617bc05c66c9ef59824b03b0",
         Album: 'Aage Chal',
@@ -1385,20 +1371,6 @@ const songlist: (Single|Album)[] = [
         releaseDate: date("30-03-2021")
     },
     {
-        _albumId: "62270853834d3ac25efb1efc",
-        _trackId: "62270853834d3ac25efb1efc",
-        Album: 'Tabahi',
-        AlbumArtist: "Badshah",
-        Year: "2022",
-        Color: "rgba(224,24,32,1)",
-        Thumbnail: "https://lh3.googleusercontent.com/lSP9COqnZECoCXRaCcPrnfdIJfGLXFVUycqIHMEdMWYZ9h7bqOkXHOrjeVSr7ZzXYeKza1UK7lGmlXud4Q=w544-h544-l90-rj",
-        url: `${server[3]}/listen/Tabahi - Badshah`,
-        Duration: "2: 48",
-        Artist: "Badshah",
-        Type: "Single",
-        releaseDate: date("08-03-2022")
-    },
-    {
         _albumId: "6228c283a0c4690fdd1836c6",
         _trackId: "6228c283a0c4690fdd1836c6",
         Album: 'Saare Bolo Bewafa (From "Bachchhan Paandey")',
@@ -1439,6 +1411,46 @@ const songlist: (Single|Album)[] = [
         Artist: "Ikka",
         Type: "Single",
         releaseDate: date("27-01-2022")
+    },
+    {
+        _albumId: "622f6495030f1e1c45eb5111",
+        Album: "Retropanda - Part 1",
+        AlbumArtist: "Badshah",
+        Type: "Album",
+        Year: "2022",
+        Color: "rgba(248,48,200,1)",
+        releaseDate: date("14-03-2022"),
+        Thumbnail: "https://lh3.googleusercontent.com/l9kGz-BKvEVpkeNFDSpbLEWri4Aph-fo8LAwXjDY9nfyEHIhdbgSHdH37FB_XhG5c59mpAmCF0OvkKUx=w544-h544-l90-rj",
+        Tracks: [
+            {
+                _trackId: "622f64a2e2337d7a21eb8a5b",
+                Title: "Tabahi",
+                Artist: "Badshah",
+                Duration: "2: 48",
+                url: `${server[3]}/listen/Tabahi - Badshah`
+            },
+            {
+                _trackId: "622f64afbf0711dbfc77aba5",
+                Title: "Chamkeela Chehra",
+                Artist: "Badshah",
+                Duration: "2: 59",
+                url: `${server[3]}/listen/Chamkeela Chehra - Badshah`
+            },
+            {
+                _trackId: "622f64c2933170a53ac5f3cb",
+                Title: "Hosh",
+                Artist: "Badshah, Aastha Gill",
+                Duration: "4: 00",
+                url: `${server[3]}/listen/Hosh - Badshah`
+            },
+            {
+                _trackId: "622f64cffdd4485bd141605c",
+                Title: "Jugnu",
+                Artist: "Badshah, Nikhita Gandhi",
+                Duration: "3: 51",
+                url: `${server[0]}/listen/Jugnu - Badshah`
+            }
+        ]
     }
 ];
 
