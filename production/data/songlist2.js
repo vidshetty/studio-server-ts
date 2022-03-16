@@ -1450,6 +1450,20 @@ const songlist = [
                 url: `${utils_1.server[0]}/listen/Jugnu - Badshah`
             }
         ]
+    },
+    {
+        _albumId: "62317b41b75bbb1740a6711a",
+        _trackId: "62317b41b75bbb1740a6711a",
+        Album: "Nishu",
+        AlbumArtist: "Ikka",
+        Year: "2022",
+        Color: "rgba(56,64,80,1)",
+        Thumbnail: "https://lh3.googleusercontent.com/1fv9ElyEpMbdZUOdpxXD4EZOv87uDZQNbrZloTpW-hJ-R0yAUWoLMQoOIDfVpevpcJul2eHL5-xonL4N=w544-h544-l90-rj",
+        url: `${utils_1.server[3]}/listen/Nishu - Ikka`,
+        Duration: "3: 32",
+        Artist: "Ikka",
+        Type: "Single",
+        releaseDate: (0, utils_1.date)("15-03-2022")
     }
 ];
 exports.default = songlist;
