@@ -1465,6 +1465,25 @@ const songlist: (Single|Album)[] = [
         Artist: "Ikka",
         Type: "Single",
         releaseDate: date("15-03-2022")
+    },
+    {
+        _albumId: "6238908895b5bada023d322f",
+        Album: "K.G.F. Chapter 2 (Kannada)",
+        AlbumArtist: "Various Artists",
+        Type: "Album",
+        Year: "2022",
+        Color: "rgba(240,72,80,1)",
+        releaseDate: date("21-03-2022"),
+        Thumbnail: "https://lh3.googleusercontent.com/uAv1Vntgi03jX1l4vcfIHuB30zm__bIAiqQfdyoR1ZWbhBva9tyVyUf4gqtvhzgdNlWKyViNmb1hPkU=w544-h544-l90-rj",
+        Tracks: [
+            {
+                _trackId: "6238909318561a579960998f",
+                Title: "Toofan",
+                Artist: "Santhosh Venky, Mohan Krishna, Sachin Basrur, Ravi Basrur, Puneeth Rudranag, Varsha Acharya",
+                Duration: "3: 33",
+                url: `${server[3]}/listen/Toofan - KGF Chapter 2 (Kannada)`
+            }
+        ]
     }
 ];
 
