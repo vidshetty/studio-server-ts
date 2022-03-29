@@ -15,6 +15,8 @@ const songlist: (Single|Album)[] = [
         Thumbnail: "https://lh3.googleusercontent.com/M3bE7uvxto_SLeAM0dVltklsikCiUxdh1-6oGlHd0x_6kuxd7pUgvjqjBJCdSc-7tSPuGo-7FGHaIOG_=w544-h544-l90-rj",
         Artist: "Eminem",
         Duration: "5: 26",
+        lyrics: true,
+        sync: true,
         url: `${server[1]}/listen/Lose Yourself - Eminem`
     },
     {
