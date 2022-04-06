@@ -1485,6 +1485,20 @@ const songlist = [
                 url: `${utils_1.server[3]}/listen/Toofan - KGF Chapter 2 (Kannada)`
             }
         ]
+    },
+    {
+        _albumId: "624d49a463676eeef260a0b7",
+        _trackId: "624d49a463676eeef260a0b7",
+        Album: 'Pasoori (From Coke Studio: Season 14)',
+        AlbumArtist: "Shae Gill, Ali Sethi",
+        Type: "Single",
+        Year: "2022",
+        Color: "rgba(192,88,0,1)",
+        releaseDate: (0, utils_1.date)("06-02-2022"),
+        Thumbnail: "https://lh3.googleusercontent.com/uLpBZlZqkYQewkxUKaoMgN5kj2HK2tECEP2hwHaYQSVoI54VKyY7p-gjD0bwvQ8n1t0IEo1k7buJP2K3=w544-h544-l90-rj",
+        Artist: "Shae Gill, Ali Sethi",
+        Duration: "3: 44",
+        url: `${utils_1.server[3]}/listen/Pasoori - CokeStudio14`
     }
 ];
 exports.default = songlist;
