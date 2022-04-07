@@ -1469,22 +1469,45 @@ const songlist = [
     },
     {
         _albumId: "6238908895b5bada023d322f",
-        Album: "K.G.F. Chapter 2 (Kannada)",
+        _trackId: "6238908895b5bada023d322f",
+        Album: 'Toofan (From "KGF Chapter 2 (Kannada)")',
         AlbumArtist: "Various Artists",
-        Type: "Album",
+        Type: "Single",
         Year: "2022",
         Color: "rgba(240,72,80,1)",
         releaseDate: (0, utils_1.date)("21-03-2022"),
         Thumbnail: "https://lh3.googleusercontent.com/uAv1Vntgi03jX1l4vcfIHuB30zm__bIAiqQfdyoR1ZWbhBva9tyVyUf4gqtvhzgdNlWKyViNmb1hPkU=w544-h544-l90-rj",
-        Tracks: [
-            {
-                _trackId: "6238909318561a579960998f",
-                Title: "Toofan",
-                Artist: "Santhosh Venky, Mohan Krishna, Sachin Basrur, Ravi Basrur, Puneeth Rudranag, Varsha Acharya",
-                Duration: "3: 33",
-                url: `${utils_1.server[3]}/listen/Toofan - KGF Chapter 2 (Kannada)`
-            }
-        ]
+        Artist: "Santhosh Venky, Mohan Krishna, Sachin Basrur, Ravi Basrur, Puneeth Rudranag, Varsha Acharya",
+        Duration: "3: 33",
+        url: `${utils_1.server[3]}/listen/Toofan - KGF Chapter 2 (Kannada)`
+    },
+    {
+        _albumId: "6238909318561a579960998f",
+        _trackId: "6238909318561a579960998f",
+        Album: 'Gagana Nee (From "KGF Chapter 2 (Kannada)")',
+        AlbumArtist: "Suchetha Basrur, Ravi Basrur",
+        Type: "Single",
+        Year: "2022",
+        Color: "rgba(240,32,48,1)",
+        releaseDate: (0, utils_1.date)("06-04-2022"),
+        Thumbnail: "https://lh3.googleusercontent.com/zrVYb2kQSzZE6VgXqvyCXIt260kxRc5Gt-1NZVPT7kC_DZFOpRtQ3vaquVDHAbdFdRtSp-_J-4IphybPKw=w544-h544-l90-rj",
+        Artist: "Suchetha Basrur, Ravi Basrur",
+        Duration: "2: 51",
+        url: `${utils_1.server[3]}/listen/Gagana Nee - KGF Chapter 2 (Kannada)`
+    },
+    {
+        _albumId: "624eaf5362fe7a54b3e16500",
+        _trackId: "624eaf5362fe7a54b3e16500",
+        Album: "Ilzaam (From the album 'Industry')",
+        AlbumArtist: "Arjun Kanungo, King",
+        Type: "Single",
+        Year: "2022",
+        Color: "rgba(224,104,0,1)",
+        releaseDate: (0, utils_1.date)("07-04-2022"),
+        Thumbnail: "https://lh3.googleusercontent.com/8Fy-s-L452gIiiLyz4RLwyPduIwIz4odTgCZnoS4zMI2t48wLIDfH1F4af6xABbkwtfN7UfUMMAjczWcrw=w544-h544-l90-rj",
+        Artist: "Arjun Kanungo, King",
+        Duration: "4: 07",
+        url: `${utils_1.server[3]}/listen/Ilzaam - Arjun Kanungo`
     },
     {
         _albumId: "624d49a463676eeef260a0b7",
