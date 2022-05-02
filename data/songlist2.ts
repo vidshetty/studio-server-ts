@@ -1535,7 +1535,21 @@ const songlist: (Single|Album)[] = [
                 url: `${server[3]}/listen/Mehabooba - KGF Chapter 2 (Kannada)`
             }
         ]
-    }
+    },
+    {
+        _albumId: "626ff94d7b39fa0d05d9560e",
+        _trackId: "626ff94d7b39fa0d05d9560e",
+        Album: 'Bhool Bhulaiyaa 2 Title Track (From "Bhool Bhulaiyaa 2")',
+        AlbumArtist: "Pritam, Tanishk Bagchi, Neeraj Shridhar",
+        Type: "Single",
+        Year: "2022",
+        Color: "rgba(40,120,168,1)",
+        releaseDate: date("02-05-2022"),
+        Thumbnail: "https://lh3.googleusercontent.com/bCmYseAlprwJvjh-7_K2OVJ2DeKOJW_kkEnNoxiuWFRpFek-r9e6WGCM8zHZwMDxt2WVg8Z_aoxGvuPs=w544-h544-l90-rj",
+        Artist: "Pritam, Tanishk Bagchi, Neeraj Shridhar",
+        Duration: "3: 31",
+        url: `${server[3]}/listen/Bhool Bhulaiyaa 2 Title Track`
+    },
 ];
 
 
