@@ -1550,6 +1550,20 @@ const songlist: (Single|Album)[] = [
         Duration: "3: 31",
         url: `${server[3]}/listen/Bhool Bhulaiyaa 2 Title Track`
     },
+    {
+        _albumId: "62834b773cce6ad885d06ed9",
+        _trackId: "62834b773cce6ad885d06ed9",
+        Album: "Lil Bunty",
+        AlbumArtist: "KR$NA",
+        Type: "Single",
+        Year: "2022",
+        Color: "rgba(32,104,168,1)",
+        releaseDate: date("16-05-2022"),
+        Thumbnail: "https://lh3.googleusercontent.com/dqfS8zDQx_oamrVcDvJBpU9N14Rvt9CYCtXLrwGVyFiYnLxGb2cNCeMbo5TXDwOolfz9Nq80UbqmkIdT=w544-h544-l90-rj",
+        Artist: "KR$NA",
+        Duration: "3: 12",
+        url: `${server[3]}/listen/Lil Bunty - KR$NA`
+    }
 ];
 
 
