@@ -1563,6 +1563,20 @@ const songlist: (Single|Album)[] = [
         Artist: "KR$NA",
         Duration: "3: 12",
         url: `${server[3]}/listen/Lil Bunty - KR$NA`
+    },
+    {
+        _albumId: "62c280d74a6ee8dd01efb0a5",
+        _trackId: "62c280d74a6ee8dd01efb0a5",
+        Album: 'Ji Huzoor (From "Shamshera")',
+        AlbumArtist: "Mithoon",
+        Type: "Single",
+        Year: "2022",
+        Color: "rgba(8,96,64,1)",
+        releaseDate: date("29-06-2022"),
+        Thumbnail: "https://lh3.googleusercontent.com/b6oHLfQ_zQjKgtcIS-PO3VGDJCiS-XuJ0q6muMuS3CpPCoza5WiDOLpMDpzHhPS8RsUr_TbDZGM2E4Sy=w544-h544-l90-rj",
+        Artist: "Aditya Narayan",
+        Duration: "4: 09",
+        url: `${server[3]}/listen/Ji Huzoor - Shamshera`
     }
 ];
 
