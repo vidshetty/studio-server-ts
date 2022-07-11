@@ -1577,6 +1577,20 @@ const songlist: (Single|Album)[] = [
         Artist: "Aditya Narayan",
         Duration: "4: 09",
         url: `${server[3]}/listen/Ji Huzoor - Shamshera`
+    },
+    {
+        _albumId: "62cc269f521470695eb32ce5",
+        _trackId: "62cc269f521470695eb32ce5",
+        Album: 'Machayenge 4',
+        AlbumArtist: "KR$NA",
+        Type: "Single",
+        Year: "2022",
+        Color: "rgba(64,64,64,1)",
+        releaseDate: date("08-07-2022"),
+        Thumbnail: "https://lh3.googleusercontent.com/WFi1g4QxLhsFG2gAY6EQ4WKZLlfnTQaj3c-6dGLK2vLWstJBxIV5Le3htmhLLP270MTXHVWX-eW_mFvNMg=w544-h544-l90-rj",
+        Artist: "KR$NA",
+        Duration: "6: 41",
+        url: `${server[3]}/listen/Machayenge 4 - KR$NA`
     }
 ];
 
