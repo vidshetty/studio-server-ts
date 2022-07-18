@@ -1591,6 +1591,20 @@ const songlist: (Single|Album)[] = [
         Artist: "KR$NA",
         Duration: "6: 41",
         url: `${server[3]}/listen/Machayenge 4 - KR$NA`
+    },
+    {
+        _albumId: "62d4daa0a52ec658c57fe55a",
+        _trackId: "62d4daa0a52ec658c57fe55a",
+        Album: 'Kesariya (From "Brahmastra")',
+        AlbumArtist: "Pritam",
+        Type: "Single",
+        Year: "2022",
+        Color: "rgba(200,32,0,1)",
+        releaseDate: date("17-07-2022"),
+        Thumbnail: "https://lh3.googleusercontent.com/CH0SThQN0HOk2eV81GGA-Tiftn58G48iy8lEyKNXJjbDSI9ApKKnmt4ncwr5gO_mZoQvFF3HPfHtky1Y=w544-h544-l90-rj",
+        Artist: "Pritam, Arijit Singh, Amitabh Bhattacharya",
+        Duration: "4: 28",
+        url: `${server[3]}/listen/Kesariya - Brahmastra`
     }
 ];
 
