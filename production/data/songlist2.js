@@ -1589,7 +1589,9 @@ const songlist = [
         Thumbnail: "https://lh3.googleusercontent.com/WFi1g4QxLhsFG2gAY6EQ4WKZLlfnTQaj3c-6dGLK2vLWstJBxIV5Le3htmhLLP270MTXHVWX-eW_mFvNMg=w544-h544-l90-rj",
         Artist: "KR$NA",
         Duration: "6: 41",
-        url: `${utils_1.server[3]}/listen/Machayenge 4 - KR$NA`
+        url: `${utils_1.server[3]}/listen/Machayenge 4 - KR$NA`,
+        lyrics: true,
+        sync: true
     },
     {
         _albumId: "62d4daa0a52ec658c57fe55a",
