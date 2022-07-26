@@ -1401,20 +1401,6 @@ const songlist: (Single|Album)[] = [
         releaseDate: date("10-03-2022")
     },
     {
-        _albumId: "622ef59e3d10f74c27e3e980",
-        _trackId: "622ef59e3d10f74c27e3e980",
-        Album: "Sab Jaanta Hai",
-        AlbumArtist: "Ikka",
-        Year: "2022",
-        Color: "rgba(136,48,144,1)",
-        Thumbnail: "https://lh3.googleusercontent.com/6HcKZnA2vAoflil4ouuo79tHXNI6J-9NjxRZMZ2utgEsT6DKILxGMrDX32Q1TFyoWLu4Q-_4pQITjgFy=w544-h544-l90-rj",
-        url: `${server[3]}/listen/Sab Jaanta Hai - Ikka`,
-        Duration: "3: 00",
-        Artist: "Ikka",
-        Type: "Single",
-        releaseDate: date("27-01-2022")
-    },
-    {
         _albumId: "622f6495030f1e1c45eb5111",
         Album: "Retropanda - Part 1",
         AlbumArtist: "Badshah",
@@ -1453,20 +1439,6 @@ const songlist: (Single|Album)[] = [
                 url: `${server[0]}/listen/Jugnu - Badshah`
             }
         ]
-    },
-    {
-        _albumId: "62317b41b75bbb1740a6711a",
-        _trackId: "62317b41b75bbb1740a6711a",
-        Album: "Nishu",
-        AlbumArtist: "Ikka",
-        Year: "2022",
-        Color: "rgba(56,64,80,1)",
-        Thumbnail: "https://lh3.googleusercontent.com/1fv9ElyEpMbdZUOdpxXD4EZOv87uDZQNbrZloTpW-hJ-R0yAUWoLMQoOIDfVpevpcJul2eHL5-xonL4N=w544-h544-l90-rj",
-        url: `${server[3]}/listen/Nishu - Ikka`,
-        Duration: "3: 32",
-        Artist: "Ikka",
-        Type: "Single",
-        releaseDate: date("15-03-2022")
     },
     {
         _albumId: "624eaf5362fe7a54b3e16500",
@@ -1607,6 +1579,32 @@ const songlist: (Single|Album)[] = [
         Artist: "Pritam, Arijit Singh, Amitabh Bhattacharya",
         Duration: "4: 28",
         url: `${server[3]}/listen/Kesariya - Brahmastra`
+    },
+    {
+        _albumId: "62df9478097f86bd84c07841",
+        Album: "Nishu",
+        AlbumArtist: "Ikka",
+        Type: "Album",
+        Year: "2022",
+        Color: "rgba(56,56,56,1)",
+        releaseDate: date("26-07-2022"),
+        Thumbnail: "https://lh3.googleusercontent.com/_tHQAzcP0XS5jCHTq383PIaY4Lf2xLHEMvcDsuDNgFIrHYYxCR4vJJZ7SibIb8WfYL5YOxi9JoCi3WeOog=w544-h544-l90-rj",
+        Tracks: [
+            {
+                _trackId: "62df947d1535f92a1ccd4920",
+                Title: "Nishu",
+                Artist: "Ikka",
+                Duration: "3: 32",
+                url: `${server[3]}/listen/Nishu - Ikka`
+            },
+            {
+                _trackId: "62df947f8e9a83df07ad1ccd",
+                Title: "Sab Jaanta Hai",
+                Artist: "Ikka",
+                Duration: "3: 00",
+                url: `${server[3]}/listen/Sab Jaanta Hai - Ikka`
+            }
+        ]
     }
 ];
 
