@@ -1605,7 +1605,21 @@ const songlist: (Single|Album)[] = [
                 url: `${server[3]}/listen/Sab Jaanta Hai - Ikka`
             }
         ]
-    }
+    },
+    {
+        _albumId: "62e3827fffa64d48ecf4356b",
+        _trackId: "62e3827fffa64d48ecf4356b",
+        Album: 'NO LOVE',
+        AlbumArtist: "Shubh",
+        Type: "Single",
+        Year: "2022",
+        Color: "rgba(40,48,104,1)",
+        releaseDate: date("26-02-2022"),
+        Thumbnail: "https://lh3.googleusercontent.com/G2ryS0OQ-BJ4g94A315NXGxX3jGU0rph_zeqjBbKGkvMYQ56uLDsWHYZpLwmJmdUPZPxCE56Dw5w1fdjkA=w544-h544-l90-rj",
+        Artist: "Shubh",
+        Duration: "2: 50",
+        url: `${server[2]}/listen/NO LOVE - Shubh`
+    },
 ];
 
 
