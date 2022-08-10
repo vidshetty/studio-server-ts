@@ -1619,6 +1619,20 @@ const songlist = [
         Duration: "2: 50",
         url: `${utils_1.server[2]}/listen/NO LOVE - Shubh`
     },
+    {
+        _albumId: "62f39b42ae5efdf6e9028a65",
+        _trackId: "62f39b42ae5efdf6e9028a65",
+        Album: 'Summer High',
+        AlbumArtist: "AP Dhillon",
+        Type: "Single",
+        Year: "2022",
+        Color: "rgba(232,104,0,1)",
+        releaseDate: (0, utils_1.date)("05-08-2022"),
+        Thumbnail: "https://lh3.googleusercontent.com/kTVvvr6S4GX32LuimSZvV3w1Z932XdBWXq1HebsRYsZ534uYxYU_sGZDP9RIOgUJQWVTDy473K_qf2I=w544-h544-l90-rj",
+        Artist: "AP Dhillon",
+        Duration: "2: 57",
+        url: `${utils_1.server[2]}/listen/Summer High - AP Dhillon`
+    }
 ];
 exports.default = songlist;
 //# sourceMappingURL=songlist2.js.map
