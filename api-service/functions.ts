@@ -187,8 +187,10 @@ const getQuickPicks = (): AlbumList[] => {
         if ((album as Single).Type === "Single") list.push(album);
 
         if (album.Type === "Album") {
-            (album as Album).Tracks.forEach(track => {
-                const song = { ...album, ...track };
+            const dummy_album: Album = album as Album;
+            dummy_album.Tracks.forEach(track => {
+                const song: any = { ...dummy_album, ...track };
+                delete song.Tracks;
                 list.push(song);
             });
         }
@@ -665,7 +667,7 @@ export const recordTime = async (request: Request, _:any) => {
 
     const { id: userId } = request.ACCOUNT;
 
-    let user: UserInterface = await Users.findOne({ _id: userId });
+    const user: UserInterface = await Users.findOne({ _id: userId });
 
     Object.assign(user,{
         lastUsed: moment().tz(timezone).format("DD MMM YYYY, h:mm:ss a")

@@ -3,7 +3,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.buildroot = exports.issuer = exports.refreshTokenExpiry = exports.accessTokenExpiry = exports.timezone = exports.defaultAccess = exports.writeFileAsync = exports.readFileAsync = exports.__replace = exports.checkRedirectUri = exports.calcPeriod = exports.setRedirectUriCookie = exports.redirectUriCookieConfig = exports.standardCookieConfig = exports.cookieParser = exports.server = exports.date = exports.ejsRender = exports.wait = exports.ENV = void 0;
+exports.defaultUserId = exports.buildroot = exports.issuer = exports.refreshTokenExpiry = exports.accessTokenExpiry = exports.androidAccessTokenExpiry = exports.timezone = exports.defaultAccess = exports.CustomError = exports.writeFileAsync = exports.readFileAsync = exports.__replace = exports.checkRedirectUri = exports.calcPeriod = exports.setRedirectUriCookie = exports.redirectUriCookieConfig = exports.standardCookieConfig = exports.cookieParser = exports.server = exports.date = exports.ejsRender = exports.wait = exports.requestUrlCheck = exports.ENV = void 0;
 const moment_timezone_1 = __importDefault(require("moment-timezone"));
 const ejs_1 = __importDefault(require("ejs"));
 const fs_1 = __importDefault(require("fs"));
@@ -11,6 +11,15 @@ const ENV = (type) => {
     return process.env[type] || "";
 };
 exports.ENV = ENV;
+const requestUrlCheck = (req, from) => {
+    const og_url = req.originalUrl;
+    if (from === "android" && og_url.includes("android"))
+        return true;
+    if (from === "web" && !og_url.includes("android"))
+        return true;
+    return false;
+};
+exports.requestUrlCheck = requestUrlCheck;
 const wait = (time) => {
     return new Promise((resolve, _) => setTimeout(resolve, time));
 };
@@ -194,10 +203,21 @@ const writeFileAsync = (fileName, writeData) => {
     });
 };
 exports.writeFileAsync = writeFileAsync;
+class CustomError extends Error {
+    constructor(msg, body) {
+        super(msg === null ? "" : msg);
+        this.body = null;
+        this.body = body;
+    }
+}
+exports.CustomError = CustomError;
+;
 exports.defaultAccess = 20 * 60;
 exports.timezone = "Asia/Kolkata";
+exports.androidAccessTokenExpiry = "30d";
 exports.accessTokenExpiry = "1h";
 exports.refreshTokenExpiry = "30d";
 exports.issuer = "StudioMusic";
 exports.buildroot = "builds";
+exports.defaultUserId = "620e2e2693c8702fed063743";
 //# sourceMappingURL=utils.js.map

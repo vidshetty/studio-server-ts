@@ -10,6 +10,13 @@ export const ENV = (type: string) : string => {
     return process.env[type] || "";
 };
 
+export const requestUrlCheck = (req: Request, from: string) : boolean => {
+    const og_url: string = req.originalUrl;
+    if (from === "android" && og_url.includes("android")) return true;
+    if (from === "web" && !og_url.includes("android")) return true;
+    return false;
+};
+
 export const wait = (time: number) => {
     return new Promise((resolve,_) => setTimeout(resolve, time));
 };
@@ -214,9 +221,19 @@ export const writeFileAsync = (fileName: string, writeData: string): Promise<str
     });
 };
 
+export class CustomError extends Error {
+    body: any = null;
+    constructor(msg: string|null, body: any) {
+        super(msg === null ? "" : msg);
+        this.body = body;
+    }
+};
+
 export const defaultAccess = 20*60;
 export const timezone = "Asia/Kolkata";
+export const androidAccessTokenExpiry = "30d";
 export const accessTokenExpiry = "1h";
 export const refreshTokenExpiry = "30d";
 export const issuer = "StudioMusic";
 export const buildroot = "builds";
+export const defaultUserId = "620e2e2693c8702fed063743";

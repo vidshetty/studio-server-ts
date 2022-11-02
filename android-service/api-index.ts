@@ -1,8 +1,7 @@
 import { Router, Response } from "express";
-import { apiAuthCheck, apiAccessCheck } from "../auth-service/functions";
+import { androidApiAccessCheck, androidApiAuthCheck } from "../auth-service/functions";
 import { responseMid } from "../helpers/responsehandler";
 import {
-    activateCheck,
     getLibrary,
     getProfile,
     homeAlbums,
@@ -14,20 +13,20 @@ import {
     getLyrics,
     signOut,
     startRadio
-} from "./functions";
+} from "../api-service/functions";
+import { checkServer } from "./api-functions";
 
 
 const router = Router();
 
 
+router.get("/checkServer", responseMid(checkServer));
 
-router.use(apiAuthCheck);
+router.use(androidApiAuthCheck);
 
 router.get("/whosthis", responseMid(getProfile));
 
-router.use(apiAccessCheck);
-
-router.get("/activateCheck", responseMid(activateCheck));
+router.use(androidApiAccessCheck);
 
 router.get("/recordTime", responseMid(recordTime));
 
@@ -48,8 +47,6 @@ router.get("/getLyrics", responseMid(getLyrics));
 router.get("/sign-out", responseMid(signOut));
 
 router.get("/startradio", responseMid(startRadio));
-
-router.get("/goToRedirect", (_,res) => res.redirect("/login"));
 
 router.use("*", (_:any, response: Response) => {
     return response.status(404).end();

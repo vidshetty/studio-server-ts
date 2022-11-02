@@ -18,7 +18,8 @@ import {
     calcPeriod,
     checkRedirectUri,
     ENV,
-    cookieParser
+    cookieParser,
+    CustomError
 } from "../helpers/utils";
 import {
     UserInterface,
@@ -612,5 +613,71 @@ export const signOut = async (request: Request, response: Response) => {
     }
 
     return { success: false };
+
+};
+
+export const androidApiAuthCheck = async (request: Request, _: Response, next: NextFunction) => {
+
+    const { accessToken = null }: any = request.headers.authorization;
+
+    // access token error -> redirect to login page
+    const err1: CustomError = new CustomError(null, {
+        middleware: true,
+        status: "failed",
+        errorType: 1
+    });
+
+    if (accessToken === null) return next(err1);
+
+    try {
+
+        const result = await __verifyAccessToken(accessToken);
+        
+        if (!result.found) return next(err1);
+
+        request.result = result;
+        request.ACCOUNT = { id: result.id || "" };
+
+        return next();
+
+    }
+    catch(e) {
+        return next(err1);
+    }
+
+};
+
+export const androidApiAccessCheck = async (request: Request, _: Response, next: NextFunction) => {
+
+    const { result } = request;
+    const { found, id, user } = result;
+
+    // access expired -> redirect to profile check page
+    const err2: CustomError = new CustomError(null, {
+        middleware: true,
+        status: "failed",
+        errorType: 2
+    });
+
+    if (!found) return next();
+
+    if (!id || !user) return next();
+
+    const { accountAccess } = user;
+    const { timeLimit, seen, type } = accountAccess;
+
+    if (type === "under_review" || type === "revoked" || !seen) {
+        return next(err2);
+    }
+
+    const diff = moment.duration(moment(timeLimit).diff(moment().tz(timezone)));
+    const secs = diff.asSeconds();
+
+    if (secs <= 30) {
+        __setExpired(id);
+        return next(err2);
+    }
+
+    return next();
 
 };

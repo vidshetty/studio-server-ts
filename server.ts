@@ -14,6 +14,7 @@ import corshandler from "./helpers/corshandler";
 import authservice from "./auth-service";
 import apiservice from "./api-service";
 import adminservice from "./admin-service";
+import androidservice from "./android-service";
 
 const app: Application = express();
 const PORT: number = parseInt(process.env.PORT || "5000");
@@ -38,6 +39,8 @@ app.use("/admin", adminservice);
 app.use("/api/auth", authservice);
 
 app.use("/api", apiservice);
+
+app.use("/android", androidservice);
 
 app.get("/login/google", passport.authenticate("google", {
     scope: ["profile","email"]

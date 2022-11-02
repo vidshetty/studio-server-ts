@@ -1,7 +1,7 @@
 import { Request, Response, NextFunction } from "express";
 import { getAlbum, getTrack } from "../api-service/functions";
 import { lookup, Lookup } from "geoip-lite";
-import { ejsRender, buildroot } from "../helpers/utils";
+import { ejsRender, buildroot, CustomError } from "../helpers/utils";
 import path from "path";
 
 
@@ -114,4 +114,8 @@ export const updateHtmlHead = async (request: Request) : Promise<string> => {
 
     return "";
 
+};
+
+export const androidErrorHandler = (err: CustomError, req: Request, res: Response, next: NextFunction) => {
+    res.status(500).json(err.body);
 };

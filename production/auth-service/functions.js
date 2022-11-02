@@ -3,7 +3,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.signOut = exports.continueAuthSignin = exports.oauthCheck = exports.rootAccessCheck = exports.rootAuthCheck = exports.apiAccessCheck = exports.apiAuthCheck = exports.servertypes = exports.requestAccess = exports.googleAuthCheck = void 0;
+exports.androidApiAccessCheck = exports.androidApiAuthCheck = exports.signOut = exports.continueAuthSignin = exports.oauthCheck = exports.rootAccessCheck = exports.rootAuthCheck = exports.apiAccessCheck = exports.apiAuthCheck = exports.servertypes = exports.requestAccess = exports.googleAuthCheck = void 0;
 const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
 const path_1 = __importDefault(require("path"));
 const moment_timezone_1 = __importDefault(require("moment-timezone"));
@@ -452,4 +452,54 @@ const signOut = async (request, response) => {
     return { success: false };
 };
 exports.signOut = signOut;
+const androidApiAuthCheck = async (request, _, next) => {
+    const { accessToken = null } = request.headers.authorization;
+    // access token error -> redirect to login page
+    const err1 = new utils_1.CustomError(null, {
+        middleware: true,
+        status: "failed",
+        errorType: 1
+    });
+    if (accessToken === null)
+        return next(err1);
+    try {
+        const result = await __verifyAccessToken(accessToken);
+        if (!result.found)
+            return next(err1);
+        request.result = result;
+        request.ACCOUNT = { id: result.id || "" };
+        return next();
+    }
+    catch (e) {
+        return next(err1);
+    }
+};
+exports.androidApiAuthCheck = androidApiAuthCheck;
+const androidApiAccessCheck = async (request, _, next) => {
+    const { result } = request;
+    const { found, id, user } = result;
+    // access expired -> redirect to profile check page
+    const err2 = new utils_1.CustomError(null, {
+        middleware: true,
+        status: "failed",
+        errorType: 2
+    });
+    if (!found)
+        return next();
+    if (!id || !user)
+        return next();
+    const { accountAccess } = user;
+    const { timeLimit, seen, type } = accountAccess;
+    if (type === "under_review" || type === "revoked" || !seen) {
+        return next(err2);
+    }
+    const diff = moment_timezone_1.default.duration((0, moment_timezone_1.default)(timeLimit).diff((0, moment_timezone_1.default)().tz(utils_1.timezone)));
+    const secs = diff.asSeconds();
+    if (secs <= 30) {
+        __setExpired(id);
+        return next(err2);
+    }
+    return next();
+};
+exports.androidApiAccessCheck = androidApiAccessCheck;
 //# sourceMappingURL=functions.js.map

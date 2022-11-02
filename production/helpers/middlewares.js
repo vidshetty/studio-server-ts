@@ -3,7 +3,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.updateHtmlHead = exports.ipAddress = exports.httpsRedirect = exports.userAgentCheck = void 0;
+exports.androidErrorHandler = exports.updateHtmlHead = exports.ipAddress = exports.httpsRedirect = exports.userAgentCheck = void 0;
 const functions_1 = require("../api-service/functions");
 const geoip_lite_1 = require("geoip-lite");
 const utils_1 = require("../helpers/utils");
@@ -92,4 +92,8 @@ const updateHtmlHead = async (request) => {
     return "";
 };
 exports.updateHtmlHead = updateHtmlHead;
+const androidErrorHandler = (err, req, res, next) => {
+    res.status(500).json(err.body);
+};
+exports.androidErrorHandler = androidErrorHandler;
 //# sourceMappingURL=middlewares.js.map

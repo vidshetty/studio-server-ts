@@ -85,7 +85,7 @@ const update = async (request, _) => {
 };
 exports.update = update;
 const getUser = async (_, _1) => {
-    const user = await Users_1.Users.findOne({ _id: "620e2e2693c8702fed063743" });
+    const user = await Users_1.Users.findOne({ _id: utils_1.defaultUserId });
     return {
         length: user.recentlyPlayed.length,
         recentlyPlayed: user.recentlyPlayed,

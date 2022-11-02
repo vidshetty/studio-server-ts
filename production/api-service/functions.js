@@ -124,8 +124,10 @@ const getQuickPicks = () => {
         if (album.Type === "Single")
             list.push(album);
         if (album.Type === "Album") {
-            album.Tracks.forEach(track => {
-                const song = Object.assign(Object.assign({}, album), track);
+            const dummy_album = album;
+            dummy_album.Tracks.forEach(track => {
+                const song = Object.assign(Object.assign({}, dummy_album), track);
+                delete song.Tracks;
                 list.push(song);
             });
         }
@@ -474,7 +476,7 @@ const startRadio = async (request, _) => {
 exports.startRadio = startRadio;
 const recordTime = async (request, _) => {
     const { id: userId } = request.ACCOUNT;
-    let user = await Users_1.Users.findOne({ _id: userId });
+    const user = await Users_1.Users.findOne({ _id: userId });
     Object.assign(user, {
         lastUsed: (0, moment_timezone_1.default)().tz(utils_1.timezone).format("DD MMM YYYY, h:mm:ss a")
     });

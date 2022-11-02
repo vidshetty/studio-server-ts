@@ -18,6 +18,7 @@ const corshandler_1 = __importDefault(require("./helpers/corshandler"));
 const auth_service_1 = __importDefault(require("./auth-service"));
 const api_service_1 = __importDefault(require("./api-service"));
 const admin_service_1 = __importDefault(require("./admin-service"));
+const android_service_1 = __importDefault(require("./android-service"));
 const app = (0, express_1.default)();
 const PORT = parseInt(process.env.PORT || "5000");
 const server = http_1.default.createServer(app);
@@ -31,6 +32,7 @@ app.options("*", (_, res) => {
 app.use("/admin", admin_service_1.default);
 app.use("/api/auth", auth_service_1.default);
 app.use("/api", api_service_1.default);
+app.use("/android", android_service_1.default);
 app.get("/login/google", passport_1.default.authenticate("google", {
     scope: ["profile", "email"]
 }));
