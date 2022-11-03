@@ -3,7 +3,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.accessCheck = exports.accountCheck = void 0;
+exports.continueLoginIn = exports.signOut = exports.accessCheck = exports.accountCheck = void 0;
 const path_1 = __importDefault(require("path"));
 const moment_timezone_1 = __importDefault(require("moment-timezone"));
 const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
@@ -180,4 +180,35 @@ const accessCheck = async (request) => {
     };
 };
 exports.accessCheck = accessCheck;
+const signOut = async (request) => {
+    const { user_id } = request.body;
+    const user = await Users_1.Users.findOne({ _id: user_id });
+    if (!user)
+        throw new utils_1.CustomError("user not found!", { user });
+    const { accountAccess } = user;
+    const duration = Math.floor((0, moment_timezone_1.default)(accountAccess.timeLimit).diff((0, moment_timezone_1.default)().tz(utils_1.timezone), "s"));
+    await Object.assign(user, {
+        loggedIn: "logged out",
+        lastUsed: (0, moment_timezone_1.default)().tz(utils_1.timezone).format("DD MMM YYYY, h:mm:ss a"),
+        accountAccess: Object.assign(Object.assign({}, accountAccess), { duration, seen: false, timeLimit: null })
+    }).save();
+    return null;
+};
+exports.signOut = signOut;
+const continueLoginIn = async (request) => {
+    const { username, user_id } = request.body;
+    const user = await Users_1.Users.findOne({ _id: user_id });
+    if (!user)
+        throw new utils_1.CustomError("user not found!", { user });
+    const { accountAccess } = user;
+    await Object.assign(user, {
+        username: username !== "" ? username : user.username,
+        loggedIn: "logged in",
+        lastUsed: (0, moment_timezone_1.default)().tz(utils_1.timezone).format("DD MMM YYYY, h:mm:ss a"),
+        accountAccess: Object.assign(Object.assign({}, accountAccess), { seen: true, timeLimit: accountAccess.timeLimit || (0, moment_timezone_1.default)().tz(utils_1.timezone).add(accountAccess.duration, "s").toDate() })
+    }).save();
+    __notifyAdmin(user.googleAccount, "getin");
+    return { success: true };
+};
+exports.continueLoginIn = continueLoginIn;
 //# sourceMappingURL=auth-functions.js.map

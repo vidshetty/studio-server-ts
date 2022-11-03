@@ -453,17 +453,17 @@ const signOut = async (request, response) => {
 };
 exports.signOut = signOut;
 const androidApiAuthCheck = async (request, _, next) => {
-    const { accessToken = null } = request.headers.authorization;
+    const { accesstoken = null } = request.headers;
     // access token error -> redirect to login page
     const err1 = new utils_1.CustomError(null, {
         middleware: true,
         status: "failed",
         errorType: 1
     });
-    if (accessToken === null)
+    if (accesstoken === null)
         return next(err1);
     try {
-        const result = await __verifyAccessToken(accessToken);
+        const result = await __verifyAccessToken(accesstoken);
         if (!result.found)
             return next(err1);
         request.result = result;

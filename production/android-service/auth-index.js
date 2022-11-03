@@ -2,6 +2,7 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = require("express");
 const responsehandler_1 = require("../helpers/responsehandler");
+const functions_1 = require("../auth-service/functions");
 const auth_functions_1 = require("./auth-functions");
 const router = (0, express_1.Router)();
 // router.post("/sign-out", responseMid(signOut));
@@ -11,6 +12,10 @@ const router = (0, express_1.Router)();
 // router.get("/server-type", responseMid(servertypes));
 router.post("/accountCheck", (0, responsehandler_1.responseMid)(auth_functions_1.accountCheck));
 router.post("/accessCheck", (0, responsehandler_1.responseMid)(auth_functions_1.accessCheck));
+router.post("/signOut", (0, responsehandler_1.responseMid)(auth_functions_1.signOut));
+router.use(functions_1.androidApiAuthCheck);
+router.use(functions_1.androidApiAccessCheck);
+router.post("/continueLogIn", (0, responsehandler_1.responseMid)(auth_functions_1.continueLoginIn));
 router.use("*", (_, response) => {
     return response.status(404).end();
 });
