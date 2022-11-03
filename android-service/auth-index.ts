@@ -38,8 +38,6 @@ router.post("/signOut", responseMid(signOut));
 
 router.use(androidApiAuthCheck);
 
-router.use(androidApiAccessCheck);
-
 router.post("/continueLogIn", responseMid(continueLoginIn));
 
 router.use("*", (_:any, response: Response) => {
