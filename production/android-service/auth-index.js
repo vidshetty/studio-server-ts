@@ -14,7 +14,6 @@ router.post("/accountCheck", (0, responsehandler_1.responseMid)(auth_functions_1
 router.post("/accessCheck", (0, responsehandler_1.responseMid)(auth_functions_1.accessCheck));
 router.post("/signOut", (0, responsehandler_1.responseMid)(auth_functions_1.signOut));
 router.use(functions_1.androidApiAuthCheck);
-router.use(functions_1.androidApiAccessCheck);
 router.post("/continueLogIn", (0, responsehandler_1.responseMid)(auth_functions_1.continueLoginIn));
 router.use("*", (_, response) => {
     return response.status(404).end();
