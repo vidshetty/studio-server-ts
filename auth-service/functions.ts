@@ -618,7 +618,7 @@ export const signOut = async (request: Request, response: Response) => {
 
 export const androidApiAuthCheck = async (request: Request, _: Response, next: NextFunction) => {
 
-    const { accessToken = null }: any = request.headers.authorization;
+    const { accesstoken = null }: any = request.headers;
 
     // access token error -> redirect to login page
     const err1: CustomError = new CustomError(null, {
@@ -627,11 +627,11 @@ export const androidApiAuthCheck = async (request: Request, _: Response, next: N
         errorType: 1
     });
 
-    if (accessToken === null) return next(err1);
+    if (accesstoken === null) return next(err1);
 
     try {
 
-        const result = await __verifyAccessToken(accessToken);
+        const result = await __verifyAccessToken(accesstoken);
         
         if (!result.found) return next(err1);
 

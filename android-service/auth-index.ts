@@ -5,11 +5,15 @@ import {
     servertypes,
     oauthCheck,
     continueAuthSignin,
-    signOut
+    // signOut,
+    androidApiAuthCheck,
+    androidApiAccessCheck
 } from "../auth-service/functions";
 import {
     accessCheck,
-    accountCheck
+    accountCheck,
+    continueLoginIn,
+    signOut
 } from "./auth-functions";
 
 const router = Router();
@@ -29,6 +33,14 @@ const router = Router();
 router.post("/accountCheck", responseMid(accountCheck));
 
 router.post("/accessCheck", responseMid(accessCheck));
+
+router.post("/signOut", responseMid(signOut));
+
+router.use(androidApiAuthCheck);
+
+router.use(androidApiAccessCheck);
+
+router.post("/continueLogIn", responseMid(continueLoginIn));
 
 router.use("*", (_:any, response: Response) => {
     return response.status(404).end();

@@ -12,7 +12,8 @@ import {
     ENV,
     androidAccessTokenExpiry,
     refreshTokenExpiry,
-    issuer
+    issuer,
+    CustomError
 } from "../helpers/utils";
 import {
     UserInterface,
@@ -244,5 +245,58 @@ export const accessCheck = async (request: Request) => {
         user: { name: username || name, picture, email, _id },
         seen
     };
+
+};
+
+export const signOut = async (request: Request) => {
+
+    const { user_id } = request.body;
+
+    const user: UserInterface = await Users.findOne({ _id: user_id });
+
+    if (!user) throw new CustomError("user not found!", { user });
+
+    const { accountAccess } = user;
+    const duration: number = Math.floor(moment(accountAccess.timeLimit).diff(moment().tz(timezone),"s"));
+
+    await Object.assign(user,{
+        loggedIn: "logged out",
+        lastUsed: moment().tz(timezone).format("DD MMM YYYY, h:mm:ss a"),
+        accountAccess: {
+            ...accountAccess,
+            duration,
+            seen: false,
+            timeLimit: null
+        }
+    }).save();
+
+    return null;
+
+};
+
+export const continueLoginIn = async (request: Request) => {
+
+    const { username, user_id }: { username: string|null, user_id: string } = request.body;
+
+    const user: UserInterface = await Users.findOne({ _id: user_id });
+
+    if (!user) throw new CustomError("user not found!", { user });
+
+    const { accountAccess } = user;
+
+    await Object.assign(user,{
+        username: username !== "" ? username : user.username,
+        loggedIn: "logged in",
+        lastUsed: moment().tz(timezone).format("DD MMM YYYY, h:mm:ss a"),
+        accountAccess: {
+            ...accountAccess,
+            seen: true,
+            timeLimit: accountAccess.timeLimit || moment().tz(timezone).add(accountAccess.duration,"s").toDate()
+        }
+    }).save();
+
+    __notifyAdmin(user.googleAccount, "getin");
+
+    return { success: true };
 
 };
