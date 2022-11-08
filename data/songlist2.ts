@@ -1633,6 +1633,20 @@ const songlist: (Single|Album)[] = [
         Artist: "AP Dhillon",
         Duration: "2: 57",
         url: `${server[2]}/listen/Summer High - AP Dhillon`
+    },
+    {
+        _albumId: "636a2ccf59486d4f99921218",
+        _trackId: "636a2ccf59486d4f99921218",
+        Album: "Apna Bana Le (From 'Bhediya')",
+        AlbumArtist: "Sachin-Jigar",
+        Type: "Single",
+        Year: "2022",
+        Color: "rgba(184,216,232,1)",
+        releaseDate: date("05-11-2022"),
+        Thumbnail: "https://lh3.googleusercontent.com/EqN-4y9jQg91mt-94KKI8L1xu3olMS-Fh_WLL5tMlnqh1pSRzt-uWdnTVlY_GBnvLuA_WJmS6FYAXJlZtQ=w544-h544-l90-rj",
+        Artist: "Arijit Singh",
+        Duration: "4: 21",
+        url: `${server[2]}/listen/Apna Bana Le - Bhediya`
     }
 ];
 
