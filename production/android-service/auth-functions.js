@@ -186,6 +186,8 @@ const signOut = async (request) => {
     if (!user)
         throw new utils_1.CustomError("user not found!", { user });
     const { accountAccess } = user;
+    if (!accountAccess.timeLimit)
+        return null;
     const duration = Math.floor((0, moment_timezone_1.default)(accountAccess.timeLimit).diff((0, moment_timezone_1.default)().tz(utils_1.timezone), "s"));
     await Object.assign(user, {
         loggedIn: "logged out",
@@ -196,13 +198,13 @@ const signOut = async (request) => {
 };
 exports.signOut = signOut;
 const continueLoginIn = async (request) => {
-    const { username, user_id } = request.body;
+    const { username = null, user_id } = request.body;
     const user = await Users_1.Users.findOne({ _id: user_id });
     if (!user)
         throw new utils_1.CustomError("user not found!", { user });
     const { accountAccess } = user;
     await Object.assign(user, {
-        username: username !== "" ? username : user.username,
+        username: username === null ? user.username : username,
         loggedIn: "logged in",
         lastUsed: (0, moment_timezone_1.default)().tz(utils_1.timezone).format("DD MMM YYYY, h:mm:ss a"),
         accountAccess: Object.assign(Object.assign({}, accountAccess), { seen: true, timeLimit: accountAccess.timeLimit || (0, moment_timezone_1.default)().tz(utils_1.timezone).add(accountAccess.duration, "s").toDate() })

@@ -257,6 +257,9 @@ export const signOut = async (request: Request) => {
     if (!user) throw new CustomError("user not found!", { user });
 
     const { accountAccess } = user;
+    
+    if (!accountAccess.timeLimit) return null;
+
     const duration: number = Math.floor(moment(accountAccess.timeLimit).diff(moment().tz(timezone),"s"));
 
     await Object.assign(user,{
@@ -276,7 +279,7 @@ export const signOut = async (request: Request) => {
 
 export const continueLoginIn = async (request: Request) => {
 
-    const { username, user_id }: { username: string|null, user_id: string } = request.body;
+    const { username = null, user_id }: { username: string|null, user_id: string } = request.body;
 
     const user: UserInterface = await Users.findOne({ _id: user_id });
 
@@ -285,7 +288,7 @@ export const continueLoginIn = async (request: Request) => {
     const { accountAccess } = user;
 
     await Object.assign(user,{
-        username: username !== "" ? username : user.username,
+        username: username === null ? user.username : username,
         loggedIn: "logged in",
         lastUsed: moment().tz(timezone).format("DD MMM YYYY, h:mm:ss a"),
         accountAccess: {
