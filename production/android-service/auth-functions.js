@@ -192,7 +192,7 @@ const signOut = async (request) => {
     await Object.assign(user, {
         loggedIn: "logged out",
         lastUsed: (0, moment_timezone_1.default)().tz(utils_1.timezone).format("DD MMM YYYY, h:mm:ss a"),
-        accountAccess: Object.assign(Object.assign({}, accountAccess), { duration, timeLimit: null })
+        accountAccess: Object.assign(Object.assign({}, accountAccess), { duration, seen: false, timeLimit: null })
     }).save();
     return null;
 };

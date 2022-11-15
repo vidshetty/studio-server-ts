@@ -268,6 +268,7 @@ export const signOut = async (request: Request) => {
         accountAccess: {
             ...accountAccess,
             duration,
+            seen: false,
             timeLimit: null
         }
     }).save();
