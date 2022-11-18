@@ -1,4 +1,5 @@
 import path from "path";
+import { v4 as uuidv4 } from "uuid";
 import moment, { Duration } from "moment-timezone";
 import jwt from "jsonwebtoken";
 import { Request } from "express";
@@ -19,7 +20,8 @@ import {
     UserInterface,
     JwtPayload,
     GoogleProfileInfo,
-    NodemailerOptions
+    NodemailerOptions,
+    ActiveSession
 } from "../helpers/interfaces";
 import { sendEmail } from "../nodemailer-service";
 
@@ -106,17 +108,30 @@ export const accountCheck = async (request: Request) => {
 
     const { name, email, id, photoUrl }: any = request.body;
 
-    let user = await Users.findOne({ "email.id": email });
+    let user: UserInterface = await Users.findOne({ "email.id": email });
+
+    const sessionId: string = uuidv4();
 
     if (user) {
 
-        user.googleAccount = {
-            ...user.googleAccount,
-            sub: id,
-            name,
-            email,
-            picture: photoUrl
-        };
+        const { activeSessions = [] } = user;
+
+        activeSessions.push({
+            seen: false,
+            device: request.headers["user-agent"] || null,
+            sessionId
+        });
+
+        Object.assign(user, {
+            googleAccount: {
+                ...user.googleAccount,
+                sub: id,
+                name,
+                email,
+                picture: photoUrl
+            },
+            activeSessions
+        });
 
         await user.save();
 
@@ -133,8 +148,7 @@ export const accountCheck = async (request: Request) => {
             accountAccess: {
                 type: "allowed",
                 duration: defaultAccess,
-                timeLimit: null,
-                seen: false
+                timeLimit: null
             },
             email: {
                 id: email,
@@ -150,7 +164,12 @@ export const accountCheck = async (request: Request) => {
             },
             loggedIn: "signed up",
             status: "active",
-            lastUsed: moment().tz(timezone).format("DD MMM YYYY, h:mm:ss a")
+            lastUsed: moment().tz(timezone).format("DD MMM YYYY, h:mm:ss a"),
+            activeSessions: [{
+                seen: false,
+                device: request.headers["user-agent"] || null,
+                sessionId
+            }]
         }).save();
 
         __notifyAdmin(user.googleAccount, "signup");
@@ -160,7 +179,8 @@ export const accountCheck = async (request: Request) => {
 
     const payload: JwtPayload = {
         _id: String(user._id),
-        email
+        email,
+        sessionId
     };
 
     const accessToken: string = jwt.sign(payload, ACCESS_TOKEN_SECRET, { expiresIn: androidAccessTokenExpiry, issuer });
@@ -180,12 +200,19 @@ export const accountCheck = async (request: Request) => {
 export const accessCheck = async (request: Request) => {
 
     const { user_id = null }: any = request.body;
+    const { sessionId = null } = request.result;
 
     const user: UserInterface = await Users.findOne({ _id: user_id });
 
-    const { accountAccess, googleAccount, username, _id } = user;
+    const { accountAccess, googleAccount, username, _id, activeSessions = [] } = user;
     const { name, picture, email } = googleAccount;
-    const { timeLimit, duration, type, seen } = accountAccess;
+    const { timeLimit, duration, type } = accountAccess;
+
+    const curSession: ActiveSession|undefined = activeSessions.find(each => {
+        return each.sessionId === sessionId;
+    });
+
+    const { seen = false } = curSession || {};
 
     // type [revoked, expired, signup, login]
 
@@ -251,27 +278,22 @@ export const accessCheck = async (request: Request) => {
 export const signOut = async (request: Request) => {
 
     const { user_id } = request.body;
+    const { sessionId = null } = request.result;
 
     const user: UserInterface = await Users.findOne({ _id: user_id });
 
     if (!user) throw new CustomError("user not found!", { user });
 
-    const { accountAccess } = user;
-    
-    if (!accountAccess.timeLimit) return null;
+    const { activeSessions = [] } = user;
 
-    const duration: number = Math.floor(moment(accountAccess.timeLimit).diff(moment().tz(timezone),"s"));
-
-    await Object.assign(user,{
-        loggedIn: "logged out",
+    Object.assign(user, {
         lastUsed: moment().tz(timezone).format("DD MMM YYYY, h:mm:ss a"),
-        accountAccess: {
-            ...accountAccess,
-            duration,
-            seen: false,
-            timeLimit: null
-        }
-    }).save();
+        activeSessions: activeSessions.filter(each => {
+            return each.sessionId !== sessionId;
+        })
+    });
+
+    await user.save();
 
     return null;
 
@@ -280,23 +302,34 @@ export const signOut = async (request: Request) => {
 export const continueLoginIn = async (request: Request) => {
 
     const { username = null, user_id }: { username: string|null, user_id: string } = request.body;
+    const { sessionId = null } = request.result;
 
     const user: UserInterface = await Users.findOne({ _id: user_id });
 
     if (!user) throw new CustomError("user not found!", { user });
 
-    const { accountAccess } = user;
+    const { accountAccess, activeSessions = [] } = user;
 
-    await Object.assign(user,{
+    for (let i=0; i<activeSessions.length; i++) {
+        const { sessionId: curSessionId } = activeSessions[i];
+        if (curSessionId !== sessionId) continue;
+        Object.assign(activeSessions[i], {
+            seen: true
+        });
+        break;
+    }
+
+    Object.assign(user, {
         username: username === null ? user.username : username,
         loggedIn: "logged in",
         lastUsed: moment().tz(timezone).format("DD MMM YYYY, h:mm:ss a"),
         accountAccess: {
             ...accountAccess,
-            seen: true,
             timeLimit: accountAccess.timeLimit || moment().tz(timezone).add(accountAccess.duration,"s").toDate()
         }
-    }).save();
+    });
+
+    await user.save();
 
     __notifyAdmin(user.googleAccount, "getin");
 

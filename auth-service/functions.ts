@@ -1,4 +1,5 @@
 import { NextFunction, Request, Response } from "express";
+import { v4 as uuidv4 } from "uuid";
 import jwt from "jsonwebtoken";
 import path from "path";
 import moment, { Duration } from "moment-timezone";
@@ -28,7 +29,8 @@ import {
     FoundResponse,
     CookieInterface,
     GoogleProfileInfo,
-    NodemailerOptions
+    NodemailerOptions,
+    ActiveSession
 } from "../helpers/interfaces";
 import { sendEmail } from "../nodemailer-service";
 
@@ -44,12 +46,21 @@ interface RequestQuery {
 const __verifyAccessToken = async (token: string): Promise<FoundResponse> => {
 
     const obj: JwtPayload = jwt.verify(token, ACCESS_TOKEN_SECRET) as JwtPayload;
-    const _id = obj._id;
-    const user = await Users.findOne({ _id });
-    if (!user) {
-        return { found: false, id: null, user: null };
-    }
-    return { found: true, id: _id, user };
+    const { _id, sessionId = null } = obj;
+
+    if (sessionId === null) return { found: false, id: null, user: null };
+
+    const user: UserInterface = await Users.findOne({ _id });
+
+    if (!user) return { found: false, id: null, user: null };
+
+    const index = user.activeSessions.findIndex(each => {
+        return each.sessionId === sessionId;
+    });
+
+    if (index < 0) return { found: false, id: null, user: null };
+
+    return { found: true, id: _id, user, sessionId };
 
 };
 
@@ -66,13 +77,12 @@ const __generateAccessToken = async (token: string): Promise<RefreshTokenRespons
 
     const user: UserInterface = await Users.findOne({ _id: payload._id });
 
-    if (!user) {
-        return { accessToken: null, id: null };
-    }
+    if (!user) return { accessToken: null, id: null };
     
     const newPayLoad: JwtPayload = {
         _id: user._id,
-        email: user.googleAccount.email
+        email: user.googleAccount.email,
+        sessionId: payload.sessionId
     };
 
     const accessToken: string = jwt.sign(newPayLoad, ACCESS_TOKEN_SECRET, { expiresIn: accessTokenExpiry, issuer });
@@ -86,9 +96,7 @@ const __refreshAccessToken = async (request: Request): Promise<RefreshTokenRespo
     const cookieObj: CookieInterface = cookieParser(request);
     const refreshToken = cookieObj.ACCOUNT_REFRESH;
 
-    if (!refreshToken) {
-        return { accessToken: null, id: null };
-    }
+    if (!refreshToken) return { accessToken: null, id: null };
     return await __generateAccessToken(refreshToken);
 
 };
@@ -96,9 +104,7 @@ const __refreshAccessToken = async (request: Request): Promise<RefreshTokenRespo
 const __cookieFound = async (request: Request): Promise<FoundResponse> => {
     const cookieObj = cookieParser(request);
     const token = cookieObj.ACCOUNT;
-    if (!token) {
-        return { found: false, id: null, user: null };
-    }
+    if (!token) return { found: false, id: null, user: null };
     return await __verifyAccessToken(token);
 };
 
@@ -190,16 +196,29 @@ export const googleAuthCheck = async (request: Request, response: Response, next
     const { sub, name, picture, email, email_verified }: any = request.user?._json;
 
     let user: UserInterface = await Users.findOne({ "email.id": email });
+
+    const sessionId: string = uuidv4();
     
     if (user) {
 
-        user.googleAccount = {
-            ...user.googleAccount,
-            sub,
-            name,
-            email,
-            picture
-        };
+        const { activeSessions = [] } = user;
+
+        activeSessions.push({
+            seen: false,
+            device: request.headers["user-agent"] || null,
+            sessionId
+        });
+
+        Object.assign(user, {
+            googleAccount: {
+                ...user.googleAccount,
+                sub,
+                name,
+                email,
+                picture
+            },
+            activeSessions
+        });
 
         await user.save();
 
@@ -221,8 +240,7 @@ export const googleAuthCheck = async (request: Request, response: Response, next
             accountAccess: {
                 type: "allowed",
                 duration: defaultAccess,
-                timeLimit: null,
-                seen: false
+                timeLimit: null
             },
             email: {
                 id: email,
@@ -231,7 +249,12 @@ export const googleAuthCheck = async (request: Request, response: Response, next
             googleAccount: { exists: true, sub, name, email, email_verified, picture },
             loggedIn: "signed up",
             status: "active",
-            lastUsed: moment().tz(timezone).format("DD MMM YYYY, h:mm:ss a")
+            lastUsed: moment().tz(timezone).format("DD MMM YYYY, h:mm:ss a"),
+            activeSessions: [{
+                seen: false,
+                device: request.headers["user-agent"] || null,
+                sessionId
+            }]
         }).save();
 
         response.user = {
@@ -246,7 +269,8 @@ export const googleAuthCheck = async (request: Request, response: Response, next
 
     const payload: JwtPayload = {
         _id: String(user._id),
-        email
+        email,
+        sessionId
     };
 
     const accessToken: string = jwt.sign(payload, ACCESS_TOKEN_SECRET, { expiresIn: accessTokenExpiry, issuer });
@@ -348,14 +372,19 @@ export const apiAuthCheck = async (request: Request, response: Response, next: N
 export const apiAccessCheck = async (request: Request, response: Response, next: NextFunction) => {
 
     const { result } = request;
-    const { found, id, user } = result;
+    const { found, id, user, sessionId = null } = result;
 
     if (!found) return next();
-
     if (!id || !user) return next();
 
-    const { accountAccess } = user;
-    const { timeLimit, seen, type } = accountAccess;
+    const { accountAccess, activeSessions = [] } = user;
+    const { timeLimit, type } = accountAccess;
+
+    const curSession: ActiveSession|undefined = activeSessions.find(each => {
+        return each.sessionId === sessionId;
+    });
+
+    const { seen = false } = curSession || {};
 
     if (type === "under_review" || type === "revoked" || !seen) {
         // const uid = await __uidToRedirect(user._id);
@@ -408,21 +437,26 @@ export const rootAuthCheck = async (request: Request, response: Response, next: 
         next();
     }
 
-
 };
 
 export const rootAccessCheck = async (request: Request, response: Response, next: NextFunction) => {
 
     const { result } = request;
-    const { found, id, user } = result;
+    const { found, id, user, sessionId = null } = result;
     let shouldRedirect = false;
 
     if (!found) return next();
 
     if (!id || !user) return next();
 
-    const { accountAccess } = user;
-    const { timeLimit, seen, type } = accountAccess;
+    const { accountAccess, activeSessions = [] } = user;
+    const { timeLimit, type } = accountAccess;
+
+    const curSession: ActiveSession|undefined = activeSessions.find(each => {
+        return each.sessionId === sessionId;
+    });
+    
+    const { seen = false } = curSession || {};
 
     if (type === "under_review" || type === "revoked" || !seen) shouldRedirect = true;
 
@@ -446,7 +480,7 @@ export const oauthCheck = async (request: Request, _:any) => {
 
     const { userId }: { userId: string } = request.body;
 
-    const { found, user: userFromCookie } = await __cookieFound(request);
+    const { found, user: userFromCookie, sessionId = null } = await __cookieFound(request);
 
     if (!found || !userFromCookie) return { error: true };
     if (String(userFromCookie._id) !== userId) return { error: true };
@@ -455,9 +489,15 @@ export const oauthCheck = async (request: Request, _:any) => {
 
     if (!user) return { error: true };
 
-    const { accountAccess, googleAccount, username, _id, loggedIn } = user;
+    const { accountAccess, googleAccount, username, _id, loggedIn, activeSessions = [] } = user;
     const { name, picture, email } = googleAccount;
-    const { timeLimit, duration, type, seen } = accountAccess;
+    const { timeLimit, duration, type } = accountAccess;
+    
+    const curSession: ActiveSession|undefined = activeSessions.find(each => {
+        return each.sessionId === sessionId;
+    });
+
+    const { seen = false } = curSession || {};
 
     // await Object.assign(user, { accountAccess }).save();
 
@@ -534,7 +574,7 @@ export const continueAuthSignin = async (request: Request, response: Response) =
 
     const { username, userId }: { username: string, userId: string } = request.body;
 
-    const { found, user: userFromCookie } = await __cookieFound(request);
+    const { found, user: userFromCookie, sessionId = null } = await __cookieFound(request);
 
     if (!found || !userFromCookie) return { error: true };
     if (String(userFromCookie._id) !== userId) return { error: true };
@@ -543,19 +583,29 @@ export const continueAuthSignin = async (request: Request, response: Response) =
 
     if (!user) return { error: true };
 
-    const { googleAccount } = user;
+    const { googleAccount, activeSessions = [] } = user;
     let { accountAccess } = user;
 
-    Object.assign(user,{
+    for (let i=0; i<activeSessions.length; i++) {
+        const { sessionId: curSessionId } = activeSessions[i];
+        if (curSessionId !== sessionId) continue;
+        Object.assign(activeSessions[i], {
+            seen: true
+        });
+        break;
+    }
+
+    Object.assign(user, {
         username: username !== "" ? username : user.username,
         loggedIn: "logged in",
         lastUsed: moment().tz(timezone).format("DD MMM YYYY, h:mm:ss a"),
         accountAccess: {
             ...accountAccess,
-            seen: true,
             timeLimit: accountAccess.timeLimit || moment().tz(timezone).add(accountAccess.duration,"s").toDate()
-        }
+        },
+        activeSessions
     });
+    
     await user.save();
 
     const redirectUri = checkRedirectUri(request);
@@ -579,40 +629,30 @@ export const signOut = async (request: Request, response: Response) => {
 
     const { userId }: { userId: string } = request.body;
 
-    const { found, user: userFromCookie } = await __cookieFound(request);
+    const { found, user: userFromCookie, sessionId = null } = await __cookieFound(request);
 
     if (!found || !userFromCookie) return { error: true };
     if (String(userFromCookie._id) !== userId) return { error: true };
 
     const user: UserInterface = await Users.findOne({ _id: userId });
 
-    if (user) {
+    if (!user) return { success: false };
 
-        const { accountAccess } = user;
+    const { activeSessions = [] } = user;
 
-        if (accountAccess.timeLimit) {
-            const duration = Math.floor(moment(accountAccess.timeLimit).diff(moment().tz(timezone),"s"));
-            Object.assign(user,{
-                loggedIn: "logged out",
-                lastUsed: moment().tz(timezone).format("DD MMM YYYY, h:mm:ss a"),
-                accountAccess: {
-                    ...accountAccess,
-                    duration,
-                    seen: false,
-                    timeLimit: null
-                }
-            });
-            await user.save();
-        }
+    Object.assign(user, {
+        lastUsed: moment().tz(timezone).format("DD MMM YYYY, h:mm:ss a"),
+        activeSessions: activeSessions.filter(each => {
+            return each.sessionId !== sessionId;
+        })
+    });
 
-        response.clearCookie("ACCOUNT", standardCookieConfig);
-        response.clearCookie("ACCOUNT_REFRESH", standardCookieConfig);
+    await user.save();
 
-        return { success: true };
+    response.clearCookie("ACCOUNT", standardCookieConfig);
+    response.clearCookie("ACCOUNT_REFRESH", standardCookieConfig);
 
-    }
-
-    return { success: false };
+    return { success: true };
 
 };
 
@@ -650,7 +690,7 @@ export const androidApiAuthCheck = async (request: Request, _: Response, next: N
 export const androidApiAccessCheck = async (request: Request, _: Response, next: NextFunction) => {
 
     const { result } = request;
-    const { found, id, user } = result;
+    const { found, id, user, sessionId = null } = result;
 
     // access expired -> redirect to profile check page
     const err2: CustomError = new CustomError(null, {
@@ -660,11 +700,16 @@ export const androidApiAccessCheck = async (request: Request, _: Response, next:
     });
 
     if (!found) return next();
-
     if (!id || !user) return next();
 
-    const { accountAccess } = user;
-    const { timeLimit, seen, type } = accountAccess;
+    const { accountAccess, activeSessions = [] } = user;
+    const { timeLimit, type } = accountAccess;
+
+    const curSession: ActiveSession|undefined = activeSessions.find(each => {
+        return each.sessionId === sessionId;
+    });
+
+    const { seen = false } = curSession || {};
 
     if (type === "under_review" || type === "revoked" || !seen) {
         return next(err2);

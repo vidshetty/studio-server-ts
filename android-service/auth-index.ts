@@ -32,11 +32,11 @@ const router = Router();
 
 router.post("/accountCheck", responseMid(accountCheck));
 
+router.use(androidApiAuthCheck);
+
 router.post("/accessCheck", responseMid(accessCheck));
 
 router.post("/signOut", responseMid(signOut));
-
-router.use(androidApiAuthCheck);
 
 router.post("/continueLogIn", responseMid(continueLoginIn));
 

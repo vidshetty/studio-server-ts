@@ -31,7 +31,6 @@ const UserSchema = new Schema({
     accountAccess: {
         duration: { type: Number },
         timeLimit: { type: Date },
-        seen: { type: Boolean },
         type: {
             type: String,
             enum: ["under_review","allowed","revoked","expired"]
@@ -59,7 +58,12 @@ const UserSchema = new Schema({
     recentlySearched: {
         type: Array,
         default: []
-    }
+    },
+    activeSessions: [{
+        seen: { type: Boolean },
+        device: { type: String },
+        sessionId: { type: String }
+    }]
 });
 
 

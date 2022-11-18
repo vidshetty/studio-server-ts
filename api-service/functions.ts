@@ -726,36 +726,28 @@ export const getProfile = async (request: Request, _:any) => {
 
 export const signOut = async (request: Request, response: Response) => {
 
-    const { ACCOUNT } = request;
+    const { ACCOUNT, result } = request;
+    const { sessionId = null } = result;
 
     const user: UserInterface = await Users.findOne({ _id: ACCOUNT.id });
 
-    if (user) {
+    if (!user) return { success: false };
 
-        const { accountAccess } = user;
-        const duration: number = Math.floor(moment(accountAccess.timeLimit).diff(moment().tz(timezone),"s"));
+    const { activeSessions = [] } = user;
 
-        Object.assign(user,{
-            loggedIn: "logged out",
-            lastUsed: moment().tz(timezone).format("DD MMM YYYY, h:mm:ss a"),
-            accountAccess: {
-                ...accountAccess,
-                duration,
-                seen: false,
-                timeLimit: null
-            }
-        });
+    Object.assign(user, {
+        lastUsed: moment().tz(timezone).format("DD MMM YYYY, h:mm:ss a"),
+        activeSessions: activeSessions.filter(each => {
+            return each.sessionId !== sessionId;
+        })
+    });
 
-        await user.save();
+    await user.save();
 
-        response.clearCookie("ACCOUNT", standardCookieConfig);
-        response.clearCookie("ACCOUNT_REFRESH", standardCookieConfig);
-        response.clearCookie("REDIRECT_URI", redirectUriCookieConfig);
+    response.clearCookie("ACCOUNT", standardCookieConfig);
+    response.clearCookie("ACCOUNT_REFRESH", standardCookieConfig);
+    response.clearCookie("REDIRECT_URI", redirectUriCookieConfig);
 
-        return { success: true };
-
-    }
-
-    return { success: false };
+    return { success: true };
 
 };

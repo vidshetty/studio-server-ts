@@ -117,13 +117,18 @@ export const update = async (request: Request, _:any) => {
     });
     if (!user) return { msg: "No such user." };
 
-    const { accountAccess } = user;
-    Object.assign(user,{
+    const { accountAccess, activeSessions = [] } = user;
+
+    Object.assign(user, {
         accountAccess: {
-            ...accountAccess, ...body,
-            timeLimit: null,
-            seen: false
-        }
+            ...accountAccess,
+            ...body,
+            timeLimit: null
+        },
+        activeSessions: activeSessions.map(each => {
+            each.seen = false;
+            return each;
+        })
     });
 
     await user.save();

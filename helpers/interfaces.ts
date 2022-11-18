@@ -78,6 +78,7 @@ export interface SpotifyLyrics {
 export interface JwtPayload extends jwt.JwtPayload {
     _id: string;
     email: string;
+    sessionId: string|null;
 }
 
 export interface GoogleProfileInfo {
@@ -93,6 +94,12 @@ export interface RecentlyPlayed {
     albumId: string;
     frequency: number;
     last: Date;
+}
+
+export interface ActiveSession {
+    seen: boolean;
+    device: string|null;
+    sessionId: string;
 }
 
 export interface UserInterface extends Document {
@@ -112,7 +119,6 @@ export interface UserInterface extends Document {
     accountAccess: {
         duration: number;
         timeLimit: Date;
-        seen: boolean;
         type: string;
         uid?: string;
     };
@@ -121,6 +127,7 @@ export interface UserInterface extends Document {
     recentsLastModified: Date;
     recentlyPlayed: RecentlyPlayed[];
     status: string;
+    activeSessions: ActiveSession[];
     // recentlySearched: {
     //     type: Array,
     //     default: []
@@ -132,6 +139,7 @@ export interface FoundResponse {
     id: string | null;
     user?: UserInterface | null;
     accessToken?: string | null;
+    sessionId?: string | null;
 };
 
 export interface RefreshTokenResponse {
