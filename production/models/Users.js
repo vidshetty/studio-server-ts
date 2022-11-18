@@ -51,7 +51,6 @@ const UserSchema = new mongoose_1.Schema({
     accountAccess: {
         duration: { type: Number },
         timeLimit: { type: Date },
-        seen: { type: Boolean },
         type: {
             type: String,
             enum: ["under_review", "allowed", "revoked", "expired"]
@@ -79,7 +78,12 @@ const UserSchema = new mongoose_1.Schema({
     recentlySearched: {
         type: Array,
         default: []
-    }
+    },
+    activeSessions: [{
+            seen: { type: Boolean },
+            device: { type: String },
+            sessionId: { type: String }
+        }]
 });
 exports.Users = mongoose_1.default.model("user", UserSchema);
 //# sourceMappingURL=Users.js.map

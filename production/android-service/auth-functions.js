@@ -5,6 +5,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.continueLoginIn = exports.signOut = exports.accessCheck = exports.accountCheck = void 0;
 const path_1 = __importDefault(require("path"));
+const uuid_1 = require("uuid");
 const moment_timezone_1 = __importDefault(require("moment-timezone"));
 const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
 const Users_1 = require("../models/Users");
@@ -68,9 +69,19 @@ const __notifyUser = async (user, type) => {
 const accountCheck = async (request) => {
     const { name, email, id, photoUrl } = request.body;
     let user = await Users_1.Users.findOne({ "email.id": email });
+    const sessionId = (0, uuid_1.v4)();
     if (user) {
-        user.googleAccount = Object.assign(Object.assign({}, user.googleAccount), { sub: id, name,
-            email, picture: photoUrl });
+        const { activeSessions = [] } = user;
+        activeSessions.push({
+            seen: false,
+            device: request.headers["user-agent"] || null,
+            sessionId
+        });
+        Object.assign(user, {
+            googleAccount: Object.assign(Object.assign({}, user.googleAccount), { sub: id, name,
+                email, picture: photoUrl }),
+            activeSessions
+        });
         await user.save();
         __notifyAdmin(user.googleAccount, "login");
         if (user.accountAccess.type !== "expired")
@@ -83,8 +94,7 @@ const accountCheck = async (request) => {
             accountAccess: {
                 type: "allowed",
                 duration: utils_1.defaultAccess,
-                timeLimit: null,
-                seen: false
+                timeLimit: null
             },
             email: {
                 id: email,
@@ -100,14 +110,20 @@ const accountCheck = async (request) => {
             },
             loggedIn: "signed up",
             status: "active",
-            lastUsed: (0, moment_timezone_1.default)().tz(utils_1.timezone).format("DD MMM YYYY, h:mm:ss a")
+            lastUsed: (0, moment_timezone_1.default)().tz(utils_1.timezone).format("DD MMM YYYY, h:mm:ss a"),
+            activeSessions: [{
+                    seen: false,
+                    device: request.headers["user-agent"] || null,
+                    sessionId
+                }]
         }).save();
         __notifyAdmin(user.googleAccount, "signup");
         __notifyUser(user, "signup");
     }
     const payload = {
         _id: String(user._id),
-        email
+        email,
+        sessionId
     };
     const accessToken = jsonwebtoken_1.default.sign(payload, ACCESS_TOKEN_SECRET, { expiresIn: utils_1.androidAccessTokenExpiry, issuer: utils_1.issuer });
     const refreshToken = jsonwebtoken_1.default.sign(payload, REFRESH_TOKEN_SECRET, { expiresIn: utils_1.refreshTokenExpiry, issuer: utils_1.issuer });
@@ -123,10 +139,15 @@ const accountCheck = async (request) => {
 exports.accountCheck = accountCheck;
 const accessCheck = async (request) => {
     const { user_id = null } = request.body;
+    const { sessionId = null } = request.result;
     const user = await Users_1.Users.findOne({ _id: user_id });
-    const { accountAccess, googleAccount, username, _id } = user;
+    const { accountAccess, googleAccount, username, _id, activeSessions = [] } = user;
     const { name, picture, email } = googleAccount;
-    const { timeLimit, duration, type, seen } = accountAccess;
+    const { timeLimit, duration, type } = accountAccess;
+    const curSession = activeSessions.find(each => {
+        return each.sessionId === sessionId;
+    });
+    const { seen = false } = curSession || {};
     // type [revoked, expired, signup, login]
     if (type === "revoked") {
         return {
@@ -182,33 +203,44 @@ const accessCheck = async (request) => {
 exports.accessCheck = accessCheck;
 const signOut = async (request) => {
     const { user_id } = request.body;
+    const { sessionId = null } = request.result;
     const user = await Users_1.Users.findOne({ _id: user_id });
     if (!user)
         throw new utils_1.CustomError("user not found!", { user });
-    const { accountAccess } = user;
-    if (!accountAccess.timeLimit)
-        return null;
-    const duration = Math.floor((0, moment_timezone_1.default)(accountAccess.timeLimit).diff((0, moment_timezone_1.default)().tz(utils_1.timezone), "s"));
-    await Object.assign(user, {
-        loggedIn: "logged out",
+    const { activeSessions = [] } = user;
+    Object.assign(user, {
         lastUsed: (0, moment_timezone_1.default)().tz(utils_1.timezone).format("DD MMM YYYY, h:mm:ss a"),
-        accountAccess: Object.assign(Object.assign({}, accountAccess), { duration, seen: false, timeLimit: null })
-    }).save();
+        activeSessions: activeSessions.filter(each => {
+            return each.sessionId !== sessionId;
+        })
+    });
+    await user.save();
     return null;
 };
 exports.signOut = signOut;
 const continueLoginIn = async (request) => {
     const { username = null, user_id } = request.body;
+    const { sessionId = null } = request.result;
     const user = await Users_1.Users.findOne({ _id: user_id });
     if (!user)
         throw new utils_1.CustomError("user not found!", { user });
-    const { accountAccess } = user;
-    await Object.assign(user, {
+    const { accountAccess, activeSessions = [] } = user;
+    for (let i = 0; i < activeSessions.length; i++) {
+        const { sessionId: curSessionId } = activeSessions[i];
+        if (curSessionId !== sessionId)
+            continue;
+        Object.assign(activeSessions[i], {
+            seen: true
+        });
+        break;
+    }
+    Object.assign(user, {
         username: username === null ? user.username : username,
         loggedIn: "logged in",
         lastUsed: (0, moment_timezone_1.default)().tz(utils_1.timezone).format("DD MMM YYYY, h:mm:ss a"),
-        accountAccess: Object.assign(Object.assign({}, accountAccess), { seen: true, timeLimit: accountAccess.timeLimit || (0, moment_timezone_1.default)().tz(utils_1.timezone).add(accountAccess.duration, "s").toDate() })
-    }).save();
+        accountAccess: Object.assign(Object.assign({}, accountAccess), { timeLimit: accountAccess.timeLimit || (0, moment_timezone_1.default)().tz(utils_1.timezone).add(accountAccess.duration, "s").toDate() })
+    });
+    await user.save();
     __notifyAdmin(user.googleAccount, "getin");
     return { success: true };
 };

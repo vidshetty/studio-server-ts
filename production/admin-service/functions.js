@@ -72,9 +72,13 @@ const update = async (request, _) => {
     });
     if (!user)
         return { msg: "No such user." };
-    const { accountAccess } = user;
+    const { accountAccess, activeSessions = [] } = user;
     Object.assign(user, {
-        accountAccess: Object.assign(Object.assign(Object.assign({}, accountAccess), body), { timeLimit: null, seen: false })
+        accountAccess: Object.assign(Object.assign(Object.assign({}, accountAccess), body), { timeLimit: null }),
+        activeSessions: activeSessions.map(each => {
+            each.seen = false;
+            return each;
+        })
     });
     await user.save();
     if (sendEmail) {

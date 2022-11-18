@@ -517,23 +517,23 @@ const getProfile = async (request, _) => {
 };
 exports.getProfile = getProfile;
 const signOut = async (request, response) => {
-    const { ACCOUNT } = request;
+    const { ACCOUNT, result } = request;
+    const { sessionId = null } = result;
     const user = await Users_1.Users.findOne({ _id: ACCOUNT.id });
-    if (user) {
-        const { accountAccess } = user;
-        const duration = Math.floor((0, moment_timezone_1.default)(accountAccess.timeLimit).diff((0, moment_timezone_1.default)().tz(utils_1.timezone), "s"));
-        Object.assign(user, {
-            loggedIn: "logged out",
-            lastUsed: (0, moment_timezone_1.default)().tz(utils_1.timezone).format("DD MMM YYYY, h:mm:ss a"),
-            accountAccess: Object.assign(Object.assign({}, accountAccess), { duration, seen: false, timeLimit: null })
-        });
-        await user.save();
-        response.clearCookie("ACCOUNT", utils_1.standardCookieConfig);
-        response.clearCookie("ACCOUNT_REFRESH", utils_1.standardCookieConfig);
-        response.clearCookie("REDIRECT_URI", utils_1.redirectUriCookieConfig);
-        return { success: true };
-    }
-    return { success: false };
+    if (!user)
+        return { success: false };
+    const { activeSessions = [] } = user;
+    Object.assign(user, {
+        lastUsed: (0, moment_timezone_1.default)().tz(utils_1.timezone).format("DD MMM YYYY, h:mm:ss a"),
+        activeSessions: activeSessions.filter(each => {
+            return each.sessionId !== sessionId;
+        })
+    });
+    await user.save();
+    response.clearCookie("ACCOUNT", utils_1.standardCookieConfig);
+    response.clearCookie("ACCOUNT_REFRESH", utils_1.standardCookieConfig);
+    response.clearCookie("REDIRECT_URI", utils_1.redirectUriCookieConfig);
+    return { success: true };
 };
 exports.signOut = signOut;
 //# sourceMappingURL=functions.js.map
