@@ -20,6 +20,7 @@ router.post("/addToRecentlyPlayed", (0, responsehandler_1.responseMid)(functions
 router.get("/getLyrics", (0, responsehandler_1.responseMid)(functions_2.getLyrics));
 router.get("/sign-out", (0, responsehandler_1.responseMid)(functions_2.signOut));
 router.get("/startradio", (0, responsehandler_1.responseMid)(functions_2.startRadio));
+router.get("/activeSessions", (0, responsehandler_1.responseMid)(api_functions_1.activeSessions));
 router.use("*", (_, response) => {
     return response.status(404).end();
 });

@@ -3,7 +3,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.continueLoginIn = exports.signOut = exports.accessCheck = exports.accountCheck = void 0;
+exports.requestAccess = exports.continueLoginIn = exports.signOut = exports.accessCheck = exports.accountCheck = void 0;
 const path_1 = __importDefault(require("path"));
 const uuid_1 = require("uuid");
 const moment_timezone_1 = __importDefault(require("moment-timezone"));
@@ -245,4 +245,32 @@ const continueLoginIn = async (request) => {
     return { success: true };
 };
 exports.continueLoginIn = continueLoginIn;
+const requestAccess = async (request, _) => {
+    const { id = null } = request.ACCOUNT;
+    const user = await Users_1.Users.findOne({ _id: id });
+    const { googleAccount } = user;
+    try {
+        const data = await (0, utils_1.ejsRender)(path_1.default.join(process.cwd(), utils_1.buildroot, "views", "newsignup.ejs"), {
+            username: googleAccount.name,
+            email: googleAccount.email,
+            picture: googleAccount.picture
+        });
+        const options = {
+            to: "toriumcar@gmail.com",
+            subject: "Request More Time",
+            html: data
+        };
+        return (0, nodemailer_service_1.sendEmail)(options)
+            .then(() => {
+            return { requestSent: true };
+        })
+            .catch(e => {
+            return { requestSent: false };
+        });
+    }
+    catch (e) {
+        return { requestSent: false };
+    }
+};
+exports.requestAccess = requestAccess;
 //# sourceMappingURL=auth-functions.js.map
