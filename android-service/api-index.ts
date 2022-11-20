@@ -14,7 +14,7 @@ import {
     signOut,
     startRadio
 } from "../api-service/functions";
-import { checkServer } from "./api-functions";
+import { activeSessions, checkServer } from "./api-functions";
 
 
 const router = Router();
@@ -47,6 +47,8 @@ router.get("/getLyrics", responseMid(getLyrics));
 router.get("/sign-out", responseMid(signOut));
 
 router.get("/startradio", responseMid(startRadio));
+
+router.get("/activeSessions", responseMid(activeSessions));
 
 router.use("*", (_:any, response: Response) => {
     return response.status(404).end();

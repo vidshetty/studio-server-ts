@@ -1,7 +1,7 @@
 import { Router, Response } from "express";
 import { responseMid } from "../helpers/responsehandler";
 import {
-    requestAccess,
+    // requestAccess,
     servertypes,
     oauthCheck,
     continueAuthSignin,
@@ -13,7 +13,8 @@ import {
     accessCheck,
     accountCheck,
     continueLoginIn,
-    signOut
+    signOut,
+    requestAccess
 } from "./auth-functions";
 
 const router = Router();
@@ -39,6 +40,8 @@ router.post("/accessCheck", responseMid(accessCheck));
 router.post("/signOut", responseMid(signOut));
 
 router.post("/continueLogIn", responseMid(continueLoginIn));
+
+router.post("/requestAccess", responseMid(requestAccess));
 
 router.use("*", (_:any, response: Response) => {
     return response.status(404).end();

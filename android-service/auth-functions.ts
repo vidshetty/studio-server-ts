@@ -336,3 +336,42 @@ export const continueLoginIn = async (request: Request) => {
     return { success: true };
 
 };
+
+export const requestAccess = async (request: Request, _:any) => {
+
+    const { id = null } = request.ACCOUNT;
+
+    const user: UserInterface = await Users.findOne({ _id: id });
+
+    const { googleAccount } = user;
+
+    try {
+
+        const data = await ejsRender(
+            path.join(process.cwd(), buildroot, "views", "newsignup.ejs"),
+            {
+                username: googleAccount.name,
+                email: googleAccount.email,
+                picture: googleAccount.picture
+            }
+        );
+
+        const options = {
+            to: "toriumcar@gmail.com",
+            subject: "Request More Time",
+            html: data
+        };
+
+        return sendEmail(options)
+            .then(() => {
+                return { requestSent: true };
+            })
+            .catch(e => {
+                return { requestSent: false };
+            });
+
+    } catch(e) {
+        return { requestSent: false };
+    }
+
+};
