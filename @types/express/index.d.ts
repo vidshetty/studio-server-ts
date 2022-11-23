@@ -1,8 +1,10 @@
 import {
     GoogleProfileInfo,
     FoundResponse,
-    RefreshTokenResponse
+    RefreshTokenResponse,
+    DeviceInfo
 } from "../../helpers/interfaces";
+import { IncomingHttpHeaders } from "http";
 
 
 declare global {
@@ -24,5 +26,12 @@ declare global {
         }
     }
 }
+
+declare module "http" {
+    interface IncomingHttpHeaders {
+        "device-info": string | null
+    }
+}
+
 
 export {}

@@ -61,7 +61,6 @@ const UserSchema = new mongoose_1.Schema({
         type: String,
         enum: ["logged in", "logged out", "signed up"]
     },
-    lastUsed: { type: String },
     recentsLastModified: { type: Date },
     recentlyPlayed: [{
             albumId: { type: String },
@@ -82,7 +81,8 @@ const UserSchema = new mongoose_1.Schema({
     activeSessions: [{
             seen: { type: Boolean },
             device: { type: String },
-            sessionId: { type: String }
+            sessionId: { type: String },
+            lastUsed: { type: String }
         }]
 });
 exports.Users = mongoose_1.default.model("user", UserSchema);

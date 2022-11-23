@@ -127,8 +127,9 @@ const googleAuthCheck = async (request, response, next) => {
         const { activeSessions = [] } = user;
         activeSessions.push({
             seen: false,
-            device: request.headers["user-agent"] || null,
-            sessionId
+            device: (0, utils_1.getDevice)(request),
+            sessionId,
+            lastUsed: (0, utils_1.getCurrentTime)()
         });
         Object.assign(user, {
             googleAccount: Object.assign(Object.assign({}, user.googleAccount), { sub,
@@ -162,11 +163,11 @@ const googleAuthCheck = async (request, response, next) => {
             googleAccount: { exists: true, sub, name, email, email_verified, picture },
             loggedIn: "signed up",
             status: "active",
-            lastUsed: (0, moment_timezone_1.default)().tz(utils_1.timezone).format("DD MMM YYYY, h:mm:ss a"),
             activeSessions: [{
                     seen: false,
-                    device: request.headers["user-agent"] || null,
-                    sessionId
+                    device: (0, utils_1.getDevice)(request),
+                    sessionId,
+                    lastUsed: (0, utils_1.getCurrentTime)()
                 }]
         }).save();
         response.user = {
@@ -271,6 +272,14 @@ const apiAccessCheck = async (request, response, next) => {
         return each.sessionId === sessionId;
     });
     const { seen = false } = curSession || {};
+    await Object.assign(user, {
+        activeSessions: activeSessions.map(each => {
+            if (each.sessionId !== sessionId)
+                return each;
+            each.lastUsed = (0, utils_1.getCurrentTime)();
+            return each;
+        })
+    }).save();
     if (type === "under_review" || type === "revoked" || !seen) {
         // const uid = await __uidToRedirect(user._id);
         return response.status(200).send({ redirect: true, to: `/google-oauth-signin/${id}` });
@@ -448,7 +457,6 @@ const continueAuthSignin = async (request, response) => {
     Object.assign(user, {
         username: username !== "" ? username : user.username,
         loggedIn: "logged in",
-        lastUsed: (0, moment_timezone_1.default)().tz(utils_1.timezone).format("DD MMM YYYY, h:mm:ss a"),
         accountAccess: Object.assign(Object.assign({}, accountAccess), { timeLimit: accountAccess.timeLimit || (0, moment_timezone_1.default)().tz(utils_1.timezone).add(accountAccess.duration, "s").toDate() }),
         activeSessions
     });
@@ -480,7 +488,6 @@ const signOut = async (request, response) => {
         return { success: false };
     const { activeSessions = [] } = user;
     Object.assign(user, {
-        lastUsed: (0, moment_timezone_1.default)().tz(utils_1.timezone).format("DD MMM YYYY, h:mm:ss a"),
         activeSessions: activeSessions.filter(each => {
             return each.sessionId !== sessionId;
         })
@@ -533,6 +540,14 @@ const androidApiAccessCheck = async (request, _, next) => {
         return each.sessionId === sessionId;
     });
     const { seen = false } = curSession || {};
+    await Object.assign(user, {
+        activeSessions: activeSessions.map(each => {
+            if (each.sessionId !== sessionId)
+                return each;
+            each.lastUsed = (0, utils_1.getCurrentTime)();
+            return each;
+        })
+    }).save();
     if (type === "under_review" || type === "revoked" || !seen) {
         return next(err2);
     }

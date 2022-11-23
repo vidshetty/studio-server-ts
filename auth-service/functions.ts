@@ -20,7 +20,9 @@ import {
     checkRedirectUri,
     ENV,
     cookieParser,
-    CustomError
+    CustomError,
+    getDevice,
+    getCurrentTime
 } from "../helpers/utils";
 import {
     UserInterface,
@@ -205,8 +207,9 @@ export const googleAuthCheck = async (request: Request, response: Response, next
 
         activeSessions.push({
             seen: false,
-            device: request.headers["user-agent"] || null,
-            sessionId
+            device: getDevice(request),
+            sessionId,
+            lastUsed: getCurrentTime()
         });
 
         Object.assign(user, {
@@ -249,11 +252,11 @@ export const googleAuthCheck = async (request: Request, response: Response, next
             googleAccount: { exists: true, sub, name, email, email_verified, picture },
             loggedIn: "signed up",
             status: "active",
-            lastUsed: moment().tz(timezone).format("DD MMM YYYY, h:mm:ss a"),
             activeSessions: [{
                 seen: false,
-                device: request.headers["user-agent"] || null,
-                sessionId
+                device: getDevice(request),
+                sessionId,
+                lastUsed: getCurrentTime()
             }]
         }).save();
 
@@ -385,6 +388,14 @@ export const apiAccessCheck = async (request: Request, response: Response, next:
     });
 
     const { seen = false } = curSession || {};
+
+    await Object.assign(user, {
+        activeSessions: activeSessions.map(each => {
+            if (each.sessionId !== sessionId) return each;
+            each.lastUsed = getCurrentTime();
+            return each;
+        })
+    }).save();
 
     if (type === "under_review" || type === "revoked" || !seen) {
         // const uid = await __uidToRedirect(user._id);
@@ -598,7 +609,6 @@ export const continueAuthSignin = async (request: Request, response: Response) =
     Object.assign(user, {
         username: username !== "" ? username : user.username,
         loggedIn: "logged in",
-        lastUsed: moment().tz(timezone).format("DD MMM YYYY, h:mm:ss a"),
         accountAccess: {
             ...accountAccess,
             timeLimit: accountAccess.timeLimit || moment().tz(timezone).add(accountAccess.duration,"s").toDate()
@@ -641,7 +651,6 @@ export const signOut = async (request: Request, response: Response) => {
     const { activeSessions = [] } = user;
 
     Object.assign(user, {
-        lastUsed: moment().tz(timezone).format("DD MMM YYYY, h:mm:ss a"),
         activeSessions: activeSessions.filter(each => {
             return each.sessionId !== sessionId;
         })
@@ -710,6 +719,14 @@ export const androidApiAccessCheck = async (request: Request, _: Response, next:
     });
 
     const { seen = false } = curSession || {};
+
+    await Object.assign(user, {
+        activeSessions: activeSessions.map(each => {
+            if (each.sessionId !== sessionId) return each;
+            each.lastUsed = getCurrentTime();
+            return each;
+        })
+    }).save();
 
     if (type === "under_review" || type === "revoked" || !seen) {
         return next(err2);

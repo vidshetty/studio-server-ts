@@ -100,6 +100,14 @@ export interface ActiveSession {
     seen: boolean;
     device: string|null;
     sessionId: string;
+    lastUsed: string;
+}
+
+export interface DeviceInfo {
+    manufacturer: string;
+    device: string;
+    brand: string;
+    model: string;
 }
 
 export interface UserInterface extends Document {
@@ -123,7 +131,6 @@ export interface UserInterface extends Document {
         uid?: string;
     };
     loggedIn: string;
-    lastUsed: string;
     recentsLastModified: Date;
     recentlyPlayed: RecentlyPlayed[];
     status: string;

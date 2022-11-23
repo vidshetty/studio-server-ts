@@ -667,13 +667,13 @@ export const recordTime = async (request: Request, _:any) => {
 
     const { id: userId } = request.ACCOUNT;
 
-    const user: UserInterface = await Users.findOne({ _id: userId });
+    // const user: UserInterface = await Users.findOne({ _id: userId });
 
-    Object.assign(user,{
-        lastUsed: moment().tz(timezone).format("DD MMM YYYY, h:mm:ss a")
-    });
+    // Object.assign(user,{
+    //     lastUsed: getCurrentTime()
+    // });
 
-    await user.save();
+    // await user.save();
 
     return;
 
@@ -736,7 +736,6 @@ export const signOut = async (request: Request, response: Response) => {
     const { activeSessions = [] } = user;
 
     Object.assign(user, {
-        lastUsed: moment().tz(timezone).format("DD MMM YYYY, h:mm:ss a"),
         activeSessions: activeSessions.filter(each => {
             return each.sessionId !== sessionId;
         })

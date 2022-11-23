@@ -74,8 +74,9 @@ const accountCheck = async (request) => {
         const { activeSessions = [] } = user;
         activeSessions.push({
             seen: false,
-            device: request.headers["user-agent"] || null,
-            sessionId
+            device: (0, utils_1.getDevice)(request),
+            sessionId,
+            lastUsed: (0, utils_1.getCurrentTime)()
         });
         Object.assign(user, {
             googleAccount: Object.assign(Object.assign({}, user.googleAccount), { sub: id, name,
@@ -110,11 +111,11 @@ const accountCheck = async (request) => {
             },
             loggedIn: "signed up",
             status: "active",
-            lastUsed: (0, moment_timezone_1.default)().tz(utils_1.timezone).format("DD MMM YYYY, h:mm:ss a"),
             activeSessions: [{
                     seen: false,
-                    device: request.headers["user-agent"] || null,
-                    sessionId
+                    device: (0, utils_1.getDevice)(request),
+                    sessionId,
+                    lastUsed: (0, utils_1.getCurrentTime)()
                 }]
         }).save();
         __notifyAdmin(user.googleAccount, "signup");
@@ -209,7 +210,6 @@ const signOut = async (request) => {
         throw new utils_1.CustomError("user not found!", { user });
     const { activeSessions = [] } = user;
     Object.assign(user, {
-        lastUsed: (0, moment_timezone_1.default)().tz(utils_1.timezone).format("DD MMM YYYY, h:mm:ss a"),
         activeSessions: activeSessions.filter(each => {
             return each.sessionId !== sessionId;
         })
@@ -237,7 +237,6 @@ const continueLoginIn = async (request) => {
     Object.assign(user, {
         username: username === null ? user.username : username,
         loggedIn: "logged in",
-        lastUsed: (0, moment_timezone_1.default)().tz(utils_1.timezone).format("DD MMM YYYY, h:mm:ss a"),
         accountAccess: Object.assign(Object.assign({}, accountAccess), { timeLimit: accountAccess.timeLimit || (0, moment_timezone_1.default)().tz(utils_1.timezone).add(accountAccess.duration, "s").toDate() })
     });
     await user.save();

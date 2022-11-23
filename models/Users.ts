@@ -41,7 +41,6 @@ const UserSchema = new Schema({
         type: String,
         enum: ["logged in","logged out","signed up"]
     },
-    lastUsed: { type: String },
     recentsLastModified: { type: Date },
     recentlyPlayed: [{
         albumId: { type: String },
@@ -62,7 +61,8 @@ const UserSchema = new Schema({
     activeSessions: [{
         seen: { type: Boolean },
         device: { type: String },
-        sessionId: { type: String }
+        sessionId: { type: String },
+        lastUsed: { type: String }
     }]
 });
 

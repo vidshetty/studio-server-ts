@@ -476,11 +476,11 @@ const startRadio = async (request, _) => {
 exports.startRadio = startRadio;
 const recordTime = async (request, _) => {
     const { id: userId } = request.ACCOUNT;
-    const user = await Users_1.Users.findOne({ _id: userId });
-    Object.assign(user, {
-        lastUsed: (0, moment_timezone_1.default)().tz(utils_1.timezone).format("DD MMM YYYY, h:mm:ss a")
-    });
-    await user.save();
+    // const user: UserInterface = await Users.findOne({ _id: userId });
+    // Object.assign(user,{
+    //     lastUsed: getCurrentTime()
+    // });
+    // await user.save();
     return;
 };
 exports.recordTime = recordTime;
@@ -524,7 +524,6 @@ const signOut = async (request, response) => {
         return { success: false };
     const { activeSessions = [] } = user;
     Object.assign(user, {
-        lastUsed: (0, moment_timezone_1.default)().tz(utils_1.timezone).format("DD MMM YYYY, h:mm:ss a"),
         activeSessions: activeSessions.filter(each => {
             return each.sessionId !== sessionId;
         })

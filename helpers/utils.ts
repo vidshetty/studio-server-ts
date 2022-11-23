@@ -2,7 +2,7 @@ import { Request, Response, CookieOptions } from "express";
 import moment, { Duration } from "moment-timezone";
 import ejs from "ejs";
 import fs from "fs";
-import { CookieInterface } from "../helpers/interfaces";
+import { CookieInterface, DeviceInfo } from "../helpers/interfaces";
 
 
 
@@ -221,6 +221,17 @@ export const writeFileAsync = (fileName: string, writeData: string): Promise<str
     });
 };
 
+export const getDevice = (request: Request) : string|null => {
+
+    const deviceInfoString: string|null = request.headers["device-info"] || null;
+    if (deviceInfoString === null) return request.headers["user-agent"] || null;
+
+    const deviceInfo: DeviceInfo = JSON.parse(deviceInfoString);
+
+    return `${deviceInfo.manufacturer} ${deviceInfo.model}`;
+
+};
+
 export class CustomError extends Error {
     body: any = null;
     constructor(msg: string|null, body: any) {
@@ -237,3 +248,7 @@ export const refreshTokenExpiry = "30d";
 export const issuer = "StudioMusic";
 export const buildroot = "builds";
 export const defaultUserId = "620e2e2693c8702fed063743";
+
+export const getCurrentTime = () : string => {
+    return moment().tz(timezone).format("DD MMM YYYY, h:mm:ss a");
+};

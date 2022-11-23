@@ -14,7 +14,9 @@ import {
     androidAccessTokenExpiry,
     refreshTokenExpiry,
     issuer,
-    CustomError
+    CustomError,
+    getDevice,
+    getCurrentTime
 } from "../helpers/utils";
 import {
     UserInterface,
@@ -118,8 +120,9 @@ export const accountCheck = async (request: Request) => {
 
         activeSessions.push({
             seen: false,
-            device: request.headers["user-agent"] || null,
-            sessionId
+            device: getDevice(request),
+            sessionId,
+            lastUsed: getCurrentTime()
         });
 
         Object.assign(user, {
@@ -164,11 +167,11 @@ export const accountCheck = async (request: Request) => {
             },
             loggedIn: "signed up",
             status: "active",
-            lastUsed: moment().tz(timezone).format("DD MMM YYYY, h:mm:ss a"),
             activeSessions: [{
                 seen: false,
-                device: request.headers["user-agent"] || null,
-                sessionId
+                device: getDevice(request),
+                sessionId,
+                lastUsed: getCurrentTime()
             }]
         }).save();
 
@@ -287,7 +290,6 @@ export const signOut = async (request: Request) => {
     const { activeSessions = [] } = user;
 
     Object.assign(user, {
-        lastUsed: moment().tz(timezone).format("DD MMM YYYY, h:mm:ss a"),
         activeSessions: activeSessions.filter(each => {
             return each.sessionId !== sessionId;
         })
@@ -322,7 +324,6 @@ export const continueLoginIn = async (request: Request) => {
     Object.assign(user, {
         username: username === null ? user.username : username,
         loggedIn: "logged in",
-        lastUsed: moment().tz(timezone).format("DD MMM YYYY, h:mm:ss a"),
         accountAccess: {
             ...accountAccess,
             timeLimit: accountAccess.timeLimit || moment().tz(timezone).add(accountAccess.duration,"s").toDate()

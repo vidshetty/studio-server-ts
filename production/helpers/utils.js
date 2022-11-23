@@ -3,7 +3,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.defaultUserId = exports.buildroot = exports.issuer = exports.refreshTokenExpiry = exports.accessTokenExpiry = exports.androidAccessTokenExpiry = exports.timezone = exports.defaultAccess = exports.CustomError = exports.writeFileAsync = exports.readFileAsync = exports.__replace = exports.checkRedirectUri = exports.calcPeriod = exports.setRedirectUriCookie = exports.redirectUriCookieConfig = exports.standardCookieConfig = exports.cookieParser = exports.server = exports.date = exports.ejsRender = exports.wait = exports.requestUrlCheck = exports.ENV = void 0;
+exports.getCurrentTime = exports.defaultUserId = exports.buildroot = exports.issuer = exports.refreshTokenExpiry = exports.accessTokenExpiry = exports.androidAccessTokenExpiry = exports.timezone = exports.defaultAccess = exports.CustomError = exports.getDevice = exports.writeFileAsync = exports.readFileAsync = exports.__replace = exports.checkRedirectUri = exports.calcPeriod = exports.setRedirectUriCookie = exports.redirectUriCookieConfig = exports.standardCookieConfig = exports.cookieParser = exports.server = exports.date = exports.ejsRender = exports.wait = exports.requestUrlCheck = exports.ENV = void 0;
 const moment_timezone_1 = __importDefault(require("moment-timezone"));
 const ejs_1 = __importDefault(require("ejs"));
 const fs_1 = __importDefault(require("fs"));
@@ -203,6 +203,14 @@ const writeFileAsync = (fileName, writeData) => {
     });
 };
 exports.writeFileAsync = writeFileAsync;
+const getDevice = (request) => {
+    const deviceInfoString = request.headers["device-info"] || null;
+    if (deviceInfoString === null)
+        return request.headers["user-agent"] || null;
+    const deviceInfo = JSON.parse(deviceInfoString);
+    return `${deviceInfo.manufacturer} ${deviceInfo.model}`;
+};
+exports.getDevice = getDevice;
 class CustomError extends Error {
     constructor(msg, body) {
         super(msg === null ? "" : msg);
@@ -220,4 +228,8 @@ exports.refreshTokenExpiry = "30d";
 exports.issuer = "StudioMusic";
 exports.buildroot = "builds";
 exports.defaultUserId = "620e2e2693c8702fed063743";
+const getCurrentTime = () => {
+    return (0, moment_timezone_1.default)().tz(exports.timezone).format("DD MMM YYYY, h:mm:ss a");
+};
+exports.getCurrentTime = getCurrentTime;
 //# sourceMappingURL=utils.js.map
