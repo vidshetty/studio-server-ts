@@ -86,7 +86,7 @@ router.get("/*", (request: Request, response: Response, next: NextFunction) => {
 router.get(
     "/google-oauth-signin/*",
     userAgentCheck,
-    httpsRedirect,
+    // httpsRedirect,
     (_:any, response: Response) => {
         return response.sendFile(path.join(process.cwd(), buildroot, "build", "index.html"));
     }
@@ -115,7 +115,7 @@ router.get(
     ],
     ipAddress,
     userAgentCheck,
-    httpsRedirect,
+    // httpsRedirect,
     rootAuthCheck,
     rootAccessCheck,
     async (request: Request, response: Response) => {
@@ -149,7 +149,7 @@ router.get(
     "/",
     ipAddress,
     userAgentCheck,
-    httpsRedirect,
+    // httpsRedirect,
     (_:any, response: Response) => {
         return response.sendFile(path.join(process.cwd(), buildroot, "build", "index.html"));
     }
@@ -161,7 +161,7 @@ router.get("/player*", (_:any, response: Response) => {
 
 router.get(
     "/mobileview",
-    httpsRedirect,
+    // httpsRedirect,
     (_:any, response: Response) => {
         return response.sendFile(path.join(process.cwd(), buildroot, "mobile-build", "index.html"));
     }

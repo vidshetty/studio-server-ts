@@ -78,7 +78,9 @@ router.get("/*", (request, response, next) => {
     else
         return response.sendFile(returnpath);
 });
-router.get("/google-oauth-signin/*", middlewares_1.userAgentCheck, middlewares_1.httpsRedirect, (_, response) => {
+router.get("/google-oauth-signin/*", middlewares_1.userAgentCheck, 
+// httpsRedirect,
+(_, response) => {
     return response.sendFile(path_1.default.join(process.cwd(), utils_1.buildroot, "build", "index.html"));
 });
 router.get("/google-signin", passport_1.default.authenticate("google", { failureRedirect: "/login?status=failed" }), functions_1.googleAuthCheck, (_, response) => {
@@ -94,7 +96,9 @@ router.get([
     "/player/album/:albumId/*",
     "/player/track/:albumId/:trackId",
     "/player/track/:albumId/:trackId/*"
-], middlewares_1.ipAddress, middlewares_1.userAgentCheck, middlewares_1.httpsRedirect, functions_1.rootAuthCheck, functions_1.rootAccessCheck, async (request, response) => {
+], middlewares_1.ipAddress, middlewares_1.userAgentCheck, 
+// httpsRedirect,
+functions_1.rootAuthCheck, functions_1.rootAccessCheck, async (request, response) => {
     const { result } = request;
     if (request.path === "/player" ||
         request.path === "/player/search") {
@@ -111,13 +115,17 @@ router.get([
         return response.send(data);
     }
 });
-router.get("/", middlewares_1.ipAddress, middlewares_1.userAgentCheck, middlewares_1.httpsRedirect, (_, response) => {
+router.get("/", middlewares_1.ipAddress, middlewares_1.userAgentCheck, 
+// httpsRedirect,
+(_, response) => {
     return response.sendFile(path_1.default.join(process.cwd(), utils_1.buildroot, "build", "index.html"));
 });
 router.get("/player*", (_, response) => {
     return response.redirect("/player");
 });
-router.get("/mobileview", middlewares_1.httpsRedirect, (_, response) => {
+router.get("/mobileview", 
+// httpsRedirect,
+(_, response) => {
     return response.sendFile(path_1.default.join(process.cwd(), utils_1.buildroot, "mobile-build", "index.html"));
 });
 router.get("/*", (_, response) => {

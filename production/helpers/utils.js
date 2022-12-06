@@ -63,6 +63,14 @@ exports.server = (() => {
             `https://songserver4-backup2.herokuapp.com` //3
         ];
     }
+    if (SERVER === "LOCAL") {
+        return [
+            `http://localhost:4000`,
+            `http://localhost:7000`,
+            `http://localhost:8000`,
+            `http://localhost:9000` //3
+        ];
+    }
     return [];
 })();
 const cookieParser = (request) => {
