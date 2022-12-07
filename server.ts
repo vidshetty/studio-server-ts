@@ -1,11 +1,12 @@
 import "source-map-support/register";
 import { config } from "dotenv";
 import path from "path";
+import fs from "fs";
 config({ path: path.join(process.cwd(), "ENV", ".env") });
 
 import express, { Application, Request, Response } from "express";
 import passport from "passport";
-import http from "http";
+import https from "https";
 import "./nodemailer-service";
 import "./passport-service";
 import staticservice from "./helpers/static-content";
@@ -18,7 +19,7 @@ import androidservice from "./android-service";
 
 const app: Application = express();
 const PORT: number = parseInt(process.env.PORT || "5000");
-const server = http.createServer(app);
+// const server = http.createServer(app);
 
 mongohandler();
 
@@ -50,6 +51,16 @@ app.use("/", staticservice);
 
 
 
-server.listen(PORT, () => {
+https.createServer(
+    {
+        key: fs.readFileSync(path.join(__dirname, "cert", "key.pem")),
+        cert: fs.readFileSync(path.join(__dirname, "cert", "cert.pem"))
+    },
+    app
+)
+.listen(3443, () => {
     console.log(`Running on port ${PORT}`);
 });
+// server.listen(PORT, () => {
+//     console.log(`Running on port ${PORT}`);
+// });

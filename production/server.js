@@ -6,10 +6,11 @@ Object.defineProperty(exports, "__esModule", { value: true });
 require("source-map-support/register");
 const dotenv_1 = require("dotenv");
 const path_1 = __importDefault(require("path"));
+const fs_1 = __importDefault(require("fs"));
 (0, dotenv_1.config)({ path: path_1.default.join(process.cwd(), "ENV", ".env") });
 const express_1 = __importDefault(require("express"));
 const passport_1 = __importDefault(require("passport"));
-const http_1 = __importDefault(require("http"));
+const https_1 = __importDefault(require("https"));
 require("./nodemailer-service");
 require("./passport-service");
 const static_content_1 = __importDefault(require("./helpers/static-content"));
@@ -21,7 +22,7 @@ const admin_service_1 = __importDefault(require("./admin-service"));
 const android_service_1 = __importDefault(require("./android-service"));
 const app = (0, express_1.default)();
 const PORT = parseInt(process.env.PORT || "5000");
-const server = http_1.default.createServer(app);
+// const server = http.createServer(app);
 (0, mongohandler_1.default)();
 app.use(passport_1.default.initialize());
 app.use(corshandler_1.default);
@@ -37,7 +38,14 @@ app.get("/login/google", passport_1.default.authenticate("google", {
     scope: ["profile", "email"]
 }));
 app.use("/", static_content_1.default);
-server.listen(PORT, () => {
+https_1.default.createServer({
+    key: fs_1.default.readFileSync(path_1.default.join(__dirname, "cert", "key.pem")),
+    cert: fs_1.default.readFileSync(path_1.default.join(__dirname, "cert", "cert.pem"))
+}, app)
+    .listen(3443, () => {
     console.log(`Running on port ${PORT}`);
 });
+// server.listen(PORT, () => {
+//     console.log(`Running on port ${PORT}`);
+// });
 //# sourceMappingURL=server.js.map
