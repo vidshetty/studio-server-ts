@@ -18,7 +18,7 @@ import adminservice from "./admin-service";
 import androidservice from "./android-service";
 
 const app: Application = express();
-const PORT: number = parseInt(process.env.PORT || "5000");
+const PORT: number = parseInt(process.env.PORT || "443");
 // const server = http.createServer(app);
 
 mongohandler();
