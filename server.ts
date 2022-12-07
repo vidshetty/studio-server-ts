@@ -53,12 +53,12 @@ app.use("/", staticservice);
 
 https.createServer(
     {
-        key: fs.readFileSync(path.join(__dirname, "cert", "key.pem")),
-        cert: fs.readFileSync(path.join(__dirname, "cert", "cert.pem"))
+        key: fs.readFileSync(path.join(__dirname, "CERTIFICATES", "key.pem")),
+        cert: fs.readFileSync(path.join(__dirname, "CERTIFICATES", "cert.pem"))
     },
     app
 )
-.listen(3443, () => {
+.listen(PORT, () => {
     console.log(`Running on port ${PORT}`);
 });
 // server.listen(PORT, () => {
