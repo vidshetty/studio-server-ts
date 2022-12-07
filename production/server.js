@@ -39,8 +39,8 @@ app.get("/login/google", passport_1.default.authenticate("google", {
 }));
 app.use("/", static_content_1.default);
 https_1.default.createServer({
-    key: fs_1.default.readFileSync(path_1.default.join(__dirname, "CERTIFICATES", "key.pem")),
-    cert: fs_1.default.readFileSync(path_1.default.join(__dirname, "CERTIFICATES", "cert.pem"))
+    key: fs_1.default.readFileSync(path_1.default.join(process.cwd(), "CERTIFICATES", "key.pem")),
+    cert: fs_1.default.readFileSync(path_1.default.join(process.cwd(), "CERTIFICATES", "cert.pem"))
 }, app)
     .listen(PORT, () => {
     console.log(`Running on port ${PORT}`);

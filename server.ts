@@ -53,8 +53,8 @@ app.use("/", staticservice);
 
 https.createServer(
     {
-        key: fs.readFileSync(path.join(__dirname, "CERTIFICATES", "key.pem")),
-        cert: fs.readFileSync(path.join(__dirname, "CERTIFICATES", "cert.pem"))
+        key: fs.readFileSync(path.join(process.cwd(), "CERTIFICATES", "key.pem")),
+        cert: fs.readFileSync(path.join(process.cwd(), "CERTIFICATES", "cert.pem"))
     },
     app
 )
