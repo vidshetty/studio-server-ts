@@ -11,6 +11,7 @@ const fs_1 = __importDefault(require("fs"));
 const express_1 = __importDefault(require("express"));
 const passport_1 = __importDefault(require("passport"));
 const https_1 = __importDefault(require("https"));
+const http_1 = __importDefault(require("http"));
 require("./nodemailer-service");
 require("./passport-service");
 const static_content_1 = __importDefault(require("./helpers/static-content"));
@@ -22,7 +23,7 @@ const admin_service_1 = __importDefault(require("./admin-service"));
 const android_service_1 = __importDefault(require("./android-service"));
 const app = (0, express_1.default)();
 const PORT = parseInt(process.env.PORT || "5000");
-// const server = http.createServer(app);
+const PROTOCOL = process.env.PROTOCOL || "http";
 (0, mongohandler_1.default)();
 app.use(passport_1.default.initialize());
 app.use(corshandler_1.default);
@@ -38,13 +39,22 @@ app.get("/login/google", passport_1.default.authenticate("google", {
     scope: ["profile", "email"]
 }));
 app.use("/", static_content_1.default);
-https_1.default.createServer({
-    key: fs_1.default.readFileSync(path_1.default.join(process.cwd(), "CERTIFICATES", "key.pem")),
-    cert: fs_1.default.readFileSync(path_1.default.join(process.cwd(), "CERTIFICATES", "cert.pem"))
-}, app)
-    .listen(PORT, () => {
-    console.log(`Running on port ${PORT}`);
-});
+if (PROTOCOL === "http") {
+    http_1.default
+        .createServer(app)
+        .listen(PORT, () => {
+        console.log(`Running on http port ${PORT}`);
+    });
+}
+else {
+    https_1.default.createServer({
+        key: fs_1.default.readFileSync(path_1.default.join(process.cwd(), "CERTIFICATES", "key.pem")),
+        cert: fs_1.default.readFileSync(path_1.default.join(process.cwd(), "CERTIFICATES", "cert.pem"))
+    }, app)
+        .listen(PORT, () => {
+        console.log(`Running on https port ${PORT}`);
+    });
+}
 // server.listen(PORT, () => {
 //     console.log(`Running on port ${PORT}`);
 // });

@@ -7,6 +7,7 @@ config({ path: path.join(process.cwd(), "ENV", ".env") });
 import express, { Application, Request, Response } from "express";
 import passport from "passport";
 import https from "https";
+import http from "http";
 import "./nodemailer-service";
 import "./passport-service";
 import staticservice from "./helpers/static-content";
@@ -19,7 +20,7 @@ import androidservice from "./android-service";
 
 const app: Application = express();
 const PORT: number = parseInt(process.env.PORT || "5000");
-// const server = http.createServer(app);
+const PROTOCOL: string = process.env.PROTOCOL || "http";
 
 mongohandler();
 
@@ -51,16 +52,25 @@ app.use("/", staticservice);
 
 
 
-https.createServer(
-    {
-        key: fs.readFileSync(path.join(process.cwd(), "CERTIFICATES", "key.pem")),
-        cert: fs.readFileSync(path.join(process.cwd(), "CERTIFICATES", "cert.pem"))
-    },
-    app
-)
-.listen(PORT, () => {
-    console.log(`Running on port ${PORT}`);
-});
+if (PROTOCOL === "http") {
+    http
+    .createServer(app)
+    .listen(PORT, () => {
+        console.log(`Running on http port ${PORT}`);
+    });
+}
+else {
+    https.createServer(
+        {
+            key: fs.readFileSync(path.join(process.cwd(), "CERTIFICATES", "key.pem")),
+            cert: fs.readFileSync(path.join(process.cwd(), "CERTIFICATES", "cert.pem"))
+        },
+        app
+    )
+    .listen(PORT, () => {
+        console.log(`Running on https port ${PORT}`);
+    });
+}
 // server.listen(PORT, () => {
 //     console.log(`Running on port ${PORT}`);
 // });
