@@ -6,6 +6,16 @@ import { CookieInterface, DeviceInfo } from "../helpers/interfaces";
 
 
 
+export const APP_URL = "http://ec2-43-206-19-170.ap-northeast-1.compute.amazonaws.com";
+export const defaultAccess = 20*60;
+export const timezone = "Asia/Kolkata";
+export const androidAccessTokenExpiry = "30d";
+export const accessTokenExpiry = "1h";
+export const refreshTokenExpiry = "30d";
+export const issuer = "StudioMusic";
+export const buildroot = "builds";
+export const defaultUserId = "620e2e2693c8702fed063743";
+
 export const ENV = (type: string) : string => {
     return process.env[type] || "";
 };
@@ -97,7 +107,7 @@ export const standardCookieConfig: CookieOptions = {
     sameSite: "none",
     secure: true,
     domain: ENV("ENVIRONMENT") === "LOCAL" ? "localhost" : 
-            "studiomusic.herokuapp.com",
+            APP_URL,
     maxAge: 40 * 24 * 60 * 60 * 1000,
     httpOnly: true
 };
@@ -106,7 +116,7 @@ export const redirectUriCookieConfig: CookieOptions = {
     sameSite: "none",
     secure: true,
     domain: ENV("ENVIRONMENT") === "LOCAL" ? "localhost" : 
-            "studiomusic.herokuapp.com",
+            APP_URL,
     maxAge: 5 * 60 * 1000,
     httpOnly: true
 };
@@ -247,15 +257,6 @@ export class CustomError extends Error {
         this.body = body;
     }
 };
-
-export const defaultAccess = 20*60;
-export const timezone = "Asia/Kolkata";
-export const androidAccessTokenExpiry = "30d";
-export const accessTokenExpiry = "1h";
-export const refreshTokenExpiry = "30d";
-export const issuer = "StudioMusic";
-export const buildroot = "builds";
-export const defaultUserId = "620e2e2693c8702fed063743";
 
 export const getCurrentTime = () : string => {
     return moment().tz(timezone).format("DD MMM YYYY, h:mm:ss a");

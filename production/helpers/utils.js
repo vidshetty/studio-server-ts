@@ -3,10 +3,19 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.getCurrentTime = exports.defaultUserId = exports.buildroot = exports.issuer = exports.refreshTokenExpiry = exports.accessTokenExpiry = exports.androidAccessTokenExpiry = exports.timezone = exports.defaultAccess = exports.CustomError = exports.getDevice = exports.writeFileAsync = exports.readFileAsync = exports.__replace = exports.checkRedirectUri = exports.calcPeriod = exports.setRedirectUriCookie = exports.redirectUriCookieConfig = exports.standardCookieConfig = exports.cookieParser = exports.server = exports.date = exports.ejsRender = exports.wait = exports.requestUrlCheck = exports.ENV = void 0;
+exports.getCurrentTime = exports.CustomError = exports.getDevice = exports.writeFileAsync = exports.readFileAsync = exports.__replace = exports.checkRedirectUri = exports.calcPeriod = exports.setRedirectUriCookie = exports.redirectUriCookieConfig = exports.standardCookieConfig = exports.cookieParser = exports.server = exports.date = exports.ejsRender = exports.wait = exports.requestUrlCheck = exports.ENV = exports.defaultUserId = exports.buildroot = exports.issuer = exports.refreshTokenExpiry = exports.accessTokenExpiry = exports.androidAccessTokenExpiry = exports.timezone = exports.defaultAccess = exports.APP_URL = void 0;
 const moment_timezone_1 = __importDefault(require("moment-timezone"));
 const ejs_1 = __importDefault(require("ejs"));
 const fs_1 = __importDefault(require("fs"));
+exports.APP_URL = "http://ec2-43-206-19-170.ap-northeast-1.compute.amazonaws.com";
+exports.defaultAccess = 20 * 60;
+exports.timezone = "Asia/Kolkata";
+exports.androidAccessTokenExpiry = "30d";
+exports.accessTokenExpiry = "1h";
+exports.refreshTokenExpiry = "30d";
+exports.issuer = "StudioMusic";
+exports.buildroot = "builds";
+exports.defaultUserId = "620e2e2693c8702fed063743";
 const ENV = (type) => {
     return process.env[type] || "";
 };
@@ -93,7 +102,7 @@ exports.standardCookieConfig = {
     sameSite: "none",
     secure: true,
     domain: (0, exports.ENV)("ENVIRONMENT") === "LOCAL" ? "localhost" :
-        "studiomusic.herokuapp.com",
+        exports.APP_URL,
     maxAge: 40 * 24 * 60 * 60 * 1000,
     httpOnly: true
 };
@@ -101,7 +110,7 @@ exports.redirectUriCookieConfig = {
     sameSite: "none",
     secure: true,
     domain: (0, exports.ENV)("ENVIRONMENT") === "LOCAL" ? "localhost" :
-        "studiomusic.herokuapp.com",
+        exports.APP_URL,
     maxAge: 5 * 60 * 1000,
     httpOnly: true
 };
@@ -228,14 +237,6 @@ class CustomError extends Error {
 }
 exports.CustomError = CustomError;
 ;
-exports.defaultAccess = 20 * 60;
-exports.timezone = "Asia/Kolkata";
-exports.androidAccessTokenExpiry = "30d";
-exports.accessTokenExpiry = "1h";
-exports.refreshTokenExpiry = "30d";
-exports.issuer = "StudioMusic";
-exports.buildroot = "builds";
-exports.defaultUserId = "620e2e2693c8702fed063743";
 const getCurrentTime = () => {
     return (0, moment_timezone_1.default)().tz(exports.timezone).format("DD MMM YYYY, h:mm:ss a");
 };
