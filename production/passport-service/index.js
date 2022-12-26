@@ -13,7 +13,7 @@ const googleStrat = {
     clientID: GOOGLE_CLIENT_ID,
     clientSecret: GOOGLE_CLIENT_SECRET,
     callbackURL: ENVIRONMENT === "LOCAL" ? "/google-signin" :
-        `${utils_1.APP_URL}/google-signin`
+        `${utils_1.PASSPORT_REDIRECT_APP_URL}/google-signin`
 };
 passport_1.default.serializeUser((user, done) => {
     done(null, user.id);
