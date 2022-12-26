@@ -6,7 +6,7 @@ import { CookieInterface, DeviceInfo } from "../helpers/interfaces";
 
 
 
-export const APP_URL = "http://ec2-43-206-19-170.ap-northeast-1.compute.amazonaws.com";
+export const APP_URL = "studiomusic.app";
 export const defaultAccess = 20*60;
 export const timezone = "Asia/Kolkata";
 export const androidAccessTokenExpiry = "30d";

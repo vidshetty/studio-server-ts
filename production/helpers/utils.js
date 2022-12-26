@@ -7,7 +7,7 @@ exports.getCurrentTime = exports.CustomError = exports.getDevice = exports.write
 const moment_timezone_1 = __importDefault(require("moment-timezone"));
 const ejs_1 = __importDefault(require("ejs"));
 const fs_1 = __importDefault(require("fs"));
-exports.APP_URL = "http://ec2-43-206-19-170.ap-northeast-1.compute.amazonaws.com";
+exports.APP_URL = "studiomusic.app";
 exports.defaultAccess = 20 * 60;
 exports.timezone = "Asia/Kolkata";
 exports.androidAccessTokenExpiry = "30d";
