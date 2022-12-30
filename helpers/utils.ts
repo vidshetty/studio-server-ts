@@ -47,30 +47,6 @@ export const server = (() : string[] => {
 
     const SERVER: string = ENV("SERVER");
 
-    if (SERVER === "MAIN") {
-        return [
-            `https://songserver1.herokuapp.com`, //0
-            `https://songserver2.herokuapp.com`, //1
-            `https://songserver3.herokuapp.com`, //2
-            `https://songserver4.herokuapp.com`  //3
-        ];
-    }
-    if (SERVER === "BACKUP1") {
-        return [
-            `https://songserver1-backup1.herokuapp.com`, //0
-            `https://songserver2-backup1.herokuapp.com`, //1
-            `https://songserver3-backup1.herokuapp.com`, //2
-            `https://songserver4-backup1.herokuapp.com`  //3
-        ];
-    }
-    if (SERVER === "BACKUP2") {
-        return [
-            `https://songserver1-backup2.herokuapp.com`, //0
-            `https://songserver2-backup2.herokuapp.com`, //1
-            `https://songserver3-backup2.herokuapp.com`, //2
-            `https://songserver4-backup2.herokuapp.com`  //3
-        ];
-    }
     if (SERVER === "LOCAL") {
         return [
             `http://localhost:4000`, //0
@@ -80,7 +56,39 @@ export const server = (() : string[] => {
         ];
     }
 
-    return [];
+    return [
+        "https://studiomusic.app/1",
+        "https://studiomusic.app/2",
+        "https://studiomusic.app/3",
+        "https://studiomusic.app/4",
+    ];
+
+    // if (SERVER === "MAIN") {
+    //     return [
+    //         `https://songserver1.herokuapp.com`, //0
+    //         `https://songserver2.herokuapp.com`, //1
+    //         `https://songserver3.herokuapp.com`, //2
+    //         `https://songserver4.herokuapp.com`  //3
+    //     ];
+    // }
+    // if (SERVER === "BACKUP1") {
+    //     return [
+    //         `https://songserver1-backup1.herokuapp.com`, //0
+    //         `https://songserver2-backup1.herokuapp.com`, //1
+    //         `https://songserver3-backup1.herokuapp.com`, //2
+    //         `https://songserver4-backup1.herokuapp.com`  //3
+    //     ];
+    // }
+    // if (SERVER === "BACKUP2") {
+    //     return [
+    //         `https://songserver1-backup2.herokuapp.com`, //0
+    //         `https://songserver2-backup2.herokuapp.com`, //1
+    //         `https://songserver3-backup2.herokuapp.com`, //2
+    //         `https://songserver4-backup2.herokuapp.com`  //3
+    //     ];
+    // }
+
+    // return [];
 
 })();
 

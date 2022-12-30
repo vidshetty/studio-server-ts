@@ -49,30 +49,6 @@ const date = (val) => (0, moment_timezone_1.default)(val, "DD-MM-YYYY").toDate()
 exports.date = date;
 exports.server = (() => {
     const SERVER = (0, exports.ENV)("SERVER");
-    if (SERVER === "MAIN") {
-        return [
-            `https://songserver1.herokuapp.com`,
-            `https://songserver2.herokuapp.com`,
-            `https://songserver3.herokuapp.com`,
-            `https://songserver4.herokuapp.com` //3
-        ];
-    }
-    if (SERVER === "BACKUP1") {
-        return [
-            `https://songserver1-backup1.herokuapp.com`,
-            `https://songserver2-backup1.herokuapp.com`,
-            `https://songserver3-backup1.herokuapp.com`,
-            `https://songserver4-backup1.herokuapp.com` //3
-        ];
-    }
-    if (SERVER === "BACKUP2") {
-        return [
-            `https://songserver1-backup2.herokuapp.com`,
-            `https://songserver2-backup2.herokuapp.com`,
-            `https://songserver3-backup2.herokuapp.com`,
-            `https://songserver4-backup2.herokuapp.com` //3
-        ];
-    }
     if (SERVER === "LOCAL") {
         return [
             `http://localhost:4000`,
@@ -81,7 +57,37 @@ exports.server = (() => {
             `http://localhost:9000` //3
         ];
     }
-    return [];
+    return [
+        "https://studiomusic.app/1",
+        "https://studiomusic.app/2",
+        "https://studiomusic.app/3",
+        "https://studiomusic.app/4",
+    ];
+    // if (SERVER === "MAIN") {
+    //     return [
+    //         `https://songserver1.herokuapp.com`, //0
+    //         `https://songserver2.herokuapp.com`, //1
+    //         `https://songserver3.herokuapp.com`, //2
+    //         `https://songserver4.herokuapp.com`  //3
+    //     ];
+    // }
+    // if (SERVER === "BACKUP1") {
+    //     return [
+    //         `https://songserver1-backup1.herokuapp.com`, //0
+    //         `https://songserver2-backup1.herokuapp.com`, //1
+    //         `https://songserver3-backup1.herokuapp.com`, //2
+    //         `https://songserver4-backup1.herokuapp.com`  //3
+    //     ];
+    // }
+    // if (SERVER === "BACKUP2") {
+    //     return [
+    //         `https://songserver1-backup2.herokuapp.com`, //0
+    //         `https://songserver2-backup2.herokuapp.com`, //1
+    //         `https://songserver3-backup2.herokuapp.com`, //2
+    //         `https://songserver4-backup2.herokuapp.com`  //3
+    //     ];
+    // }
+    // return [];
 })();
 const cookieParser = (request) => {
     const cookies = request.headers.cookie;
