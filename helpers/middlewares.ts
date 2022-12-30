@@ -77,7 +77,7 @@ export const ipAddress = (request: Request, response: Response, next: NextFuncti
 
 export const updateHtmlHead = async (request: Request) : Promise<string> => {
 
-    const defaultImageUrl: string = "https://studiomusic.herokuapp.com/preview-studio-black.png";
+    const defaultImageUrl: string = "https://studiomusic.app/preview-studio-black.png";
 
     if (request.url.includes("album")) {
 

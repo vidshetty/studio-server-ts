@@ -69,7 +69,7 @@ const ipAddress = (request, response, next) => {
 };
 exports.ipAddress = ipAddress;
 const updateHtmlHead = async (request) => {
-    const defaultImageUrl = "https://studiomusic.herokuapp.com/preview-studio-black.png";
+    const defaultImageUrl = "https://studiomusic.app/preview-studio-black.png";
     if (request.url.includes("album")) {
         request.query = { albumId: request.params.albumId };
         const album = (0, functions_1.getAlbum)(request);
