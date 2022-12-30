@@ -58,10 +58,10 @@ exports.server = (() => {
         ];
     }
     return [
-        "https://studiomusic.app/1",
-        "https://studiomusic.app/2",
-        "https://studiomusic.app/3",
-        "https://studiomusic.app/4",
+        "https://studiomusic.app",
+        "https://studiomusic.app",
+        "https://studiomusic.app",
+        "https://studiomusic.app",
     ];
     // if (SERVER === "MAIN") {
     //     return [
