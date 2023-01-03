@@ -1646,7 +1646,61 @@ const songlist = [
         Artist: "Arijit Singh",
         Duration: "4: 21",
         url: `${utils_1.server[2]}/listen/Apna Bana Le - Bhediya`
-    }
+    },
+    {
+        _albumId: "63b42e97c49ce709fc1126e5",
+        Album: "HARD DRIVE Vol. 1",
+        AlbumArtist: "Raftaar",
+        Type: "Album",
+        Year: "2022",
+        Color: "rgba(192,120,152,1)",
+        releaseDate: (0, utils_1.date)("16-11-2022"),
+        Thumbnail: "https://lh3.googleusercontent.com/BlQuWQuPN4hXb2i4vzxBZFo1Hq5phUQcoJm83jDDGNOwWSnwkkQBpDPL4Y66m0JnoUAogDDeaxogKpA=w544-h544-l90-rj",
+        Tracks: [
+            {
+                _trackId: "63b42eaf8f0855c2ba467071",
+                Title: "ICE",
+                Artist: "Raftaar",
+                Duration: "2: 48",
+                url: `${utils_1.server[3]}/listen/ICE - Raftaar`
+            },
+            {
+                _trackId: "63b42eb97a5ddd8075215e32",
+                Title: "F16",
+                Artist: "Raftaar, Sikander Kahlon",
+                Duration: "3: 30",
+                url: `${utils_1.server[3]}/listen/F16 - Raftaar`
+            },
+            {
+                _trackId: "63b42ec1107364f422e0d208",
+                Title: "GANGNUM",
+                Artist: "Raftaar, Deep Kalsi",
+                Duration: "2: 50",
+                url: `${utils_1.server[3]}/listen/GANGNUM - Raftaar`
+            },
+            {
+                _trackId: "63b42ecacc527ac7fdd7185e",
+                Title: "NO CHINA",
+                Artist: "Raftaar, KR$NA",
+                Duration: "3: 18",
+                url: `${utils_1.server[3]}/listen/NO CHINA - Raftaar`
+            },
+            {
+                _trackId: "63b42ed3fafbed3f578b3e4c",
+                Title: "36",
+                Artist: "Raftaar, Karma",
+                Duration: "3: 58",
+                url: `${utils_1.server[3]}/listen/36 - Raftaar`
+            },
+            {
+                _trackId: "63b42edaf4c0615d05859e94",
+                Title: "RAASHAH",
+                Artist: "Raftaar, Badshah",
+                Duration: "3: 41",
+                url: `${utils_1.server[3]}/listen/RAASHAH - Raftaar`
+            }
+        ]
+    },
 ];
 exports.default = songlist;
 //# sourceMappingURL=songlist2.js.map
