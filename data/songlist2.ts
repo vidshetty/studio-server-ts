@@ -1669,7 +1669,7 @@ const songlist: (Single|Album)[] = [
                 _trackId: "63b42eb97a5ddd8075215e32",
                 Title: "F16",
                 Artist: "Raftaar, Sikander Kahlon",
-                Duration: "3: 30",
+                Duration: "3: 29",
                 url: `${server[3]}/listen/F16 - Raftaar`
             },
             {
@@ -1697,7 +1697,7 @@ const songlist: (Single|Album)[] = [
                 _trackId: "63b42edaf4c0615d05859e94",
                 Title: "RAASHAH",
                 Artist: "Raftaar, Badshah",
-                Duration: "3: 41",
+                Duration: "3: 40",
                 url: `${server[3]}/listen/RAASHAH - Raftaar`
             }
         ]
