@@ -1702,6 +1702,20 @@ const songlist: (Single|Album)[] = [
             }
         ]
     },
+    {
+        _albumId: "63d782b738cd53aaa1b217b7",
+        _trackId: "63d782b738cd53aaa1b217b7",
+        Album: "Chedkhaniyan (From 'Shehzada')",
+        AlbumArtist: "Pritam, Arijit Singh, Nikhita Gandhi",
+        Type: "Single",
+        Year: "2023",
+        Color: "rgba(88,32,184,1)",
+        releaseDate: date("24-01-2023"),
+        Thumbnail: "https://lh3.googleusercontent.com/MtPnfbzVk2bSpesLYUMQznOb3ImLqBqS-fYe3WN9rDnAb0jOsht4F7oHgjQ8NfSXgUmvgmNS_gfu1XAthA=w544-h544-l90-rj",
+        Artist: "Pritam, Arijit Singh, Nikhita Gandhi",
+        Duration: "3: 51",
+        url: `${server[2]}/listen/Chedkhaniyan - Shehzada`
+    }
 ];
 
 
