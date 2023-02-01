@@ -1719,7 +1719,7 @@ const songlist: (Single|Album)[] = [
     {
         _albumId: "63da57d81362e104b166e277",
         _trackId: "63da57d81362e104b166e277",
-        Album: "Tere Pyaar Mein (From 'Tu Jhooti Main Makkar')",
+        Album: "Tere Pyaar Mein (From 'Tu Jhoothi Main Makkar')",
         AlbumArtist: "Pritam, Arijit Singh, Nikhita Gandhi",
         Type: "Single",
         Year: "2023",
@@ -1728,7 +1728,7 @@ const songlist: (Single|Album)[] = [
         Thumbnail: "https://lh3.googleusercontent.com/GbmvJFem2bpVzhhk1yoTrLMj3AAwpf0eif4exW1_nGPX7nb4zfLv1arbAHXEYPFJm6DmPZCk6teF1A1e=w544-h544-l90-rj",
         Artist: "Pritam, Arijit Singh, Nikhita Gandhi",
         Duration: "4: 25",
-        url: `${server[2]}/listen/Tere Pyaar Mein - Tu Jhooti Main Makkar`
+        url: `${server[2]}/listen/Tere Pyaar Mein - Tu Jhoothi Main Makkar`
     }
 ];
 
