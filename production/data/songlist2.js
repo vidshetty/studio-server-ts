@@ -1620,20 +1620,6 @@ const songlist = [
         url: `${utils_1.server[2]}/listen/NO LOVE - Shubh`
     },
     {
-        _albumId: "62f39b42ae5efdf6e9028a65",
-        _trackId: "62f39b42ae5efdf6e9028a65",
-        Album: 'Summer High',
-        AlbumArtist: "AP Dhillon",
-        Type: "Single",
-        Year: "2022",
-        Color: "rgba(232,104,0,1)",
-        releaseDate: (0, utils_1.date)("05-08-2022"),
-        Thumbnail: "https://lh3.googleusercontent.com/kTVvvr6S4GX32LuimSZvV3w1Z932XdBWXq1HebsRYsZ534uYxYU_sGZDP9RIOgUJQWVTDy473K_qf2I=w544-h544-l90-rj",
-        Artist: "AP Dhillon",
-        Duration: "2: 57",
-        url: `${utils_1.server[2]}/listen/Summer High - AP Dhillon`
-    },
-    {
         _albumId: "636a2ccf59486d4f99921218",
         _trackId: "636a2ccf59486d4f99921218",
         Album: "Apna Bana Le (From 'Bhediya')",
@@ -1728,7 +1714,40 @@ const songlist = [
         Artist: "Pritam, Arijit Singh, Nikhita Gandhi",
         Duration: "4: 25",
         url: `${utils_1.server[2]}/listen/Tere Pyaar Mein - Tu Jhoothi Main Makkar`
-    }
+    },
+    {
+        _albumId: "63da71fd42e734af91ee21c3",
+        Album: "Two Hearts Never Break The Same",
+        AlbumArtist: "AP Dhillon",
+        Type: "Album",
+        Year: "2022",
+        Color: "rgba(176,24,24,1)",
+        releaseDate: (0, utils_1.date)("07-10-2022"),
+        Thumbnail: "https://lh3.googleusercontent.com/vWZmXgoqDLCBZk3nU5JvkM7KtviNkgk2MUbF43uilh9v1QMHvKIU4oQGy1uWB6hWv9tV6mjgM0DXu_gk=w544-h544-l90-rj",
+        Tracks: [
+            {
+                _trackId: "63da72042fa165cda9d41106",
+                Title: "All Night (Live)",
+                Artist: "AP Dhillon, Shinda Kahlon",
+                Duration: "3: 49",
+                url: `${utils_1.server[3]}/listen/All Night (Live) - AP Dhillon`
+            },
+            {
+                _trackId: "62f39b42ae5efdf6e9028a65",
+                Title: "Summer High",
+                Artist: "AP Dhillon",
+                Duration: "2: 57",
+                url: `${utils_1.server[3]}/listen/Summer High - AP Dhillon`
+            },
+            {
+                _trackId: "63da720c22f071182720d615",
+                Title: "Dil Nu",
+                Artist: "AP Dhillon, Shinda Kahlon",
+                Duration: "3: 53",
+                url: `${utils_1.server[3]}/listen/Dil Nu - AP Dhillon`
+            }
+        ]
+    },
 ];
 exports.default = songlist;
 //# sourceMappingURL=songlist2.js.map
