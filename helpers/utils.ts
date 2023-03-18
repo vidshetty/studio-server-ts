@@ -2,7 +2,10 @@ import { Request, Response, CookieOptions } from "express";
 import moment, { Duration } from "moment-timezone";
 import ejs from "ejs";
 import fs from "fs";
-import { CookieInterface, DeviceInfo } from "../helpers/interfaces";
+import {
+    CookieInterface,
+    DeviceInfo
+} from "../helpers/interfaces";
 
 
 
@@ -269,4 +272,15 @@ export class CustomError extends Error {
 
 export const getCurrentTime = () : string => {
     return moment().tz(timezone).format("DD MMM YYYY, h:mm:ss a");
+};
+
+export const randomize = (arr: Array<any>): Array<any> => {
+
+    let i: number, len: number = arr.length, rand: number;
+    for (i=len-1; i>=0; i--) {
+        rand = Math.floor(Math.random() * len);
+        [arr[i], arr[rand]] = [arr[rand], arr[i]];
+    }
+    return arr;
+
 };

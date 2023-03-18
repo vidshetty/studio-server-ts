@@ -10,7 +10,8 @@ import {
     ModifiedAlbumList,
     AlbumWithTrack,
     Lyrics,
-    SpotifyLyrics
+    SpotifyLyrics,
+    RequestQuery
 } from "../helpers/interfaces";
 import {
     timezone,
@@ -18,6 +19,7 @@ import {
     standardCookieConfig,
     redirectUriCookieConfig,
     readFileAsync,
+    randomize,
     __replace
 } from "../helpers/utils";
 import moment from "moment-timezone";
@@ -26,14 +28,6 @@ import ALBUMLIST from "../data/archiveGateway";
 
 
 
-interface RequestQuery{
-    page?: string;
-    albumId?: string;
-    trackId?: string;
-    name?: string;
-    exclude?: string;
-    type?: string;
-}
 interface RecentsMap {
     [key: string]: boolean;
 }
@@ -215,17 +209,6 @@ const getQuickPicks = (): AlbumList[] => {
     }
 
     return final;
-
-};
-
-const randomize = (arr: ModifiedAlbumList[]): ModifiedAlbumList[] => {
-
-    let i: number, len: number = arr.length, rand: number;
-    for (i=len-1; i>=0; i--) {
-        rand = Math.floor(Math.random() * len);
-        [arr[i], arr[rand]] = [arr[rand], arr[i]];
-    }
-    return arr;
 
 };
 
@@ -530,7 +513,7 @@ export const getLibrary = async (request: Request, response: Response) => {
     });
 
     const sublibrary = arr.slice(start*no, (start*no) + no);
-    const random = randomize(sublibrary);
+    const random: ModifiedAlbumList[] = (randomize(sublibrary) as ModifiedAlbumList[]);
 
     let result: { more: boolean, data: ModifiedAlbumList[] };
     if ((start*no)+no === arr.length || sublibrary.length < no) {

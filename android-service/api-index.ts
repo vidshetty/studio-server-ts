@@ -2,7 +2,6 @@ import { Router, Response } from "express";
 import { androidApiAccessCheck, androidApiAuthCheck } from "../auth-service/functions";
 import { responseMid } from "../helpers/responsehandler";
 import {
-    getLibrary,
     getProfile,
     homeAlbums,
     recordTime,
@@ -14,7 +13,11 @@ import {
     signOut,
     startRadio
 } from "../api-service/functions";
-import { activeSessions, checkServer } from "./api-functions";
+import {
+    activeSessions,
+    checkServer,
+    getLibrary
+} from "./api-functions";
 
 
 const router = Router();

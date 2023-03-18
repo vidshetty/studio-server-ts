@@ -148,14 +148,6 @@ const getQuickPicks = () => {
     }
     return final;
 };
-const randomize = (arr) => {
-    let i, len = arr.length, rand;
-    for (i = len - 1; i >= 0; i--) {
-        rand = Math.floor(Math.random() * len);
-        [arr[i], arr[rand]] = [arr[rand], arr[i]];
-    }
-    return arr;
-};
 const getSongs = (name) => {
     const lower = name.toLowerCase();
     return archiveGateway_1.default.reduce((acc, song) => {
@@ -378,7 +370,7 @@ const getLibrary = async (request, response) => {
         return Object.assign(Object.assign({}, each), { keyId: i });
     });
     const sublibrary = arr.slice(start * no, (start * no) + no);
-    const random = randomize(sublibrary);
+    const random = (0, utils_1.randomize)(sublibrary);
     let result;
     if ((start * no) + no === arr.length || sublibrary.length < no) {
         result = { more: false, data: random };

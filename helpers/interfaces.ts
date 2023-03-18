@@ -153,3 +153,24 @@ export interface RefreshTokenResponse {
     id: string | null;
     accessToken: string | null;
 };
+
+export interface RequestQuery{
+    page?: string;
+    albumId?: string;
+    trackId?: string;
+    name?: string;
+    exclude?: string;
+    type?: string;
+};
+
+export interface AndroidAlbum {
+    _albumId: string;
+    Album: string;
+    AlbumArtist: string;
+    Type: string;
+    Year: string;
+    Color: string;
+    releaseDate: Date;
+    Thumbnail: string;
+    Tracks: Track[];
+};
