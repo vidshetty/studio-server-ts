@@ -93,7 +93,7 @@ export const getLibrary = async (request: Request) => {
             if ((start*no)+no === allAlbums.length) return false;
             if (sublibrary.length < no) return false;
             return true;
-        }),
+        })(),
         data: random
     };
 

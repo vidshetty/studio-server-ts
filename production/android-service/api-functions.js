@@ -72,7 +72,7 @@ const getLibrary = async (request) => {
             if (sublibrary.length < no)
                 return false;
             return true;
-        }),
+        })(),
         data: random
     };
 };
