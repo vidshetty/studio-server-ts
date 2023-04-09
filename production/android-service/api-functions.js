@@ -79,7 +79,9 @@ const getLibrary = async (request) => {
 exports.getLibrary = getLibrary;
 const getAlbum = async (request) => {
     const { albumId = "" } = request.query;
+    console.log("albumid", albumId);
     const album = archiveGateway_1.default.find(each => each._albumId === albumId);
+    console.log("album", album);
     if (!album)
         return null;
     return {

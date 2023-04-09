@@ -103,7 +103,11 @@ export const getAlbum = async (request: Request) => {
 
     const { albumId = "" } = request.query as unknown as { albumId: string };
 
+    console.log("albumid",albumId);
+
     const album = ALBUMLIST.find(each => each._albumId === albumId);
+
+    console.log("album",album);
 
     if (!album) return null;
 
