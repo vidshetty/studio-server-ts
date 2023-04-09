@@ -3,7 +3,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.getLibrary = exports.activeSessions = exports.checkServer = void 0;
+exports.getAlbum = exports.getLibrary = exports.activeSessions = exports.checkServer = void 0;
 const utils_1 = require("../helpers/utils");
 const Users_1 = require("../models/Users");
 const archiveGateway_1 = __importDefault(require("../data/archiveGateway"));
@@ -77,4 +77,45 @@ const getLibrary = async (request) => {
     };
 };
 exports.getLibrary = getLibrary;
+const getAlbum = async (request) => {
+    const { albumId = null } = request.query;
+    if (albumId === null)
+        return null;
+    const album = archiveGateway_1.default.find(each => each._albumId === albumId);
+    if (!album)
+        return null;
+    return {
+        _albumId: album._albumId,
+        Album: album.Album,
+        AlbumArtist: album.AlbumArtist,
+        Type: album.Type,
+        Year: album.Year,
+        Color: album.Color,
+        Thumbnail: album.Thumbnail,
+        releaseDate: album.releaseDate,
+        Tracks: (() => {
+            if (album.Type === "Album") {
+                return album.Tracks.map(track => {
+                    track.lyrics = track.lyrics || false;
+                    track.sync = track.sync || false;
+                    return track;
+                });
+            }
+            if (album.Type === "Single") {
+                const single = album;
+                return [{
+                        _trackId: single._trackId,
+                        Title: single.Album,
+                        Artist: single.Artist,
+                        Duration: single.Duration,
+                        url: single.url,
+                        lyrics: single.lyrics || false,
+                        sync: single.sync || false
+                    }];
+            }
+            return [];
+        })()
+    };
+};
+exports.getAlbum = getAlbum;
 //# sourceMappingURL=api-functions.js.map

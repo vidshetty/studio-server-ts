@@ -6,7 +6,6 @@ import {
     homeAlbums,
     recordTime,
     getTrackDetails,
-    getAlbumDetails,
     search,
     addToRecentlyPlayed,
     getLyrics,
@@ -16,7 +15,8 @@ import {
 import {
     activeSessions,
     checkServer,
-    getLibrary
+    getLibrary,
+    getAlbum
 } from "./api-functions";
 
 
@@ -39,7 +39,7 @@ router.get("/getLibrary", responseMid(getLibrary));
 
 router.get("/getTrack", responseMid(getTrackDetails));
 
-router.get("/getAlbumDetails", responseMid(getAlbumDetails));
+router.get("/getAlbumDetails", responseMid(getAlbum));
 
 router.get("/search", responseMid(search));
 

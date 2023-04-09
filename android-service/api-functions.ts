@@ -98,3 +98,48 @@ export const getLibrary = async (request: Request) => {
     };
 
 };
+
+export const getAlbum = async (request: Request) => {
+
+    const { albumId = null } = request.query as unknown as { albumId: string };
+
+    if (albumId === null) return null;
+
+    const album = ALBUMLIST.find(each => each._albumId === albumId);
+
+    if (!album) return null;
+
+    return {
+        _albumId: album._albumId,
+        Album: album.Album,
+        AlbumArtist: album.AlbumArtist,
+        Type: album.Type,
+        Year: album.Year,
+        Color: album.Color,
+        Thumbnail: album.Thumbnail,
+        releaseDate: album.releaseDate,
+        Tracks: (() => {
+            if (album.Type === "Album") {
+                return (album as Album).Tracks.map(track => {
+                    track.lyrics = track.lyrics || false;
+                    track.sync = track.sync || false;
+                    return track;
+                });
+            }
+            if (album.Type === "Single") {
+                const single = (album as Single);
+                return [{
+                    _trackId: single._trackId,
+                    Title: single.Album,
+                    Artist: single.Artist,
+                    Duration: single.Duration,
+                    url: single.url,
+                    lyrics: single.lyrics || false,
+                    sync: single.sync || false
+                }];
+            }
+            return [];
+        })()
+    };
+
+};
