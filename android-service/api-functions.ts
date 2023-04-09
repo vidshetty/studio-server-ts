@@ -101,9 +101,7 @@ export const getLibrary = async (request: Request) => {
 
 export const getAlbum = async (request: Request) => {
 
-    const { albumId = null } = request.query as unknown as { albumId: string };
-
-    if (albumId === null) return null;
+    const { albumId = "" } = request.query as unknown as { albumId: string };
 
     const album = ALBUMLIST.find(each => each._albumId === albumId);
 
