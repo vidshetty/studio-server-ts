@@ -1,6 +1,6 @@
 import songlist1 from "./songlist1";
 import songlist2 from "./songlist2";
-import { Album, AlbumList, Single } from "../helpers/interfaces";
+import { Album, AlbumList, AlbumlistMap, Single } from "../helpers/interfaces";
 import { SearchTrie } from "../search-service";
 
 const search_trie: SearchTrie = new SearchTrie();
@@ -89,7 +89,33 @@ const final: Readonly<AlbumList[]> = (() => {
 
 })();
 
+const [NewReleases, RecentlyAdded] = (() => {
 
-export { search_trie };
+    const compare = (a: AlbumList, b: AlbumList): number => {
+        if (a.releaseDate > b.releaseDate) return -1;
+        return 1;
+    };
+
+    const newReleases = [...final].sort(compare).slice(0,6);
+
+    const recentlyAdded = [];
+    const len = final.length;
+
+    for (let i=len-1; i>=0 && recentlyAdded.length < 6; i--) {
+        const index = newReleases.findIndex(each => each._albumId === final[i]._albumId);
+        if (index === -1) recentlyAdded.push(final[i]);
+    }
+
+    return [newReleases, recentlyAdded];
+
+})();
+
+const ALBUM_MAP: AlbumlistMap = final.reduce<AlbumlistMap>((acc,each) => {
+    acc[each._albumId] = each;
+    return acc;
+}, {});
+
+
+export { search_trie, NewReleases, RecentlyAdded, ALBUM_MAP };
 export default final;
 // module.exports = { final, comingSoon: comingSoonAlbums[0] };

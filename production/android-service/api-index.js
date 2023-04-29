@@ -11,7 +11,7 @@ router.use(functions_1.androidApiAuthCheck);
 router.get("/whosthis", (0, responsehandler_1.responseMid)(functions_2.getProfile));
 router.use(functions_1.androidApiAccessCheck);
 router.get("/recordTime", (0, responsehandler_1.responseMid)(functions_2.recordTime));
-router.get("/getHomeAlbums", (0, responsehandler_1.responseMid)(functions_2.homeAlbums));
+router.get("/getHomeAlbums", (0, responsehandler_1.responseMid)(api_functions_1.homeAlbums));
 router.get("/getLibrary", (0, responsehandler_1.responseMid)(api_functions_1.getLibrary));
 router.get("/getTrack", (0, responsehandler_1.responseMid)(functions_2.getTrackDetails));
 router.get("/getAlbumDetails", (0, responsehandler_1.responseMid)(api_functions_1.getAlbum));

@@ -3,7 +3,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.randomize = exports.getCurrentTime = exports.CustomError = exports.getDevice = exports.writeFileAsync = exports.readFileAsync = exports.__replace = exports.checkRedirectUri = exports.calcPeriod = exports.setRedirectUriCookie = exports.redirectUriCookieConfig = exports.standardCookieConfig = exports.cookieParser = exports.server = exports.date = exports.ejsRender = exports.wait = exports.requestUrlCheck = exports.ENV = exports.defaultUserId = exports.buildroot = exports.issuer = exports.refreshTokenExpiry = exports.accessTokenExpiry = exports.androidAccessTokenExpiry = exports.timezone = exports.defaultAccess = exports.PASSPORT_REDIRECT_APP_URL = exports.APP_URL = void 0;
+exports.convertToAndroidTrack = exports.convertToAndroidAlbum = exports.randomize = exports.getCurrentTime = exports.CustomError = exports.getDevice = exports.writeFileAsync = exports.readFileAsync = exports.__replace = exports.checkRedirectUri = exports.calcPeriod = exports.setRedirectUriCookie = exports.redirectUriCookieConfig = exports.standardCookieConfig = exports.cookieParser = exports.server = exports.date = exports.ejsRender = exports.wait = exports.requestUrlCheck = exports.ENV = exports.defaultUserId = exports.buildroot = exports.issuer = exports.refreshTokenExpiry = exports.accessTokenExpiry = exports.androidAccessTokenExpiry = exports.timezone = exports.defaultAccess = exports.PASSPORT_REDIRECT_APP_URL = exports.APP_URL = void 0;
 const moment_timezone_1 = __importDefault(require("moment-timezone"));
 const ejs_1 = __importDefault(require("ejs"));
 const fs_1 = __importDefault(require("fs"));
@@ -257,4 +257,87 @@ const randomize = (arr) => {
     return arr;
 };
 exports.randomize = randomize;
+const convertToAndroidAlbum = (arr = []) => {
+    return arr.reduce((acc, each) => {
+        const album = each;
+        const single = each;
+        acc.push({
+            _albumId: each._albumId,
+            Album: each.Album,
+            AlbumArtist: each.AlbumArtist,
+            Type: each.Type,
+            Year: each.Year,
+            Color: each.Color,
+            Thumbnail: each.Thumbnail,
+            releaseDate: each.releaseDate,
+            Tracks: (() => {
+                if (each.Type === "Album") {
+                    return album.Tracks.map(track => {
+                        track.lyrics = track.lyrics || false;
+                        track.sync = track.sync || false;
+                        return track;
+                    });
+                }
+                if (each.Type === "Single") {
+                    return [{
+                            _trackId: single._trackId,
+                            Title: single.Album,
+                            Artist: single.Artist,
+                            Duration: single.Duration,
+                            url: single.url,
+                            lyrics: single.lyrics || false,
+                            sync: single.sync || false
+                        }];
+                }
+                return [];
+            })()
+        });
+        return acc;
+    }, []);
+};
+exports.convertToAndroidAlbum = convertToAndroidAlbum;
+const convertToAndroidTrack = (arr = []) => {
+    return arr.reduce((acc, each) => {
+        const album = each;
+        const single = each;
+        if (each.Type === "Single") {
+            acc.push({
+                _albumId: single._albumId,
+                Album: single.Album,
+                Color: single.Color,
+                Thumbnail: single.Thumbnail,
+                Year: single.Year,
+                releaseDate: single.releaseDate,
+                _trackId: single._trackId,
+                Title: single.Album,
+                Artist: single.Artist,
+                Duration: single.Duration,
+                url: single.url,
+                lyrics: single.lyrics || false,
+                sync: single.sync || false
+            });
+        }
+        else {
+            album.Tracks.forEach((track) => {
+                acc.push({
+                    _albumId: album._albumId,
+                    Album: album.Album,
+                    Color: album.Color,
+                    Thumbnail: album.Thumbnail,
+                    Year: album.Year,
+                    releaseDate: album.releaseDate,
+                    _trackId: track._trackId,
+                    Title: album.Album,
+                    Artist: track.Artist,
+                    Duration: track.Duration,
+                    url: track.url,
+                    lyrics: track.lyrics || false,
+                    sync: track.sync || false
+                });
+            });
+        }
+        return acc;
+    }, []);
+};
+exports.convertToAndroidTrack = convertToAndroidTrack;
 //# sourceMappingURL=utils.js.map

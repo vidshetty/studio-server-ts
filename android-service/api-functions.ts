@@ -3,14 +3,64 @@ import {
     UserInterface,
     AndroidAlbum,
     Album,
-    Single
+    Single,
+    RecentlyPlayed,
+    AlbumList,
+    AndroidTrack
 } from "../helpers/interfaces";
 import {
     server,
-    randomize
+    randomize,
+    convertToAndroidAlbum,
+    convertToAndroidTrack
 } from "../helpers/utils";
 import { Users } from "../models/Users";
-import ALBUMLIST from "../data/archiveGateway";
+import ALBUMLIST, { NewReleases, RecentlyAdded, ALBUM_MAP } from "../data/archiveGateway";
+
+
+
+const getMostPlayed = async (userId: string): Promise<AndroidAlbum[]> => {
+
+    const user: UserInterface = await Users.findOne({ _id: userId }).lean();
+
+    const { recentlyPlayed: recents } = user;
+
+    const sorted_recents = recents.sort((a: RecentlyPlayed, b: RecentlyPlayed) => {
+        if (a.last < b.last) return 1;
+        return -1;
+    });
+
+    const top_recents = sorted_recents.slice(0,6);
+    if (top_recents.length < 6) return [];
+
+    return top_recents.reduce<AndroidAlbum[]>((albums: AndroidAlbum[], each) => {
+        const album = ALBUM_MAP[each.albumId] || null;
+        if (album) albums.push(...convertToAndroidAlbum([album]));
+        return albums;
+    }, []);
+
+};
+
+const getQuickPicks = (): AndroidTrack[] => {
+
+    const final: AlbumList[] = [];
+    const uniqNums: number[] = [];
+
+    for (let i=1; i<=12; i++) {
+        let gotUniqueRandomNum = false, rand: number = 0;
+        while (!gotUniqueRandomNum) {
+            rand = Math.floor(Math.random() * ALBUMLIST.length);
+            if (!uniqNums.includes(rand)) {
+                uniqNums.push(rand);
+                gotUniqueRandomNum = true;
+            }
+        }
+        final.push(ALBUMLIST[rand]);
+    }
+
+    return convertToAndroidTrack(final);
+
+};
 
 
 
@@ -44,46 +94,7 @@ export const getLibrary = async (request: Request) => {
     const start = parseInt(page) - 1;
     const no = 7*7;
 
-    const allAlbums = ALBUMLIST.reduce<AndroidAlbum[]>((acc: AndroidAlbum[], each) => {
-
-        const album: Album = each as Album;
-        const single: Single = each as Single;
-
-        acc.push({
-            _albumId: each._albumId,
-            Album: each.Album,
-            AlbumArtist: each.AlbumArtist,
-            Type: each.Type,
-            Year: each.Year,
-            Color: each.Color,
-            Thumbnail: each.Thumbnail,
-            releaseDate: each.releaseDate,
-            Tracks: (() => {
-                if (each.Type === "Album") {
-                    return album.Tracks.map(track => {
-                        track.lyrics = track.lyrics || false;
-                        track.sync = track.sync || false;
-                        return track;
-                    });
-                }
-                if (each.Type === "Single") {
-                    return [{
-                        _trackId: single._trackId,
-                        Title: single.Album,
-                        Artist: single.Artist,
-                        Duration: single.Duration,
-                        url: single.url,
-                        lyrics: single.lyrics || false,
-                        sync: single.sync || false
-                    }];
-                }
-                return [];
-            })()
-        });
-
-        return acc;
-
-    }, []);
+    const allAlbums = convertToAndroidAlbum(ALBUMLIST);
 
     const sublibrary: AndroidAlbum[] = allAlbums.slice(start*no, (start*no) + no);
     const random: AndroidAlbum[] = (randomize(sublibrary) as AndroidAlbum[]);
@@ -139,5 +150,21 @@ export const getAlbum = async (request: Request) => {
             return [];
         })()
     };
+
+};
+
+export const homeAlbums = async (request: Request, _:any) => {
+
+    const { id: userId } = request.ACCOUNT;
+
+    const mostPlayed = await getMostPlayed(userId);
+
+    const homeList: { [key: string]: AndroidAlbum[] } = {};
+
+    homeList["New Releases"] = convertToAndroidAlbum(NewReleases);
+
+    homeList["Recently Added"] = convertToAndroidAlbum(RecentlyAdded);
+
+    return { albums: homeList, mostPlayed, quickPicks: getQuickPicks() };
 
 };

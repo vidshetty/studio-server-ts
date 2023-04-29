@@ -3,8 +3,14 @@ import moment, { Duration } from "moment-timezone";
 import ejs from "ejs";
 import fs from "fs";
 import {
+    AlbumList,
+    AndroidAlbum,
     CookieInterface,
-    DeviceInfo
+    DeviceInfo,
+    Album,
+    Single,
+    AndroidTrack,
+    Track
 } from "../helpers/interfaces";
 
 
@@ -282,5 +288,100 @@ export const randomize = (arr: Array<any>): Array<any> => {
         [arr[i], arr[rand]] = [arr[rand], arr[i]];
     }
     return arr;
+
+};
+
+export const convertToAndroidAlbum = (arr: readonly AlbumList[] = []): AndroidAlbum[] => {
+
+    return arr.reduce<AndroidAlbum[]>((acc: AndroidAlbum[], each) => {
+
+        const album: Album = each as Album;
+        const single: Single = each as Single;
+
+        acc.push({
+            _albumId: each._albumId,
+            Album: each.Album,
+            AlbumArtist: each.AlbumArtist,
+            Type: each.Type,
+            Year: each.Year,
+            Color: each.Color,
+            Thumbnail: each.Thumbnail,
+            releaseDate: each.releaseDate,
+            Tracks: (() => {
+                if (each.Type === "Album") {
+                    return album.Tracks.map(track => {
+                        track.lyrics = track.lyrics || false;
+                        track.sync = track.sync || false;
+                        return track;
+                    });
+                }
+                if (each.Type === "Single") {
+                    return [{
+                        _trackId: single._trackId,
+                        Title: single.Album,
+                        Artist: single.Artist,
+                        Duration: single.Duration,
+                        url: single.url,
+                        lyrics: single.lyrics || false,
+                        sync: single.sync || false
+                    }];
+                }
+                return [];
+            })()
+        });
+
+        return acc;
+
+    }, []);
+
+};
+
+export const convertToAndroidTrack = (arr: readonly AlbumList[] = []): AndroidTrack[] => {
+
+    return arr.reduce<AndroidTrack[]>((acc: AndroidTrack[], each) => {
+
+        const album = each as Album;
+        const single = each as Single;
+
+        if (each.Type === "Single") {
+            acc.push({
+                _albumId: single._albumId,
+                Album: single.Album,
+                Color: single.Color,
+                Thumbnail: single.Thumbnail,
+                Year: single.Year,
+                releaseDate: single.releaseDate,
+                _trackId: single._trackId,
+                Title: single.Album,
+                Artist: single.Artist,
+                Duration: single.Duration,
+                url: single.url,
+                lyrics: single.lyrics || false,
+                sync: single.sync || false
+            });
+        }
+        else {
+            album.Tracks.forEach((track: Track) => {
+                acc.push({
+                    _albumId: album._albumId,
+                    Album: album.Album,
+                    Color: album.Color,
+                    Thumbnail: album.Thumbnail,
+                    Year: album.Year,
+                    releaseDate: album.releaseDate,
+                    _trackId: track._trackId,
+                    Title: album.Album,
+                    Artist: track.Artist,
+                    Duration: track.Duration,
+                    url: track.url,
+                    lyrics: track.lyrics || false,
+                    sync: track.sync || false
+                });
+            });
+        }
+
+        return acc;
+
+    }, []);
 
 };

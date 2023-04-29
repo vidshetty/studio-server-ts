@@ -3,7 +3,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.search_trie = void 0;
+exports.ALBUM_MAP = exports.RecentlyAdded = exports.NewReleases = exports.search_trie = void 0;
 const songlist1_1 = __importDefault(require("./songlist1"));
 const songlist2_1 = __importDefault(require("./songlist2"));
 const search_service_1 = require("../search-service");
@@ -59,6 +59,29 @@ const final = (() => {
     songlist2_1.default.forEach(callback(list, set));
     return list;
 })();
+const [NewReleases, RecentlyAdded] = (() => {
+    const compare = (a, b) => {
+        if (a.releaseDate > b.releaseDate)
+            return -1;
+        return 1;
+    };
+    const newReleases = [...final].sort(compare).slice(0, 6);
+    const recentlyAdded = [];
+    const len = final.length;
+    for (let i = len - 1; i >= 0 && recentlyAdded.length < 6; i--) {
+        const index = newReleases.findIndex(each => each._albumId === final[i]._albumId);
+        if (index === -1)
+            recentlyAdded.push(final[i]);
+    }
+    return [newReleases, recentlyAdded];
+})();
+exports.NewReleases = NewReleases;
+exports.RecentlyAdded = RecentlyAdded;
+const ALBUM_MAP = final.reduce((acc, each) => {
+    acc[each._albumId] = each;
+    return acc;
+}, {});
+exports.ALBUM_MAP = ALBUM_MAP;
 exports.default = final;
 // module.exports = { final, comingSoon: comingSoonAlbums[0] };
 //# sourceMappingURL=archiveGateway.js.map

@@ -3,7 +3,6 @@ import { androidApiAccessCheck, androidApiAuthCheck } from "../auth-service/func
 import { responseMid } from "../helpers/responsehandler";
 import {
     getProfile,
-    homeAlbums,
     recordTime,
     getTrackDetails,
     search,
@@ -16,7 +15,8 @@ import {
     activeSessions,
     checkServer,
     getLibrary,
-    getAlbum
+    getAlbum,
+    homeAlbums
 } from "./api-functions";
 
 

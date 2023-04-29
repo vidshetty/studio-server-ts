@@ -174,3 +174,19 @@ export interface AndroidAlbum {
     Thumbnail: string;
     Tracks: Track[];
 };
+
+export interface AndroidTrack {
+    _albumId: string;
+    Album: string;
+    Year: string;
+    Color: string;
+    releaseDate: Date;
+    Thumbnail: string;
+    _trackId: string;
+    Title: string;
+    Artist: string;
+    Duration: string;
+    url: string;
+    lyrics?: boolean;
+    sync?: boolean;
+};
