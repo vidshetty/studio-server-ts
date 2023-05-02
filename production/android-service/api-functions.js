@@ -42,6 +42,10 @@ const getMostPlayed = async (userId) => {
     }, []);
 };
 const getQuickPicks = () => {
+    const all_tracks = archiveGateway_1.default.reduce((acc, each) => {
+        acc.push(...(0, utils_1.convertToAndroidTrack)([each]));
+        return acc;
+    }, []);
     const final = [];
     const uniqNums = [];
     for (let i = 1; i <= 12; i++) {
@@ -53,9 +57,9 @@ const getQuickPicks = () => {
                 gotUniqueRandomNum = true;
             }
         }
-        final.push(archiveGateway_1.default[rand]);
+        final.push(all_tracks[rand]);
     }
-    return (0, utils_1.convertToAndroidTrack)(final);
+    return final;
 };
 const checkServer = (req) => {
     return { status: "active", server: utils_1.server };
