@@ -370,7 +370,7 @@ export const convertToAndroidTrack = (arr: readonly AlbumList[] = []): AndroidTr
                     Year: album.Year,
                     releaseDate: album.releaseDate,
                     _trackId: track._trackId,
-                    Title: album.Album,
+                    Title: track.Title,
                     Artist: track.Artist,
                     Duration: track.Duration,
                     url: track.url,
