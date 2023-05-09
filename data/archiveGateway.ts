@@ -1,7 +1,8 @@
 import songlist1 from "./songlist1";
 import songlist2 from "./songlist2";
-import { Album, AlbumList, AlbumlistMap, Single } from "../helpers/interfaces";
+import { Album, AlbumList, AlbumlistMap, Single, AndroidTrack } from "../helpers/interfaces";
 import { SearchTrie } from "../search-service";
+import { convertToAndroidTrack } from "../helpers/utils";
 
 const search_trie: SearchTrie = new SearchTrie();
 
@@ -115,7 +116,12 @@ const ALBUM_MAP: AlbumlistMap = final.reduce<AlbumlistMap>((acc,each) => {
     return acc;
 }, {});
 
+const ALBUM_LIST_TRACKS = final.reduce<AndroidTrack[]>((acc,each) => {
+    acc.push(...convertToAndroidTrack([each]));
+    return acc;
+}, []);
 
-export { search_trie, NewReleases, RecentlyAdded, ALBUM_MAP };
+
+export { search_trie, NewReleases, RecentlyAdded, ALBUM_MAP, ALBUM_LIST_TRACKS };
 export default final;
 // module.exports = { final, comingSoon: comingSoonAlbums[0] };

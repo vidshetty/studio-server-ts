@@ -3,10 +3,11 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.ALBUM_MAP = exports.RecentlyAdded = exports.NewReleases = exports.search_trie = void 0;
+exports.ALBUM_LIST_TRACKS = exports.ALBUM_MAP = exports.RecentlyAdded = exports.NewReleases = exports.search_trie = void 0;
 const songlist1_1 = __importDefault(require("./songlist1"));
 const songlist2_1 = __importDefault(require("./songlist2"));
 const search_service_1 = require("../search-service");
+const utils_1 = require("../helpers/utils");
 const search_trie = new search_service_1.SearchTrie();
 exports.search_trie = search_trie;
 const callback = (list, set) => (each) => {
@@ -82,6 +83,11 @@ const ALBUM_MAP = final.reduce((acc, each) => {
     return acc;
 }, {});
 exports.ALBUM_MAP = ALBUM_MAP;
+const ALBUM_LIST_TRACKS = final.reduce((acc, each) => {
+    acc.push(...(0, utils_1.convertToAndroidTrack)([each]));
+    return acc;
+}, []);
+exports.ALBUM_LIST_TRACKS = ALBUM_LIST_TRACKS;
 exports.default = final;
 // module.exports = { final, comingSoon: comingSoonAlbums[0] };
 //# sourceMappingURL=archiveGateway.js.map

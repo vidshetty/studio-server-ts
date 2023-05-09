@@ -42,22 +42,18 @@ const getMostPlayed = async (userId) => {
     }, []);
 };
 const getQuickPicks = () => {
-    const all_tracks = archiveGateway_1.default.reduce((acc, each) => {
-        acc.push(...(0, utils_1.convertToAndroidTrack)([each]));
-        return acc;
-    }, []);
     const final = [];
     const uniqNums = [];
     for (let i = 1; i <= 12; i++) {
         let gotUniqueRandomNum = false, rand = 0;
         while (!gotUniqueRandomNum) {
-            rand = Math.floor(Math.random() * archiveGateway_1.default.length);
+            rand = Math.floor(Math.random() * archiveGateway_1.ALBUM_LIST_TRACKS.length);
             if (!uniqNums.includes(rand)) {
                 uniqNums.push(rand);
                 gotUniqueRandomNum = true;
             }
         }
-        final.push(all_tracks[rand]);
+        final.push(archiveGateway_1.ALBUM_LIST_TRACKS[rand]);
     }
     return final;
 };

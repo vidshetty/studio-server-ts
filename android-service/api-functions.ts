@@ -15,7 +15,7 @@ import {
     convertToAndroidTrack
 } from "../helpers/utils";
 import { Users } from "../models/Users";
-import ALBUMLIST, { NewReleases, RecentlyAdded, ALBUM_MAP } from "../data/archiveGateway";
+import ALBUMLIST, { NewReleases, RecentlyAdded, ALBUM_MAP, ALBUM_LIST_TRACKS } from "../data/archiveGateway";
 
 
 
@@ -43,24 +43,19 @@ const getMostPlayed = async (userId: string): Promise<AndroidAlbum[]> => {
 
 const getQuickPicks = (): AndroidTrack[] => {
 
-    const all_tracks = ALBUMLIST.reduce<AndroidTrack[]>((acc,each) => {
-        acc.push(...convertToAndroidTrack([each]));
-        return acc;
-    }, []);
-
     const final: AndroidTrack[] = [];
     const uniqNums: number[] = [];
 
     for (let i=1; i<=12; i++) {
         let gotUniqueRandomNum = false, rand: number = 0;
         while (!gotUniqueRandomNum) {
-            rand = Math.floor(Math.random() * ALBUMLIST.length);
+            rand = Math.floor(Math.random() * ALBUM_LIST_TRACKS.length);
             if (!uniqNums.includes(rand)) {
                 uniqNums.push(rand);
                 gotUniqueRandomNum = true;
             }
         }
-        final.push(all_tracks[rand]);
+        final.push(ALBUM_LIST_TRACKS[rand]);
     }
 
     return final;
