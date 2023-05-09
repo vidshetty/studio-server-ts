@@ -110,7 +110,7 @@ export const accountCheck = async (request: Request) => {
 
     const { name, email, id, photoUrl }: any = request.body;
 
-    let user: UserInterface = await Users.findOne({ "email.id": email });
+    let user: UserInterface | null = await Users.findOne({ "email.id": email });
 
     const sessionId: string = uuidv4();
 
@@ -146,7 +146,7 @@ export const accountCheck = async (request: Request) => {
 
         //signup
 
-        user = await new Users({
+        const new_user = await new Users({
             username: null,
             accountAccess: {
                 type: "allowed",
@@ -173,7 +173,9 @@ export const accountCheck = async (request: Request) => {
                 sessionId,
                 lastUsed: getCurrentTime()
             }]
-        }).save();
+        });
+
+        user = (new_user?.save() as unknown as UserInterface);
 
         __notifyAdmin(user.googleAccount, "signup");
         __notifyUser(user, "signup");
@@ -205,7 +207,9 @@ export const accessCheck = async (request: Request) => {
     const { user_id = null }: any = request.body;
     const { sessionId = null } = request.result;
 
-    const user: UserInterface = await Users.findOne({ _id: user_id });
+    const user: UserInterface | null = await Users.findOne({ _id: user_id });
+
+    if (!user) return {};
 
     const { accountAccess, googleAccount, username, _id, activeSessions = [] } = user;
     const { name, picture, email } = googleAccount;
@@ -283,7 +287,7 @@ export const signOut = async (request: Request) => {
     const { user_id } = request.body;
     const { sessionId = null } = request.result;
 
-    const user: UserInterface = await Users.findOne({ _id: user_id });
+    const user: UserInterface | null = await Users.findOne({ _id: user_id });
 
     if (!user) throw new CustomError("user not found!", { user });
 
@@ -306,7 +310,7 @@ export const continueLoginIn = async (request: Request) => {
     const { username = null, user_id }: { username: string|null, user_id: string } = request.body;
     const { sessionId = null } = request.result;
 
-    const user: UserInterface = await Users.findOne({ _id: user_id });
+    const user: UserInterface | null = await Users.findOne({ _id: user_id });
 
     if (!user) throw new CustomError("user not found!", { user });
 
@@ -342,7 +346,9 @@ export const requestAccess = async (request: Request, _:any) => {
 
     const { id = null } = request.ACCOUNT;
 
-    const user: UserInterface = await Users.findOne({ _id: id });
+    const user: UserInterface | null = await Users.findOne({ _id: id });
+
+    if (!user) return { requestSent: false };
 
     const { googleAccount } = user;
 

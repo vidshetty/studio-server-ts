@@ -90,6 +90,8 @@ const update = async (request, _) => {
 exports.update = update;
 const getUser = async (_, _1) => {
     const user = await Users_1.Users.findOne({ _id: utils_1.defaultUserId });
+    if (!user)
+        return {};
     return {
         length: user.recentlyPlayed.length,
         recentlyPlayed: user.recentlyPlayed,

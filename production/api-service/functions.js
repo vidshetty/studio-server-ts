@@ -220,6 +220,8 @@ const getAlbums = (name) => {
 };
 const __qr = async (toBeExcluded, userId) => {
     const user = await Users_1.Users.findOne({ _id: userId });
+    if (!user)
+        return [];
     const { recentlyPlayed: recents = [] } = user;
     let filterRecents = true, recentsMap;
     const recentlyPlayed = recents.sort(compareRecents).slice(0, 6);
@@ -276,6 +278,8 @@ const __qr = async (toBeExcluded, userId) => {
 };
 const __rp = async (toBeExcluded, userId) => {
     const user = await Users_1.Users.findOne({ _id: userId });
+    if (!user)
+        return [];
     const { recentlyPlayed: recents } = user;
     const recentsAlbumIds = recents.map(each => each.albumId);
     const albums = archiveGateway_1.default.reduce((list, song) => {
@@ -402,6 +406,8 @@ const addToRecentlyPlayed = async (request, _) => {
     const { id: userId } = request.ACCOUNT;
     const { albumId } = request.body;
     const user = await Users_1.Users.findOne({ _id: userId });
+    if (!user)
+        return;
     const { recentlyPlayed: recents } = user;
     const index = recents.findIndex(each => each.albumId === albumId);
     if (index === -1) {
@@ -487,6 +493,8 @@ const getProfile = async (request, _) => {
     const { from = "" } = request.query;
     const songlist = archiveGateway_1.default;
     const user = await Users_1.Users.findOne({ _id: userId });
+    if (!user)
+        return {};
     const { googleAccount, accountAccess } = user;
     if (from !== "auth") {
         return {

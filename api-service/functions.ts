@@ -112,7 +112,7 @@ const __distribute = (list: AlbumList[], type: string) => {
 const inspectRecentlyPlayed = async (userId: string) => {
 
     if (!userId) return;
-    const user: UserInterface = await Users.findOne({ _id: userId });
+    const user: UserInterface | null = await Users.findOne({ _id: userId });
     if (!user) return;
 
     const { recentlyPlayed } = user;
@@ -325,7 +325,10 @@ const getAlbums = (name: string): AlbumList[] => {
 
 const __qr = async (toBeExcluded: string, userId: string): Promise<(AlbumWithTrack|Single)[]> => {
 
-    const user: UserInterface = await Users.findOne({ _id: userId });
+    const user: UserInterface | null = await Users.findOne({ _id: userId });
+
+    if (!user) return [];
+
     const { recentlyPlayed: recents = [] } = user;
 
     let filterRecents = true, recentsMap: RecentsMap;
@@ -392,7 +395,10 @@ const __qr = async (toBeExcluded: string, userId: string): Promise<(AlbumWithTra
 
 const __rp = async (toBeExcluded: string, userId: string): Promise<(AlbumWithTrack|Single)[]> => {
 
-    const user: UserInterface = await Users.findOne({ _id: userId });
+    const user: UserInterface | null = await Users.findOne({ _id: userId });
+
+    if (!user) return [];
+
     const { recentlyPlayed: recents } = user;
     const recentsAlbumIds: string[] = recents.map(each => each.albumId);
 
@@ -552,7 +558,10 @@ export const addToRecentlyPlayed = async (request: Request, _:any) => {
     const { id: userId } = request.ACCOUNT;
     const { albumId }: { albumId: string } = request.body;
 
-    const user: UserInterface = await Users.findOne({ _id: userId });
+    const user: UserInterface | null = await Users.findOne({ _id: userId });
+
+    if (!user) return;
+
     const { recentlyPlayed: recents } = user;
 
     const index = recents.findIndex(each => each.albumId === albumId);
@@ -678,7 +687,10 @@ export const getProfile = async (request: Request, _:any) => {
     const { from = "" } = request.query;
 
     const songlist = ALBUMLIST;
-    const user: UserInterface = await Users.findOne({ _id: userId });
+    const user: UserInterface | null = await Users.findOne({ _id: userId });
+
+    if (!user) return {};
+
     const { googleAccount, accountAccess } = user;
 
     if (from !== "auth") {
@@ -712,7 +724,7 @@ export const signOut = async (request: Request, response: Response) => {
     const { ACCOUNT, result } = request;
     const { sessionId = null } = result;
 
-    const user: UserInterface = await Users.findOne({ _id: ACCOUNT.id });
+    const user: UserInterface | null = await Users.findOne({ _id: ACCOUNT.id });
 
     if (!user) return { success: false };
 

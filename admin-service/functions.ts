@@ -112,9 +112,10 @@ export const update = async (request: Request, _:any) => {
         body.duration = secs;
     }
 
-    const user: UserInterface = await Users.findOne({
+    const user: UserInterface | null = await Users.findOne({
         "googleAccount.email": email
     });
+
     if (!user) return { msg: "No such user." };
 
     const { accountAccess, activeSessions = [] } = user;
@@ -144,7 +145,10 @@ export const update = async (request: Request, _:any) => {
 
 export const getUser = async (_:any, _1:any) => {
 
-    const user: UserInterface = await Users.findOne({ _id: defaultUserId });
+    const user: UserInterface | null = await Users.findOne({ _id: defaultUserId });
+
+    if (!user) return {};
+
     return {
         length: user.recentlyPlayed.length,
         recentlyPlayed: user.recentlyPlayed,

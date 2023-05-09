@@ -149,7 +149,7 @@ const googleAuthCheck = async (request, response, next) => {
     }
     else {
         //signup
-        user = await new Users_1.Users({
+        const new_user = await new Users_1.Users({
             username: null,
             accountAccess: {
                 type: "allowed",
@@ -169,7 +169,8 @@ const googleAuthCheck = async (request, response, next) => {
                     sessionId,
                     lastUsed: (0, utils_1.getCurrentTime)()
                 }]
-        }).save();
+        });
+        user = new_user === null || new_user === void 0 ? void 0 : new_user.save();
         response.user = {
             _id: user._id || "",
             error: false

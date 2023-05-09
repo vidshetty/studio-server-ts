@@ -65,6 +65,8 @@ const activeSessions = async (request) => {
     const { id = null } = request.ACCOUNT;
     const { sessionId = null } = request.result;
     const user = await Users_1.Users.findOne({ _id: id });
+    if (!user)
+        return [];
     const { activeSessions = [] } = user;
     return activeSessions.map(each => {
         const obj = Object.assign({}, each);

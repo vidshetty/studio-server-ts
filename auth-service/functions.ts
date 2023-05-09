@@ -52,7 +52,7 @@ const __verifyAccessToken = async (token: string): Promise<FoundResponse> => {
 
     if (sessionId === null) return { found: false, id: null, user: null };
 
-    const user: UserInterface = await Users.findOne({ _id });
+    const user: UserInterface | null = await Users.findOne({ _id });
 
     if (!user) return { found: false, id: null, user: null };
 
@@ -77,7 +77,7 @@ const __generateAccessToken = async (token: string): Promise<RefreshTokenRespons
         throw e;
     }
 
-    const user: UserInterface = await Users.findOne({ _id: payload._id });
+    const user: UserInterface | null = await Users.findOne({ _id: payload._id });
 
     if (!user) return { accessToken: null, id: null };
     
@@ -197,7 +197,7 @@ export const googleAuthCheck = async (request: Request, response: Response, next
 
     const { sub, name, picture, email, email_verified }: any = request.user?._json;
 
-    let user: UserInterface = await Users.findOne({ "email.id": email });
+    let user: UserInterface | null = await Users.findOne({ "email.id": email });
 
     const sessionId: string = uuidv4();
     
@@ -238,7 +238,7 @@ export const googleAuthCheck = async (request: Request, response: Response, next
 
         //signup
 
-        user = await new Users({
+        const new_user = await new Users({
             username: null,
             accountAccess: {
                 type: "allowed",
@@ -258,7 +258,9 @@ export const googleAuthCheck = async (request: Request, response: Response, next
                 sessionId,
                 lastUsed: getCurrentTime()
             }]
-        }).save();
+        });
+
+        user = (new_user?.save() as unknown as UserInterface);
 
         response.user = {
             _id: user._id || "",
@@ -496,7 +498,7 @@ export const oauthCheck = async (request: Request, _:any) => {
     if (!found || !userFromCookie) return { error: true };
     if (String(userFromCookie._id) !== userId) return { error: true };
 
-    const user: UserInterface = await Users.findOne({ _id: userId });
+    const user: UserInterface | null = await Users.findOne({ _id: userId });
 
     if (!user) return { error: true };
 
@@ -590,7 +592,7 @@ export const continueAuthSignin = async (request: Request, response: Response) =
     if (!found || !userFromCookie) return { error: true };
     if (String(userFromCookie._id) !== userId) return { error: true };
 
-    const user: UserInterface = await Users.findOne({ _id: userId });
+    const user: UserInterface | null = await Users.findOne({ _id: userId });
 
     if (!user) return { error: true };
 
@@ -644,7 +646,7 @@ export const signOut = async (request: Request, response: Response) => {
     if (!found || !userFromCookie) return { error: true };
     if (String(userFromCookie._id) !== userId) return { error: true };
 
-    const user: UserInterface = await Users.findOne({ _id: userId });
+    const user: UserInterface | null = await Users.findOne({ _id: userId });
 
     if (!user) return { success: false };
 

@@ -90,7 +90,7 @@ const accountCheck = async (request) => {
     }
     else {
         //signup
-        user = await new Users_1.Users({
+        const new_user = await new Users_1.Users({
             username: null,
             accountAccess: {
                 type: "allowed",
@@ -117,7 +117,8 @@ const accountCheck = async (request) => {
                     sessionId,
                     lastUsed: (0, utils_1.getCurrentTime)()
                 }]
-        }).save();
+        });
+        user = new_user === null || new_user === void 0 ? void 0 : new_user.save();
         __notifyAdmin(user.googleAccount, "signup");
         __notifyUser(user, "signup");
     }
@@ -142,6 +143,8 @@ const accessCheck = async (request) => {
     const { user_id = null } = request.body;
     const { sessionId = null } = request.result;
     const user = await Users_1.Users.findOne({ _id: user_id });
+    if (!user)
+        return {};
     const { accountAccess, googleAccount, username, _id, activeSessions = [] } = user;
     const { name, picture, email } = googleAccount;
     const { timeLimit, duration, type } = accountAccess;
@@ -247,6 +250,8 @@ exports.continueLoginIn = continueLoginIn;
 const requestAccess = async (request, _) => {
     const { id = null } = request.ACCOUNT;
     const user = await Users_1.Users.findOne({ _id: id });
+    if (!user)
+        return { requestSent: false };
     const { googleAccount } = user;
     try {
         const data = await (0, utils_1.ejsRender)(path_1.default.join(process.cwd(), utils_1.buildroot, "views", "newsignup.ejs"), {

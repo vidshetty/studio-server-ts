@@ -75,7 +75,9 @@ export const activeSessions = async (request: Request) => {
     const { id = null } = request.ACCOUNT;
     const { sessionId = null } = request.result;
 
-    const user: UserInterface = await Users.findOne({ _id: id });
+    const user: UserInterface | null = await Users.findOne({ _id: id });
+
+    if (!user) return [];
 
     const { activeSessions = [] } = user;
 
