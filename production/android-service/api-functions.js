@@ -19,7 +19,7 @@ var __importStar = (this && this.__importStar) || function (mod) {
     return result;
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.homeAlbums = exports.getAlbum = exports.getLibrary = exports.activeSessions = exports.checkServer = void 0;
+exports.search = exports.homeAlbums = exports.getAlbum = exports.getLibrary = exports.activeSessions = exports.checkServer = void 0;
 const utils_1 = require("../helpers/utils");
 const Users_1 = require("../models/Users");
 const archiveGateway_1 = __importStar(require("../data/archiveGateway"));
@@ -56,6 +56,36 @@ const getQuickPicks = () => {
         final.push(archiveGateway_1.ALBUM_LIST_TRACKS[rand]);
     }
     return final;
+};
+const getSongs = (name) => {
+    const lower = name.toLowerCase();
+    return archiveGateway_1.ALBUM_LIST_TRACKS.reduce((acc, track) => {
+        const in_title = track.Title.toLowerCase().includes(lower);
+        const in_artists = track.Artist.toLowerCase().includes(lower);
+        const in_albumname = track.Album.toLowerCase().includes(lower);
+        if (in_title || in_albumname || in_artists) {
+            acc.push(track);
+        }
+        return acc;
+    }, []);
+};
+const getAlbums = (name) => {
+    const lower = name.toLowerCase();
+    const ANDROID_ALBUMS = (0, utils_1.convertToAndroidAlbum)(archiveGateway_1.default);
+    return ANDROID_ALBUMS.reduce((acc, album) => {
+        const in_tracktitles = album.Tracks.reduce((acc, track) => {
+            if (track.Title.toLowerCase().includes(lower)) {
+                acc = true;
+            }
+            return acc;
+        }, false);
+        const in_albumartists = album.AlbumArtist.toLowerCase().includes(lower);
+        const in_albumname = album.Album.toLowerCase().includes(lower);
+        if (in_tracktitles || in_albumartists || in_albumname) {
+            acc.push(album);
+        }
+        return acc;
+    }, []);
 };
 const checkServer = (req) => {
     return { status: "active", server: utils_1.server };
@@ -142,4 +172,13 @@ const homeAlbums = async (request, _) => {
     return { albums: homeList, mostPlayed, quickPicks: getQuickPicks() };
 };
 exports.homeAlbums = homeAlbums;
+const search = async (request, _) => {
+    const { name } = request.query;
+    if (!name)
+        return { tracks: [], albums: [], artists: [] };
+    const tracks = getSongs(name);
+    const albums = getAlbums(name);
+    return { tracks, albums, artists: [] };
+};
+exports.search = search;
 //# sourceMappingURL=api-functions.js.map

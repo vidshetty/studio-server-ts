@@ -5,14 +5,13 @@ import {
     Album,
     Single,
     RecentlyPlayed,
-    AlbumList,
-    AndroidTrack
+    AndroidTrack,
+    RequestQuery
 } from "../helpers/interfaces";
 import {
     server,
     randomize,
-    convertToAndroidAlbum,
-    convertToAndroidTrack
+    convertToAndroidAlbum
 } from "../helpers/utils";
 import { Users } from "../models/Users";
 import ALBUMLIST, { NewReleases, RecentlyAdded, ALBUM_MAP, ALBUM_LIST_TRACKS } from "../data/archiveGateway";
@@ -59,6 +58,54 @@ const getQuickPicks = (): AndroidTrack[] => {
     }
 
     return final;
+
+};
+
+const getSongs = (name: string): AndroidTrack[] => {
+
+    const lower = name.toLowerCase();
+
+    return ALBUM_LIST_TRACKS.reduce<AndroidTrack[]>((acc: AndroidTrack[], track) => {
+
+        const in_title = track.Title.toLowerCase().includes(lower);
+        const in_artists = track.Artist.toLowerCase().includes(lower);
+        const in_albumname = track.Album.toLowerCase().includes(lower);
+
+        if (in_title || in_albumname || in_artists) {
+            acc.push(track);
+        }
+
+        return acc;
+
+    }, []);
+
+};
+
+const getAlbums = (name: string): AndroidAlbum[] => {
+
+    const lower = name.toLowerCase();
+
+    const ANDROID_ALBUMS = convertToAndroidAlbum(ALBUMLIST);
+
+    return ANDROID_ALBUMS.reduce<AndroidAlbum[]>((acc: AndroidAlbum[], album) => {
+
+        const in_tracktitles = album.Tracks.reduce<boolean>((acc: boolean, track) => {
+            if (track.Title.toLowerCase().includes(lower)) {
+                acc = true;
+            }
+            return acc;
+        }, false);
+
+        const in_albumartists = album.AlbumArtist.toLowerCase().includes(lower);
+        const in_albumname = album.Album.toLowerCase().includes(lower);
+
+        if (in_tracktitles || in_albumartists || in_albumname) {
+            acc.push(album);
+        }
+
+        return acc;
+
+    }, []);
 
 };
 
@@ -168,5 +215,18 @@ export const homeAlbums = async (request: Request, _:any) => {
     homeList["Recently Added"] = convertToAndroidAlbum(RecentlyAdded);
 
     return { albums: homeList, mostPlayed, quickPicks: getQuickPicks() };
+
+};
+
+export const search = async (request: Request, _:any): Promise<{ tracks:Array<AndroidTrack>, albums:Array<AndroidAlbum>, artists:Array<any> }> => {
+
+    const { name }: RequestQuery = request.query as unknown as RequestQuery;
+
+    if (!name) return { tracks: [], albums: [], artists: [] };
+
+    const tracks: AndroidTrack[] = getSongs(name);
+    const albums: AndroidAlbum[] = getAlbums(name);
+
+    return { tracks, albums, artists: [] };
 
 };

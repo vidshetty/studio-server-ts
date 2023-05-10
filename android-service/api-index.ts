@@ -5,7 +5,6 @@ import {
     getProfile,
     recordTime,
     getTrackDetails,
-    search,
     addToRecentlyPlayed,
     getLyrics,
     signOut,
@@ -16,7 +15,8 @@ import {
     checkServer,
     getLibrary,
     getAlbum,
-    homeAlbums
+    homeAlbums,
+    search
 } from "./api-functions";
 
 
