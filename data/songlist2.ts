@@ -1703,20 +1703,6 @@ const songlist: (Single|Album)[] = [
         url: `${server[2]}/listen/Chedkhaniyan - Shehzada`
     },
     {
-        _albumId: "63da57d81362e104b166e277",
-        _trackId: "63da57d81362e104b166e277",
-        Album: "Tere Pyaar Mein (From 'Tu Jhoothi Main Makkar')",
-        AlbumArtist: "Pritam, Arijit Singh, Nikhita Gandhi",
-        Type: "Single",
-        Year: "2023",
-        Color: "rgba(32,56,176,1)",
-        releaseDate: date("01-02-2023"),
-        Thumbnail: "https://lh3.googleusercontent.com/GbmvJFem2bpVzhhk1yoTrLMj3AAwpf0eif4exW1_nGPX7nb4zfLv1arbAHXEYPFJm6DmPZCk6teF1A1e=w544-h544-l90-rj",
-        Artist: "Pritam, Arijit Singh, Nikhita Gandhi",
-        Duration: "4: 25",
-        url: `${server[2]}/listen/Tere Pyaar Mein - Tu Jhoothi Main Makkar`
-    },
-    {
         _albumId: "63da71fd42e734af91ee21c3",
         Album: "Two Hearts Never Break The Same",
         AlbumArtist: "AP Dhillon",
@@ -1749,6 +1735,39 @@ const songlist: (Single|Album)[] = [
             }
         ]
     },
+    {
+        _albumId: "645e46d7588671ad8aab8557",
+        Album: "Tu Jhooti Main Makkaar",
+        AlbumArtist: "Pritam",
+        Type: "Album",
+        Year: "2023",
+        Color: "rgba(8,152,184,1)",
+        releaseDate: date("16-03-2023"),
+        Thumbnail: "https://lh3.googleusercontent.com/3KkjFrmhYWsKJJ7JYaeQB_se2hy4NTfRnHnbTjkG8mHDK2uccgyYDkOMQPClHcC4iwSWHI6IqlnFXLvB-Q=w544-h544-l90-rj",
+        Tracks: [
+            {
+                _trackId: "645e46df73c1ce09849725e8",
+                Title: "Tere Pyaar Mein",
+                Artist: "Pritam, Arijit Singh, Nikhita Gandhi",
+                Duration: "4: 25",
+                url: `${server[3]}/listen/Tere Pyaar Mein - Tu Jhooti Main Makkaar`
+            },
+            {
+                _trackId: "645e46e5d62c3e9d2d42ce64",
+                Title: "Pyaar Hota Kayi Baar Hai",
+                Artist: "Pritam, Arijit Singh",
+                Duration: "3: 36",
+                url: `${server[3]}/listen/Pyaar Hota Kayi Baar Hai - Tu Jhooti Main Makkaar`
+            },
+            {
+                _trackId: "645e46ec56a55e3bfe455661",
+                Title: "O Bedardeya",
+                Artist: "Pritam, Arijit Singh",
+                Duration: "5: 13",
+                url: `${server[3]}/listen/O Bedardeya - Tu Jhooti Main Makkaar`
+            }
+        ]
+    }
 ];
 
 
