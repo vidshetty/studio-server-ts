@@ -1736,7 +1736,7 @@ const songlist = [
     },
     {
         _albumId: "645e46d7588671ad8aab8557",
-        Album: "Tu Jhooti Main Makkaar",
+        Album: "Tu Jhoothi Main Makkaar",
         AlbumArtist: "Pritam",
         Type: "Album",
         Year: "2023",
@@ -1749,21 +1749,21 @@ const songlist = [
                 Title: "Tere Pyaar Mein",
                 Artist: "Pritam, Arijit Singh, Nikhita Gandhi",
                 Duration: "4: 25",
-                url: `${utils_1.server[3]}/listen/Tere Pyaar Mein - Tu Jhooti Main Makkaar`
+                url: `${utils_1.server[3]}/listen/Tere Pyaar Mein - Tu Jhoothi Main Makkaar`
             },
             {
                 _trackId: "645e46e5d62c3e9d2d42ce64",
                 Title: "Pyaar Hota Kayi Baar Hai",
                 Artist: "Pritam, Arijit Singh",
                 Duration: "3: 36",
-                url: `${utils_1.server[3]}/listen/Pyaar Hota Kayi Baar Hai - Tu Jhooti Main Makkaar`
+                url: `${utils_1.server[3]}/listen/Pyaar Hota Kayi Baar Hai - Tu Jhoothi Main Makkaar`
             },
             {
                 _trackId: "645e46ec56a55e3bfe455661",
                 Title: "O Bedardeya",
                 Artist: "Pritam, Arijit Singh",
                 Duration: "5: 13",
-                url: `${utils_1.server[3]}/listen/O Bedardeya - Tu Jhooti Main Makkaar`
+                url: `${utils_1.server[3]}/listen/O Bedardeya - Tu Jhoothi Main Makkaar`
             }
         ]
     }
