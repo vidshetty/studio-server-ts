@@ -1767,7 +1767,26 @@ const songlist: (Single|Album)[] = [
                 url: `${server[3]}/listen/O Bedardeya - Tu Jhoothi Main Makkaar`
             }
         ]
-    }
+    },
+    {
+        _albumId: "64880f543304cd1240275fa9",
+        Album: "Zara Hatke Zara Bachke",
+        AlbumArtist: "Sachin-Jigar",
+        Type: "Album",
+        Year: "2023",
+        Color: "rgba(240,88,64,1)",
+        releaseDate: date("26-05-2023"),
+        Thumbnail: "https://lh3.googleusercontent.com/9eX2SpMZLrfKhE7tLAssoeS-rw1WrWEw8wHSG_V1cLpJgff9LMFy8IjYcg6OF--C9T6eeTTb1ckerhfLbQ=w544-h544-l90-rj",
+        Tracks: [
+            {
+                _trackId: "64880f5f9fcc0a2956449570",
+                Title: "Phir Aur Kya Chahiye",
+                Artist: "Arijit Singh",
+                Duration: "4: 26",
+                url: `${server[3]}/listen/Phir Aur Kya Chahiye - Arijit Singh`
+            }
+        ]
+    },
 ];
 
 
