@@ -146,7 +146,7 @@ export const accountCheck = async (request: Request) => {
 
         //signup
 
-        const new_user = await new Users({
+        const new_user = await Users.create({
             username: null,
             accountAccess: {
                 type: "allowed",
@@ -175,7 +175,7 @@ export const accountCheck = async (request: Request) => {
             }]
         });
 
-        user = (new_user?.save() as unknown as UserInterface);
+        user = (new_user as unknown as UserInterface);
 
         __notifyAdmin(user.googleAccount, "signup");
         __notifyUser(user, "signup");

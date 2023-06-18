@@ -90,7 +90,7 @@ const accountCheck = async (request) => {
     }
     else {
         //signup
-        const new_user = await new Users_1.Users({
+        const new_user = await Users_1.Users.create({
             username: null,
             accountAccess: {
                 type: "allowed",
@@ -118,7 +118,7 @@ const accountCheck = async (request) => {
                     lastUsed: (0, utils_1.getCurrentTime)()
                 }]
         });
-        user = new_user === null || new_user === void 0 ? void 0 : new_user.save();
+        user = new_user;
         __notifyAdmin(user.googleAccount, "signup");
         __notifyUser(user, "signup");
     }
