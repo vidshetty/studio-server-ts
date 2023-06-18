@@ -129,6 +129,14 @@ const accountCheck = async (request) => {
     };
     const accessToken = jsonwebtoken_1.default.sign(payload, ACCESS_TOKEN_SECRET, { expiresIn: utils_1.androidAccessTokenExpiry, issuer: utils_1.issuer });
     const refreshToken = jsonwebtoken_1.default.sign(payload, REFRESH_TOKEN_SECRET, { expiresIn: utils_1.refreshTokenExpiry, issuer: utils_1.issuer });
+    console.log("return", {
+        _id: user._id,
+        name,
+        email,
+        picture: photoUrl,
+        accessToken,
+        refreshToken
+    });
     return {
         _id: user._id,
         name,

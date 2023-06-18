@@ -191,6 +191,15 @@ export const accountCheck = async (request: Request) => {
     const accessToken: string = jwt.sign(payload, ACCESS_TOKEN_SECRET, { expiresIn: androidAccessTokenExpiry, issuer });
     const refreshToken: string = jwt.sign(payload, REFRESH_TOKEN_SECRET, { expiresIn: refreshTokenExpiry, issuer });
 
+    console.log("return", {
+        _id: user._id,
+        name,
+        email,
+        picture: photoUrl,
+        accessToken,
+        refreshToken
+    });
+
     return {
         _id: user._id,
         name,
