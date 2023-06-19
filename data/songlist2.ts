@@ -1787,6 +1787,25 @@ const songlist: (Single|Album)[] = [
             }
         ]
     },
+    {
+        _albumId: "648fe8bf8811d884880efb89",
+        Album: "Spider-Man: Across The Spider Verse (SOUNDTRACK FROM THE MOTION PICTURE)",
+        AlbumArtist: "Metro Boomin",
+        Type: "Album",
+        Year: "2023",
+        Color: "rgba(192,8,104,1)",
+        releaseDate: date("02-06-2023"),
+        Thumbnail: "https://lh3.googleusercontent.com/rra9ajpG50BoWyxszMpVqMAloA83Q1p3V4ryNrtDhAriAqvxyNAEAKU0KDs0JoxgDKoSsiWe_GDWong=w544-h544-l90-rj",
+        Tracks: [
+            {
+                _trackId: "648fe8cefeb92daef6ab02a2",
+                Title: "Annihilate (Metro Boomin & Swae Lee, Lil Wayne, Offset)",
+                Artist: "Metro Boomin, Swae Lee, Lil Wayne, Offset",
+                Duration: "3: 52",
+                url: `${server[3]}/listen/Annihilate - Spider Man Across The Spider Verse`
+            }
+        ]
+    }
 ];
 
 
