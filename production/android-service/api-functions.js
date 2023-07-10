@@ -19,7 +19,7 @@ var __importStar = (this && this.__importStar) || function (mod) {
     return result;
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.search = exports.homeAlbums = exports.getAlbum = exports.getLibrary = exports.activeSessions = exports.checkServer = void 0;
+exports.startRadio = exports.search = exports.homeAlbums = exports.getAlbum = exports.getLibrary = exports.activeSessions = exports.checkServer = void 0;
 const utils_1 = require("../helpers/utils");
 const Users_1 = require("../models/Users");
 const archiveGateway_1 = __importStar(require("../data/archiveGateway"));
@@ -181,4 +181,33 @@ const search = async (request, _) => {
     return { tracks, albums, artists: [] };
 };
 exports.search = search;
+const startRadio = async (request, _) => {
+    const { exclude: toBeExcludedTrackId = "" } = request.query;
+    const randomNumberCounter = {};
+    const finalArr = [];
+    let rand, done;
+    const songlist = archiveGateway_1.ALBUM_LIST_TRACKS.filter(song => {
+        return String(song._trackId) !== String(toBeExcludedTrackId);
+    });
+    const len = songlist.length;
+    for (let i = 0; i < 75; i++) {
+        done = false;
+        let limit = 3;
+        while (!done) {
+            if (limit === 0)
+                break;
+            else
+                limit--;
+            rand = Math.floor(Math.random() * len);
+            if (!randomNumberCounter[rand]) {
+                finalArr.push(songlist[rand]);
+                randomNumberCounter[rand] = true;
+                done = true;
+            }
+        }
+    }
+    ;
+    return finalArr;
+};
+exports.startRadio = startRadio;
 //# sourceMappingURL=api-functions.js.map

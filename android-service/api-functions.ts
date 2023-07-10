@@ -230,3 +230,38 @@ export const search = async (request: Request, _:any): Promise<{ tracks:Array<An
     return { tracks, albums, artists: [] };
 
 };
+
+export const startRadio = async (request: Request, _:any) => {
+
+    const { exclude: toBeExcludedTrackId = "" }: RequestQuery = request.query as unknown as RequestQuery;
+
+    const randomNumberCounter: { [key: number]: boolean } = {};
+
+    const finalArr = [];
+
+    let rand: number, done: boolean;
+
+    const songlist = ALBUM_LIST_TRACKS.filter(song => {
+        return String(song._trackId) !== String(toBeExcludedTrackId);
+    });
+
+    const len = songlist.length;
+
+    for (let i=0; i<75; i++) {
+        done = false;
+        let limit = 3;
+        while(!done) {
+            if (limit === 0) break;
+            else limit--;
+            rand = Math.floor(Math.random() * len);
+            if (!randomNumberCounter[rand]) {
+                finalArr.push(songlist[rand]);
+                randomNumberCounter[rand] = true;
+                done = true;
+            }
+        }
+    };
+
+    return finalArr;
+    
+};

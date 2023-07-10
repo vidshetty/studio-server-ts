@@ -7,8 +7,7 @@ import {
     getTrackDetails,
     addToRecentlyPlayed,
     getLyrics,
-    signOut,
-    startRadio
+    signOut
 } from "../api-service/functions";
 import {
     activeSessions,
@@ -16,7 +15,8 @@ import {
     getLibrary,
     getAlbum,
     homeAlbums,
-    search
+    search,
+    startRadio
 } from "./api-functions";
 
 
