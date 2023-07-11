@@ -1805,6 +1805,20 @@ const songlist: (Single|Album)[] = [
                 url: `${server[3]}/listen/Annihilate - Spider Man Across The Spider Verse`
             }
         ]
+    },
+    {
+        _albumId: "64ad589bc9928e32fe4ab3e3",
+        _trackId: "64ad589bc9928e32fe4ab3e3",
+        Album: 'Le Aaunga (From "Satyaprem Ki Katha")',
+        AlbumArtist: "Tanishk Bagchi, Arijit Singh",
+        Type: "Single",
+        Year: "2023",
+        Color: "rgba(80,40,32,1)",
+        releaseDate: date("01-07-2023"),
+        Thumbnail: "https://lh3.googleusercontent.com/orby46otQWPMrwEEUIca-VBx6o8k1C4p-B1g4sHlEVtZFyC3V1CDfvf0hwh_ANXNV1pSe2kKr8FpRYw=w544-h544-l90-rj",
+        Artist: "Tanishk Bagchi, Arijit Singh",
+        Duration: "4: 03",
+        url: `${server[3]}/listen/Le Aaunga - Satyaprem Ki Katha`
     }
 ];
 
