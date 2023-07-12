@@ -1806,6 +1806,20 @@ const songlist = [
         ]
     },
     {
+        _albumId: "64ae8a15785fb86646739e20",
+        _trackId: "64ae8a15785fb86646739e20",
+        Album: "Obsessed",
+        AlbumArtist: "Riar Saab, Abhijay Sharma",
+        Type: "Single",
+        Year: "2022",
+        Color: "rgba(8,136,192,1)",
+        releaseDate: (0, utils_1.date)("29-09-2022"),
+        Thumbnail: "https://lh3.googleusercontent.com/T4LRcQwrigppA4iZC_ANtb8ibGUCjAq3IK8Jf1oUOliY2Hsl1CqoKHVdfoErYg-NDus0kaSnQgw6URpY=w544-h544-l90-rj",
+        Artist: "Riar Saab, Abhijay Sharma",
+        Duration: "3: 10",
+        url: `${utils_1.server[3]}/listen/Obsessed`
+    },
+    {
         _albumId: "64ad589bc9928e32fe4ab3e3",
         _trackId: "64ad589bc9928e32fe4ab3e3",
         Album: 'Le Aaunga (From "Satyaprem Ki Katha")',
