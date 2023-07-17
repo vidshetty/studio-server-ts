@@ -1833,6 +1833,20 @@ const songlist: (Single|Album)[] = [
         Artist: "Tanishk Bagchi, Arijit Singh",
         Duration: "4: 03",
         url: `${server[3]}/listen/Le Aaunga - Satyaprem Ki Katha`
+    },
+    {
+        _albumId: "64b53418febfcb823e932e7b",
+        _trackId: "64b53418febfcb823e932e7b",
+        Album: "Akhiyaan",
+        AlbumArtist: "Mitraz",
+        Type: "Single",
+        Year: "2022",
+        Color: "rgba(24,40,64,1)",
+        releaseDate: date("04-09-2023"),
+        Thumbnail: "https://lh3.googleusercontent.com/JSwQ_BbPakmEGEZm5B81TRq0GuC4mMfoW76w0vfgpxuy57pH_xiwQzVLUxW5XB3dgoE21w5z8s_q4DyM=w544-h544-l90-rj",
+        Artist: "Mitraz",
+        Duration: "3: 11",
+        url: `${server[3]}/listen/Akhiyaan - Mitraz`
     }
 ];
 
