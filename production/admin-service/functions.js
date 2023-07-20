@@ -156,8 +156,8 @@ const fixJson = async (request, _) => {
     try {
         const data = JSON.parse(await (0, utils_1.readFileAsync)(fileName));
         const list = data.map((each) => {
-            each.startTimeMs = parseInt(`${each.startTimeMs}`);
-            return each;
+            const startTimeMs = parseInt(`${each.startTimeMs}`);
+            return { startTimeMs, words: each.words, key: each.key };
         });
         await (0, utils_1.writeFileAsync)(fileName, JSON.stringify(list));
         return {

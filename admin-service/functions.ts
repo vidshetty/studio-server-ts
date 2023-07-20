@@ -244,8 +244,8 @@ export const fixJson = async (request: Request, _:any) => {
         const data: SpotifyLyrics[] = JSON.parse(await readFileAsync(fileName));
 
         const list = data.map<SpotifyLyrics>((each: SpotifyLyrics) => {
-            each.startTimeMs = parseInt(`${each.startTimeMs}`);
-            return each;
+            const startTimeMs = parseInt(`${each.startTimeMs}`);
+            return { startTimeMs, words: each.words, key: each.key };
         });
 
         await writeFileAsync(fileName, JSON.stringify(list));
