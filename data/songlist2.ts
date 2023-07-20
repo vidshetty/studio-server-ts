@@ -1567,20 +1567,6 @@ const songlist: (Single|Album)[] = [
         sync: true
     },
     {
-        _albumId: "62d4daa0a52ec658c57fe55a",
-        _trackId: "62d4daa0a52ec658c57fe55a",
-        Album: 'Kesariya (From "Brahmastra")',
-        AlbumArtist: "Pritam",
-        Type: "Single",
-        Year: "2022",
-        Color: "rgba(200,32,0,1)",
-        releaseDate: date("17-07-2022"),
-        Thumbnail: "https://lh3.googleusercontent.com/CH0SThQN0HOk2eV81GGA-Tiftn58G48iy8lEyKNXJjbDSI9ApKKnmt4ncwr5gO_mZoQvFF3HPfHtky1Y=w544-h544-l90-rj",
-        Artist: "Pritam, Arijit Singh, Amitabh Bhattacharya",
-        Duration: "4: 28",
-        url: `${server[3]}/listen/Kesariya - Brahmastra`
-    },
-    {
         _albumId: "62df9478097f86bd84c07841",
         Album: "Nishu",
         AlbumArtist: "Ikka",
@@ -1854,6 +1840,46 @@ const songlist: (Single|Album)[] = [
         Artist: "Mitraz",
         Duration: "3: 11",
         url: `${server[3]}/listen/Akhiyaan - Mitraz`
+    },
+    {
+        _albumId: "64b9a45c6c78391cb0953627",
+        Album: "Brahmastra (Original Motion Picture Soundtrack)",
+        AlbumArtist: "Pritam",
+        Type: "Album",
+        Year: "2022",
+        Color: "rgba(176,56,48,1)",
+        releaseDate: date("06-10-2022"),
+        Thumbnail: "https://lh3.googleusercontent.com/eLoQKzskAIeNPego41FH2sz5uFy-A3Ynf1rcNdQ4eKv4J10atKk_RKbZDnQ3Ja-UNM8mKSu_-8gNeVYp4g=w544-h544-l90-rj",
+        Tracks: [
+            {
+                _trackId: "64b9a465634ff38911a8776e",
+                Title: "Kesariya",
+                Artist: "Arijit Singh",
+                Duration: "4: 28",
+                url: `${server[3]}/listen/Kesariya - Brahmastra`
+            },
+            {
+                _trackId: "64b9a46cef4cca544fd30f19",
+                Title: "Deva Deva",
+                Artist: "Arijit Singh, Jonita Gandhi",
+                Duration: "4: 39",
+                url: `${server[3]}/listen/Deva Deva - Brahmastra`
+            },
+            {
+                _trackId: "64b9a47489bde39f28d7aee3",
+                Title: "Dance Ka Bhoot",
+                Artist: "Arijit Singh",
+                Duration: "4: 05",
+                url: `${server[3]}/listen/Dance Ka Bhoot - Brahmastra`
+            },
+            {
+                _trackId: "64b9a47b1ef27c91138d7d63",
+                Title: "Kesariya - Dance Mix",
+                Artist: "Shashwat Singh, Antara Mitra, Arijit Singh",
+                Duration: "3: 17",
+                url: `${server[3]}/listen/Kesariya Dance Mix - Brahmastra`
+            }
+        ]
     }
 ];
 
