@@ -1855,7 +1855,9 @@ const songlist = [
                 Title: "Kesariya",
                 Artist: "Arijit Singh",
                 Duration: "4: 28",
-                url: `${utils_1.server[3]}/listen/Kesariya - Brahmastra`
+                url: `${utils_1.server[3]}/listen/Kesariya - Brahmastra`,
+                lyrics: true,
+                sync: true
             },
             {
                 _trackId: "64b9a46cef4cca544fd30f19",
