@@ -1882,6 +1882,27 @@ const songlist: (Single|Album)[] = [
                 url: `${server[3]}/listen/Kesariya Dance Mix - Brahmastra`
             }
         ]
+    },
+    {
+        _albumId: "64bbbfe78b9da037dda51690",
+        Album: "Champagne Talk",
+        AlbumArtist: "King",
+        Type: "Album",
+        Year: "2022",
+        Color: "rgba(0,64,72,1)",
+        releaseDate: date("12-10-2022"),
+        Thumbnail: "https://lh3.googleusercontent.com/B8qfmAm8BOtXmSEwYMkcotK6nun-imczlC1r8OyeCxGMJqqfoxFkqCWL38MgFN3dcmYp63PLo4aQYbo=w544-h544-l90-rj",
+        Tracks: [
+            {
+                _trackId: "64bbbff9076b8ff8f68d3782",
+                Title: "Maan Meri Jaan",
+                Artist: "King",
+                url: `${server[3]}/listen/Maan Meri Jaan - King`,
+                Duration: "3: 14",
+                lyrics: true,
+                sync: true
+            }
+        ]
     }
 ];
 
