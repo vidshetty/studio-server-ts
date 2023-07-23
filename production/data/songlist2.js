@@ -1824,7 +1824,9 @@ const songlist = [
         Thumbnail: "https://lh3.googleusercontent.com/orby46otQWPMrwEEUIca-VBx6o8k1C4p-B1g4sHlEVtZFyC3V1CDfvf0hwh_ANXNV1pSe2kKr8FpRYw=w544-h544-l90-rj",
         Artist: "Tanishk Bagchi, Arijit Singh",
         Duration: "4: 03",
-        url: `${utils_1.server[3]}/listen/Le Aaunga - Satyaprem Ki Katha`
+        url: `${utils_1.server[3]}/listen/Le Aaunga - Satyaprem Ki Katha`,
+        lyrics: true,
+        sync: true
     },
     {
         _albumId: "64b53418febfcb823e932e7b",
