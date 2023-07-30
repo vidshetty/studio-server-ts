@@ -265,3 +265,48 @@ export const startRadio = async (request: Request, _:any) => {
     return finalArr;
     
 };
+
+export const getMostPlayedRadio = async (request: Request, _: any) => {
+
+    const { exclude: toBeExcludedAlbumId = "" } = request.query as unknown as RequestQuery;
+    const { id: userId } = request.ACCOUNT;
+
+    const user: UserInterface | null = await Users.findOne({ _id: userId });
+    if (!user) return [];
+
+    const { recentlyPlayed: recents } = user;
+    const recentsAlbumIdsMap = recents.reduce<{ [key: string]: boolean }>((acc,each) => {
+        acc[String(each.albumId)] = true;
+        return acc;
+    }, {});
+
+    const tracks = ALBUM_LIST_TRACKS.filter(each => {
+        const cond1 = String(each._albumId) !== String(toBeExcludedAlbumId);
+        const cond2 = recentsAlbumIdsMap[String(each._albumId)] || false;
+        return cond1 && cond2;
+    });
+
+    const len: number = tracks.length;
+
+    const final: AndroidTrack[] = [];
+    const randomNumberCounter: { [key: number]: boolean } = {};
+    let done: boolean;
+
+    for (let i=0; i<50; i++) {
+        done = false;
+        let limit = 3;
+        while(!done) {
+            if (limit === 0) break;
+            else limit--;
+            const rand = Math.floor(Math.random() * len);
+            if (!randomNumberCounter[rand]) {
+                final.push(tracks[rand]);
+                randomNumberCounter[rand] = true;
+                done = true;
+            }
+        }
+    };
+
+    return final;
+
+};

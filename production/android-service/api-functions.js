@@ -19,7 +19,7 @@ var __importStar = (this && this.__importStar) || function (mod) {
     return result;
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.startRadio = exports.search = exports.homeAlbums = exports.getAlbum = exports.getLibrary = exports.activeSessions = exports.checkServer = void 0;
+exports.getMostPlayedRadio = exports.startRadio = exports.search = exports.homeAlbums = exports.getAlbum = exports.getLibrary = exports.activeSessions = exports.checkServer = void 0;
 const utils_1 = require("../helpers/utils");
 const Users_1 = require("../models/Users");
 const archiveGateway_1 = __importStar(require("../data/archiveGateway"));
@@ -210,4 +210,44 @@ const startRadio = async (request, _) => {
     return finalArr;
 };
 exports.startRadio = startRadio;
+const getMostPlayedRadio = async (request, _) => {
+    const { exclude: toBeExcludedAlbumId = "" } = request.query;
+    const { id: userId } = request.ACCOUNT;
+    const user = await Users_1.Users.findOne({ _id: userId });
+    if (!user)
+        return [];
+    const { recentlyPlayed: recents } = user;
+    const recentsAlbumIdsMap = recents.reduce((acc, each) => {
+        acc[String(each.albumId)] = true;
+        return acc;
+    }, {});
+    const tracks = archiveGateway_1.ALBUM_LIST_TRACKS.filter(each => {
+        const cond1 = String(each._albumId) !== String(toBeExcludedAlbumId);
+        const cond2 = recentsAlbumIdsMap[String(each._albumId)] || false;
+        return cond1 && cond2;
+    });
+    const len = tracks.length;
+    const final = [];
+    const randomNumberCounter = {};
+    let done;
+    for (let i = 0; i < 50; i++) {
+        done = false;
+        let limit = 3;
+        while (!done) {
+            if (limit === 0)
+                break;
+            else
+                limit--;
+            const rand = Math.floor(Math.random() * len);
+            if (!randomNumberCounter[rand]) {
+                final.push(tracks[rand]);
+                randomNumberCounter[rand] = true;
+                done = true;
+            }
+        }
+    }
+    ;
+    return final;
+};
+exports.getMostPlayedRadio = getMostPlayedRadio;
 //# sourceMappingURL=api-functions.js.map

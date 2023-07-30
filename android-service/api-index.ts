@@ -16,7 +16,8 @@ import {
     getAlbum,
     homeAlbums,
     search,
-    startRadio
+    startRadio,
+    getMostPlayedRadio
 } from "./api-functions";
 
 
@@ -50,6 +51,8 @@ router.get("/getLyrics", responseMid(getLyrics));
 router.get("/sign-out", responseMid(signOut));
 
 router.get("/startradio", responseMid(startRadio));
+
+router.get("/mostPlayedRadio", responseMid(getMostPlayedRadio));
 
 router.get("/activeSessions", responseMid(activeSessions));
 
