@@ -1750,14 +1750,18 @@ const songlist: (Single|Album)[] = [
                 Title: "O Bedardeya",
                 Artist: "Pritam, Arijit Singh",
                 Duration: "5: 13",
-                url: `${server[3]}/listen/O Bedardeya - Tu Jhoothi Main Makkaar`
+                url: `${server[3]}/listen/O Bedardeya - Tu Jhoothi Main Makkaar`,
+                lyrics: true,
+                sync: true
             },
             {
                 _trackId: "64b619c6809da0e7a932c2c5",
                 Title: "Jaadui",
                 Artist: "Pritam, Jubin Nautiyal",
                 Duration: "3: 42",
-                url: `${server[3]}/listen/Jaadui - Tu Jhoothi Main Makkaar`
+                url: `${server[3]}/listen/Jaadui - Tu Jhoothi Main Makkaar`,
+                lyrics: true,
+                sync: true
             }
         ]
     },
