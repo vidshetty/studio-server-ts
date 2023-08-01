@@ -179,6 +179,7 @@ export interface AndroidTrack {
     _albumId: string;
     Album: string;
     Year: string;
+    Type: string;
     Color: string;
     releaseDate: Date;
     Thumbnail: string;
