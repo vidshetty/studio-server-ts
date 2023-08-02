@@ -1909,7 +1909,23 @@ const songlist: (Single|Album)[] = [
                 sync: true
             }
         ]
-    }
+    },
+    {
+        _albumId: "64ca1b61c26f1a71fb601cca",
+        _trackId: "64ca1b61c26f1a71fb601cca",
+        Album: "Lo Aayi Barsaat",
+        AlbumArtist: "Darshan Raval",
+        Type: "Single",
+        Year: "2023",
+        Color: "rgba(200,8,8,1)",
+        releaseDate: date("18-07-2023"),
+        Thumbnail: "https://lh3.googleusercontent.com/MzomIUUKzIAuOSkahug2ZGPU7jlqxO-odCLJBgEQMhY_3oiGsxC8Ybz8rGFi1RxdXNzj2DR3kpVWNeav=w544-h544-l90-rj",
+        Artist: "Darshan Raval",
+        Duration: "3: 42",
+        url: `${server[3]}/listen/Lo Aayi Barsaat - Darshan Raval`,
+        lyrics: true,
+        sync: true
+    },
 ];
 
 
