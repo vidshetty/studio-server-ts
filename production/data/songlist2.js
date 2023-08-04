@@ -1925,6 +1925,22 @@ const songlist = [
         lyrics: true,
         sync: true
     },
+    {
+        _albumId: "64cc9a321e73e8d380f8dfa4",
+        _trackId: "64cc9a321e73e8d380f8dfa4",
+        Album: "Mahiye Jinna Sohna",
+        AlbumArtist: "Darshan Raval",
+        Type: "Single",
+        Year: "2023",
+        Color: "rgba(240,96,0,1)",
+        releaseDate: (0, utils_1.date)("22-06-2023"),
+        Thumbnail: "https://lh3.googleusercontent.com/qQSneMiFfF2m4wgDwZmBUj1FHGAxXTfvLcBjq7z5nJp-Gz-IrbM_Em6Aj3Twv5gdM_y1RxCQd--laA=w544-h544-l90-rj",
+        Artist: "Darshan Raval",
+        Duration: "3: 01",
+        url: `${utils_1.server[3]}/listen/Mahiye Jinna Sohna - Darshan Raval`,
+        lyrics: true,
+        sync: true
+    },
 ];
 exports.default = songlist;
 //# sourceMappingURL=songlist2.js.map
