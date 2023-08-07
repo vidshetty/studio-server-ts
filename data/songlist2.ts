@@ -1942,6 +1942,22 @@ const songlist: (Single|Album)[] = [
         lyrics: true,
         sync: true
     },
+    {
+        _albumId: "64d1017676dcba781b8ca9de",
+        _trackId: "64d1017676dcba781b8ca9de",
+        Album: "Sleepless",
+        AlbumArtist: "AP Dhillon",
+        Type: "Single",
+        Year: "2023",
+        Color: "rgba(56,136,192,1)",
+        releaseDate: date("14-07-2023"),
+        Thumbnail: "https://lh3.googleusercontent.com/UnVfQfslFpPo8lsWo6deKarzpxcduZLMzSOzaLlIu0e_q6k9GinlR_3v8859t6Wiw4PCrCBmhL5K73s=w544-h544-l90-rj",
+        Artist: "AP Dhillon",
+        Duration: "2: 36",
+        url: `${server[3]}/listen/Sleepless - AP Dhillon`,
+        lyrics: true,
+        sync: true
+    }
 ];
 
 
