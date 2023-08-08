@@ -1956,7 +1956,51 @@ const songlist = [
         url: `${utils_1.server[3]}/listen/Sleepless - AP Dhillon`,
         lyrics: true,
         sync: true
-    }
+    },
+    {
+        _albumId: "64d25967786c97e9c7b86377",
+        _trackId: "64d25967786c97e9c7b86377",
+        Album: "Gone Girl",
+        AlbumArtist: "Badshah, Payal Dev",
+        Type: "Single",
+        Year: "2023",
+        Color: "rgba(200,120,112,1)",
+        releaseDate: (0, utils_1.date)("08-08-2023"),
+        Thumbnail: "https://lh3.googleusercontent.com/dBUZ_c_h5KPkFWjhYx-B-nkbU5Wh_JE1zN8e4Wm5mpJwdh9uFxHbm53UDoQwB99sWvA3DG2UEnhpdGo=w544-h544-l90-rj",
+        Artist: "Badshah, Payal Dev",
+        Duration: "2: 47",
+        url: `${utils_1.server[3]}/listen/Gone Girl - Badshah`
+    },
+    {
+        _albumId: "64d262be6abab9aaa8fb15f0",
+        Album: "Laal Singh Chaddha",
+        AlbumArtist: "Pritam",
+        Type: "Album",
+        Year: "2022",
+        Color: "rgba(208,184,104,1)",
+        releaseDate: (0, utils_1.date)("05-08-2022"),
+        Thumbnail: "https://lh3.googleusercontent.com/EKLJnn97hUrFSI2R4hFqrWT5yfznhIS8o_e3mJKgSN07wFjFXGFMUROm28GZodfkFU1gYn1Hwazg0fr7ow=w544-h544-l90-rj",
+        Tracks: [
+            {
+                _trackId: "64d262c6c1842b32b7a9b2c1",
+                Title: "Phir Na Aisi Raat Aayegi",
+                Artist: "Arijit Singh",
+                url: `${utils_1.server[3]}/listen/Phir Na Aisi Raat Aayegi - Laal Singh Chaddha`,
+                Duration: "4: 45",
+                lyrics: true,
+                sync: true
+            },
+            {
+                _trackId: "64d262cea1a40ce66059b59f",
+                Title: "Tere Hawaale",
+                Artist: "Arijit Singh, Shilpa Rao",
+                url: `${utils_1.server[3]}/listen/Tere Hawaale - Laal Singh Chaddha`,
+                Duration: "5: 46",
+                lyrics: true,
+                sync: true
+            }
+        ]
+    },
 ];
 exports.default = songlist;
 //# sourceMappingURL=songlist2.js.map
