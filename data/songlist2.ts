@@ -2002,6 +2002,20 @@ const songlist: (Single|Album)[] = [
             }
         ]
     },
+    {
+        _albumId: "64d8b982d7a9efc6cc7646b9",
+        _trackId: "64d8b982d7a9efc6cc7646b9",
+        Album: "With You",
+        AlbumArtist: "AP Dhillon",
+        Type: "Single",
+        Year: "2023",
+        Color: "rgba(3,127,140,1)",
+        releaseDate: date("11-08-2023"),
+        Thumbnail: "https://lh3.googleusercontent.com/pi19qcxHlxeVbw9V5hf-hxziqz7MV_Q9L9gRvr-XlcDkyZBOp4E4Veq78sMxD__cU83n8ar2BNqZ7XzW=w544-h544-l90-rj",
+        Artist: "AP Dhillon",
+        Duration: "2: 34",
+        url: `${server[3]}/listen/With You - AP Dhillon`
+    }
 ];
 
 
