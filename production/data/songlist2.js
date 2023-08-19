@@ -763,6 +763,20 @@ const songlist = [
         ]
     },
     {
+        _albumId: "64e0cc0356f099571b08a656",
+        _trackId: "64e0cc0356f099571b08a656",
+        Album: "We Rollin",
+        AlbumArtist: "Shubh",
+        Type: "Single",
+        Year: "2021",
+        Color: "rgba(104,104,104,1)",
+        releaseDate: (0, utils_1.date)("09-09-2021"),
+        Thumbnail: "https://lh3.googleusercontent.com/Z52VtxBQZEZ80bb_gWFoun-50H9BC_hdRkExyQUzp3Rdx8OOoPiz1tJGzWF5WHwyyb0k7IOT7fLMI7uF=w544-h544-l90-rj",
+        Artist: "Shubh",
+        Duration: "3: 19",
+        url: `${utils_1.server[3]}/listen/We Rollin - Shubh`
+    },
+    {
         _albumId: "616a9782c25ff861eec5edc7",
         Album: "Raabta",
         AlbumArtist: "Various Artists",
@@ -2014,6 +2028,46 @@ const songlist = [
         Artist: "AP Dhillon",
         Duration: "2: 34",
         url: `${utils_1.server[3]}/listen/With You - AP Dhillon`
+    },
+    {
+        _albumId: "64e0deea63133c1465d21924",
+        Album: "Still Rollin",
+        AlbumArtist: "Shubh",
+        Type: "Album",
+        Year: "2023",
+        Color: "rgba(184,200,192,1)",
+        releaseDate: (0, utils_1.date)("19-05-2023"),
+        Thumbnail: "https://lh3.googleusercontent.com/V_w7m2kuoVshpqcS1-RlEl-aONMQcGjP84WSo1tJS5IU8IDCr0v0s0NBMMGrLXtlL4CNjUKEdXcN3gAy=w544-h544-l90-rj",
+        Tracks: [
+            {
+                _trackId: "64e0dedd6145a50bdf7e3957",
+                Title: "Still Rolling",
+                Artist: "Shubh",
+                url: `${utils_1.server[3]}/listen/Still Rollin - Shubh`,
+                Duration: "2: 55"
+            },
+            {
+                _trackId: "64e0dee3d57bade66fcb2728",
+                Title: "Cheques",
+                Artist: "Shubh",
+                url: `${utils_1.server[3]}/listen/Cheques - Shubh`,
+                Duration: "3: 04"
+            }
+        ]
+    },
+    {
+        _albumId: "64e0dffaa7d412715c775bd2",
+        _trackId: "64e0dffaa7d412715c775bd2",
+        Album: "One Love",
+        AlbumArtist: "Shubh",
+        Type: "Single",
+        Year: "2023",
+        Color: "rgba(56,48,48,1)",
+        releaseDate: (0, utils_1.date)("18-08-2023"),
+        Thumbnail: "https://lh3.googleusercontent.com/1L5hDbqWRfzoPbCYQtNJLMqIr3KLQB4a0uzkkm8M_Ef9GrXsGkmdVp46dx6JDKr_h0qUPBlOJCYumds=w544-h544-l90-rj",
+        Artist: "Shubh",
+        Duration: "2: 39",
+        url: `${utils_1.server[3]}/listen/One Love - Shubh`
     }
 ];
 exports.default = songlist;
