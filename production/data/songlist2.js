@@ -2044,14 +2044,14 @@ const songlist = [
                 Title: "Still Rolling",
                 Artist: "Shubh",
                 url: `${utils_1.server[3]}/listen/Still Rollin - Shubh`,
-                Duration: "2: 55"
+                Duration: "2: 54"
             },
             {
                 _trackId: "64e0dee3d57bade66fcb2728",
                 Title: "Cheques",
                 Artist: "Shubh",
                 url: `${utils_1.server[3]}/listen/Cheques - Shubh`,
-                Duration: "3: 04"
+                Duration: "3: 03"
             }
         ]
     },
