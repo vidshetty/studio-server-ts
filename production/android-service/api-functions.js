@@ -62,8 +62,9 @@ const getSongs = (name) => {
     return archiveGateway_1.ALBUM_LIST_TRACKS.reduce((acc, track) => {
         const in_title = track.Title.toLowerCase().includes(lower);
         const in_artists = track.Artist.toLowerCase().includes(lower);
+        const in_artists_2 = (track.Artist.replace(/$/g, "s")).toLowerCase().includes(lower);
         const in_albumname = track.Album.toLowerCase().includes(lower);
-        if (in_title || in_albumname || in_artists) {
+        if (in_title || in_albumname || in_artists || in_artists_2) {
             acc.push(track);
         }
         return acc;

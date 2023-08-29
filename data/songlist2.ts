@@ -2069,6 +2069,25 @@ const songlist: (Single|Album)[] = [
         Artist: "Shubh",
         Duration: "2: 39",
         url: `${server[3]}/listen/One Love - Shubh`
+    },
+    {
+        _albumId: "64ed975cdc7d21a92a24fc9f",
+        Album: "FAR FROM OVER",
+        AlbumArtist: "KR$NA",
+        Type: "Album",
+        Year: "2023",
+        Color: "rgba(83,83,83,1)",
+        releaseDate: date("29-08-2023"),
+        Thumbnail: "https://lh3.googleusercontent.com/dRdjS1dtvLGzVVDfyFpvATYf9Ee7ZZDeFNPO6-5XcfxpKn9x0DGQkq4R2F4PkGIBrAXILpefqOVmZAGI=w544-h544-l90-rj",
+        Tracks: [
+            {
+                _trackId: "64ed9763414b8306c3cd0821",
+                Title: "Prarthana",
+                Artist: "KR$NA, Bharg",
+                url: `${server[3]}/listen/Prarthana - KR$NA`,
+                Duration: "3: 19"
+            }
+        ]
     }
 ];
 
