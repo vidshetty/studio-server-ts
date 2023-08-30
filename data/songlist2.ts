@@ -2081,11 +2081,39 @@ const songlist: (Single|Album)[] = [
         Thumbnail: "https://lh3.googleusercontent.com/dRdjS1dtvLGzVVDfyFpvATYf9Ee7ZZDeFNPO6-5XcfxpKn9x0DGQkq4R2F4PkGIBrAXILpefqOVmZAGI=w544-h544-l90-rj",
         Tracks: [
             {
+                _trackId: "64ef5744105029ea87ef3bf8",
+                Title: "Still Standing",
+                Artist: "KR$NA",
+                url: `${server[3]}/listen/Still Standing - KR$NA`,
+                Duration: "3: 02"
+            },
+            {
                 _trackId: "64ed9763414b8306c3cd0821",
                 Title: "Prarthana",
                 Artist: "KR$NA, Bharg",
                 url: `${server[3]}/listen/Prarthana - KR$NA`,
                 Duration: "3: 19"
+            },
+            {
+                _trackId: "64ef574c5f3140d6a643c144",
+                Title: "Wanna Know",
+                Artist: "KR$NA",
+                url: `${server[3]}/listen/Wanna Know - KR$NA`,
+                Duration: "3: 25"
+            },
+            {
+                _trackId: "64ef5754bcb03801a9afbe72",
+                Title: "Hola Amigo",
+                Artist: "KR$NA, Seedhe Maut, Umair",
+                url: `${server[3]}/listen/Hola Amigo - KR$NA`,
+                Duration: "3: 46"
+            },
+            {
+                _trackId: "64ef575ac7db0d2fe36f1033",
+                Title: "Some Of Us",
+                Artist: "KR$NA, AR Paisley",
+                url: `${server[3]}/listen/Some Of Us - KR$NA`,
+                Duration: "3: 45"
             }
         ]
     }
