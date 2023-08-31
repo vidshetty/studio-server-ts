@@ -2116,6 +2116,22 @@ const songlist: (Single|Album)[] = [
                 Duration: "3: 45"
             }
         ]
+    },
+    {
+        _albumId: "64f0049484caf20c1477806f",
+        _trackId: "64f0049484caf20c1477806f",
+        Album: "CROWN",
+        AlbumArtist: "King, Natania",
+        Type: "Single",
+        Year: "2023",
+        Color: "rgba(208,8,24,1)",
+        releaseDate: date("23-08-2023"),
+        Thumbnail: "https://lh3.googleusercontent.com/OQRDqhEUJli_P9Uwr6c2EJYN77d_9F2sHx4LEWIQhYCaD5alK9UgY7st8ODZQJI_834JNo9iqelOP46D=w544-h544-l90-rj",
+        Artist: "King, Natania",
+        Duration: "3: 17",
+        url: `${server[3]}/listen/CROWN - King`,
+        lyrics: true,
+        sync: true
     }
 ];
 
