@@ -2131,6 +2131,20 @@ const songlist = [
         url: `${utils_1.server[3]}/listen/CROWN - King`,
         lyrics: true,
         sync: true
+    },
+    {
+        _albumId: "64fdbd804cb0d601957818b6",
+        _trackId: "64fdbd804cb0d601957818b6",
+        Album: "Palpita",
+        AlbumArtist: "Camilo, Diljit Dosanjh",
+        Type: "Single",
+        Year: "2023",
+        Color: "rgba(128,152,104,1)",
+        releaseDate: (0, utils_1.date)("31-08-2023"),
+        Thumbnail: "https://lh3.googleusercontent.com/_HIVUCxENu47x-7a3F2sBfTWqWELqeEhsWIXKcdFS7sXuQKpMK3l74_zANef1HcPzGyb5MPOpZ6FjY2I=w544-h544-l90-rj",
+        Artist: "Camilo, Diljit Dosanjh",
+        Duration: "2: 31",
+        url: `${utils_1.server[3]}/listen/Palpita`
     }
 ];
 exports.default = songlist;
