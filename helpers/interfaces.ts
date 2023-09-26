@@ -19,6 +19,8 @@ export interface Album {
     Type: string;
     Year: string;
     Color: string;
+    LightColor?: string;
+    DarkColor?: string;
     releaseDate: Date;
     Thumbnail: string;
     Tracks: Track[];
@@ -32,6 +34,8 @@ export interface Single {
     Type: string;
     Year: string;
     Color: string;
+    LightColor?: string;
+    DarkColor?: string;
     releaseDate: Date;
     Thumbnail: string;
     Artist: string;
@@ -170,6 +174,8 @@ export interface AndroidAlbum {
     Type: string;
     Year: string;
     Color: string;
+    LightColor?: string;
+    DarkColor?: string;
     releaseDate: Date;
     Thumbnail: string;
     Tracks: Track[];
@@ -181,6 +187,8 @@ export interface AndroidTrack {
     Year: string;
     Type: string;
     Color: string;
+    LightColor?: string;
+    DarkColor?: string;
     releaseDate: Date;
     Thumbnail: string;
     _trackId: string;
