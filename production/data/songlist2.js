@@ -2036,6 +2036,8 @@ const songlist = [
         Type: "Album",
         Year: "2023",
         Color: "rgba(184,200,192,1)",
+        LightColor: "rgba(184,200,192,1)",
+        DarkColor: "rgba(111,121,116,1)",
         releaseDate: (0, utils_1.date)("19-05-2023"),
         Thumbnail: "https://lh3.googleusercontent.com/V_w7m2kuoVshpqcS1-RlEl-aONMQcGjP84WSo1tJS5IU8IDCr0v0s0NBMMGrLXtlL4CNjUKEdXcN3gAy=w544-h544-l90-rj",
         Tracks: [
@@ -2145,6 +2147,23 @@ const songlist = [
         Artist: "Camilo, Diljit Dosanjh",
         Duration: "2: 31",
         url: `${utils_1.server[3]}/listen/Palpita`
+    },
+    {
+        _albumId: "65129479fc520a0a2b6e932a",
+        _trackId: "65129479fc520a0a2b6e932a",
+        Album: "Sarkaare",
+        AlbumArtist: "King",
+        Type: "Single",
+        Year: "2023",
+        Color: "rgba(168,95,217,1)",
+        releaseDate: (0, utils_1.date)("26-09-2023"),
+        // youtube music thumbnail
+        // Thumbnail: "https://lh3.googleusercontent.com/9Fo-3nJn6xRr0DQOjLXco6wK6zn5GodIN90ABoy4lvNLcWbTrbS_FnSsZ9MXhk2rXPrChuXPVu6kMNFqDw=w544-h544-l90-rj",
+        // spotify thumbnail
+        Thumbnail: "https://i.scdn.co/image/ab67616d0000b27309d8b013e0d7eb61e6a62cfa",
+        Artist: "King",
+        Duration: "2: 43",
+        url: `${utils_1.server[3]}/listen/Sarkaare - King`
     }
 ];
 exports.default = songlist;
