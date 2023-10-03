@@ -2163,7 +2163,9 @@ const songlist = [
         Thumbnail: "https://i.scdn.co/image/ab67616d0000b27309d8b013e0d7eb61e6a62cfa",
         Artist: "King",
         Duration: "2: 43",
-        url: `${utils_1.server[3]}/listen/Sarkaare - King`
+        url: `${utils_1.server[3]}/listen/Sarkaare - King`,
+        lyrics: true,
+        sync: true
     }
 ];
 exports.default = songlist;
