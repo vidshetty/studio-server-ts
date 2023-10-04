@@ -1876,7 +1876,8 @@ const songlist: (Single|Album)[] = [
                 Title: "Kesariya",
                 Artist: "Arijit Singh",
                 Duration: "4: 28",
-                url: `${server[3]}/listen/Kesariya - Brahmastra`,
+                // url: `${server[3]}/listen/Kesariya - Brahmastra`,
+                url: `${server[3]}/hls/listen/Kesariya - Brahmastra/output.m3u8`,
                 lyrics: true,
                 sync: true
             },
