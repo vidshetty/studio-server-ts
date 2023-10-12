@@ -2169,6 +2169,20 @@ const songlist: (Single|Album)[] = [
         url: `${server[3]}/hls/listen/Sarkaare - King/output.m3u8`, //test for hls
         lyrics: true,
         sync: true
+    },
+    {
+        _albumId: "65279dbf9e51553d315ba8a2",
+        _trackId: "65279dbf9e51553d315ba8a2",
+        Album: 'Hua Main (From "ANIMAL")',
+        AlbumArtist: "Raghav Chaitanya, Pritam",
+        Type: "Single",
+        Year: "2023",
+        Color: "rgba(89,34,2,1)",
+        releaseDate: date("11-10-2023"),
+        Thumbnail: "https://lh3.googleusercontent.com/K062nZB9J3drV7gJlsRw4hbhnHyF0T2tgyo7ZUjqlO9bQXBdO8mAc-QXt22EU8MBT8D7Ag3xW1lZ1L4=w544-h544-l90-rj",
+        Artist: "Raghav Chaitanya, Pritam",
+        Duration: "4: 37",
+        url: `${server[3]}/hls/listen/Hua Main - Animal/output.m3u8`
     }
 ];
 
