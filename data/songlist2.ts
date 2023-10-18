@@ -2151,26 +2151,6 @@ const songlist: (Single|Album)[] = [
         url: `${server[3]}/listen/Palpita`
     },
     {
-        _albumId: "65129479fc520a0a2b6e932a",
-        _trackId: "65129479fc520a0a2b6e932a",
-        Album: "Sarkaare",
-        AlbumArtist: "King",
-        Type: "Single",
-        Year: "2023",
-        Color: "rgba(168,95,217,1)",
-        releaseDate: date("26-09-2023"),
-        // youtube music thumbnail
-        // Thumbnail: "https://lh3.googleusercontent.com/9Fo-3nJn6xRr0DQOjLXco6wK6zn5GodIN90ABoy4lvNLcWbTrbS_FnSsZ9MXhk2rXPrChuXPVu6kMNFqDw=w544-h544-l90-rj",
-        // spotify thumbnail
-        Thumbnail: "https://i.scdn.co/image/ab67616d0000b27309d8b013e0d7eb61e6a62cfa",
-        Artist: "King",
-        Duration: "2: 43",
-        // url: `${server[3]}/listen/Sarkaare - King`,
-        url: `${server[3]}/hls/listen/Sarkaare - King/output.m3u8`, //test for hls
-        lyrics: true,
-        sync: true
-    },
-    {
         _albumId: "65279dbf9e51553d315ba8a2",
         _trackId: "65279dbf9e51553d315ba8a2",
         Album: 'Hua Main (From "ANIMAL")',
@@ -2184,6 +2164,27 @@ const songlist: (Single|Album)[] = [
         Artist: "Raghav Chaitanya, Pritam",
         Duration: "4: 37",
         url: `${server[3]}/hls/listen/Hua Main - Animal/output.m3u8`
+    },
+    {
+        _albumId: "652f9232162331b12f7322aa",
+        Album: "NEW LIFE",
+        AlbumArtist: "King",
+        Type: "Album",
+        Year: "2023",
+        Color: "rgba(86,89,2,1)",
+        releaseDate: date("18-10-2023"),
+        Thumbnail: "https://lh3.googleusercontent.com/qPrZgSfmJdIslapEgSDUZFouozBidqBHDkc-u4Xl6zoG9qKkrMSqXx1OXXEgXmFxhCzQ5g5646sy_T3kiw=w544-h544-l90-rj",
+        Tracks: [
+            {
+                _trackId: "652f923968b821749dd7821d",
+                Title: "Sarkaare",
+                Artist: "King",
+                url: `${server[3]}/hls/listen/Sarkaare - King/output.m3u8`,
+                Duration: "2: 43",
+                lyrics: true,
+                sync: true
+            }
+        ]
     }
 ];
 
