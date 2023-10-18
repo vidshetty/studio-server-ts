@@ -2175,6 +2175,13 @@ const songlist = [
         Thumbnail: "https://lh3.googleusercontent.com/qPrZgSfmJdIslapEgSDUZFouozBidqBHDkc-u4Xl6zoG9qKkrMSqXx1OXXEgXmFxhCzQ5g5646sy_T3kiw=w544-h544-l90-rj",
         Tracks: [
             {
+                _trackId: "",
+                Title: "Tu Jaana Na Piya",
+                Artist: "King",
+                url: `${utils_1.server[3]}/hls/listen/Tu Jaana Na Piya - King/output.m3u8`,
+                Duration: "3: 46"
+            },
+            {
                 _trackId: "652f923968b821749dd7821d",
                 Title: "Sarkaare",
                 Artist: "King",
