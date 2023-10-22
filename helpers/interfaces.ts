@@ -174,8 +174,8 @@ export interface AndroidAlbum {
     Type: string;
     Year: string;
     Color: string;
-    LightColor?: string;
-    DarkColor?: string;
+    LightColor?: string | null;
+    DarkColor?: string | null;
     releaseDate: Date;
     Thumbnail: string;
     Tracks: Track[];
@@ -187,8 +187,8 @@ export interface AndroidTrack {
     Year: string;
     Type: string;
     Color: string;
-    LightColor?: string;
-    DarkColor?: string;
+    LightColor?: string | null;
+    DarkColor?: string | null;
     releaseDate: Date;
     Thumbnail: string;
     _trackId: string;
