@@ -2194,7 +2194,23 @@ const songlist: (Single|Album)[] = [
                 sync: true
             }
         ]
-    }
+    },
+    {
+        _albumId: "65355c14f518db1f404c800a",
+        _trackId: "65355c14f518db1f404c800a",
+        Album: "STILL NUMBER 1",
+        AlbumArtist: "Emiway Bantai",
+        Type: "Single",
+        Year: "2023",
+        Color: "rgba(248,16,8,1)",
+        DarkColor: "rgba(238,15,8,1)",
+        LightColor: "rgba(248,16,8,1)",
+        releaseDate: date("22-10-2023"),
+        Thumbnail: "https://lh3.googleusercontent.com/y8O50Ie2tSWzq3YdSEvMdN2U6bNBPNywyxo7CA5A8Ygnoi46Utax78peXpM08udtS65EjFOLGYIyM7A=w544-h544-l90-rj",
+        Artist: "Emiway Bantai",
+        Duration: "3: 55",
+        url: `${server[3]}/hls/listen/Still Number 1 - Emiway Bantai/output.m3u8`
+    },
 ];
 
 
