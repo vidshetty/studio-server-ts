@@ -2159,6 +2159,8 @@ const songlist: (Single|Album)[] = [
         Year: "2023",
         // Color: "rgba(89,34,2,1)",
         Color: "rgba(140,71,11,1)",
+        DarkColor: "rgba(152,88,8,1)",
+        LightColor: "rgba(175,101,9,1)",
         releaseDate: date("11-10-2023"),
         Thumbnail: "https://lh3.googleusercontent.com/K062nZB9J3drV7gJlsRw4hbhnHyF0T2tgyo7ZUjqlO9bQXBdO8mAc-QXt22EU8MBT8D7Ag3xW1lZ1L4=w544-h544-l90-rj",
         Artist: "Raghav Chaitanya, Pritam",
