@@ -2181,7 +2181,9 @@ const songlist = [
                 Title: "Tu Jaana Na Piya",
                 Artist: "King",
                 url: `${utils_1.server[3]}/hls/listen/Tu Jaana Na Piya - King/output.m3u8`,
-                Duration: "3: 46"
+                Duration: "3: 46",
+                lyrics: true,
+                sync: true
             },
             {
                 _trackId: "652f923968b821749dd7821d",
@@ -2209,6 +2211,22 @@ const songlist = [
         Artist: "Emiway Bantai",
         Duration: "3: 55",
         url: `${utils_1.server[3]}/hls/listen/Still Number 1 - Emiway Bantai/output.m3u8`
+    },
+    {
+        _albumId: "653df9dc174466bb12bc147b",
+        _trackId: "653df9dc174466bb12bc147b",
+        Album: 'Satranga (From "ANIMAL")',
+        AlbumArtist: "Arijit Singh, Shreyas Puranik",
+        Type: "Single",
+        Year: "2023",
+        Color: "rgba(40,80,96,1)",
+        DarkColor: "rgba(40,80,96,1)",
+        LightColor: "rgba(63,127,152,1)",
+        releaseDate: (0, utils_1.date)("27-10-2023"),
+        Thumbnail: "https://i.scdn.co/image/ab67616d0000b273021d7017f73387b008eab271",
+        Artist: "Arijit Singh, Shreyas Puranik",
+        Duration: "4: 31",
+        url: `${utils_1.server[3]}/hls/listen/Satranga - Animal/output.m3u8`
     },
 ];
 exports.default = songlist;
