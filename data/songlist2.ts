@@ -2229,6 +2229,22 @@ const songlist: (Single|Album)[] = [
         Duration: "4: 31",
         url: `${server[3]}/hls/listen/Satranga - Animal/output.m3u8`
     },
+    {
+        _albumId: "6543cd8ec7a5929070e7b0e5",
+        _trackId: "6543cd8ec7a5929070e7b0e5",
+        Album: 'Kuley Kuley (From "Honey 3.0")',
+        AlbumArtist: "Yo Yo Honey Singh, Apache Indian",
+        Type: "Single",
+        Year: "2023",
+        Color: "rgba(176,72,88,1)",
+        DarkColor: "rgba(176,72,88,1)",
+        LightColor: "rgba(196,80,98,1)",
+        releaseDate: date("15-09-2023"),
+        Thumbnail: "https://lh3.googleusercontent.com/Z8ItAImJ2fTQDa_IyAcTYvZsN1BMPNkPX4V4_thw5-UlDwGa4rFy_0Momf_yxc-Ee9xEL6QWIgGKUl1b=w544-h544-l90-rj",
+        Artist: "Yo Yo Honey Singh, Apache Indian",
+        Duration: "3: 09",
+        url: `${server[3]}/hls/listen/Kuley Kuley - Yo Yo Honey Singh/output.m3u8`
+    }
 ];
 
 
