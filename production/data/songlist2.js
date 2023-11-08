@@ -2243,6 +2243,41 @@ const songlist = [
         Artist: "Yo Yo Honey Singh, Apache Indian",
         Duration: "3: 09",
         url: `${utils_1.server[3]}/hls/listen/Kuley Kuley - Yo Yo Honey Singh/output.m3u8`
+    },
+    {
+        _albumId: "654b49ea0d4af4a8301beaa5",
+        Album: "Leo (Original Motion Picture Soundtrack)",
+        AlbumArtist: "Anirudh Ravichander",
+        Type: "Album",
+        Year: "2023",
+        Color: "rgba(128,200,192,1)",
+        LightColor: "rgba(128,200,192,1)",
+        DarkColor: "rgba(81,127,122,1)",
+        releaseDate: (0, utils_1.date)("19-10-2023"),
+        Thumbnail: "https://lh3.googleusercontent.com/f3kYwLkC5vROJGEnO-l676KxN2KVWeCQvqBaINDlWTAHGVCzbnfB33s_pL6aHPL-qS5i1laGquX_Dt8V=w544-h544-l90-rj",
+        Tracks: [
+            {
+                _trackId: "654b49f1262dca04c274779b",
+                Title: "Badass",
+                Artist: "Anirudh Ravichander",
+                url: `${utils_1.server[3]}/hls/listen/Badass - Leo/output.m3u8`,
+                Duration: "3: 49"
+            },
+            {
+                _trackId: "654b49f81fed57156601797f",
+                Title: "Lokiverse 2.0",
+                Artist: "Anirudh Ravichander",
+                url: `${utils_1.server[3]}/hls/listen/Lokiverse 2.0 - Leo/output.m3u8`,
+                Duration: "1: 54"
+            },
+            {
+                _trackId: "654b49fe9f4d697718417758",
+                Title: "Ordinary Person",
+                Artist: "Anirudh Ravichander, Nikitha Gandhi",
+                url: `${utils_1.server[3]}/hls/listen/Ordinary Person - Leo/output.m3u8`,
+                Duration: "2: 18"
+            }
+        ]
     }
 ];
 exports.default = songlist;
