@@ -65,7 +65,7 @@ const getSongs = (name: string): AndroidTrack[] => {
 
     const lower = name.toLowerCase();
 
-    return ALBUM_LIST_TRACKS.reduce<AndroidTrack[]>((acc: AndroidTrack[], track) => {
+    const tracks = ALBUM_LIST_TRACKS.reduce<AndroidTrack[]>((acc: AndroidTrack[], track) => {
 
         const in_title = track.Title.toLowerCase().includes(lower);
         const in_artists = track.Artist.toLowerCase().includes(lower);
@@ -80,6 +80,25 @@ const getSongs = (name: string): AndroidTrack[] => {
 
     }, []);
 
+    if (tracks.length <= 50) return tracks;
+
+    const final: AndroidTrack[] = [];
+    const uniqNums: number[] = [];
+
+    for (let i=1; i<=50; i++) {
+        let gotUniqueRandomNum = false, rand: number = 0;
+        while (!gotUniqueRandomNum) {
+            rand = Math.floor(Math.random() * tracks.length);
+            if (!uniqNums.includes(rand)) {
+                uniqNums.push(rand);
+                gotUniqueRandomNum = true;
+            }
+        }
+        final.push(tracks[rand]);
+    }
+
+    return final;
+
 };
 
 const getAlbums = (name: string): AndroidAlbum[] => {
@@ -88,7 +107,7 @@ const getAlbums = (name: string): AndroidAlbum[] => {
 
     const ANDROID_ALBUMS = convertToAndroidAlbum(ALBUMLIST);
 
-    return ANDROID_ALBUMS.reduce<AndroidAlbum[]>((acc: AndroidAlbum[], album) => {
+    const albums = ANDROID_ALBUMS.reduce<AndroidAlbum[]>((acc: AndroidAlbum[], album) => {
 
         const in_tracktitles = album.Tracks.reduce<boolean>((acc: boolean, track) => {
             if (track.Title.toLowerCase().includes(lower)) {
@@ -107,6 +126,25 @@ const getAlbums = (name: string): AndroidAlbum[] => {
         return acc;
 
     }, []);
+
+    if (albums.length <= 50) return albums;
+
+    const final: AndroidAlbum[] = [];
+    const uniqNums: number[] = [];
+
+    for (let i=1; i<=50; i++) {
+        let gotUniqueRandomNum = false, rand: number = 0;
+        while (!gotUniqueRandomNum) {
+            rand = Math.floor(Math.random() * albums.length);
+            if (!uniqNums.includes(rand)) {
+                uniqNums.push(rand);
+                gotUniqueRandomNum = true;
+            }
+        }
+        final.push(albums[rand]);
+    }
+
+    return final;
 
 };
 

@@ -59,7 +59,7 @@ const getQuickPicks = () => {
 };
 const getSongs = (name) => {
     const lower = name.toLowerCase();
-    return archiveGateway_1.ALBUM_LIST_TRACKS.reduce((acc, track) => {
+    const tracks = archiveGateway_1.ALBUM_LIST_TRACKS.reduce((acc, track) => {
         const in_title = track.Title.toLowerCase().includes(lower);
         const in_artists = track.Artist.toLowerCase().includes(lower);
         const in_artists_2 = (track.Artist.replace(/$/g, "s")).toLowerCase().includes(lower);
@@ -69,11 +69,27 @@ const getSongs = (name) => {
         }
         return acc;
     }, []);
+    if (tracks.length <= 50)
+        return tracks;
+    const final = [];
+    const uniqNums = [];
+    for (let i = 1; i <= 50; i++) {
+        let gotUniqueRandomNum = false, rand = 0;
+        while (!gotUniqueRandomNum) {
+            rand = Math.floor(Math.random() * tracks.length);
+            if (!uniqNums.includes(rand)) {
+                uniqNums.push(rand);
+                gotUniqueRandomNum = true;
+            }
+        }
+        final.push(tracks[rand]);
+    }
+    return final;
 };
 const getAlbums = (name) => {
     const lower = name.toLowerCase();
     const ANDROID_ALBUMS = (0, utils_1.convertToAndroidAlbum)(archiveGateway_1.default);
-    return ANDROID_ALBUMS.reduce((acc, album) => {
+    const albums = ANDROID_ALBUMS.reduce((acc, album) => {
         const in_tracktitles = album.Tracks.reduce((acc, track) => {
             if (track.Title.toLowerCase().includes(lower)) {
                 acc = true;
@@ -87,6 +103,22 @@ const getAlbums = (name) => {
         }
         return acc;
     }, []);
+    if (albums.length <= 50)
+        return albums;
+    const final = [];
+    const uniqNums = [];
+    for (let i = 1; i <= 50; i++) {
+        let gotUniqueRandomNum = false, rand = 0;
+        while (!gotUniqueRandomNum) {
+            rand = Math.floor(Math.random() * albums.length);
+            if (!uniqNums.includes(rand)) {
+                uniqNums.push(rand);
+                gotUniqueRandomNum = true;
+            }
+        }
+        final.push(albums[rand]);
+    }
+    return final;
 };
 const checkServer = (req) => {
     return { status: "active", server: utils_1.server };
