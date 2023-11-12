@@ -118,7 +118,7 @@ export const accountCheck = async (request: Request) => {
 
         const { activeSessions = [] } = user;
 
-        activeSessions.push({
+        activeSessions.unshift({
             seen: false,
             device: getDevice(request),
             sessionId,
@@ -133,7 +133,7 @@ export const accountCheck = async (request: Request) => {
                 email,
                 picture: photoUrl
             },
-            activeSessions
+            activeSessions: activeSessions.slice(0, 5)
         });
 
         await user.save();

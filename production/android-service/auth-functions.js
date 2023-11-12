@@ -72,7 +72,7 @@ const accountCheck = async (request) => {
     const sessionId = (0, uuid_1.v4)();
     if (user) {
         const { activeSessions = [] } = user;
-        activeSessions.push({
+        activeSessions.unshift({
             seen: false,
             device: (0, utils_1.getDevice)(request),
             sessionId,
@@ -81,7 +81,7 @@ const accountCheck = async (request) => {
         Object.assign(user, {
             googleAccount: Object.assign(Object.assign({}, user.googleAccount), { sub: id, name,
                 email, picture: photoUrl }),
-            activeSessions
+            activeSessions: activeSessions.slice(0, 5)
         });
         await user.save();
         __notifyAdmin(user.googleAccount, "login");
