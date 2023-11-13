@@ -2243,7 +2243,9 @@ const songlist: (Single|Album)[] = [
         Thumbnail: "https://lh3.googleusercontent.com/Z8ItAImJ2fTQDa_IyAcTYvZsN1BMPNkPX4V4_thw5-UlDwGa4rFy_0Momf_yxc-Ee9xEL6QWIgGKUl1b=w544-h544-l90-rj",
         Artist: "Yo Yo Honey Singh, Apache Indian",
         Duration: "3: 09",
-        url: `${server[3]}/hls/listen/Kuley Kuley - Yo Yo Honey Singh/output.m3u8`
+        url: `${server[3]}/hls/listen/Kuley Kuley - Yo Yo Honey Singh/output.m3u8`,
+        lyrics: true,
+        sync: true
     },
     {
         _albumId: "654b49ea0d4af4a8301beaa5",
