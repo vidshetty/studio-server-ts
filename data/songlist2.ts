@@ -2281,6 +2281,22 @@ const songlist: (Single|Album)[] = [
                 Duration: "2: 18"
             }
         ]
+    },
+    {
+        _albumId: "65536d4b6d15d41c35522d01",
+        _trackId: "65536d4b6d15d41c35522d01",
+        Album: 'Papa Meri Jaan (From "ANIMAL")',
+        AlbumArtist: "Sonu Nigam, Harshavardhan Rameshwar",
+        Type: "Single",
+        Year: "2023",
+        Color: "rgba(160,176,192,1)",
+        DarkColor: "rgba(109,120,131,1)",
+        LightColor: "rgba(160,176,192,1)",
+        releaseDate: date("27-10-2023"),
+        Thumbnail: "https://i.scdn.co/image/ab67616d0000b2733e472bda1ef3d7744c06c2e5",
+        Artist: "Sonu Nigam, Harshavardhan Rameshwar",
+        Duration: "5: 21",
+        url: `${server[3]}/hls/listen/Papa Meri Jaan - Animal/output.m3u8`
     }
 ];
 
