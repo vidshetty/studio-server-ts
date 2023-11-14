@@ -2291,7 +2291,7 @@ const songlist = [
         Color: "rgba(160,176,192,1)",
         DarkColor: "rgba(109,120,131,1)",
         LightColor: "rgba(160,176,192,1)",
-        releaseDate: (0, utils_1.date)("27-10-2023"),
+        releaseDate: (0, utils_1.date)("14-11-2023"),
         Thumbnail: "https://i.scdn.co/image/ab67616d0000b2733e472bda1ef3d7744c06c2e5",
         Artist: "Sonu Nigam, Harshavardhan Rameshwar",
         Duration: "5: 21",
