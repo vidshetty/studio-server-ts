@@ -2164,7 +2164,9 @@ const songlist = [
         Thumbnail: "https://lh3.googleusercontent.com/K062nZB9J3drV7gJlsRw4hbhnHyF0T2tgyo7ZUjqlO9bQXBdO8mAc-QXt22EU8MBT8D7Ag3xW1lZ1L4=w544-h544-l90-rj",
         Artist: "Raghav Chaitanya, Pritam",
         Duration: "4: 37",
-        url: `${utils_1.server[3]}/hls/listen/Hua Main - Animal/output.m3u8`
+        url: `${utils_1.server[3]}/hls/listen/Hua Main - Animal/output.m3u8`,
+        lyrics: true,
+        sync: true
     },
     {
         _albumId: "652f9232162331b12f7322aa",
