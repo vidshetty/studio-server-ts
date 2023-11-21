@@ -2228,7 +2228,9 @@ const songlist = [
         Thumbnail: "https://i.scdn.co/image/ab67616d0000b273021d7017f73387b008eab271",
         Artist: "Arijit Singh, Shreyas Puranik",
         Duration: "4: 31",
-        url: `${utils_1.server[3]}/hls/listen/Satranga - Animal/output.m3u8`
+        url: `${utils_1.server[3]}/hls/listen/Satranga - Animal/output.m3u8`,
+        lyrics: true,
+        sync: true
     },
     {
         _albumId: "6543cd8ec7a5929070e7b0e5",
