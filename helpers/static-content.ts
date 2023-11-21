@@ -122,11 +122,11 @@ router.get(
 
         const { result } = request;
 
-        if (!result.found) {
-            setRedirectUriCookie(request.url, response);
-            return response.redirect("/");
-        }
-        return response.sendFile(path.join(process.cwd(), buildroot, "player-build", "index.html"));
+        // if (!result.found) {
+        //     setRedirectUriCookie(request.url, response);
+        //     return response.redirect("/");
+        // }
+        // return response.sendFile(path.join(process.cwd(), buildroot, "player-build", "index.html"));
 
         if (
             request.path === "/player" ||

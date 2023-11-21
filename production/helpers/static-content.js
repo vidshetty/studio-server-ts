@@ -100,11 +100,11 @@ router.get([
 // httpsRedirect,
 functions_1.rootAuthCheck, functions_1.rootAccessCheck, async (request, response) => {
     const { result } = request;
-    if (!result.found) {
-        (0, utils_1.setRedirectUriCookie)(request.url, response);
-        return response.redirect("/");
-    }
-    return response.sendFile(path_1.default.join(process.cwd(), utils_1.buildroot, "player-build", "index.html"));
+    // if (!result.found) {
+    //     setRedirectUriCookie(request.url, response);
+    //     return response.redirect("/");
+    // }
+    // return response.sendFile(path.join(process.cwd(), buildroot, "player-build", "index.html"));
     if (request.path === "/player" ||
         request.path === "/player/search") {
         if (!result.found) {
