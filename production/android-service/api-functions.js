@@ -42,9 +42,14 @@ const getMostPlayed = async (userId) => {
     }, []);
 };
 const getQuickPicks = () => {
-    const final = [];
+    const final = archiveGateway_1.ALBUM_LIST_TRACKS.reduce((acc, track) => {
+        if (track._trackId === "654b49f1262dca04c274779b") {
+            acc.push(track);
+        }
+        return acc;
+    }, []);
     const uniqNums = [];
-    for (let i = 1; i <= 12; i++) {
+    for (let i = 1; i <= 11; i++) {
         let gotUniqueRandomNum = false, rand = 0;
         while (!gotUniqueRandomNum) {
             rand = Math.floor(Math.random() * archiveGateway_1.ALBUM_LIST_TRACKS.length);
