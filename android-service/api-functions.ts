@@ -42,15 +42,10 @@ const getMostPlayed = async (userId: string): Promise<AndroidAlbum[]> => {
 
 const getQuickPicks = (): AndroidTrack[] => {
 
-    const final: AndroidTrack[] = ALBUM_LIST_TRACKS.reduce<AndroidTrack[]>((acc,track) => {
-        if (track._trackId === "654b49f1262dca04c274779b") {
-            acc.push(track);
-        }
-        return acc;
-    }, []);
+    const final: AndroidTrack[] = [];
     const uniqNums: number[] = [];
 
-    for (let i=1; i<=11; i++) {
+    for (let i=1; i<=12; i++) {
         let gotUniqueRandomNum = false, rand: number = 0;
         while (!gotUniqueRandomNum) {
             rand = Math.floor(Math.random() * ALBUM_LIST_TRACKS.length);
