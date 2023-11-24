@@ -2151,25 +2151,6 @@ const songlist: (Single|Album)[] = [
         url: `${server[3]}/listen/Palpita`
     },
     {
-        _albumId: "65279dbf9e51553d315ba8a2",
-        _trackId: "65279dbf9e51553d315ba8a2",
-        Album: 'Hua Main (From "ANIMAL")',
-        AlbumArtist: "Raghav Chaitanya, Pritam",
-        Type: "Single",
-        Year: "2023",
-        // Color: "rgba(89,34,2,1)",
-        Color: "rgba(140,71,11,1)",
-        DarkColor: "rgba(152,88,8,1)",
-        LightColor: "rgba(175,101,9,1)",
-        releaseDate: date("11-10-2023"),
-        Thumbnail: "https://lh3.googleusercontent.com/K062nZB9J3drV7gJlsRw4hbhnHyF0T2tgyo7ZUjqlO9bQXBdO8mAc-QXt22EU8MBT8D7Ag3xW1lZ1L4=w544-h544-l90-rj",
-        Artist: "Raghav Chaitanya, Pritam",
-        Duration: "4: 37",
-        url: `${server[3]}/hls/listen/Hua Main - Animal/output.m3u8`,
-        lyrics: true,
-        sync: true
-    },
-    {
         _albumId: "652f9232162331b12f7322aa",
         Album: "NEW LIFE",
         AlbumArtist: "King",
@@ -2214,24 +2195,6 @@ const songlist: (Single|Album)[] = [
         Artist: "Emiway Bantai",
         Duration: "3: 55",
         url: `${server[3]}/hls/listen/Still Number 1 - Emiway Bantai/output.m3u8`
-    },
-    {
-        _albumId: "653df9dc174466bb12bc147b",
-        _trackId: "653df9dc174466bb12bc147b",
-        Album: 'Satranga (From "ANIMAL")',
-        AlbumArtist: "Arijit Singh, Shreyas Puranik",
-        Type: "Single",
-        Year: "2023",
-        Color: "rgba(40,80,96,1)",
-        DarkColor: "rgba(40,80,96,1)",
-        LightColor: "rgba(63,127,152,1)",
-        releaseDate: date("27-10-2023"),
-        Thumbnail: "https://i.scdn.co/image/ab67616d0000b273021d7017f73387b008eab271",
-        Artist: "Arijit Singh, Shreyas Puranik",
-        Duration: "4: 31",
-        url: `${server[3]}/hls/listen/Satranga - Animal/output.m3u8`,
-        lyrics: true,
-        sync: true
     },
     {
         _albumId: "6543cd8ec7a5929070e7b0e5",
@@ -2287,20 +2250,50 @@ const songlist: (Single|Album)[] = [
         ]
     },
     {
-        _albumId: "65536d4b6d15d41c35522d01",
-        _trackId: "65536d4b6d15d41c35522d01",
-        Album: 'Papa Meri Jaan (From "ANIMAL")',
-        AlbumArtist: "Sonu Nigam, Harshavardhan Rameshwar",
-        Type: "Single",
+        _albumId: "6560eef8795ecd2477a99a5a",
+        Album: "ANIMAL",
+        AlbumArtist: "Various Artists",
+        Type: "Album",
         Year: "2023",
-        Color: "rgba(160,176,192,1)",
-        DarkColor: "rgba(109,120,131,1)",
-        LightColor: "rgba(160,176,192,1)",
-        releaseDate: date("14-11-2023"),
-        Thumbnail: "https://i.scdn.co/image/ab67616d0000b2733e472bda1ef3d7744c06c2e5",
-        Artist: "Sonu Nigam, Harshavardhan Rameshwar",
-        Duration: "5: 21",
-        url: `${server[3]}/hls/listen/Papa Meri Jaan - Animal/output.m3u8`
+        Color: "rgba(152,80,8,1)",
+        LightColor: "rgba(183,96,10,1)",
+        DarkColor: "rgba(152,80,8,1)",
+        releaseDate: date("24-11-2023"),
+        Thumbnail: "https://lh3.googleusercontent.com/02xLoCOZmap3ihA_v28cqFz1zBcE9cMzfwzJHzsgwxyGklT0rRWkfUqztPCgAx7CdBtVM5MahamnGuJw=w544-h544-l90-rj",
+        Tracks: [
+            {
+                _trackId: "6560ef00874de40418d32396",
+                Title: "Hua Main",
+                Artist: "Raghav Chaitanya, Pritam",
+                url: `${server[3]}/hls/listen/Hua Main - Animal/output.m3u8`,
+                Duration: "4: 37",
+                lyrics: true,
+                sync: true
+            },
+            {
+                _trackId: "6560ef07a5d2ec8882711d98",
+                Title: "Satranga",
+                Artist: "Arijit Singh, Shreyas Puranik",
+                url: `${server[3]}/hls/listen/Satranga - Animal/output.m3u8`,
+                Duration: "4: 31",
+                lyrics: true,
+                sync: true
+            },
+            {
+                _trackId: "6560ef0ca80ac5527e89ea6d",
+                Title: "Papa Meri Jaan",
+                Artist: "Sonu Nigam, Harshavardhan Rameshwar",
+                url: `${server[3]}/hls/listen/Papa Meri Jaan - Animal/output.m3u8`,
+                Duration: "5: 21"
+            },
+            {
+                _trackId: "6560ef14e8b3ec9a11572e61",
+                Title: "Saari Duniya Jalaa Denge",
+                Artist: "Jaani, B Praak",
+                url: `${server[3]}/hls/listen/Saari Duniya Jalaa Denge - Animal/output.m3u8`,
+                Duration: "3: 02"
+            }
+        ]
     }
 ];
 
