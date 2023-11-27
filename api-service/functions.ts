@@ -579,6 +579,28 @@ export const addToRecentlyPlayed = async (request: Request, _:any) => {
 
 };
 
+export const removeFromRecentlyPlayed = async (request: Request, _:any) => {
+
+    const { id: userId } = request.ACCOUNT;
+    const { albumId }: { albumId: string } = request.body;
+
+    const user: UserInterface | null = await Users.findOne({ _id: userId });
+
+    if (!user) return;
+
+    const { recentlyPlayed: recents } = user;
+
+    const index = recents.findIndex(each => each.albumId === albumId);
+
+    if (index > -1) {
+        recents.splice(index, 1);
+        await Object.assign(user, { recentlyPlayed: recents }).save();
+    }
+
+    return;
+
+};
+
 export const getLyrics = async (request: Request, _:any) => {
 
     let { name }: RequestQuery = request.query as unknown as RequestQuery;

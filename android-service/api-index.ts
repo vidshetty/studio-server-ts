@@ -6,6 +6,7 @@ import {
     recordTime,
     getTrackDetails,
     addToRecentlyPlayed,
+    removeFromRecentlyPlayed,
     getLyrics,
     signOut
 } from "../api-service/functions";
@@ -45,6 +46,8 @@ router.get("/getAlbumDetails", responseMid(getAlbum));
 router.get("/search", responseMid(search));
 
 router.post("/addToRecentlyPlayed", responseMid(addToRecentlyPlayed));
+
+router.post("/removeFromRecentlyPlayed", responseMid(removeFromRecentlyPlayed));
 
 router.get("/getLyrics", responseMid(getLyrics));
 

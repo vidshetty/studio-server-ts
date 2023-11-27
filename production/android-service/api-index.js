@@ -17,6 +17,7 @@ router.get("/getTrack", (0, responsehandler_1.responseMid)(functions_2.getTrackD
 router.get("/getAlbumDetails", (0, responsehandler_1.responseMid)(api_functions_1.getAlbum));
 router.get("/search", (0, responsehandler_1.responseMid)(api_functions_1.search));
 router.post("/addToRecentlyPlayed", (0, responsehandler_1.responseMid)(functions_2.addToRecentlyPlayed));
+router.post("/removeFromRecentlyPlayed", (0, responsehandler_1.responseMid)(functions_2.removeFromRecentlyPlayed));
 router.get("/getLyrics", (0, responsehandler_1.responseMid)(functions_2.getLyrics));
 router.get("/sign-out", (0, responsehandler_1.responseMid)(functions_2.signOut));
 router.get("/startradio", (0, responsehandler_1.responseMid)(api_functions_1.startRadio));

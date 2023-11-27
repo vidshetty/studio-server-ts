@@ -3,7 +3,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.signOut = exports.getProfile = exports.activateCheck = exports.recordTime = exports.startRadio = exports.getLyrics = exports.addToRecentlyPlayed = exports.search = exports.getAlbumDetails = exports.getTrackDetails = exports.getLibrary = exports.homeAlbums = exports.getTrack = exports.getAlbum = void 0;
+exports.signOut = exports.getProfile = exports.activateCheck = exports.recordTime = exports.startRadio = exports.getLyrics = exports.removeFromRecentlyPlayed = exports.addToRecentlyPlayed = exports.search = exports.getAlbumDetails = exports.getTrackDetails = exports.getLibrary = exports.homeAlbums = exports.getTrack = exports.getAlbum = void 0;
 const Users_1 = require("../models/Users");
 const utils_1 = require("../helpers/utils");
 const moment_timezone_1 = __importDefault(require("moment-timezone"));
@@ -421,6 +421,21 @@ const addToRecentlyPlayed = async (request, _) => {
     return;
 };
 exports.addToRecentlyPlayed = addToRecentlyPlayed;
+const removeFromRecentlyPlayed = async (request, _) => {
+    const { id: userId } = request.ACCOUNT;
+    const { albumId } = request.body;
+    const user = await Users_1.Users.findOne({ _id: userId });
+    if (!user)
+        return;
+    const { recentlyPlayed: recents } = user;
+    const index = recents.findIndex(each => each.albumId === albumId);
+    if (index > -1) {
+        recents.splice(index, 1);
+        await Object.assign(user, { recentlyPlayed: recents }).save();
+    }
+    return;
+};
+exports.removeFromRecentlyPlayed = removeFromRecentlyPlayed;
 const getLyrics = async (request, _) => {
     let { name } = request.query;
     name = (0, utils_1.__replace)(name, ['"', ':'], "");
