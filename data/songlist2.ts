@@ -2294,6 +2294,38 @@ const songlist: (Single|Album)[] = [
                 Duration: "3: 02"
             }
         ]
+    },
+    {
+        _albumId: "65649f845f92287d91d00502",
+        Album: "Shayad Woh Sune",
+        AlbumArtist: "King",
+        Type: "Album",
+        Year: "2023",
+        Color: "rgba(168,48,8,1)",
+        LightColor: "rgba(218,62,10,1)",
+        DarkColor: "rgba(168,48,8,1)",
+        releaseDate: date("14-07-2023"),
+        Thumbnail: "https://lh3.googleusercontent.com/kRCAAq-mYT5FjxWOfa6d4Mb9Dw8u6bj8jFB5xPHIPy8b6_E6dmBGy6DJU7t1WqQJoux6E3z7ysu1N3-L=w544-h544-l90-rj",
+        Tracks: [
+            {
+                _trackId: "65649f8c20943b9e343d8f97",
+                Title: "Laapata",
+                Artist: "King",
+                url: `${server[3]}/hls/listen/Laapata - King/output.m3u8`,
+                Duration: "3: 54",
+                lyrics: true,
+                sync: true
+            },
+            {
+                _trackId: "65649f966515c519d99c0194",
+                Title: "Teri Ho Na Saki",
+                Artist: "King",
+                url: `${server[3]}/hls/listen/Teri Ho Na Saki - King/output.m3u8`,
+                Duration: "3: 51",
+                lyrics: true,
+                sync: true
+            }
+        ]
     }
 ];
 
