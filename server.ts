@@ -48,6 +48,11 @@ app.get("/login/google", passport.authenticate("google", {
     scope: ["profile","email"]
 }));
 
+app.get("/.well-known/assetlinks.json", (_:Request, response:Response) => {
+    const file_path = path.join(process.cwd(), "data", "assetlinks.json");
+    response.sendFile(file_path);
+});
+
 app.use("/", staticservice);
 
 

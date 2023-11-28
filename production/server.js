@@ -38,6 +38,10 @@ app.use("/android", android_service_1.default);
 app.get("/login/google", passport_1.default.authenticate("google", {
     scope: ["profile", "email"]
 }));
+app.get("/.well-known/assetlinks.json", (_, response) => {
+    const file_path = path_1.default.join(process.cwd(), "data", "assetlinks.json");
+    response.sendFile(file_path);
+});
 app.use("/", static_content_1.default);
 if (PROTOCOL === "http") {
     http_1.default
