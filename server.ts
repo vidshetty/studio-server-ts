@@ -50,6 +50,7 @@ app.get("/login/google", passport.authenticate("google", {
 
 app.get("/.well-known/assetlinks.json", (_:Request, response:Response) => {
     const file_path = path.join(process.cwd(), "data", "assetlinks.json");
+    response.setHeader("Content-Type", "application/json");
     response.sendFile(file_path);
 });
 
