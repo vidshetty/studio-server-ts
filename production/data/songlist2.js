@@ -2325,6 +2325,27 @@ const songlist = [
                 sync: true
             }
         ]
+    },
+    {
+        _albumId: "6567167081ef936ec99ca5a3",
+        Album: "Rocky Aur Rani Kii Prem Kahaani",
+        AlbumArtist: "Pritam",
+        Type: "Album",
+        Year: "2023",
+        Color: "rgba(112,16,88,1)",
+        LightColor: "rgba(214,31,168,1)",
+        DarkColor: "rgba(112,16,88,1)",
+        releaseDate: (0, utils_1.date)("14-08-2023"),
+        Thumbnail: "https://lh3.googleusercontent.com/viHJ9sET-dwcH6Ur2iBlegjNafJHLNcVNMqlCCMtK-ZKM8ln4ZVprKXmt3MSryFtG7tIji3XPGanGTh1cA=w544-h544-l90-rj",
+        Tracks: [
+            {
+                _trackId: "6567167877f9533a444c069d",
+                Title: "Ve Kamleya",
+                Artist: "Arijit Singh, Shreya Ghoshal",
+                url: `${utils_1.server[3]}/hls/listen/Ve Kamleya - Rocky Aur Rani Kii Prem Kahaani/output.m3u8`,
+                Duration: "4: 07"
+            }
+        ]
     }
 ];
 exports.default = songlist;
