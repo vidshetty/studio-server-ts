@@ -17,7 +17,7 @@ import {
 
 export const APP_URL = "studiomusic.app";
 export const PASSPORT_REDIRECT_APP_URL = "https://studiomusic.app";
-export const defaultAccess = 20*60;
+export const defaultAccess = 30*24*60*60;
 export const timezone = "Asia/Kolkata";
 export const androidAccessTokenExpiry = "30d";
 export const accessTokenExpiry = "1h";
