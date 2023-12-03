@@ -2,7 +2,7 @@
     "relation": ["delegate_permission/common.handle_all_urls"],
     "target": {
         "namespace": "android_app",
-        "package_name": "com.example.studiomusic",
+        "package_name": "com.app.studiomusic",
         "sha256_cert_fingerprints":
         ["41:EC:A3:F9:28:72:22:16:DF:D4:5E:26:C8:AC:DB:E0:B1:9F:22:F9:DD:FD:B0:4F:1E:02:E6:6D:20:21:92:F2"]
     }
