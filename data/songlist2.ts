@@ -2291,7 +2291,9 @@ const songlist: (Single|Album)[] = [
                 Title: "Saari Duniya Jalaa Denge",
                 Artist: "Jaani, B Praak",
                 url: `${server[3]}/hls/listen/Saari Duniya Jalaa Denge - Animal/output.m3u8`,
-                Duration: "3: 02"
+                Duration: "3: 02",
+                lyrics: true,
+                sync: true
             }
         ]
     },
