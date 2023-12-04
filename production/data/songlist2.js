@@ -2348,6 +2348,27 @@ const songlist = [
                 Duration: "4: 07"
             }
         ]
+    },
+    {
+        _albumId: "656d4d4ca6bc2683a18d8c9b",
+        Album: "Dunki",
+        AlbumArtist: "Pritam",
+        Type: "Album",
+        Year: "2023",
+        Color: "rgba(3,90,166,1)",
+        releaseDate: (0, utils_1.date)("22-11-2023"),
+        Thumbnail: "https://lh3.googleusercontent.com/olTad2rSFdiV02kmWaC_xYlKkZiB6nV7279LAf1r6uar7rcyojJ4WoCc9A6kY9Cf5ecp-yUk0-NGy1c=w544-h544-l90-rj",
+        Tracks: [
+            {
+                _trackId: "656d4d535d9d4a8b3232365e",
+                Title: "Lutt Putt Gaya",
+                Artist: "Arijit Singh",
+                url: `${utils_1.server[3]}/hls/listen/Lutt Putt Gaya - Dunki/output.m3u8`,
+                Duration: "3: 43",
+                lyrics: true,
+                sync: true
+            }
+        ]
     }
 ];
 exports.default = songlist;
