@@ -2287,6 +2287,13 @@ const songlist: (Single|Album)[] = [
                 Duration: "5: 21"
             },
             {
+                _trackId: "65714e03a8dfd45e1112cd9f",
+                Title: "Pehle Bhi Main",
+                Artist: "Vishal Mishra",
+                url: `${server[3]}/hls/listen/Pehle Bhi Main - Animal/output.m3u8`,
+                Duration: "4: 10"
+            },
+            {
                 _trackId: "6560ef14e8b3ec9a11572e61",
                 Title: "Saari Duniya Jalaa Denge",
                 Artist: "Jaani, B Praak",
