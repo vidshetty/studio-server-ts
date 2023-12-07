@@ -1,9 +1,14 @@
-[{
-    "relation": ["delegate_permission/common.handle_all_urls"],
-    "target": {
-        "namespace": "android_app",
-        "package_name": "com.app.studiomusic",
-        "sha256_cert_fingerprints":
-        ["41:EC:A3:F9:28:72:22:16:DF:D4:5E:26:C8:AC:DB:E0:B1:9F:22:F9:DD:FD:B0:4F:1E:02:E6:6D:20:21:92:F2"]
+[
+    {
+        "relation": [
+            "delegate_permission/common.handle_all_urls"
+        ],
+        "target": {
+            "namespace": "android_app",
+            "package_name": "com.app.studiomusic",
+            "sha256_cert_fingerprints": [
+                "35:B5:54:08:8B:43:20:07:BE:85:87:50:2A:9C:13:D1:3A:6F:BA:F2:6E:23:08:51:C5:B3:52:B5:ED:49:74:CF"
+            ]
+        }
     }
-}]
+]
