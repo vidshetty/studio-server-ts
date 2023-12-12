@@ -10,5 +10,17 @@
                 "35:B5:54:08:8B:43:20:07:BE:85:87:50:2A:9C:13:D1:3A:6F:BA:F2:6E:23:08:51:C5:B3:52:B5:ED:49:74:CF"
             ]
         }
+    },
+    {
+        "relation": [
+            "delegate_permission/common.handle_all_urls"
+        ],
+        "target": {
+            "namespace": "android_app",
+            "package_name": "com.app.studiomusic",
+            "sha256_cert_fingerprints": [
+                "7F:46:29:14:43:36:68:97:F9:0A:C4:65:FC:A8:D8:1F:7B:19:8D:18:01:5E:71:7B:D8:00:EB:63:79:37:09:70"
+            ]
+        }
     }
 ]
