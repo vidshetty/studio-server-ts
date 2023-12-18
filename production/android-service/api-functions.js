@@ -19,10 +19,11 @@ var __importStar = (this && this.__importStar) || function (mod) {
     return result;
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.getMostPlayedRadio = exports.startRadio = exports.search = exports.homeAlbums = exports.getAlbum = exports.getLibrary = exports.activeSessions = exports.checkServer = void 0;
+exports.downloadLatestUpdate = exports.getMostPlayedRadio = exports.startRadio = exports.search = exports.homeAlbums = exports.getAlbum = exports.getLibrary = exports.activeSessions = exports.checkServer = void 0;
 const utils_1 = require("../helpers/utils");
 const Users_1 = require("../models/Users");
 const archiveGateway_1 = __importStar(require("../data/archiveGateway"));
+const latestUpdate_1 = require("../data/latestUpdate");
 const getMostPlayed = async (userId) => {
     const user = await Users_1.Users.findOne({ _id: userId }).lean();
     const { recentlyPlayed: recents } = user;
@@ -283,4 +284,9 @@ const getMostPlayedRadio = async (request, _) => {
     return final;
 };
 exports.getMostPlayedRadio = getMostPlayedRadio;
+const downloadLatestUpdate = async (request, response) => {
+    response.setHeader("Content-Disposition", "attachment;filename=" + latestUpdate_1.LATEST_APP_UPDATE.filename);
+    response.sendFile(latestUpdate_1.LATEST_APP_UPDATE.filePath);
+};
+exports.downloadLatestUpdate = downloadLatestUpdate;
 //# sourceMappingURL=api-functions.js.map

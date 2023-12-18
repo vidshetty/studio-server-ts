@@ -1,4 +1,4 @@
-import { Request } from "express";
+import { Request, Response } from "express";
 import {
     UserInterface,
     AndroidAlbum,
@@ -15,6 +15,7 @@ import {
 } from "../helpers/utils";
 import { Users } from "../models/Users";
 import ALBUMLIST, { NewReleases, RecentlyAdded, ALBUM_MAP, ALBUM_LIST_TRACKS } from "../data/archiveGateway";
+import { LATEST_APP_UPDATE } from "../data/latestUpdate";
 
 
 
@@ -347,5 +348,12 @@ export const getMostPlayedRadio = async (request: Request, _: any) => {
     };
 
     return final;
+
+};
+
+export const downloadLatestUpdate = async (request: Request, response: Response) => {
+
+    response.setHeader("Content-Disposition", "attachment;filename=" + LATEST_APP_UPDATE.filename);
+    response.sendFile(LATEST_APP_UPDATE.filePath);
 
 };

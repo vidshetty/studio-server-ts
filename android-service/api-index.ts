@@ -18,7 +18,8 @@ import {
     homeAlbums,
     search,
     startRadio,
-    getMostPlayedRadio
+    getMostPlayedRadio,
+    downloadLatestUpdate
 } from "./api-functions";
 
 
@@ -26,6 +27,8 @@ const router = Router();
 
 
 router.get("/checkServer", responseMid(checkServer));
+
+router.get("/downloadLatestUpdate", downloadLatestUpdate);
 
 router.use(androidApiAuthCheck);
 

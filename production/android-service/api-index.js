@@ -7,6 +7,7 @@ const functions_2 = require("../api-service/functions");
 const api_functions_1 = require("./api-functions");
 const router = (0, express_1.Router)();
 router.get("/checkServer", (0, responsehandler_1.responseMid)(api_functions_1.checkServer));
+router.get("/downloadLatestUpdate", api_functions_1.downloadLatestUpdate);
 router.use(functions_1.androidApiAuthCheck);
 router.get("/whosthis", (0, responsehandler_1.responseMid)(functions_2.getProfile));
 router.use(functions_1.androidApiAccessCheck);
