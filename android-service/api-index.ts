@@ -19,6 +19,7 @@ import {
     search,
     startRadio,
     getMostPlayedRadio,
+    checkForUpdates,
     downloadLatestUpdate
 } from "./api-functions";
 
@@ -61,6 +62,8 @@ router.get("/startradio", responseMid(startRadio));
 router.get("/mostPlayedRadio", responseMid(getMostPlayedRadio));
 
 router.get("/activeSessions", responseMid(activeSessions));
+
+router.get("/checkForUpdates", responseMid(checkForUpdates));
 
 router.use("*", (_:any, response: Response) => {
     return response.status(404).end();

@@ -351,6 +351,36 @@ export const getMostPlayedRadio = async (request: Request, _: any) => {
 
 };
 
+export const checkForUpdates = async (request: Request, _:any) => {
+
+    const { versionCode = null, versionName = null } = request.query as unknown as RequestQuery;
+    const { id: userId } = request.ACCOUNT;
+
+    if (versionCode === null || versionName === null) {
+        throw new Error("incomplete version details!");
+    }
+
+    const user: UserInterface | null = await Users.findOne({ _id: userId });
+    if (user === null) {
+        throw new Error("user not found!");
+    }
+
+    user.installedVersion = {
+        versionCode,
+        versionName
+    };
+
+    await user.save();
+
+    const updateAvailable = (
+        versionCode > LATEST_APP_UPDATE.versionCode ||
+        versionName !== LATEST_APP_UPDATE.versionName
+    );
+
+    return { updateAvailable };
+
+};
+
 export const downloadLatestUpdate = async (request: Request, response: Response) => {
 
     response.setHeader("Content-Disposition", "attachment;filename=" + LATEST_APP_UPDATE.filename);

@@ -63,7 +63,11 @@ const UserSchema = new Schema({
         device: { type: String },
         sessionId: { type: String },
         lastUsed: { type: String }
-    }]
+    }],
+    installedVersion: {
+        versionCode: { type: Number },
+        versionName: { type: String }
+    }
 });
 
 

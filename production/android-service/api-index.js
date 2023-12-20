@@ -24,6 +24,7 @@ router.get("/sign-out", (0, responsehandler_1.responseMid)(functions_2.signOut))
 router.get("/startradio", (0, responsehandler_1.responseMid)(api_functions_1.startRadio));
 router.get("/mostPlayedRadio", (0, responsehandler_1.responseMid)(api_functions_1.getMostPlayedRadio));
 router.get("/activeSessions", (0, responsehandler_1.responseMid)(api_functions_1.activeSessions));
+router.get("/checkForUpdates", (0, responsehandler_1.responseMid)(api_functions_1.checkForUpdates));
 router.use("*", (_, response) => {
     return response.status(404).end();
 });

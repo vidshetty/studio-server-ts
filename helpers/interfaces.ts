@@ -114,6 +114,11 @@ export interface DeviceInfo {
     model: string;
 }
 
+export interface InstalledVersion {
+    versionCode: number;
+    versionName: string;
+}
+
 export interface UserInterface extends Document {
     username: string | null;
     email: {
@@ -139,6 +144,7 @@ export interface UserInterface extends Document {
     recentlyPlayed: RecentlyPlayed[];
     status: string;
     activeSessions: ActiveSession[];
+    installedVersion: InstalledVersion | null
     // recentlySearched: {
     //     type: Array,
     //     default: []
@@ -165,6 +171,8 @@ export interface RequestQuery{
     name?: string;
     exclude?: string;
     type?: string;
+    versionCode?: number;
+    versionName?: string;
 };
 
 export interface AndroidAlbum {

@@ -19,7 +19,7 @@ var __importStar = (this && this.__importStar) || function (mod) {
     return result;
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.downloadLatestUpdate = exports.getMostPlayedRadio = exports.startRadio = exports.search = exports.homeAlbums = exports.getAlbum = exports.getLibrary = exports.activeSessions = exports.checkServer = void 0;
+exports.downloadLatestUpdate = exports.checkForUpdates = exports.getMostPlayedRadio = exports.startRadio = exports.search = exports.homeAlbums = exports.getAlbum = exports.getLibrary = exports.activeSessions = exports.checkServer = void 0;
 const utils_1 = require("../helpers/utils");
 const Users_1 = require("../models/Users");
 const archiveGateway_1 = __importStar(require("../data/archiveGateway"));
@@ -284,6 +284,26 @@ const getMostPlayedRadio = async (request, _) => {
     return final;
 };
 exports.getMostPlayedRadio = getMostPlayedRadio;
+const checkForUpdates = async (request, _) => {
+    const { versionCode = null, versionName = null } = request.query;
+    const { id: userId } = request.ACCOUNT;
+    if (versionCode === null || versionName === null) {
+        throw new Error("incomplete version details!");
+    }
+    const user = await Users_1.Users.findOne({ _id: userId });
+    if (user === null) {
+        throw new Error("user not found!");
+    }
+    user.installedVersion = {
+        versionCode,
+        versionName
+    };
+    await user.save();
+    const updateAvailable = (versionCode > latestUpdate_1.LATEST_APP_UPDATE.versionCode ||
+        versionName !== latestUpdate_1.LATEST_APP_UPDATE.versionName);
+    return { updateAvailable };
+};
+exports.checkForUpdates = checkForUpdates;
 const downloadLatestUpdate = async (request, response) => {
     response.setHeader("Content-Disposition", "attachment;filename=" + latestUpdate_1.LATEST_APP_UPDATE.filename);
     response.sendFile(latestUpdate_1.LATEST_APP_UPDATE.filePath);

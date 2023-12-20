@@ -83,7 +83,11 @@ const UserSchema = new mongoose_1.Schema({
             device: { type: String },
             sessionId: { type: String },
             lastUsed: { type: String }
-        }]
+        }],
+    installedVersion: {
+        versionCode: { type: Number },
+        versionName: { type: String }
+    }
 });
 exports.Users = mongoose_1.default.model("user", UserSchema);
 //# sourceMappingURL=Users.js.map
