@@ -171,7 +171,7 @@ export interface RequestQuery{
     name?: string;
     exclude?: string;
     type?: string;
-    versionCode?: number;
+    versionCode?: string;
     versionName?: string;
 };
 
