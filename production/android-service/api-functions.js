@@ -299,7 +299,7 @@ const checkForUpdates = async (request, _) => {
         versionName
     };
     await user.save();
-    const updateAvailable = (Number(versionCode) > latestUpdate_1.LATEST_APP_UPDATE.versionCode ||
+    const updateAvailable = (Number(versionCode) < latestUpdate_1.LATEST_APP_UPDATE.versionCode ||
         versionName !== latestUpdate_1.LATEST_APP_UPDATE.versionName);
     return { updateAvailable };
 };

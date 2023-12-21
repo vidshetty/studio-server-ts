@@ -373,7 +373,7 @@ export const checkForUpdates = async (request: Request, _:any) => {
     await user.save();
 
     const updateAvailable = (
-        Number(versionCode) > LATEST_APP_UPDATE.versionCode ||
+        Number(versionCode) < LATEST_APP_UPDATE.versionCode ||
         versionName !== LATEST_APP_UPDATE.versionName
     );
 
