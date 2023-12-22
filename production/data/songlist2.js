@@ -2376,6 +2376,22 @@ const songlist = [
                 sync: true
             }
         ]
+    },
+    {
+        _albumId: "658544cfd1b0a7b7531d9433",
+        _trackId: "658544cfd1b0a7b7531d9433",
+        Album: "4.10",
+        AlbumArtist: "DIVINE",
+        Type: "Single",
+        Year: "2023",
+        Color: "rgba(184,0,0,1)",
+        DarkColor: "rgba(184,0,0,1)",
+        LightColor: "rgba(240,0,0,1)",
+        releaseDate: (0, utils_1.date)("22-12-2023"),
+        Thumbnail: "https://lh3.googleusercontent.com/4XNsAsDminInTxRRMa_MzINrnVO4qHKSvyvVUl-em1czdc6VM9RERH2_HU_WOwcJsGnw9-b6-G586Ev0=w544-h544-l90-rj",
+        Artist: "DIVINE",
+        Duration: "2: 49",
+        url: `${utils_1.server[3]}/hls/listen/4.10 - Divine/output.m3u8`
     }
 ];
 exports.default = songlist;
