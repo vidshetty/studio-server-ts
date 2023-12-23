@@ -285,9 +285,9 @@ const getMostPlayedRadio = async (request, _) => {
 };
 exports.getMostPlayedRadio = getMostPlayedRadio;
 const checkForUpdates = async (request, _) => {
-    const { versionCode = null, versionName = null } = request.query;
+    const { versionCode = null, versionName = null, buildType = null } = request.query;
     const { id: userId } = request.ACCOUNT;
-    if (versionCode === null || versionName === null) {
+    if (versionCode === null || versionName === null || buildType === null) {
         throw new Error("incomplete version details!");
     }
     const user = await Users_1.Users.findOne({ _id: userId });
@@ -296,17 +296,34 @@ const checkForUpdates = async (request, _) => {
     }
     user.installedVersion = {
         versionCode: Number(versionCode),
-        versionName
+        versionName,
+        buildType
     };
     await user.save();
-    const updateAvailable = (Number(versionCode) < latestUpdate_1.LATEST_APP_UPDATE.versionCode ||
-        versionName !== latestUpdate_1.LATEST_APP_UPDATE.versionName);
+    const updateAvailable = (() => {
+        if (buildType === utils_1.BUILD_TYPE.DEBUG) {
+            return (Number(versionCode) < latestUpdate_1.LATEST_APP_UPDATE.DEBUG.versionCode ||
+                versionName !== latestUpdate_1.LATEST_APP_UPDATE.DEBUG.versionName);
+        }
+        if (buildType === utils_1.BUILD_TYPE.RELEASE) {
+            return (Number(versionCode) < latestUpdate_1.LATEST_APP_UPDATE.RELEASE.versionCode ||
+                versionName !== latestUpdate_1.LATEST_APP_UPDATE.RELEASE.versionName);
+        }
+        return false;
+    })();
     return { updateAvailable };
 };
 exports.checkForUpdates = checkForUpdates;
 const downloadLatestUpdate = async (request, response) => {
-    response.setHeader("Content-Disposition", "attachment;filename=" + latestUpdate_1.LATEST_APP_UPDATE.filename);
-    response.sendFile(latestUpdate_1.LATEST_APP_UPDATE.filePath);
+    const { buildType = utils_1.BUILD_TYPE.RELEASE } = request.query;
+    const filename = buildType === utils_1.BUILD_TYPE.DEBUG ?
+        latestUpdate_1.LATEST_APP_UPDATE.DEBUG.filename :
+        latestUpdate_1.LATEST_APP_UPDATE.RELEASE.filename;
+    const filePath = buildType === utils_1.BUILD_TYPE.DEBUG ?
+        latestUpdate_1.LATEST_APP_UPDATE.DEBUG.filePath :
+        latestUpdate_1.LATEST_APP_UPDATE.RELEASE.filePath;
+    response.setHeader("Content-Disposition", "attachment;filename=" + filename);
+    response.sendFile(filePath);
 };
 exports.downloadLatestUpdate = downloadLatestUpdate;
 //# sourceMappingURL=api-functions.js.map

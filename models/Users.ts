@@ -66,7 +66,8 @@ const UserSchema = new Schema({
     }],
     installedVersion: {
         versionCode: { type: Number },
-        versionName: { type: String }
+        versionName: { type: String },
+        buildType: { type: String }
     }
 });
 

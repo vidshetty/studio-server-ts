@@ -117,6 +117,7 @@ export interface DeviceInfo {
 export interface InstalledVersion {
     versionCode: number;
     versionName: string;
+    buildType: string;
 }
 
 export interface UserInterface extends Document {
@@ -173,6 +174,7 @@ export interface RequestQuery{
     type?: string;
     versionCode?: string;
     versionName?: string;
+    buildType?: string;
 };
 
 export interface AndroidAlbum {

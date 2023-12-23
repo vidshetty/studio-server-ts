@@ -26,6 +26,11 @@ export const issuer = "StudioMusic";
 export const buildroot = "builds";
 export const defaultUserId = "620e2e2693c8702fed063743";
 
+export const BUILD_TYPE = Object.freeze({
+    DEBUG: "debug",
+    RELEASE: "release"
+});
+
 export const ENV = (type: string) : string => {
     return process.env[type] || "";
 };

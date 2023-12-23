@@ -11,7 +11,8 @@ import {
 import {
     server,
     randomize,
-    convertToAndroidAlbum
+    convertToAndroidAlbum,
+    BUILD_TYPE
 } from "../helpers/utils";
 import { Users } from "../models/Users";
 import ALBUMLIST, { NewReleases, RecentlyAdded, ALBUM_MAP, ALBUM_LIST_TRACKS } from "../data/archiveGateway";
@@ -353,10 +354,14 @@ export const getMostPlayedRadio = async (request: Request, _: any) => {
 
 export const checkForUpdates = async (request: Request, _:any) => {
 
-    const { versionCode = null, versionName = null } = request.query as unknown as RequestQuery;
+    const {
+        versionCode = null,
+        versionName = null,
+        buildType = null
+    } = request.query as unknown as RequestQuery;
     const { id: userId } = request.ACCOUNT;
 
-    if (versionCode === null || versionName === null) {
+    if (versionCode === null || versionName === null || buildType === null) {
         throw new Error("incomplete version details!");
     }
 
@@ -367,15 +372,27 @@ export const checkForUpdates = async (request: Request, _:any) => {
 
     user.installedVersion = {
         versionCode: Number(versionCode),
-        versionName
+        versionName,
+        buildType
     };
 
     await user.save();
 
-    const updateAvailable = (
-        Number(versionCode) < LATEST_APP_UPDATE.versionCode ||
-        versionName !== LATEST_APP_UPDATE.versionName
-    );
+    const updateAvailable = (() => {
+        if (buildType === BUILD_TYPE.DEBUG) {
+            return (
+                Number(versionCode) < LATEST_APP_UPDATE.DEBUG.versionCode ||
+                versionName !== LATEST_APP_UPDATE.DEBUG.versionName
+            );
+        }
+        if (buildType === BUILD_TYPE.RELEASE) {
+            return (
+                Number(versionCode) < LATEST_APP_UPDATE.RELEASE.versionCode ||
+                versionName !== LATEST_APP_UPDATE.RELEASE.versionName
+            )
+        }
+        return false;
+    })();
 
     return { updateAvailable };
 
@@ -383,7 +400,17 @@ export const checkForUpdates = async (request: Request, _:any) => {
 
 export const downloadLatestUpdate = async (request: Request, response: Response) => {
 
-    response.setHeader("Content-Disposition", "attachment;filename=" + LATEST_APP_UPDATE.filename);
-    response.sendFile(LATEST_APP_UPDATE.filePath);
+    const { buildType = BUILD_TYPE.RELEASE } = request.query as unknown as RequestQuery;
+
+    const filename = buildType === BUILD_TYPE.DEBUG ?
+        LATEST_APP_UPDATE.DEBUG.filename :
+        LATEST_APP_UPDATE.RELEASE.filename;
+
+    const filePath = buildType === BUILD_TYPE.DEBUG ?
+        LATEST_APP_UPDATE.DEBUG.filePath :
+        LATEST_APP_UPDATE.RELEASE.filePath;
+
+    response.setHeader("Content-Disposition", "attachment;filename=" + filename);
+    response.sendFile(filePath);
 
 };
