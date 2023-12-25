@@ -3,12 +3,13 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.signOut = exports.getProfile = exports.activateCheck = exports.recordTime = exports.startRadio = exports.getLyrics = exports.removeFromRecentlyPlayed = exports.addToRecentlyPlayed = exports.search = exports.getAlbumDetails = exports.getTrackDetails = exports.getLibrary = exports.homeAlbums = exports.getTrack = exports.getAlbum = void 0;
+exports.getLatestUpdate = exports.signOut = exports.getProfile = exports.activateCheck = exports.recordTime = exports.startRadio = exports.getLyrics = exports.removeFromRecentlyPlayed = exports.addToRecentlyPlayed = exports.search = exports.getAlbumDetails = exports.getTrackDetails = exports.getLibrary = exports.homeAlbums = exports.getTrack = exports.getAlbum = void 0;
 const Users_1 = require("../models/Users");
 const utils_1 = require("../helpers/utils");
 const moment_timezone_1 = __importDefault(require("moment-timezone"));
 const path_1 = __importDefault(require("path"));
 const archiveGateway_1 = __importDefault(require("../data/archiveGateway"));
+const latestUpdate_1 = require("../data/latestUpdate");
 const ALBUM_MAP = archiveGateway_1.default.reduce((acc, each) => {
     acc[each._albumId] = each;
     return acc;
@@ -550,4 +551,12 @@ const signOut = async (request, response) => {
     return { success: true };
 };
 exports.signOut = signOut;
+const getLatestUpdate = async (request, _) => {
+    const latest = latestUpdate_1.LATEST_APP_UPDATE.RELEASE;
+    return {
+        versionCode: latest.versionCode,
+        versionName: latest.versionName
+    };
+};
+exports.getLatestUpdate = getLatestUpdate;
 //# sourceMappingURL=functions.js.map

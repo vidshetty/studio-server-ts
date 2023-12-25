@@ -5,6 +5,7 @@ const functions_1 = require("../auth-service/functions");
 const responsehandler_1 = require("../helpers/responsehandler");
 const functions_2 = require("./functions");
 const router = (0, express_1.Router)();
+router.use("/getLatestUpdate", (0, responsehandler_1.responseMid)(functions_2.getLatestUpdate));
 router.use(functions_1.apiAuthCheck);
 router.get("/whosthis", (0, responsehandler_1.responseMid)(functions_2.getProfile));
 router.use(functions_1.apiAccessCheck);

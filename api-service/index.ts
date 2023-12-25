@@ -13,13 +13,15 @@ import {
     addToRecentlyPlayed,
     getLyrics,
     signOut,
-    startRadio
+    startRadio,
+    getLatestUpdate
 } from "./functions";
 
 
 const router = Router();
 
 
+router.use("/getLatestUpdate", responseMid(getLatestUpdate));
 
 router.use(apiAuthCheck);
 

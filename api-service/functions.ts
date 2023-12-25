@@ -25,6 +25,7 @@ import {
 import moment from "moment-timezone";
 import path from "path";
 import ALBUMLIST from "../data/archiveGateway";
+import { LATEST_APP_UPDATE } from "../data/latestUpdate";
 
 
 
@@ -765,5 +766,16 @@ export const signOut = async (request: Request, response: Response) => {
     response.clearCookie("REDIRECT_URI", redirectUriCookieConfig);
 
     return { success: true };
+
+};
+
+export const getLatestUpdate = async (request: Request, _:any) => {
+
+    const latest = LATEST_APP_UPDATE.RELEASE;
+
+    return {
+        versionCode: latest.versionCode,
+        versionName: latest.versionName
+    };
 
 };
