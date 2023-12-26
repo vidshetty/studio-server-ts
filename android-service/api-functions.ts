@@ -379,19 +379,34 @@ export const checkForUpdates = async (request: Request, _:any) => {
     await user.save();
 
     const updateAvailable = (() => {
-        if (buildType === BUILD_TYPE.DEBUG) {
-            return (
-                Number(versionCode) < LATEST_APP_UPDATE.DEBUG.versionCode ||
-                versionName !== LATEST_APP_UPDATE.DEBUG.versionName
-            );
-        }
-        if (buildType === BUILD_TYPE.RELEASE) {
-            return (
-                Number(versionCode) < LATEST_APP_UPDATE.RELEASE.versionCode ||
-                versionName !== LATEST_APP_UPDATE.RELEASE.versionName
-            )
-        }
-        return false;
+
+        const latest_versionCode = buildType === BUILD_TYPE.DEBUG ?
+            LATEST_APP_UPDATE.DEBUG.versionCode : LATEST_APP_UPDATE.RELEASE.versionCode;
+        const latest_versionName = buildType === BUILD_TYPE.DEBUG ?
+            LATEST_APP_UPDATE.DEBUG.versionName : LATEST_APP_UPDATE.RELEASE.versionName;
+
+        const different_versionCode = Number(versionCode) < latest_versionCode;
+
+        const different_versionName = (() => {
+
+            const versionName_num = (() => {
+                try { return Number(versionName.split(".").join("")); }
+                catch(e) { return null; }
+            })();
+
+            const latest_versionName_num = (() => {
+                try { return Number(latest_versionName.split(".").join("")); }
+                catch(e) { return null; }
+            })();
+
+            if (versionName_num === null || latest_versionName_num === null) return false;
+
+            return versionName_num < latest_versionName_num;
+
+        })();
+
+        return different_versionCode || different_versionName;
+
     })();
 
     return { updateAvailable };

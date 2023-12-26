@@ -14,9 +14,9 @@ exports.LATEST_APP_UPDATE = {
     },
     "RELEASE": {
         "versionCode": 7,
-        "versionName": "1.0.1",
-        "filename": "studiomusic-release-7-1.0.1.apk",
-        "filePath": path_1.default.join(process.cwd(), "builds", "apk", "studiomusic-release-7-1.0.1.apk")
+        "versionName": "1.0.2",
+        "filename": "studiomusic-release-7-1.0.2.apk",
+        "filePath": path_1.default.join(process.cwd(), "builds", "apk", "studiomusic-release-7-1.0.2.apk")
     }
 };
 //# sourceMappingURL=latestUpdate.js.map

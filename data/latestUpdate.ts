@@ -10,8 +10,8 @@ export const LATEST_APP_UPDATE = {
     },
     "RELEASE": {
         "versionCode": 7,
-        "versionName": "1.0.1",
-        "filename": "studiomusic-release-7-1.0.1.apk",
-        "filePath": path.join(process.cwd(), "builds", "apk", "studiomusic-release-7-1.0.1.apk")
+        "versionName": "1.0.2",
+        "filename": "studiomusic-release-7-1.0.2.apk",
+        "filePath": path.join(process.cwd(), "builds", "apk", "studiomusic-release-7-1.0.2.apk")
     }
 };
