@@ -2393,6 +2393,38 @@ const songlist: (Single|Album)[] = [
         Artist: "DIVINE",
         Duration: "2: 49",
         url: `${server[3]}/hls/listen/4.10 - Divine/output.m3u8`
+    },
+    {
+        _albumId: "658f862fd185e18ed0a41ddb",
+        _trackId: "658f862fd185e18ed0a41ddb",
+        Album: "Baarishein",
+        AlbumArtist: "Anuv Jain",
+        Type: "Single",
+        Year: "2018",
+        Color: "rgba(83,83,83,1)",
+        DarkColor: "rgba(83,83,83,1)",
+        LightColor: "rgba(127,127,127,1)",
+        releaseDate: date("12-01-2018"),
+        Thumbnail: "https://lh3.googleusercontent.com/3-krcQ6FdG53f1ovjz5mc8b7DkDQ6tRAtXCrEQpdGM-dNECmriD7pX4i5CfLNXuaF1WP4ppPaa801Ns=w544-h544-l90-rj",
+        Artist: "Anuv Jain",
+        Duration: "3: 27",
+        url: `${server[3]}/hls/listen/Baarishein - Anuv Jain/output.m3u8`
+    },
+    {
+        _albumId: "658f863f4f83f165fe166080",
+        _trackId: "658f863f4f83f165fe166080",
+        Album: "Gul",
+        AlbumArtist: "Anuv Jain",
+        Type: "Single",
+        Year: "2021",
+        Color: "rgba(144,208,240,1)",
+        DarkColor: "rgba(86,124,143,1)",
+        LightColor: "rgba(144,208,240,1)",
+        releaseDate: date("16-07-2021"),
+        Thumbnail: "https://lh3.googleusercontent.com/XVFqLdB92wrjHxysLMRPP0L44wNPNC8g30Sk8VHNyqlAEWrtuihhxKV6sM4c8oCKOEM20SuV95MKuQXE=w544-h544-l90-rj",
+        Artist: "Anuv Jain",
+        Duration: "3: 37",
+        url: `${server[3]}/hls/listen/Gul - Anuv Jain/output.m3u8`
     }
 ];
 
