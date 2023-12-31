@@ -2425,6 +2425,22 @@ const songlist: (Single|Album)[] = [
         Artist: "Anuv Jain",
         Duration: "3: 37",
         url: `${server[3]}/hls/listen/Gul - Anuv Jain/output.m3u8`
+    },
+    {
+        _albumId: "6590f74694e241eecfc27fec",
+        _trackId: "6590f74694e241eecfc27fec",
+        Album: "Husn",
+        AlbumArtist: "Anuv Jain",
+        Type: "Single",
+        Year: "2023",
+        Color: "rgba(40,72,64,1)",
+        DarkColor: "rgba(40,72,64,1)",
+        LightColor: "rgba(72,129,115,1)",
+        releaseDate: date("01-12-2023"),
+        Thumbnail: "https://lh3.googleusercontent.com/KyrCGnftqfj4eJ9FnumH8GlNsddPCa8y_LUtsS1dZqX-cQmILOMPKZQp3tEmPWMGN-Ee97I1USn3911GLg=w544-h544-l90-rj",
+        Artist: "Anuv Jain",
+        Duration: "3: 37",
+        url: `${server[3]}/hls/listen/Husn - Anuv Jain/output.m3u8`
     }
 ];
 
