@@ -2441,6 +2441,22 @@ const songlist: (Single|Album)[] = [
         Artist: "Anuv Jain",
         Duration: "3: 37",
         url: `${server[3]}/hls/listen/Husn - Anuv Jain/output.m3u8`
+    },
+    {
+        _albumId: "6593b473b095706dd53574d3",
+        _trackId: "6593b473b095706dd53574d3",
+        Album: "Desperado",
+        AlbumArtist: "Raghav, Tesher",
+        Type: "Single",
+        Year: "2023",
+        Color: "rgba(192,24,24,1)",
+        DarkColor: "rgba(192,24,24,1)",
+        LightColor: "rgba(233,29,29,1)",
+        releaseDate: date("12-04-2023"),
+        Thumbnail: "https://lh3.googleusercontent.com/zlBtmPpKD8u3lNBXoeQvMZW2JinbQhxL8eaoNXle7_2bQjNswp_bOz3wGDuO-9XyVM79y5hM6Dbmqj8=w544-h544-l90-rj",
+        Artist: "Raghav, Tesher",
+        Duration: "4: 07",
+        url: `${server[3]}/hls/listen/Desperado - Raghav/output.m3u8`
     }
 ];
 
