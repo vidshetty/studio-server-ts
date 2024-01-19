@@ -2456,6 +2456,22 @@ const songlist = [
         Artist: "Raghav, Tesher",
         Duration: "4: 07",
         url: `${utils_1.server[3]}/hls/listen/Desperado - Raghav/output.m3u8`
+    },
+    {
+        _albumId: "65aa5444a29c0f3093924c47",
+        _trackId: "65aa5444a29c0f3093924c47",
+        Album: "Tu hai kahan",
+        AlbumArtist: "AUR",
+        Type: "Single",
+        Year: "2023",
+        Color: "rgba(168,176,168,1)",
+        DarkColor: "rgba(114,120,114,1)",
+        LightColor: "rgba(168,176,168,1)",
+        releaseDate: (0, utils_1.date)("16-10-2023"),
+        Thumbnail: "https://lh3.googleusercontent.com/X3Y2OGa2jzNcgv7jcoRVlfEMx2A9eHinSt7IiZ90QiqlpQoOtJjmUFexlF12dfG1_3_M43gZayt3KtE4=w544-h544-l90-rj",
+        Artist: "AUR",
+        Duration: "4: 23",
+        url: `${utils_1.server[3]}/hls/listen/Tu Hai Kahan - AUR/output.m3u8`
     }
 ];
 exports.default = songlist;
