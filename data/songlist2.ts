@@ -2473,7 +2473,30 @@ const songlist: (Single|Album)[] = [
         Artist: "AUR",
         Duration: "4: 23",
         url: `${server[3]}/hls/listen/Tu Hai Kahan - AUR/output.m3u8`
-    }
+    },
+    {
+        _albumId: "65b0c4d55d2033ed7de0ed1d",
+        Album: "Teri Baaton Mein Aisa Uljha Jiya",
+        AlbumArtist: "Various Artists",
+        Type: "Album",
+        Year: "2024",
+        Color: "rgba(24,184,160,1)",
+        LightColor: "rgba(24,184,160,1)",
+        DarkColor: "rgba(17,133,116,1)",
+        releaseDate: date("19-01-2024"),
+        Thumbnail: "https://lh3.googleusercontent.com/FMv7FYqkppHAM9Sn43aneV3eql6nCHldW0OO4ZvoimckHHKwM4Io8NWCdLjarWnh-ecC_LrdpYs3PJ_v=w544-h544-l90-rj",
+        Tracks: [
+            {
+                _trackId: "65b0c4de131829a78a3ee9dd",
+                Title: "Akhiyaan Gulaab",
+                Artist: "Mitraz",
+                url: `${server[3]}/hls/listen/Akhiyaan Gulaab - Mitraz/output.m3u8`,
+                Duration: "2: 51",
+                lyrics: true,
+                sync: true
+            }
+        ]
+    },
 ];
 
 
