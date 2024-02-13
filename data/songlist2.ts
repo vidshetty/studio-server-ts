@@ -2497,6 +2497,55 @@ const songlist: (Single|Album)[] = [
             }
         ]
     },
+    {
+        _albumId: "65cafdce9e2d8b170c31d0f4",
+        Album: "ANIMAL (Original Motion Picture Soundtrack)",
+        AlbumArtist: "Harshavardhan Rameshwar",
+        Type: "Album",
+        Year: "2024",
+        Color: "rgba(46,57,89,1)",
+        // LightColor: "",
+        // DarkColor: "",
+        releaseDate: date("23-01-2024"),
+        Thumbnail: "https://lh3.googleusercontent.com/tM7On61s7pbU8DsHeusopX-HRQerc4Xyv2Pc5Nveb3F932QuadCwslZEP_yeU7iQk2XX9w-r63nZgZk=w544-h544-l90-rj",
+        Tracks: [
+            {
+                _trackId: "65cafddb561ad55b592daa5d",
+                Title: "Pajero Chase",
+                Artist: "Harshavardhan Rameshwar",
+                url: `${server[3]}/hls/listen/Pajero Chase - Animal/output.m3u8`,
+                Duration: "1: 00"
+            },
+            {
+                _trackId: "65cafde393a5b55b63e6f20e",
+                Title: "ANIMAL Theme",
+                Artist: "Harshavardhan Rameshwar",
+                url: `${server[3]}/hls/listen/Animal Theme - Animal/output.m3u8`,
+                Duration: "1: 20"
+            },
+            {
+                _trackId: "65cafdeb2dd904220ae2afe9",
+                Title: "Range Rover Entry",
+                Artist: "Harshavardhan Rameshwar",
+                url: `${server[3]}/hls/listen/Range Rover Entry - Animal/output.m3u8`,
+                Duration: "1: 24"
+            },
+            {
+                _trackId: "65cafdf21bb02f8c5c192d66",
+                Title: "Killing Jeeja",
+                Artist: "Harshavardhan Rameshwar",
+                url: `${server[3]}/hls/listen/Killing Jeeja - Animal/output.m3u8`,
+                Duration: "1: 04"
+            },
+            {
+                _trackId: "65cafdf933411b2dfd14ea7f",
+                Title: "ANIMAL Title Music",
+                Artist: "Harshavardhan Rameshwar",
+                url: `${server[3]}/hls/listen/Animal Title Music - Animal/output.m3u8`,
+                Duration: "1: 22"
+            }
+        ]
+    },
 ];
 
 
