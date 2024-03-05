@@ -2545,6 +2545,22 @@ const songlist = [
             }
         ]
     },
+    {
+        _albumId: "65e7124942f5788c3bb71aaf",
+        _trackId: "65e7124942f5788c3bb71aaf",
+        Album: "Zaalim",
+        AlbumArtist: "Badshah, Payal Dev",
+        Type: "Single",
+        Year: "2024",
+        Color: "rgba(72,240,240,1)",
+        DarkColor: "rgba(39,131,131,1)",
+        LightColor: "rgba(72,240,240,1)",
+        releaseDate: (0, utils_1.date)("24-02-2024"),
+        Thumbnail: "https://lh3.googleusercontent.com/L4WkkfC7MGmFgQllMkduNVcjA9pXOPd6RIGcCcAao6kmpOe8Vr8f58Rx89nRUmIL6Cm_r6CaLV1QVoKZ=w544-h544-l90-rj",
+        Artist: "Badshah, Payal Dev",
+        Duration: "2: 49",
+        url: `${utils_1.server[3]}/hls/listen/Zaalim - Badshah/output.m3u8`
+    }
 ];
 exports.default = songlist;
 //# sourceMappingURL=songlist2.js.map
