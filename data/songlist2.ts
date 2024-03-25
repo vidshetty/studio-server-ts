@@ -2494,6 +2494,13 @@ const songlist: (Single|Album)[] = [
                 Duration: "2: 51",
                 lyrics: true,
                 sync: true
+            },
+            {
+                _trackId: "66015217c2124d4e77256b85",
+                Title: "Gallan",
+                Artist: "Talwiinder, MC SQUARE, NDS",
+                url: `${server[3]}/hls/listen/Gallan - Teri Baaton Mein Aisa Uljha Jiya/output.m3u8`,
+                Duration: "3: 31"
             }
         ]
     },
