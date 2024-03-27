@@ -2568,6 +2568,29 @@ const songlist: (Single|Album)[] = [
         Artist: "Badshah, Payal Dev",
         Duration: "2: 49",
         url: `${server[3]}/hls/listen/Zaalim - Badshah/output.m3u8`
+    },
+    {
+        _albumId: "6603ac4e2bb6062d677faea9",
+        Album: "Ek Tha Raja",
+        AlbumArtist: "Badshah",
+        Type: "Album",
+        Year: "2024",
+        Color: "rgba(168,152,104,1)",
+        LightColor: "rgba(168,152,104,1)",
+        DarkColor: "rgba(130,118,81,1)",
+        releaseDate: date("18-03-2024"),
+        Thumbnail: "https://lh3.googleusercontent.com/X9z43RY-8TZE8Vtxq7vuvRIWhp57i02tcFvgEUOUPSALtLloNQNnfwAZLDYPCCebcl2PSf2a6AMxBsnD=w544-h544-l90-rj",
+        Tracks: [
+            {
+                _trackId: "6603ac56b4ee4eec35f56b71",
+                Title: "Soulmate",
+                Artist: "Badshah, Arijit Singh",
+                url: `${server[3]}/hls/listen/Soulmate - Ek Tha Raja/output.m3u8`,
+                Duration: "3: 33",
+                lyrics: true,
+                sync: true
+            }
+        ]
     }
 ];
 
