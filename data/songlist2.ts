@@ -2591,6 +2591,22 @@ const songlist: (Single|Album)[] = [
                 sync: true
             }
         ]
+    },
+    {
+        _albumId: "660b8daa52acd0636526a9d3",
+        _trackId: "660b8daa52acd0636526a9d3",
+        Album: "Saajna",
+        AlbumArtist: "Mitraz",
+        Type: "Single",
+        Year: "2023",
+        Color: "rgba(56,72,56,1)",
+        DarkColor: "rgba(56,72,56,1)",
+        LightColor: "rgba(98,126,98,1)",
+        releaseDate: date("15-09-2023"),
+        Thumbnail: "https://lh3.googleusercontent.com/SIi8j596tpxQ8xkCL6KafbqRlz99RhUzjtkhX568m4SRUwWLSjuJEnCel-iy5eL6Q2yXY_pRPsR1R0E=w544-h544-l90-rj",
+        Artist: "Mitraz",
+        Duration: "2: 57",
+        url: `${server[3]}/hls/listen/Saajna - Mitraz/output.m3u8`
     }
 ];
 
