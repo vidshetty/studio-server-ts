@@ -2607,6 +2607,22 @@ const songlist: (Single|Album)[] = [
         Artist: "Mitraz",
         Duration: "2: 57",
         url: `${server[3]}/hls/listen/Saajna - Mitraz/output.m3u8`
+    },
+    {
+        _albumId: "664ccdf3b5cd5e77c7185106",
+        _trackId: "664ccdf3b5cd5e77c7185106",
+        Album: "Laado",
+        AlbumArtist: "MC SQUARE, Hiten",
+        Type: "Single",
+        Year: "2023",
+        Color: "rgba(208,32,24,1)",
+        DarkColor: "rgba(208,32,24,1)",
+        LightColor: "rgba(231,36,27,1)",
+        releaseDate: date("30-08-2023"),
+        Thumbnail: "https://lh3.googleusercontent.com/d6rL52C1cthuvTgofLfU6J1I2MEMjZlQ1WjJ402eGM20nh9TPTHafglZ7kwWNSFf21h-b2NPqW6y5I54=w544-h544-l90-rj",
+        Artist: "MC SQUARE, Hiten",
+        Duration: "2: 28",
+        url: `${server[3]}/hls/listen/Laado - MC SQUARE/output.m3u8`
     }
 ];
 
