@@ -2623,6 +2623,22 @@ const songlist: (Single|Album)[] = [
         Artist: "MC SQUARE, Hiten",
         Duration: "2: 28",
         url: `${server[3]}/hls/listen/Laado - MC SQUARE/output.m3u8`
+    },
+    {
+        _albumId: "66509961c7c0b5336986686e",
+        _trackId: "66509961c7c0b5336986686e",
+        Album: "GOAT SHIT",
+        AlbumArtist: "King, Karma",
+        Type: "Single",
+        Year: "2024",
+        Color: "rgba(192,24,16,1)",
+        DarkColor: "rgba(192,24,16,1)",
+        LightColor: "rgba(233,29,19,1)",
+        releaseDate: date("31-05-2024"),
+        Thumbnail: "https://lh3.googleusercontent.com/dSwLtEe0wXpSgAxBEOw10pbPEy0JfmVkc-vOYcnP880936_YUcuuXNKL2jcEdpetSTlnTpZo7lFPFgU=w544-h544-l90-rj",
+        Artist: "King, Karma",
+        Duration: "3: 51",
+        url: `${server[3]}/hls/listen/GOAT SHIT - King/output.m3u8`
     }
 ];
 
