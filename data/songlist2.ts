@@ -2639,7 +2639,28 @@ const songlist: (Single|Album)[] = [
         Artist: "King, Karma",
         Duration: "3: 51",
         url: `${server[3]}/hls/listen/GOAT SHIT - King/output.m3u8`
-    }
+    },
+    {
+        _albumId: "666027591eb4af927b7856aa",
+        Album: "Zehen",
+        AlbumArtist: "Mitraz",
+        Type: "Album",
+        Year: "2022",
+        Color: "rgba(192,200,200,1)",
+        LightColor: "rgba(192,200,200,1)",
+        DarkColor: "rgba(115,120,120,1)",
+        releaseDate: date("18-11-2022"),
+        Thumbnail: "https://lh3.googleusercontent.com/DPNpBja76rG-M24RxRXIBhyXVH8mZO22sIz18mjiZrDVkyYYlaC9clT3yztoYzFBJgTkiGPN48uNR788=w544-h544-l90-rj",
+        Tracks: [
+            {
+                _trackId: "66602769c404d4d709a1bfb0",
+                Title: "Mehboob",
+                Artist: "Mitraz",
+                url: `${server[3]}/hls/listen/Mehboob - Zehen/output.m3u8`,
+                Duration: "3: 05"
+            }
+        ]
+    },
 ];
 
 
