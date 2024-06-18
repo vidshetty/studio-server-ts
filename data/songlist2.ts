@@ -2014,6 +2014,13 @@ const songlist: (Single|Album)[] = [
                 Duration: "5: 46",
                 lyrics: true,
                 sync: true
+            },
+            {
+                _trackId: "",
+                Title: "Tere Hawale (Arijit - Shreya Duet)",
+                Artist: "Arijit Singh, Shreya Ghoshal",
+                url: `${server[3]}/listen/Tere Hawale (Arijit - Shreya Duet) - Laal Singh Chaddha`,
+                Duration: "5: 48"
             }
         ]
     },
