@@ -50,20 +50,6 @@ const songlist = [
         ]
     },
     {
-        _albumId: "610e013e30eb7326a41a89b3",
-        _trackId: "610e013e30eb7326a41a89b3",
-        Album: "Villain",
-        AlbumArtist: "KR$NA",
-        Type: "Single",
-        Thumbnail: "https://lh3.googleusercontent.com/S_2GhCckRBPoE4k7SW39_XNrLdcCY4x5f_SNO3cJT4Oi2ts-zo44EEAoCIW7tpMZ03NIuX4ugVa8KvA=w544-h544-l90-rj",
-        Artist: "KR$NA, Karma, Ikka",
-        Color: "rgba(248,136,16,1)",
-        Duration: "3: 38",
-        url: `${utils_1.server[2]}/listen/Villain - KR$NA`,
-        Year: "2021",
-        releaseDate: (0, utils_1.date)("19-02-2021"),
-    },
-    {
         _albumId: "610e015ea6cd792260ce4d90",
         _trackId: "610e015ea6cd792260ce4d90",
         Album: "Liggi",
@@ -172,25 +158,6 @@ const songlist = [
         ]
     },
     {
-        _albumId: "610e027c56c89528286050b6",
-        Album: `I`,
-        AlbumArtist: `Ikka`,
-        Color: `rgba(83,83,83,1)`,
-        Year: `2020`,
-        Type: `Album`,
-        releaseDate: (0, utils_1.date)("20-11-2020"),
-        Thumbnail: "https://lh3.googleusercontent.com/xuhsRcTb79eoi7dV-IKlVjbTsJGMCywrdR6e7KT2A_7ITIyt9JhUme8GkSj_Blk-Fzs94U351FA8rQLtrQ=w544-h544-l90-rj",
-        Tracks: [
-            {
-                _trackId: "610e02899359db29b47985a8",
-                Title: `Angaar`,
-                Artist: `Ikka, Raftaar`,
-                url: `${utils_1.server[2]}/listen/Angaar - Ikka`,
-                Duration: `3: 48`
-            }
-        ]
-    },
-    {
         _albumId: "610e02a7cf008121782118b0",
         Album: `Punya Paap`,
         AlbumArtist: `DIVINE`,
@@ -245,20 +212,6 @@ const songlist = [
         url: `${utils_1.server[2]}/listen/Mirchi - DIVINE`
     },
     {
-        _albumId: "610e08a595d45d452c869053",
-        _trackId: "610e08a595d45d452c869053",
-        Album: `First Kiss`,
-        AlbumArtist: `Yo Yo Honey Singh, Ipsitaa`,
-        Artist: `Yo Yo Honey Singh, Ipsitaa`,
-        Year: `2020`,
-        Color: `rgba(248,48,96,1)`,
-        Type: `Single`,
-        releaseDate: (0, utils_1.date)("24-11-2020"),
-        Thumbnail: "https://lh3.googleusercontent.com/isN4aaEp19HKG-KhWnN-1qk2GiA2WKeTDUajd5AKTDShvBwRlABty7OgcSTQRIjbFoW0nSpvS2jgGJa3=w544-h544-l90-rj",
-        url: `${utils_1.server[2]}/listen/First Kiss - Yo Yo Honey Singh`,
-        Duration: `3: 39`
-    },
-    {
         _albumId: "610e08f9db9e033c8c8bd722",
         _trackId: "610e08f9db9e033c8c8bd722",
         Album: `Laal Bindi`,
@@ -295,46 +248,6 @@ const songlist = [
                 Artist: `Arijit Singh`,
                 url: `${utils_1.server[0]}/listen/Hardum%20Humdum`,
                 Duration: `3: 08`
-            }
-        ]
-    },
-    {
-        _albumId: "610e0977c06f1245d422f0a0",
-        Album: `Simmba`,
-        AlbumArtist: `Various Artists`,
-        Year: `2018`,
-        Color: `rgba(248,184,56,1)`,
-        releaseDate: (0, utils_1.date)("27-12-2018"),
-        Thumbnail: "https://lh3.googleusercontent.com/vUZV_5psSDwfav2GdJccFlYJG4Yx6xuuT7JT3FzwgKpVq3uIwQ8WWES54ZqKXTdG2DJQ8E29AX2Sy_ww=w544-h544-l90-rj",
-        Type: `Album`,
-        Tracks: [
-            {
-                _trackId: "610e098a8e77fd24a07af605",
-                Title: `Aankh Marey`,
-                Artist: `Tanishk Bagchi, Mika Singh, Neha Kakkar`,
-                url: `${utils_1.server[0]}/listen/Aankh%20Marey`,
-                Duration: `3: 32`
-            },
-            {
-                _trackId: "610e099c464c5c5aa8058c48",
-                Title: `Mera Wala Dance`,
-                Artist: `Nakash Aziz, Neha Kakkar`,
-                url: `${utils_1.server[1]}/listen/Mera%20Wala%20Dance%20-%20Simmba`,
-                Duration: `3: 19`
-            },
-            {
-                _trackId: "610e09ac8ec12c30ac967a0c",
-                Title: `Simmba Theme 1`,
-                Artist: `Tanishk Bagchi`,
-                url: `${utils_1.server[1]}/listen/Simmba%20-%20Theme%201`,
-                Duration: `2: 06`
-            },
-            {
-                _trackId: "610e09bba440452810cd8762",
-                Title: `Simmba Theme 2`,
-                Artist: `Thaman S`,
-                url: `${utils_1.server[1]}/listen/Simmba%20-%20Theme%202`,
-                Duration: `2: 40`
             }
         ]
     },
@@ -447,51 +360,6 @@ const songlist = [
         ]
     },
     {
-        _albumId: "610e0b3d5dca271d7cebae11",
-        Album: `Padmaavat`,
-        AlbumArtist: `Sanjay Leela Bhansali`,
-        Type: `Album`,
-        Year: `2018`,
-        Color: `rgba(192,88,96,1)`,
-        releaseDate: (0, utils_1.date)("21-01-2018"),
-        Thumbnail: `https://i.scdn.co/image/ab67616d0000b273b07fa198edaf969b74dd160a`,
-        Tracks: [
-            {
-                _trackId: "610e0b4ade81fe3814aa9033",
-                Title: `Binte Dil`,
-                Artist: `Arijit Singh`,
-                url: `${utils_1.server[0]}/listen/Binte Dil - Padmaavat`,
-                Duration: `3: 12`
-            },
-            {
-                _trackId: "610e0b571043be34948a393c",
-                Title: `Khalibali`,
-                Artist: `Shivam Pathak, Shail Hada`,
-                url: `${utils_1.server[0]}/listen/Khalibali - Padmaavat`,
-                Duration: `4: 19`
-            }
-        ]
-    },
-    {
-        _albumId: "610e0b73c7f6493890d0d51e",
-        Album: `Laxmii`,
-        AlbumArtist: `Various Artists`,
-        Year: `2020`,
-        Color: `rgba(88,120,216,1)`,
-        Thumbnail: "https://lh3.googleusercontent.com/KVbfzWOMSUaWat8MIH9xO_8qdMjbykUNKJIHajZfoZXzOR09hbMNeZRttnBMGW9ntsYsSasQ1aFrM5E=w544-h544-l90-rj",
-        Type: `Album`,
-        releaseDate: (0, utils_1.date)("10-11-2020"),
-        Tracks: [
-            {
-                _trackId: "610e0b8071a82e0374d623e9",
-                Title: `BurjKhalifa`,
-                Artist: `Shashi, DJ Khushi, Nikitha Gandhi, Madhubanti`,
-                Duration: `3: 07`,
-                url: `${utils_1.server[0]}/listen/BurjKhalifa - Laxmmi Bomb`
-            }
-        ]
-    },
-    {
         _albumId: "610e0ba3cccafa1bbcd1b401",
         Album: `Malang - Unleash The Madness`,
         AlbumArtist: `Various Artists`,
@@ -535,110 +403,6 @@ const songlist = [
                 Artist: `Ankit Tiwari`,
                 url: `${utils_1.server[1]}/listen/Phir Na Milen Kabhi - Malang`,
                 Duration: `4: 59`
-            }
-        ]
-    },
-    {
-        _albumId: "610e0c542f69fa1cc88fab15",
-        Album: `Judwaa 2`,
-        AlbumArtist: `Anu Malik`,
-        Year: `2017`,
-        Color: `rgba(48,184,232,1)`,
-        releaseDate: (0, utils_1.date)("12-09-2017"),
-        Thumbnail: "https://lh3.googleusercontent.com/ra_j_hVOMI3fPo8SnLseO-raBVy-ZlyIdGPmg8EWSV0reJb6icU60cAOpmh4kke_O830faC3eS9P_CaU=w544-h544-l90-rj",
-        Type: `Album`,
-        Tracks: [
-            {
-                _trackId: "610e0c62043eec275cba88be",
-                Title: `Chalti Hai Kya 9 Se 12`,
-                Artist: `Dev Negi, Neha Kakkar`,
-                url: `${utils_1.server[0]}/listen/Chalti Hai Kya 9 Se 12 - Judwaa 2`,
-                Duration: `4: 21`
-            }
-        ]
-    },
-    {
-        _albumId: "610e0c7b81d5862ff475bd84",
-        Album: `KGF Chapter 1 (Kannada)`,
-        AlbumArtist: `Ravi Basrur`,
-        Color: `rgba(72,16,16,1)`,
-        Year: `2019`,
-        releaseDate: (0, utils_1.date)("26-12-2018"),
-        Thumbnail: "https://lh3.googleusercontent.com/97gLoP7a9fY2vDhM2c4KZ0jJTtQ7BfR4Wgu7KlAjUc7WpEBdZVqiKaYdREIGJOdutjnJtf1YPiKz5q1G=w544-h544-l90-rj",
-        Type: `Album`,
-        Tracks: [
-            {
-                _trackId: "610e0c8c7f06763044e0b3fb",
-                Title: `Dheera Dheera`,
-                Artist: `Ananya Bhat`,
-                url: `${utils_1.server[0]}/listen/Dheera Dheera - KGF`,
-                Duration: `3: 42`
-            },
-            {
-                _trackId: "610e0c9813f4444914c8f464",
-                Title: `Salaam Rocky Bhai`,
-                Artist: `Vijay Prakash`,
-                url: `${utils_1.server[1]}/listen/Salaam Rocky Bhai - KGF`,
-                Duration: `4: 05`
-            }
-        ]
-    },
-    {
-        _albumId: "610e0cb021484e52247c6ff7",
-        Album: `Dil Bechara`,
-        AlbumArtist: `A.R. Rahman`,
-        Year: `2020`,
-        Color: `rgba(112,24,24,1)`,
-        releaseDate: (0, utils_1.date)("10-07-2020"),
-        Thumbnail: "https://lh3.googleusercontent.com/LL-arRXDABtgBDrxK5IXEt-5uDpf1ALSY_QDhxzUDMh1rAClHfOfCG4_RnXsHUfHteaLslwAsfPyxVVO=w544-h544-l90-rj",
-        Type: `Album`,
-        Tracks: [
-            {
-                _trackId: "610e0cbfcae5e24e14e65307",
-                Title: `Dil Bechara - Title Track`,
-                Artist: `A.R. Rahman`,
-                url: `${utils_1.server[0]}/listen/Dil Bechara - Title Track`,
-                Duration: `2: 43`
-            },
-            {
-                _trackId: "610e0ccb659e814a7410696c",
-                Title: `Khulke Jeene Ka`,
-                Artist: `Arijit Singh, Shashaa Tirupati`,
-                url: `${utils_1.server[0]}/listen/Khulke Jeene Ka - Dil Bechara`,
-                Duration: `4: 06`
-            },
-            {
-                _trackId: "610e0cda2e61e55a08975764",
-                Title: `Maskhari`,
-                Artist: `Sunidhi Chauhan, Hriday Gattani`,
-                url: `${utils_1.server[1]}/listen/Maskhari - Dil Bechara`,
-                Duration: `3: 15`
-            },
-            {
-                _trackId: "610e0ce864234d4e54d54c7d",
-                Title: `The Horizon Of Saudade`,
-                Artist: `A.R. Rahman`,
-                url: `${utils_1.server[1]}/listen/The Horizon of Saudade - Dil Bechara`,
-                Duration: `2: 46`
-            }
-        ]
-    },
-    {
-        _albumId: "610e0d40be2d09350ca5fde3",
-        Album: `The Sky Is Pink`,
-        AlbumArtist: `Pritam`,
-        Year: `2019`,
-        Color: `rgba(216,192,192,0.3)`,
-        Type: `Album`,
-        releaseDate: (0, utils_1.date)("04-11-2019"),
-        Thumbnail: "https://lh3.googleusercontent.com/QPMiumjJKrOR-acDyDpedyYB6sMjOY8MtTgIolcW9JiB9q-z-iluy7erN8Vs730a22lM7fHnWCVt9yOj=w544-h544-l90-rj",
-        Tracks: [
-            {
-                _trackId: "610e0d4e468c2a09542167ee",
-                Title: `Dil Hi Toh Hai`,
-                Artist: `Arijit Singh, Antara Mitra`,
-                url: `${utils_1.server[0]}/listen/Dil Hai Toh Hai - The Sky Is Pink`,
-                Duration: `4: 40`
             }
         ]
     },
@@ -713,32 +477,6 @@ const songlist = [
         Duration: `3: 42`
     },
     {
-        _albumId: "610e15ba20cfa33f502da853",
-        Album: `Housefull 4`,
-        AlbumArtist: `Various Artists`,
-        Type: `Album`,
-        Year: `2019`,
-        Color: `rgba(120,56,48,1)`,
-        releaseDate: (0, utils_1.date)("23-10-2019"),
-        Thumbnail: "https://lh3.googleusercontent.com/BGQFrIOC9vXJ78ZGhs9xZ5j65iFk1fiwSNWzGWmdLnc2kJW5Y6KE4wzXyZHicRZ38agwOr9tINrlj-A=w544-h544-l90-rj",
-        Tracks: [
-            {
-                _trackId: "610e15c671fd37552490907b",
-                Title: `Ek Chumma`,
-                Artist: `Sohail Sen, Altamash Faridi, Jyotica Tangri`,
-                url: `${utils_1.server[0]}/listen/Ek Chumma - Housefull 4`,
-                Duration: `4: 04`
-            },
-            {
-                _trackId: "610e15d565eb0e0a94379fb6",
-                Title: `Shaitan Ka Saala`,
-                Artist: `Sohail Sen, Vishal Dadlani`,
-                url: `${utils_1.server[1]}/listen/Shaitan Ka Saala - Housefull 4`,
-                Duration: `2: 27`
-            }
-        ]
-    },
-    {
         _albumId: "610e1656232d5b25bcdccae7",
         Album: `Chhichhore`,
         AlbumArtist: `Pritam`,
@@ -763,53 +501,6 @@ const songlist = [
                 Duration: `4: 30`,
                 lyrics: true,
                 sync: true
-            }
-        ]
-    },
-    {
-        _albumId: "610e1687e45b082334349b77",
-        _trackId: "610e1687e45b082334349b77",
-        Album: `Filhall (feat. Akshay Kumar & Nupur Sanon)`,
-        AlbumArtist: `B Praak`,
-        Artist: `B Praak`,
-        Type: `Single`,
-        Year: `2019`,
-        Color: `rgba(192,96,16,1)`,
-        releaseDate: (0, utils_1.date)("07-11-2019"),
-        Thumbnail: "https://lh3.googleusercontent.com/JXIxZJgdPUCcu2IS5UpN5YXPU5vPzJkZKCLiDZNEofqGgvIAD4n57uJckTjujC3nh2NbuP2zAo8xSGJh=w544-h544-l90-rj",
-        url: `${utils_1.server[0]}/listen/Filhall - B Praak`,
-        Duration: `4: 15`
-    },
-    {
-        _albumId: "610e170d64201753886f0dc5",
-        _trackId: "610e170d64201753886f0dc5",
-        Album: `Firse Machayenge`,
-        AlbumArtist: `Emiway Bantai`,
-        Artist: `Emiway Bantai`,
-        Type: `Single`,
-        Color: `rgba(32,56,24,1)`,
-        Year: `2019`,
-        releaseDate: (0, utils_1.date)("14-02-2020"),
-        Thumbnail: "https://lh3.googleusercontent.com/khIMlGHCRXQ-OBrU4YXLf4mVr3dnHkwxX_7HWWuCaxasEWKDgU8Q9vu1V8a9QF6o5ziKfavzdLuXsxcK=w544-h544-l90-rj",
-        url: `${utils_1.server[0]}/listen/Firse Machayenge - Emiway Bantai`,
-        Duration: `3: 27`
-    },
-    {
-        _albumId: "610e1726b21148195452990f",
-        Album: `KGF Chapter 1 (Hindi)`,
-        AlbumArtist: `Various Artists`,
-        Type: `Album`,
-        Color: `rgba(72,16,16,1)`,
-        releaseDate: (0, utils_1.date)("26-12-2018"),
-        Year: `2019`,
-        Thumbnail: "https://lh3.googleusercontent.com/97gLoP7a9fY2vDhM2c4KZ0jJTtQ7BfR4Wgu7KlAjUc7WpEBdZVqiKaYdREIGJOdutjnJtf1YPiKz5q1G=w544-h544-l90-rj",
-        Tracks: [
-            {
-                _trackId: "610e173916f9ba44d0361d54",
-                Title: `Gali Gali`,
-                Artist: `Tanishk Bagchi`,
-                url: `${utils_1.server[0]}/listen/Gali Gali - KGF`,
-                Duration: `2: 54`
             }
         ]
     },
@@ -866,72 +557,6 @@ const songlist = [
         ]
     },
     {
-        _albumId: "610e17bc158a3e4fa4b51067",
-        Album: `Street Dancer 3D`,
-        AlbumArtist: `Various Artists`,
-        Type: `Album`,
-        Year: `2020`,
-        Color: `rgba(184,40,96,1)`,
-        releaseDate: (0, utils_1.date)("13-02-2019"),
-        Thumbnail: "https://lh3.googleusercontent.com/ghzMZBSU95msq3UB3rIZmqKYK7rP7BCREe0uyFVrA7qxaBEYZNgO0zUqo7guiLcIO4Z4Gi4OvvSr9VY=w544-h544-l90-rj",
-        Tracks: [
-            {
-                _trackId: "610e17de7b292256683610e4",
-                Title: `Garmi`,
-                Artist: `Badshah, Neha Kakkar`,
-                url: `${utils_1.server[0]}/listen/Garmi - Street Dancer 3D`,
-                Duration: `3: 02`
-            },
-            {
-                _trackId: "610e17f118bf7113181508e8",
-                Title: `Illegal Weapon 2.0`,
-                Artist: `Jasmine Sandlas, Garry Sandhu`,
-                url: `${utils_1.server[0]}/listen/Illegal Weapon 2 - Street Dancer 3D`,
-                Duration: `3: 08`
-            },
-            {
-                _trackId: "610e17ffc5c1da47f802fdc7",
-                Title: `Muqabla`,
-                Artist: `Yash Narvekar, Parampara Thakur`,
-                url: `${utils_1.server[1]}/listen/Muqabla - Street Dancer 3D`,
-                Duration: `2: 56`
-            }
-        ]
-    },
-    {
-        _albumId: "610e186b7270eb25d0bc0cfa",
-        _trackId: "610e186b7270eb25d0bc0cfa",
-        Album: `Genda Phool (feat. Payal Dev)`,
-        AlbumArtist: `Badshah`,
-        Artist: `Badshah, Payal Dev`,
-        Year: `2020`,
-        Color: `rgba(88,152,168,1)`,
-        releaseDate: (0, utils_1.date)("26-03-2020"),
-        Type: `Single`,
-        Thumbnail: "https://lh3.googleusercontent.com/YzI6asLgX1jm-6QcvQ2ixgJDJm-pp9YsLkkoAqlhwOmPwjgcmSMCdLZFcPrGIjFpBXrJ8cqCl5hjJZbc8g=w544-h544-l90-rj",
-        url: `${utils_1.server[0]}/listen/Genda Phool - Badshah`,
-        Duration: `2: 50`
-    },
-    {
-        _albumId: "610e187f30612c1ca08b0da8",
-        Album: `War`,
-        AlbumArtist: `Vishal-Shekhar`,
-        Type: `Album`,
-        Year: `2019`,
-        Color: `rgba(208,176,104,1)`,
-        releaseDate: (0, utils_1.date)("30-09-2019"),
-        Thumbnail: "https://lh3.googleusercontent.com/AJ70mZ-EK1VqqsNWs9GwLrELy3aRfuWE4kfMGcAY8yZB-tCTGoFi6Q9rLExMQ14El94ao00-SW6b89c=w544-h544-l90-rj",
-        Tracks: [
-            {
-                _trackId: "610e188ffe4cd4363c825762",
-                Title: `Ghungroo`,
-                Artist: `Arijit Singh, Shilpa Rao`,
-                url: `${utils_1.server[0]}/listen/Ghungroo - War`,
-                Duration: `5: 02`
-            }
-        ]
-    },
-    {
         _albumId: "610e18d993d44e3fc0d1ed9b",
         Album: `Love Aaj Kal`,
         AlbumArtist: `Pritam`,
@@ -974,107 +599,6 @@ const songlist = [
         ]
     },
     {
-        _albumId: "610e1948db17c346785351d5",
-        _trackId: "610e1948db17c346785351d5",
-        Album: `High Rated Gabru`,
-        AlbumArtist: `Guru Randhawa, Manj Musik`,
-        Type: `Single`,
-        Year: `2017`,
-        Color: `rgba(208,224,240,1)`,
-        releaseDate: (0, utils_1.date)("04-07-2017"),
-        Artist: `Guru Randhawa, Manj Musik`,
-        Thumbnail: "https://lh3.googleusercontent.com/GKzCBcbrUtJgPHPPL6Zg1uLEpqYzEZiKKajzlwLlIyKbtShVdvS1SfuOXpk1m5nRm6-gMWRSEZRR2rFAuA=w544-h544-l90-rj",
-        url: `${utils_1.server[0]}/listen/High Rated Gabru - Guru Randhawa`,
-        Duration: `3: 34`
-    },
-    {
-        _albumId: "610e19782bcccd02e09c0652",
-        Album: `Super 30`,
-        AlbumArtist: `Ajay-Atul`,
-        Type: `Album`,
-        Year: `2019`,
-        Color: `rgba(152,168,184,1)`,
-        releaseDate: (0, utils_1.date)("09-07-2019"),
-        Thumbnail: "https://lh3.googleusercontent.com/P88szsmz-TcLy_GkZYXn1czWcFtE3I-7wUp1VT0putvJcJeALP08s4NUPJGbekDWJDwRwjw0WI-c-8L8=w544-h544-l90-rj",
-        Tracks: [
-            {
-                _trackId: "610e198c2aa694463ccf8a3a",
-                Title: `Jugraafiya`,
-                Artist: `Udit Narayan, Shreya Goshal`,
-                url: `${utils_1.server[0]}/listen/Jugraafiya - Super 30`,
-                Duration: `4: 34`
-            },
-            {
-                _trackId: "610e1996e3c3903da435e9ce",
-                Title: `Paisa`,
-                Artist: `Vishal Dadlani`,
-                url: `${utils_1.server[1]}/listen/Paisa - Super 30`,
-                Duration: `3: 52`
-            }
-        ]
-    },
-    {
-        _albumId: "610e19b5fc52b743b4b4b9a7",
-        Album: `Andhadhun`,
-        AlbumArtist: `Amit Trivedi`,
-        Type: `Album`,
-        Year: `2018`,
-        Color: `rgba(0,176,224,1)`,
-        releaseDate: (0, utils_1.date)("03-10-2018"),
-        Thumbnail: "https://lh3.googleusercontent.com/ry2psr0826XFpfuyphY1xwjp6vjcV6PQQmPCy1Hh44DVOmfUR3u_DYwOKz6UT5JItx6mWmlFOokBL1meww=w544-h544-l90-rj",
-        Tracks: [
-            {
-                _trackId: "610e19c811bf2a41005481a7",
-                Title: `Laila Laila`,
-                Artist: `Amit Trivedi`,
-                url: `${utils_1.server[1]}/listen/Laila Laila - Andhadhun`,
-                Duration: `3: 23`
-            },
-            {
-                _trackId: "610e19d521f4574f98692594",
-                Title: `Naina Da Kya Kasoor`,
-                Artist: `Amit Trivedi`,
-                url: `${utils_1.server[1]}/listen/Naina Da Kya Kasoor - Andhadhun`,
-                Duration: `3: 30`
-            },
-            {
-                _trackId: "610e19e0298d2a3c38e5cc4d",
-                Title: `Woh Ladki`,
-                Artist: `Arijit Singh`,
-                url: `${utils_1.server[2]}/listen/Wo Ladki - Andhadhun`,
-                Duration: `4: 12`
-            }
-        ]
-    },
-    {
-        _albumId: "610e19eff093ef3a98f6eb8e",
-        _trackId: "610e19eff093ef3a98f6eb8e",
-        Album: `Lamberghini (feat. Ragini)`,
-        AlbumArtist: `The Doorbeen`,
-        Type: `Single`,
-        Artist: `The Doorbeen`,
-        Year: `2018`,
-        Color: `rgba(48,144,136,1)`,
-        releaseDate: (0, utils_1.date)("26-02-2018"),
-        Thumbnail: "https://lh3.googleusercontent.com/5iwBHUMwuCxWnsJDCQ6XynUQd4bZE1w5-VLVlyTpGdQiveV7C2Ca9PTTLzbW6bBTxehJ4xhrRKxC09o=w544-h544-l90-rj",
-        url: `${utils_1.server[1]}/listen/Lamberghini - The Doorbeen`,
-        Duration: `3: 36`
-    },
-    {
-        _albumId: "610e1a1fe6cb62290cb0b7d8",
-        _trackId: "610e1a1fe6cb62290cb0b7d8",
-        Album: `Machayenge`,
-        AlbumArtist: `Emiway Bantai`,
-        Type: `Single`,
-        Year: `2019`,
-        Color: `rgba(8,48,88,1)`,
-        Artist: `Emiway Bantai`,
-        releaseDate: (0, utils_1.date)("25-01-2019"),
-        Thumbnail: "https://lh3.googleusercontent.com/6nAJkD0I8gjMSqCrcWEDJgcCEyOsGy0sMYpz6YaoB4xrqAStfHI3FlIIbdZ1UYSwnwxAsL_G2wSJ28hI=w544-h544-l90-rj",
-        url: `${utils_1.server[1]}/listen/Machayenge - Emiway Bantai`,
-        Duration: `2: 33`
-    },
-    {
         _albumId: "610e1a38eb77db4a78f164ee",
         Album: `The Heist`,
         AlbumArtist: `Macklemore & Ryan Lewis`,
@@ -1090,25 +614,6 @@ const songlist = [
                 Artist: `Macklemore & Ryan Lewis`,
                 url: `${utils_1.server[1]}/listen/Macklemore - Cant Hold Us`,
                 Duration: `4: 28`
-            }
-        ]
-    },
-    {
-        _albumId: "610e1a55f1bc5e40cc5e5cc3",
-        Album: `Drive`,
-        AlbumArtist: `Various Artists`,
-        Type: `Album`,
-        Year: `2019`,
-        Color: `rgba(208,32,40,1)`,
-        releaseDate: (0, utils_1.date)("14-10-2019"),
-        Thumbnail: "https://lh3.googleusercontent.com/N0qHC2L3MQTZU1vgPpTtWz_lcd2x6e-rI6o3ViS3njbjkKGSlbpZSun5V8cdzXZK-StUkmzVHdvEpRkSwg=w544-h544-l90-rj",
-        Tracks: [
-            {
-                _trackId: "610e1a66ce417e20185ee57e",
-                Title: `Makhna`,
-                Artist: `Tanishk Bagchi, Yasser Desai, Asees Kaur`,
-                url: `${utils_1.server[1]}/listen/Makhna - Drive`,
-                Duration: `3: 03`
             }
         ]
     },
@@ -1153,65 +658,6 @@ const songlist = [
         Duration: `2: 42`
     },
     {
-        _albumId: "610e1b203cbba63e0ce3b772",
-        _trackId: "610e1b203cbba63e0ce3b772",
-        Album: `Mere Gully Mein (feat. Naezy)`,
-        AlbumArtist: `DIVINE`,
-        Type: `Single`,
-        Year: `2015`,
-        Color: `rgba(192,176,120,1)`,
-        releaseDate: (0, utils_1.date)("16-04-2015"),
-        Thumbnail: "https://lh3.googleusercontent.com/sbq9SRsQQYrGmSKMowODyttan2r9AGXKteYDbFZ8I7Ws4IaOg1SHxQjT4SNoMuyF-bsEtYoJY2OuK90=w544-h544-l90-rj",
-        Artist: `DIVINE, Naezy`,
-        url: `${utils_1.server[1]}/listen/Mere Gully Mein`,
-        Duration: `3: 02`
-    },
-    {
-        _albumId: "610e1b370e3b47016ce22bc3",
-        Album: `Mr. Nair`,
-        AlbumArtist: `Raftaar`,
-        Type: `Album`,
-        Year: `2020`,
-        Color: `rgba(224,216,200,0.3)`,
-        releaseDate: (0, utils_1.date)("13-04-2020"),
-        Thumbnail: "https://lh3.googleusercontent.com/y0Lrw3oYQH_N4fX6tSJJwZawPaRKgDmExftR_iYeBjONBhmWmlphnMvzEwxOqhtYZ7dLzucPgXVFqo1HDQ=w544-h544-l90-rj",
-        Tracks: [
-            {
-                _trackId: "610e1b47b34ef743b439b034",
-                Title: `Move`,
-                Artist: `Raftaar`,
-                url: `${utils_1.server[1]}/listen/Move - Raftaar`,
-                Duration: `3: 09`
-            },
-            {
-                _trackId: "610e1b54ae248b50687d3e8b",
-                Title: `Naachne Ka Shaunq`,
-                Artist: `Raftaar, Brodha V`,
-                url: `${utils_1.server[1]}/listen/Naachne Ka Shaunq - Raftaar`,
-                Duration: `3: 37`
-            }
-        ]
-    },
-    {
-        _albumId: "610e1b6b5ee98644c4656f45",
-        Album: `Notebook`,
-        AlbumArtist: `Vishal Mishra`,
-        Type: `Album`,
-        Year: `2019`,
-        Color: `rgba(40,104,136,1)`,
-        releaseDate: (0, utils_1.date)("08-03-2019"),
-        Thumbnail: "https://lh3.googleusercontent.com/iRDDxwfarR7BxYaYg5SB2eNrKcWz6hARRMHsEEZaAjTEbGMMXvKjJTkQkjtn2F9QsvbxBvasu5XlXyv9=w544-h544-l90-rj",
-        Tracks: [
-            {
-                _trackId: "610e1b7de0e0ab32dc959efb",
-                Title: `Nai Lagda`,
-                Artist: `Vishal Mishra`,
-                url: `${utils_1.server[1]}/listen/Nai Lagda - Notebook`,
-                Duration: `4: 47`
-            }
-        ]
-    },
-    {
         _albumId: "610e1b893ccf6639e0637ea0",
         Album: `Befikre`,
         AlbumArtist: `Vishal-Shekhar`,
@@ -1236,76 +682,6 @@ const songlist = [
                 Duration: `3: 51`
             }
         ]
-    },
-    {
-        _albumId: "610e1bb70ff3714078cd26b2",
-        _trackId: "610e1bb70ff3714078cd26b2",
-        Album: `NY Se Mumbai`,
-        AlbumArtist: `Various Artists`,
-        Type: `Single`,
-        Year: `2019`,
-        Color: `rgba(83,83,83,1)`,
-        Artist: `Nas, DIVINE, Naezy, Ranveer Singh`,
-        releaseDate: (0, utils_1.date)("12-02-2019"),
-        Thumbnail: "https://lh3.googleusercontent.com/3x-8jLfHNVvy5v9R6U-3qsSIK3Jkg-Sqy0cSeqN0KYZoclSkeyhPC0tCLbUrCvzS475KGGPp6anCERV7=w544-h544-l90-rj",
-        url: `${utils_1.server[1]}/listen/NY Se Mumbai - Gully Boy`,
-        Duration: `3: 48`
-    },
-    {
-        _albumId: "610e1bd09d048035c0beab5a",
-        _trackId: "610e1bd09d048035c0beab5a",
-        Album: `O Saki Saki (From "Batla House")`,
-        AlbumArtist: `Tanishk Bagchi, Vishal-Shekhar`,
-        Type: `Single`,
-        Year: `2019`,
-        Color: `rgba(192,48,24,1)`,
-        Artist: `Neha Kakkar, Tulsi Kumar, B Praak, Tanishk Bagchi`,
-        Thumbnail: `https://lh3.googleusercontent.com/ZtswlruNtJ3pRZKZdYyf2l7FMPcu8MN9IhtoVIoFan8erqKTifrVbYyLSJ1h8QoGpk0r1bh-sygRJcM1=w544-h544-l90-rj`,
-        url: `${utils_1.server[1]}/listen/O Saki Saki - Batla House`,
-        releaseDate: (0, utils_1.date)("15-07-2019"),
-        Duration: `3: 11`
-    },
-    {
-        _albumId: "610e1be28b52dc5930808106",
-        _trackId: "610e1be28b52dc5930808106",
-        Album: `Nachunga Aise`,
-        Thumbnail: "https://lh3.googleusercontent.com/Q_g8yTYapgHKAOMUl7DI13qez0x1KWqjWuWejlo2nZkw3HFaq01lqIEd8ORm3baneByJ8h3xFheGuFQ1=w544-h544-l90-rj",
-        Type: `Single`,
-        Year: `2020`,
-        Color: `rgba(128,240,16,1)`,
-        AlbumArtist: `Millind Gaba`,
-        Artist: `Millind Gaba`,
-        releaseDate: (0, utils_1.date)("24-12-2020"),
-        url: `${utils_1.server[2]}/listen/Nachunga Aise - Millind Gaba`,
-        Duration: `2: 58`
-    },
-    {
-        _albumId: "610e1bfb3143b240cc7f9321",
-        _trackId: "610e1bfb3143b240cc7f9321",
-        Album: `Paagal`,
-        AlbumArtist: `Badshah`,
-        Type: `Single`,
-        Year: `2019`,
-        Color: `rgba(112,192,192,1)`,
-        releaseDate: (0, utils_1.date)("10-07-2019"),
-        Artist: `Badshah`,
-        Thumbnail: "https://lh3.googleusercontent.com/JKIT3p86_NHtH30LlFzW6e4qtgSQjrJZVEj0ltg97STUJH0X73-cG6B099F-y8dIf_6d5bMkahIycDv7nw=w544-h544-l90-rj",
-        url: `${utils_1.server[1]}/listen/Paagal - Badshah`,
-        Duration: `2: 49`
-    },
-    {
-        _albumId: "610e1c1621acda295ca16c56",
-        _trackId: "610e1c1621acda295ca16c56",
-        Album: `Pachtaoge`,
-        AlbumArtist: `B Praak`,
-        Type: `Single`,
-        Year: `2019`,
-        Color: `rgba(80,112,136,1)`,
-        Artist: `Arijit Singh`,
-        releaseDate: (0, utils_1.date)("23-08-2019"),
-        Thumbnail: "https://lh3.googleusercontent.com/xNimgMxkg-ARB12_Cx0Ll7nuzAecyTSvJodYOuuNAqGYig-tfhJIuxD8FNaP71Nnws8B6vd-tQkMs1o8Lw=w544-h544-l90-rj",
-        url: `${utils_1.server[1]}/listen/Pachtaoge - Arijit Singh`,
-        Duration: `3: 46`
     },
     {
         _albumId: "610e1c2cb84a0522f8ada279",
@@ -1381,20 +757,6 @@ const songlist = [
         ]
     },
     {
-        _albumId: "610e1cb43cd03b2924935a27",
-        _trackId: "610e1cb43cd03b2924935a27",
-        Album: `She Move It Like`,
-        AlbumArtist: `Badshah`,
-        Type: `Single`,
-        Year: `2018`,
-        Color: `rgba(160,72,72,1)`,
-        releaseDate: (0, utils_1.date)("11-12-2018"),
-        Artist: `Badshah`,
-        Thumbnail: "https://lh3.googleusercontent.com/LrKaPezLBnETEAwzgT91cExhXl8wAPIcCMuuD52elTRc01iYXXlyJ_p6JLHahzryLMN_bfVJ2NiVJ9Pk=w544-h544-l90-rj",
-        url: `${utils_1.server[1]}/listen/She Move It Like`,
-        Duration: `3: 01`
-    },
-    {
         _albumId: "610e215c9d50a141ec2e1e5c",
         _trackId: "610e215c9d50a141ec2e1e5c",
         Album: `Smile Deke Dekho`,
@@ -1407,20 +769,6 @@ const songlist = [
         Artist: `Sunidhi Chauhan, Nakash Aziz`,
         url: `${utils_1.server[1]}/listen/Smile Deke Dekho`,
         Duration: `2: 44`
-    },
-    {
-        _albumId: "610e21763ddf5117a8c4b8b0",
-        _trackId: "610e21763ddf5117a8c4b8b0",
-        Album: `Suit`,
-        AlbumArtist: `Guru Randhawa, Arjun`,
-        Year: `2016`,
-        Color: `rgba(184,40,8,1)`,
-        Type: `Single`,
-        Artist: `Guru Randhawa, Arjun`,
-        releaseDate: (0, utils_1.date)("24-06-2016"),
-        Thumbnail: "https://lh3.googleusercontent.com/yPl3p9mZmePwp3HqnWl4szZjgdlhkzxmDnztctFqqA4-p448q3TQTvFRoVtbrv65jwobOc27e6oKdcU3=w544-h544-l90-rj",
-        url: `${utils_1.server[1]}/listen/Suit - Guru Randhawa`,
-        Duration: `3: 20`
     },
     {
         _albumId: "610e21a92b3667489ca836b7",
@@ -1459,60 +807,6 @@ const songlist = [
                 Duration: `3: 16`
             }
         ]
-    },
-    {
-        _albumId: "610e21e24fc54f02d4667304",
-        Album: `Marjaavaan`,
-        AlbumArtist: `Various Artists`,
-        Year: `2019`,
-        Type: `Album`,
-        Color: `rgba(168,24,24,1)`,
-        releaseDate: (0, utils_1.date)("14-01-2019"),
-        Thumbnail: "https://lh3.googleusercontent.com/3mlJS9_NCyK_RYbvAd9rZ-WWpepdkLnFQvxLHjvp5YFlqGTFaodiRSJLoVkRPb56a47RDvwmFY_DuURPzg=w544-h544-l90-rj",
-        Tracks: [
-            {
-                _trackId: "610e21eeb12efe517c2fb48f",
-                Title: `Thodi Jagah`,
-                Artist: `Arijit Singh`,
-                url: `${utils_1.server[1]}/listen/Thodi Jagah - Marjaavaan`,
-                Duration: `3: 38`
-            },
-            {
-                _trackId: "610e21f9edafd6445c7fcb95",
-                Title: `Tum Hi Aana`,
-                Artist: `Jubin Nautiyal`,
-                url: `${utils_1.server[2]}/listen/Tum Hi Aana - Marjaavaan`,
-                Duration: `4: 09`
-            }
-        ]
-    },
-    {
-        _albumId: "610e2222947a753ed41ee674",
-        _trackId: "610e2222947a753ed41ee674",
-        Album: `Wakhra Swag`,
-        AlbumArtist: `Navv Inder, Badshah`,
-        Year: `2015`,
-        Color: `rgba(120,48,0,1)`,
-        Artist: `Navv Inder, Badshah`,
-        releaseDate: (0, utils_1.date)("16-06-2015"),
-        Thumbnail: "https://lh3.googleusercontent.com/4u1E2j0UZutT9iFZkEysXpvnc5NGxqCKAOqrqM4O_1oxlmGeeXq5JT5uMXUWUYdhDcJv0_OHFJ-MVbMu=w544-h544-l90-rj",
-        Type: `Single`,
-        url: `${utils_1.server[2]}/listen/Wakhra Swag`,
-        Duration: `3: 10`
-    },
-    {
-        _albumId: "610e22e7056e9446dc076240",
-        _trackId: "610e22e7056e9446dc076240",
-        Album: "Haaye Oye (feat. Ash King)",
-        AlbumArtist: "QARAN",
-        Duration: "3: 20",
-        Type: "Single",
-        Artist: "QARAN, Ash King",
-        Color: "rgba(182,32,40,1)",
-        releaseDate: (0, utils_1.date)("22-03-2019"),
-        Thumbnail: "https://lh3.googleusercontent.com/kprglohOIUYmHzjFFw1K_4kOxiUvtMboUyJpLCx_HmyRY0cJ7zD0FdUR3G7o_-AexMIOdIpTAJxWaNT3vQ=w544-h544-l90-rj",
-        Year: "2019",
-        url: `${utils_1.server[2]}/listen/Haaye Oye - Qaran`
     },
     {
         _albumId: "610e2300befca034b40663ac",
@@ -1710,20 +1004,6 @@ const songlist = [
         ]
     },
     {
-        _albumId: "610e2482e6d0250784437fa0",
-        _trackId: "610e2482e6d0250784437fa0",
-        Album: "Lut Gaye",
-        Type: "Single",
-        Year: "2021",
-        Color: "rgba(152,56,8,1)",
-        releaseDate: (0, utils_1.date)("17-02-2021"),
-        Thumbnail: "https://lh3.googleusercontent.com/-WWDl9AxbK-RlE4546NR1sTIcY8YUoPfnMdNEHovMRBNXd5eqvmvCAN9RuxQqtRynYAtQhe0nFApmMzVUg=w544-h544-l90-rj",
-        AlbumArtist: "Tanishk Bagchi",
-        Artist: "Jubin Nautiyal, Tanishk Bagchi, Nusrat Fateh Ali Khan",
-        Duration: "3: 48",
-        url: `${utils_1.server[2]}/listen/Lut Gaye - Jubin Nautiyal`
-    },
-    {
         _albumId: "610e24c12ff0ae0480b14cc7",
         _trackId: "610e24c12ff0ae0480b14cc7",
         Album: "Brown Munde",
@@ -1736,20 +1016,6 @@ const songlist = [
         AlbumArtist: "AP Dhillon, Gminxr, Gurinder Gill, Shinda Kahlon",
         Artist: "AP Dhillon, Gminxr, Gurinder Gill, Shinda Kahlon",
         url: `${utils_1.server[2]}/listen/Brown Munde`
-    },
-    {
-        _albumId: "610e24d423f3393554e40be2",
-        _trackId: "610e24d423f3393554e40be2",
-        Album: 'Urvashi',
-        Type: "Single",
-        Year: "2018",
-        Duration: "3: 35",
-        Color: "rgba(176,32,56,1)",
-        releaseDate: (0, utils_1.date)("28-09-2018"),
-        Thumbnail: "https://lh3.googleusercontent.com/wp9d9z9XkS8UiK-3VRjo5NLzeNVt9D5yteM8A7qCrGdOFTCJXKw4FiU0y66kelPBzcLF9xiZIP8caWPs=w544-h544-l90-rj",
-        AlbumArtist: "Yo Yo Honey Singh",
-        Artist: "Yo Yo Honey Singh",
-        url: `${utils_1.server[2]}/listen/Urvashi - Yo Yo Honey Singh`
     },
     {
         _albumId: "610e24e74936b021287d7d4a",
@@ -1820,38 +1086,6 @@ const songlist = [
                 url: `${utils_1.server[0]}/listen/Going To America - Nucleya`
             }
         ]
-    },
-    {
-        _albumId: "610e25408e013e35041fe1d4",
-        _trackId: "610e25408e013e35041fe1d4",
-        Album: "Filhaal 2: Mohabbat",
-        Type: "Single",
-        Year: "2021",
-        lyrics: true,
-        sync: true,
-        releaseDate: (0, utils_1.date)("06-07-2021"),
-        Thumbnail: "https://lh3.googleusercontent.com/qarwoC8OU5dHxqI6HOntPuzH_s69pzcBBftNFqSaPv_tBmEfBoVIsOIz_ziGkTmJktm1Re5itAZJENg-=w544-h544-l90-rj",
-        Color: "rgba(64,48,56,1)",
-        AlbumArtist: "B Praak",
-        Artist: "B Praak",
-        url: `${utils_1.server[0]}/listen/Filhaal 2 Mohabbat - B Praak`,
-        Duration: "5: 00"
-    },
-    {
-        _albumId: "610e255343063b4fc0b36ab7",
-        _trackId: "610e255343063b4fc0b36ab7",
-        Album: 'Param Sundari (From "Mimi")',
-        Type: "Single",
-        lyrics: true,
-        sync: true,
-        Year: "2021",
-        releaseDate: (0, utils_1.date)("16-07-2021"),
-        AlbumArtist: "A.R. Rahman",
-        Artist: "A.R. Rahman, Shreya Goshal",
-        Color: "rgba(152,48,40,1)",
-        Thumbnail: "https://lh3.googleusercontent.com/XzWmf0IPnCPxlXFWbhN50paL6rIRT3QYLHQU4oqogjiOJKX7kLu4WtYmVzF0Jh0Z0eBA_SAa9szweWEDSA=w544-h544-l90-rj",
-        url: `${utils_1.server[2]}/listen/Param Sundari - Mimi`,
-        Duration: "3: 20"
     },
     {
         _albumId: "610e256ae1b65a09905861ac",
@@ -1948,34 +1182,6 @@ const songlist = [
         ]
     },
     {
-        _albumId: "610e26385e053f4678aaf54a",
-        _trackId: "610e26385e053f4678aaf54a",
-        Album: "Baawla",
-        AlbumArtist: "Badshah, Uchana Amit",
-        Year: "2021",
-        Color: "rgba(24,48,56,1)",
-        Type: "Single",
-        Thumbnail: "https://lh3.googleusercontent.com/T-4QraNgxH1K3ugAadnVXEr_DoLZbTyjfvZ2TmwL9iBou2c_Lc-vInxNfGToAYdlqLgQT3as_rH0kcg4=w544-h544-l90-rj",
-        Artist: "Badshah, Uchana Amit",
-        url: `${utils_1.server[1]}/listen/Baawla - Badshah`,
-        Duration: "3: 08",
-        releaseDate: (0, utils_1.date)("28-07-2021")
-    },
-    {
-        _albumId: "610e266992ebd61090619f60",
-        _trackId: "610e266992ebd61090619f60",
-        Album: 'Farak',
-        AlbumArtist: "DIVINE",
-        Year: "2017",
-        Color: "rgba(64,48,48,1)",
-        Type: "Single",
-        Thumbnail: "https://lh3.googleusercontent.com/m8Urt-NU-M26zYamPX9dW5h0HoGaQ1d8R60xM51G00r80jwy0srvNNYkbP4UVGbk54XPexhXGXCHNJg=w544-h544-l90-rj",
-        Artist: "DIVINE",
-        url: `${utils_1.server[2]}/listen/Farak - Divine`,
-        Duration: "3: 08",
-        releaseDate: (0, utils_1.date)("17-02-2017")
-    },
-    {
         _albumId: "610e267fa6248b4528dc8f12",
         _trackId: "610e267fa6248b4528dc8f12",
         Album: 'Kaam 25 (Sacred Games)',
@@ -1988,20 +1194,6 @@ const songlist = [
         url: `${utils_1.server[2]}/listen/Kaam 25 - Divine`,
         Duration: "2: 29",
         releaseDate: (0, utils_1.date)("22-06-2018")
-    },
-    {
-        _albumId: "610e26901d4a5c1e5c1e1292",
-        _trackId: "610e26901d4a5c1e5c1e1292",
-        Album: 'Aathma Raama',
-        AlbumArtist: "Brodha V",
-        Year: "2014",
-        Color: "rgba(48,48,64,1)",
-        Type: "Single",
-        Thumbnail: "https://lh3.googleusercontent.com/CtoEktWZ6lpDva-DbyHZFbKyy1TLt72etU5Ilcd0eKR-F_kvJP7bfyWpiLnZpsd3K3Ivz1N_rmuEtB91=w544-h544-l90-rj",
-        Artist: "Brodha V",
-        url: `${utils_1.server[2]}/listen/Aathma Raama - Brodha V`,
-        Duration: "3: 54",
-        releaseDate: (0, utils_1.date)("20-06-2014")
     },
     {
         _albumId: "610e26a1e922d400f4bf9872",
