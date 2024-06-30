@@ -2668,6 +2668,22 @@ const songlist: (Single|Album)[] = [
             }
         ]
     },
+    {
+        _albumId: "66814fa02cf274f8be710a6c",
+        _trackId: "66814fa02cf274f8be710a6c",
+        Album: "STILL THE SAME",
+        AlbumArtist: "King, Abhijay Sharma",
+        Type: "Single",
+        Year: "2024",
+        Color: "rgba(128,64,8,1)",
+        DarkColor: "rgba(128,64,8,1)",
+        LightColor: "rgba(187,93,12,1)",
+        releaseDate: date("07-06-2024"),
+        Thumbnail: "https://lh3.googleusercontent.com/-pqAQ5JfUDRRPSTQ_ykVF9gJcN_KPIni5l5ZLQB8_bFmHoREqgzvoPaguN49eAexr9bCtKu_T2rzuxvM5A=w544-h544-l90-rj",
+        Artist: "King, Abhijay Sharma",
+        Duration: "2: 45",
+        url: `${server[3]}/hls/listen/Still The Same - King/output.m3u8`
+    }
 ];
 
 
