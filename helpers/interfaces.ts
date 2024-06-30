@@ -1,4 +1,5 @@
 import { Document } from "mongoose";
+import { ObjectId } from "mongodb";
 import jwt from "jsonwebtoken";
 
 
@@ -208,4 +209,13 @@ export interface AndroidTrack {
     url: string;
     lyrics?: boolean;
     sync?: boolean;
+};
+
+
+export interface AccountEntry {
+    _id: ObjectId;
+    date: Date;
+    category: string;
+    description: string;
+    amount: number;
 };

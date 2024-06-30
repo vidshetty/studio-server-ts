@@ -21,10 +21,13 @@ const auth_service_1 = __importDefault(require("./auth-service"));
 const api_service_1 = __importDefault(require("./api-service"));
 const admin_service_1 = __importDefault(require("./admin-service"));
 const android_service_1 = __importDefault(require("./android-service"));
+const finance_service_1 = __importDefault(require("./finance-service"));
+const db_connection_1 = require("./helpers/db-connection");
 const app = (0, express_1.default)();
-const PORT = parseInt(process.env.PORT || "5000");
+const PORT = parseInt(process.env.PORT || "5001");
 const PROTOCOL = process.env.PROTOCOL || "http";
 (0, mongohandler_1.default)();
+db_connection_1.MongoAccountsHandler.initialize();
 app.use(passport_1.default.initialize());
 app.use(corshandler_1.default);
 app.use(express_1.default.json());
@@ -35,6 +38,7 @@ app.use("/admin", admin_service_1.default);
 app.use("/api/auth", auth_service_1.default);
 app.use("/api", api_service_1.default);
 app.use("/android", android_service_1.default);
+app.use("/finance/accounts", finance_service_1.default);
 app.get("/login/google", passport_1.default.authenticate("google", {
     scope: ["profile", "email"]
 }));
