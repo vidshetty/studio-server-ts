@@ -21,7 +21,7 @@ import accountsservice from "./finance-service";
 import { MongoAccountsHandler } from "./helpers/db-connection";
 
 const app: Application = express();
-const PORT: number = parseInt(process.env.PORT || "5001");
+const PORT: number = parseInt(process.env.PORT || "5000");
 const PROTOCOL: string = process.env.PROTOCOL || "http";
 
 mongohandler();

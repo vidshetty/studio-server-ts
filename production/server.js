@@ -24,7 +24,7 @@ const android_service_1 = __importDefault(require("./android-service"));
 const finance_service_1 = __importDefault(require("./finance-service"));
 const db_connection_1 = require("./helpers/db-connection");
 const app = (0, express_1.default)();
-const PORT = parseInt(process.env.PORT || "5001");
+const PORT = parseInt(process.env.PORT || "5000");
 const PROTOCOL = process.env.PROTOCOL || "http";
 (0, mongohandler_1.default)();
 db_connection_1.MongoAccountsHandler.initialize();
