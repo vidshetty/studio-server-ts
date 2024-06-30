@@ -173,34 +173,6 @@ const songlist = [
         ]
     },
     {
-        _albumId: "611a2c3948657104c4fc9d0a",
-        _trackId: "611a2c3948657104c4fc9d0a",
-        Album: "Aaraam",
-        AlbumArtist: "Brodha V",
-        Year: "2021",
-        Color: "rgba(176,16,144,1)",
-        Thumbnail: "https://lh3.googleusercontent.com/ktO2h94SCnKAKUFy0YTRUZ9cH9J__reKQFlYGPhlHcWbE8cKlOoNjCmxiXhQwwqm7d54SAAeJ9y1AwNZ=w544-h544-l90-rj",
-        url: `${utils_1.server[0]}/listen/Aaraam - Brodha V`,
-        Duration: "2: 40",
-        Artist: "Brodha V",
-        Type: "Single",
-        releaseDate: (0, utils_1.date)("18-02-2021")
-    },
-    {
-        _albumId: "611a2c46b0eb3f5970d83c74",
-        _trackId: "611a2c46b0eb3f5970d83c74",
-        Album: "Flex",
-        AlbumArtist: "Brodha V",
-        Year: "2020",
-        Color: "rgba(216,88,16,1)",
-        Thumbnail: "https://lh3.googleusercontent.com/RON9AQkHYwP-WNUgLr-x0gm-kpM2Jpcc9oy88s2rnPVc2yI2C4oq1cdm7DsrXwtEf5EFxsJ5anaqWmM=w544-h544-l90-rj",
-        url: `${utils_1.server[0]}/listen/Flex - Brodha V`,
-        Duration: "2: 50",
-        Artist: "Brodha V",
-        Type: "Single",
-        releaseDate: (0, utils_1.date)("08-12-2020")
-    },
-    {
         _albumId: "610ec10c7634aa50dcf7aec8",
         Album: "Gully Boy (Original Motion Picture Soundtrack)",
         AlbumArtist: "Various Artists",
@@ -385,20 +357,6 @@ const songlist = [
         ]
     },
     {
-        _albumId: "6110a11b90ca902e1c9a7b11",
-        _trackId: "6110a11b90ca902e1c9a7b11",
-        Album: 'Kiston (From "Roohi")',
-        AlbumArtist: "Sachin-Jigar",
-        Year: "2021",
-        Color: "rgba(48,56,40,1)",
-        Thumbnail: "https://lh3.googleusercontent.com/lfLkvc3yaTn-Sh3hDnOtXzzp4dBQ9NnAS4X7b8XhVonZABled94vr2jc0XqzYlFfYoBP0OCZ7eOl0-M=w544-h544-l90-rj",
-        url: `${utils_1.server[0]}/listen/Kiston - Roohi`,
-        Duration: "2: 41",
-        Artist: "Sachin-Jigar, Jubin Nautiyal",
-        Type: "Single",
-        releaseDate: (0, utils_1.date)("26-02-2021")
-    },
-    {
         _albumId: "611108a9edbf925848726537",
         _trackId: "611108a9edbf925848726537",
         Album: "1-800-273-8255 (feat. Alessia Cara & Khalid)",
@@ -503,47 +461,6 @@ const songlist = [
         lyrics: true,
         sync: true,
         releaseDate: (0, utils_1.date)("19-09-2018")
-    },
-    {
-        _albumId: "611a410776f22851eccc4437",
-        Album: "Shershaah (Original Motion Picture Soundtrack)",
-        AlbumArtist: "Various Artists",
-        Type: "Album",
-        Year: "2021",
-        Color: "rgba(64,136,160,1)",
-        releaseDate: (0, utils_1.date)("16-08-2021"),
-        Thumbnail: "https://lh3.googleusercontent.com/iL_YgaRWLLzfwYP1mL9mTl0776jHYymJnsNcQlkzztzVEks8z__hMIKIvMfggcaqLah3pdQxR1NcWnPf=w544-h544-l90-rj",
-        Tracks: [
-            {
-                _trackId: "611a410fe15e8c2d249e44f0",
-                Title: "Raataan Lambiyan",
-                Artist: "Tanishk Bagchi, Jubin Nautiyal, Asees Kaur",
-                Duration: "3: 50",
-                url: `${utils_1.server[0]}/listen/Raataan Lambiyan - Shershaah`
-            },
-            {
-                _trackId: "611a4116c8637c5288881cd5",
-                Title: "Ranjha",
-                Artist: "Jasleen Royal, B Praak",
-                Duration: "3: 48",
-                url: `${utils_1.server[2]}/listen/Ranjha - Shershaah`
-            },
-            {
-                _trackId: "611a411e8007f10b409bd2e8",
-                Title: "Kabhii Tumhhe",
-                Artist: "Javed-Mohsin, Darshan Raval",
-                Duration: "3: 50",
-                lyrics: true,
-                url: `${utils_1.server[2]}/listen/Kabhii Tumhhe - Shershaah`
-            },
-            {
-                _trackId: "611a4125c10ed20dbc1fa668",
-                Title: "Mann Bharryaa 2.0",
-                Artist: "B Praak",
-                Duration: "4: 26",
-                url: `${utils_1.server[1]}/listen/Mann Bharryaa 2.0 - Shershaah`
-            }
-        ]
     },
     {
         _albumId: "61212fcf2802212be0808aea",
@@ -666,103 +583,6 @@ const songlist = [
         ]
     },
     {
-        _albumId: "61443b2ca132a92f588d2191",
-        _trackId: "61443b2ca132a92f588d2191",
-        Album: 'Sakhiyaan',
-        AlbumArtist: "Maninder Buttar",
-        Year: "2018",
-        Color: "rgba(240,232,88,1)",
-        Thumbnail: "https://lh3.googleusercontent.com/xPIMRy2kSfrBlj-eVFBY3Kv8PLQWpitn4US-0FTSHowQImMZBgLH8ROqgLvwS0ESBZQpCrOrrzTy3tLQdA=w544-h544-l90-rj",
-        url: `${utils_1.server[2]}/listen/Sakhiyaan - Maninder Buttar`,
-        Duration: "2: 59",
-        Artist: "Maninder Buttar",
-        Type: "Single",
-        releaseDate: (0, utils_1.date)("21-10-2018")
-    },
-    {
-        _albumId: "6145bae59875b659d6103509",
-        _trackId: "6145bae59875b659d6103509",
-        Album: 'Thoda Thoda Pyaar',
-        AlbumArtist: "Stebin Ben",
-        Year: "2021",
-        Color: "rgba(184,80,16,1)",
-        Thumbnail: "https://lh3.googleusercontent.com/hHhmLUpfNZIIgbQrVx_11-xad1ZK_Gsx-xyHN8bdEJXD9-_3krcUcghp3FXna2pUSkihj6uZLKvz99Q=w544-h544-l90-rj",
-        url: `${utils_1.server[2]}/listen/Thoda Thoda Pyaar - Stebin Ben`,
-        Duration: "4: 04",
-        Artist: "Stebin Ben",
-        Type: "Single",
-        releaseDate: (0, utils_1.date)("12-02-2021")
-    },
-    {
-        _albumId: "6151e1cd776457e7218b7f6e",
-        _trackId: "6151e1cd776457e7218b7f6e",
-        Album: "Dil Garti Kar Baitha Hai",
-        AlbumArtist: "Jubin Nautiyal, Meet Bros.",
-        Year: "2021",
-        Color: "rgba(200,104,96,1)",
-        Thumbnail: "https://lh3.googleusercontent.com/_dGbTJ6iIUPWJZkOwN4e75WC5tQ3_ACC3FEVL77ZGt4cGLs33KgpS3m0H7gau-Xwc5JSCZS5iu7OTiWn4A=w544-h544-l90-rj",
-        url: `${utils_1.server[2]}/listen/Dil Galti Kar Baitha Hai - Jubin Nautiyal`,
-        Duration: "4: 33",
-        Artist: "Jubin Nautiyal, Meet Bros.",
-        Type: "Single",
-        releaseDate: (0, utils_1.date)("25-09-2021")
-    },
-    {
-        _albumId: "6167ee2e741ae75976d76f2b",
-        _trackId: "6167ee2e741ae75976d76f2b",
-        Album: "Khushi Jab Bhi Teri",
-        AlbumArtist: "Jubin Nautiyal, Rochak Kohli",
-        Year: "2021",
-        Color: "rgba(200,56,56,1)",
-        Thumbnail: "https://lh3.googleusercontent.com/mLGi4DdlYfvordoC5XXMvHQbUotiI0n4Zm2qzSjoAMGU_pA96tjhYoc1Z4Px9ht6G1Ewm-sKvgumCexhIA=w544-h544-l90-rj",
-        url: `${utils_1.server[2]}/listen/Khushi Jab Bhi Teri - Jubin Nautiyal`,
-        Duration: "4: 00",
-        Artist: "Rochak Kohli, Jubin Nautiyal",
-        Type: "Single",
-        releaseDate: (0, utils_1.date)("23-08-2021")
-    },
-    {
-        _albumId: "6169afa0d268ed8335fff64c",
-        Album: "Pushpa - The Rise (Telugu)",
-        AlbumArtist: "Devi Sri Prasad",
-        Type: "Album",
-        Year: "2021",
-        Color: "rgba(168,40,40,1)",
-        releaseDate: (0, utils_1.date)("16-12-2021"),
-        // Thumbnail: "https://m.media-amazon.com/images/I/81-o48Mm3sL._UXNaN_FMwebp_QL85_.jpg?isCloudQueue=true",
-        Thumbnail: "https://lh3.googleusercontent.com/w20kmKC4GQzTTZn76C2iyRSiLmvZNYJTqro5RIcDJ0X13NGplU5wFU9rXUUMJOLgWCb0QyuAFMtXYsQ=w544-h544-l90-rj",
-        Tracks: [
-            {
-                _trackId: "6169afa9360f5983444290ac",
-                Title: "Daakko Daakko Meka",
-                Artist: "Devi Sri Prasad, Sivam",
-                url: `${utils_1.server[3]}/listen/Daakko Daakko Meka - Pushpa`,
-                Duration: "5: 00"
-            },
-            {
-                _trackId: "61dd34025b2ebd735046bfe9",
-                Title: "Srivalli",
-                Artist: "Devi Sri Prasad, Sid Sriram",
-                url: `${utils_1.server[3]}/listen/Srivalli - Pushpa`,
-                Duration: "3: 44"
-            },
-            {
-                _trackId: "61dd340a9d8b34735c5daa04",
-                Title: "Oo Antava Oo Oo Antava",
-                Artist: "Indravathi Chauhan",
-                url: `${utils_1.server[3]}/listen/Oo Antava Oo Oo Antava - Pushpa`,
-                Duration: "3: 47"
-            },
-            {
-                _trackId: "61dd3413abc64e7366b46d65",
-                Title: "Saami Saami",
-                Artist: "Mounika Yadav",
-                url: `${utils_1.server[3]}/listen/Saami Saami - Pushpa`,
-                Duration: "3: 49"
-            },
-        ]
-    },
-    {
         _albumId: "64e0cc0356f099571b08a656",
         _trackId: "64e0cc0356f099571b08a656",
         Album: "We Rollin",
@@ -792,27 +612,6 @@ const songlist = [
                 Artist: "Pritam, Arijit Singh",
                 url: `${utils_1.server[1]}/listen/Ik Vaari Aa - Raabta`,
                 Duration: "4: 34"
-            },
-            {
-                _trackId: "616a97986141cc6224d467e6",
-                Title: "Lambiyaan Si Judaiyaan",
-                Artist: "Pritam, Arijit Singh, Shadab, Altamash Faridi",
-                url: `${utils_1.server[1]}/listen/Lambiyaan Si Judaiyaan - Raabta`,
-                Duration: "3: 58"
-            },
-            {
-                _trackId: "616a97a1dbf6ea62372a3cc4",
-                Title: "Main Tera Boyfriend",
-                Artist: "Pritam, Arijit Singh, Neha Kakkar, Meet Bros.",
-                url: `${utils_1.server[1]}/listen/Main Tera Boyfriend - Raabta`,
-                Duration: "4: 36"
-            },
-            {
-                _trackId: "616a97ab7cc31c6241305b4e",
-                Title: "Darasal",
-                Artist: "Pritam, Atif Aslam",
-                url: `${utils_1.server[1]}/listen/Darasal - Raabta`,
-                Duration: "4: 34"
             }
         ]
     },
@@ -832,36 +631,8 @@ const songlist = [
                 Artist: "Akon, Hamsika Iyer",
                 url: `${utils_1.server[0]}/listen/Chammak Challo - RaOne`,
                 Duration: "3: 47"
-            },
-            {
-                _trackId: "6172d32ce1bdd2aa2461ddd2",
-                Title: "Dildaara (Stand By Me)",
-                Artist: "Shafqat Amanat Ali",
-                url: `${utils_1.server[0]}/listen/Dildaara - RaOne`,
-                Duration: "4: 09"
-            },
-            {
-                _trackId: "6172d33480e9a5aa31d598a3",
-                Title: "Criminal",
-                Artist: "Akon, Vishal Dadlani, Shruti Pathak",
-                url: `${utils_1.server[0]}/listen/Criminal - RaOne`,
-                Duration: "5: 07"
             }
         ]
-    },
-    {
-        _albumId: "617bc05c66c9ef59824b03b0",
-        _trackId: "617bc05c66c9ef59824b03b0",
-        Album: 'Aage Chal',
-        AlbumArtist: "Raftaar",
-        Year: "2021",
-        Color: "rgba(8,56,104,1)",
-        Thumbnail: "https://lh3.googleusercontent.com/-sHD89mSQjE4GHLfKvVVxI3-R4qWTNVjCOBRSHlAwl-ad0XNubkmUEp5pa5gjnmMLuUWEFN-vsiiXnL6=w544-h544-l90-rj",
-        url: `${utils_1.server[0]}/listen/Aage Chal - Raftaar`,
-        Duration: "3: 49",
-        Artist: "Raftaar",
-        Type: "Single",
-        releaseDate: (0, utils_1.date)("07-01-2021")
     },
     {
         _albumId: "617bc13a41f86d5a2e5c3c1b",
@@ -890,79 +661,6 @@ const songlist = [
         Artist: "Raftaar",
         Type: "Single",
         releaseDate: (0, utils_1.date)("08-01-2021")
-    },
-    {
-        _albumId: "617a1b0b305b2b1be4bef671",
-        Album: "Sooryavanshi",
-        AlbumArtist: "Various Artists",
-        Type: "Album",
-        Year: "2021",
-        Color: "rgba(208,168,8,1)",
-        releaseDate: (0, utils_1.date)("06-11-2021"),
-        Thumbnail: "https://lh3.googleusercontent.com/NLIjsoMYRvJS0kWhrPc0DFxJ81wVieLJOxaPG2j6mLjYqstAt_AFqe3GJfQ9NzHxdWlEMQN0vm0rSnyf=w544-h544-l90-rj",
-        Tracks: [
-            {
-                _trackId: "617a1b162b3ccd1c0a16242c",
-                Title: "Aila Re Aillaa",
-                Artist: "Pritam, Tanishk Bagchi, Daler Mehndi",
-                url: `${utils_1.server[1]}/listen/Aila Re Aillaa - Sooryavanshi`,
-                Duration: "2: 36"
-            },
-            {
-                _trackId: "617a1b1efa1f081c123c5fa8",
-                Title: "Mere Yaaraa",
-                Artist: "Arijit Singh, Neeti Mohan, Kaushik",
-                url: `${utils_1.server[0]}/listen/Mere Yaaraa - Sooryavanshi`,
-                Duration: "4: 45"
-            },
-            {
-                _trackId: "618231e6c378573b1aabae31",
-                Title: "Najaa",
-                Artist: "Tanishk Bagchi, Pav Dharia, Nikhita Gandhi",
-                url: `${utils_1.server[0]}/listen/Najaa - Sooryavanshi`,
-                Duration: "3: 11"
-            },
-            {
-                _trackId: "61952dda9547438470d1ec13",
-                Title: "Tip Tip",
-                Artist: "Tanishk Bagchi, Udit Narayan, Alka Yagnik",
-                url: `${utils_1.server[3]}/listen/Tip Tip - Sooryavanshi`,
-                Duration: "4: 10"
-            },
-            {
-                _trackId: "61952f1725a286878248f113",
-                Title: "Sooryavanshi Theme",
-                Artist: "Lijo George",
-                url: `${utils_1.server[3]}/listen/Sooryavanshi Theme`,
-                Duration: "1: 48"
-            }
-        ]
-    },
-    {
-        _albumId: "61b98f69a6911a36de1da552",
-        Album: "Satyameva Jayate 2",
-        AlbumArtist: "Various Artists",
-        Type: "Album",
-        Year: "2021",
-        Color: "rgba(152,64,0,1)",
-        releaseDate: (0, utils_1.date)("23-11-2021"),
-        Thumbnail: "https://lh3.googleusercontent.com/kkvStTevhiZR10W3J-LyjuRmOanSFoKCbYSCxYrAbI7ggWFvySdFQ51R1J1aPNQY0tWZtMh7t1t4WSo=w544-h544-l90-rj",
-        Tracks: [
-            {
-                _trackId: "61b98f7122815c36ec3f5b2f",
-                Title: "Meri Zindagi Hai Tu",
-                Artist: "Rochak Kohli, Jubin Nautiyal, Neeti Mohan",
-                url: `${utils_1.server[3]}/listen/Meri Zindagi Hai Tu - Satyameva Jayate 2`,
-                Duration: "4: 44"
-            },
-            {
-                _trackId: "61b98f7b41e59636f6253b07",
-                Title: "Kusu Kusu",
-                Artist: "Tanishk Bagchi, Zahrah S Khan, Dev Negi",
-                url: `${utils_1.server[3]}/listen/Kusu Kusu - Satyameva Jayate 2`,
-                Duration: "3: 15"
-            }
-        ]
     },
     {
         _albumId: "618e077d67371c2f91f5d6cf",
@@ -1000,20 +698,6 @@ const songlist = [
                 sync: true
             }
         ]
-    },
-    {
-        _albumId: "619e3a0b409dfd9fe18b1e34",
-        _trackId: "619e3a0b409dfd9fe18b1e34",
-        Album: 'Boom Boom',
-        AlbumArtist: "Yo Yo Honey Singh",
-        Year: "2021",
-        Color: "rgba(32,168,216,1)",
-        Thumbnail: "https://lh3.googleusercontent.com/O3X6MO25G6lkqsHRGOdYEidBW90fR2ZvpmtTJCxZfUd5r69p2yI5gXTMRumUdQgYflT3_PUwmOceUKk5=w544-h544-l90-rj",
-        url: `${utils_1.server[3]}/listen/Boom Boom - Yo Yo Honey Singh`,
-        Duration: "3: 30",
-        Artist: "Yo Yo Honey Singh, Hommie Dilliwala",
-        Type: "Single",
-        releaseDate: (0, utils_1.date)("24-11-2021")
     },
     {
         _albumId: "61a086200ee3752e85a8ea3d",
@@ -1070,46 +754,6 @@ const songlist = [
         releaseDate: (0, utils_1.date)("30-11-2021")
     },
     {
-        _albumId: "61af0cdf196df7438d639be7",
-        Album: "Atrangi Re",
-        AlbumArtist: "A.R. Rahman",
-        Type: "Album",
-        Year: "2021",
-        Color: "rgba(24,48,56,1)",
-        releaseDate: (0, utils_1.date)("06-12-2021"),
-        Thumbnail: "https://lh3.googleusercontent.com/SptwamjhlZv04fzi3B-Crqyl7HZMXrNBIzexCgLjdxJ9SXxciHbpNc7ybSXmfJAxnGa_j0M0JtG635PZuw=w544-h544-l90-rj",
-        Tracks: [
-            {
-                _trackId: "61af0ce8e5ef3c4398fcd51d",
-                Title: "Chaka Chak",
-                Artist: "A.R. Rahman, Shreya Ghoshal",
-                Duration: "4: 29",
-                url: `${utils_1.server[3]}/listen/Chaka Chak - Atrangi Re`
-            },
-            {
-                _trackId: "61af0cefe3584543a36e6e7b",
-                Title: "Rait Zara Si",
-                Artist: "A.R. Rahman, Arijit Singh, Shashaa Tirupati",
-                Duration: "4: 51",
-                url: `${utils_1.server[3]}/listen/Rait Zara Si - Atrangi Re`
-            }
-        ]
-    },
-    {
-        _albumId: "61af7740fbea65152951353c",
-        _trackId: "61af7740fbea65152951353c",
-        Album: "Slow Slow",
-        AlbumArtist: "Badshah, Payal Dev",
-        Year: "2021",
-        Color: "rgba(88,120,96,1)",
-        Thumbnail: "https://lh3.googleusercontent.com/eLb2hwcJ1G5mS8O6-krbaaZE-ZUwPT4MmEI4aBVH30YB3Lm2M6qEDWzwbStjrXkTlqB4tUcqUHG8U3sX=w544-h544-l90-rj",
-        url: `${utils_1.server[3]}/listen/Slow Slow - Badshah`,
-        Duration: "3: 40",
-        Artist: "Badshah, Payal Dev",
-        Type: "Single",
-        releaseDate: (0, utils_1.date)("07-12-2021")
-    },
-    {
         _albumId: "61be0b94fa2f43136d8894d6",
         _trackId: "61be0b94fa2f43136d8894d6",
         Album: 'Bijlee Bijlee',
@@ -1122,20 +766,6 @@ const songlist = [
         Artist: "Harrdy Sandhu",
         Type: "Single",
         releaseDate: (0, utils_1.date)("30-10-2021")
-    },
-    {
-        _albumId: "61c184b8547f1f40ffd03c51",
-        _trackId: "61c184b8547f1f40ffd03c51",
-        Album: "Dance Meri Rani",
-        AlbumArtist: "Tanishk Bagchi, Guru Randhawa, Zahrah S Khan",
-        Year: "2021",
-        Color: "rgba(88,16,8,1)",
-        Thumbnail: "https://lh3.googleusercontent.com/10H9QuFv9bak36vfybYAvP2UOkIWdfgBhBA4mqsGFgMT3Pz2jP02BjTX_sWjhPL3M5Xq_8BFl7AAn0loDQ=w544-h544-l90-rj",
-        url: `${utils_1.server[3]}/listen/Dance Meri Rani - Guru Randhawa`,
-        Duration: "3: 43",
-        Artist: "Tanishk Bagchi, Guru Randhawa, Zahrah S Khan",
-        Type: "Single",
-        releaseDate: (0, utils_1.date)("21-12-2021")
     },
     {
         _albumId: "61ade3761e67eb6bb1367c8c",
@@ -1160,65 +790,6 @@ const songlist = [
                 Artist: "Pritam, Arijit Singh",
                 Duration: "3: 57",
                 url: `${utils_1.server[3]}/listen/Jeetega Jeetega Film Version - 83`
-            }
-        ]
-    },
-    {
-        _albumId: "61c8453bfd646ff0b39e6fb0",
-        Album: "Jersey (Original Motion Picture Soundtrack)",
-        AlbumArtist: "Sachet-Parampara",
-        Type: "Album",
-        Year: "2021",
-        Color: "rgba(176,24,40,1)",
-        releaseDate: (0, utils_1.date)("24-12-2021"),
-        Thumbnail: "https://lh3.googleusercontent.com/1vJy65mfT1ZYTPQFgO3LIRMyFQefaxNob4ENT5E5UilF-Rp4qXy4-E8HvS-XnPKtPFHTBQDTrg0zNZAM=w544-h544-l90-rj",
-        Tracks: [
-            {
-                _trackId: "61a8a73bea50605d575d979c",
-                Title: "Mehram",
-                Artist: "Sachet Tandon",
-                Duration: "3: 47",
-                url: `${utils_1.server[3]}/listen/Mehram - Jersey`
-            },
-            {
-                _trackId: "61b18783af7674287b22a994",
-                Title: "Maiyya Mainu",
-                Artist: "Sachet Tandon",
-                Duration: "3: 51",
-                url: `${utils_1.server[3]}/listen/Maiyya Mainu - Jersey`
-            },
-            {
-                _trackId: "61c8452d0e0d3d702de4962f",
-                Title: "Baliye Re",
-                Artist: "Sachet Tandon, Stebin Ben, Parampara Tandon, MellowD",
-                Duration: "3: 07",
-                url: `${utils_1.server[3]}/listen/Baliye Re - Jersey`
-            }
-        ]
-    },
-    {
-        _albumId: "61ee5fdf29abfc526ee8531d",
-        Album: "Garuda Gamana Vrishabha Vahana",
-        AlbumArtist: "Midhun Mukundan",
-        Type: "Album",
-        Year: "2021",
-        Color: "rgba(160,56,8,1)",
-        releaseDate: (0, utils_1.date)("03-12-2021"),
-        Thumbnail: "https://lh3.googleusercontent.com/zo0CQmoCyNN01H-Y3Ltp7J6IqJRmgSsOClSmlQFDigQbBqw7pzhsANBPTXXXJDxX5_j_NZpwxYMU2Ys=w544-h544-l90-rj",
-        Tracks: [
-            {
-                _trackId: "61ee5febf3b945527fae59ca",
-                Title: "Endo Bareda",
-                Artist: "Midhun Mukundan, Vasuki Vaibhav",
-                Duration: "3: 55",
-                url: `${utils_1.server[3]}/listen/Endo Bareda - GGVV`
-            },
-            {
-                _trackId: "61ee5ff2324a43528770ff95",
-                Title: "Sojugada Soojumallige",
-                Artist: "Midhun Mukundan, Chaitra J Achar",
-                Duration: "2: 47",
-                url: `${utils_1.server[3]}/listen/Sojugada Soojumallige - GGVV`
             }
         ]
     },
@@ -1323,20 +894,6 @@ const songlist = [
         ]
     },
     {
-        _albumId: "6207a6f8d09acb843e445a21",
-        _trackId: "6207a6f8d09acb843e445a21",
-        Album: "Dhokha",
-        AlbumArtist: "Arijit Singh, Manan Bhardwaj",
-        Year: "2022",
-        Color: "rgba(16,64,152,1)",
-        Thumbnail: "https://lh3.googleusercontent.com/EXgS1qTaFeZxoV1GCbQ-v0lkCuDk_qFU3WJ4yxtaFsfv3jXhU_VN69-M-CtwEt-AX61p_UHwVDjYxQg=w544-h544-l90-rj",
-        url: `${utils_1.server[3]}/listen/Dhokha - Arijit Singh`,
-        Duration: "4: 05",
-        Artist: "Arijit Singh, Manan Bhardwaj",
-        Type: "Single",
-        releaseDate: (0, utils_1.date)("10-02-2022")
-    },
-    {
         _albumId: "620e853704d56a3ca0316f7e",
         _trackId: "620e853704d56a3ca0316f7e",
         Album: 'Arabic Kuthu - Halamithi Habibo (From "Beast")',
@@ -1386,20 +943,6 @@ const songlist = [
         releaseDate: (0, utils_1.date)("30-03-2021")
     },
     {
-        _albumId: "6228c283a0c4690fdd1836c6",
-        _trackId: "6228c283a0c4690fdd1836c6",
-        Album: 'Saare Bolo Bewafa (From "Bachchhan Paandey")',
-        AlbumArtist: "B Praak",
-        Year: "2022",
-        Color: "rgba(120,32,40,1)",
-        Thumbnail: "https://lh3.googleusercontent.com/mB2UiSPMVZDcGEEVoPDIZxh4UWmpu-QW2WSboec5Y4OBHbv4MWM7BP1NmAGKxgLJ7Rb78AsiNNHxdWly=w544-h544-l90-rj",
-        url: `${utils_1.server[3]}/listen/Saare Bolo Bewafa - Bachchhan Paandey`,
-        Duration: "3: 46",
-        Artist: "B Praak",
-        Type: "Single",
-        releaseDate: (0, utils_1.date)("07-03-2022")
-    },
-    {
         _albumId: "622b4f2b3ed66d16a2a3da24",
         _trackId: "622b4f2b3ed66d16a2a3da24",
         Album: "Blowing Up",
@@ -1423,13 +966,6 @@ const songlist = [
         releaseDate: (0, utils_1.date)("14-03-2022"),
         Thumbnail: "https://lh3.googleusercontent.com/l9kGz-BKvEVpkeNFDSpbLEWri4Aph-fo8LAwXjDY9nfyEHIhdbgSHdH37FB_XhG5c59mpAmCF0OvkKUx=w544-h544-l90-rj",
         Tracks: [
-            {
-                _trackId: "622f64a2e2337d7a21eb8a5b",
-                Title: "Tabahi",
-                Artist: "Badshah",
-                Duration: "2: 48",
-                url: `${utils_1.server[3]}/listen/Tabahi - Badshah`
-            },
             {
                 _trackId: "622f64afbf0711dbfc77aba5",
                 Title: "Chamkeela Chehra",
@@ -1482,46 +1018,6 @@ const songlist = [
         url: `${utils_1.server[3]}/listen/Pasoori - CokeStudio14`
     },
     {
-        _albumId: "625903701f15141bf1cbb521",
-        Album: "KGF Chapter 2 (Kannada)",
-        AlbumArtist: "Ravi Basrur",
-        Type: "Album",
-        Year: "2022",
-        Color: "rgba(48,56,56,1)",
-        releaseDate: (0, utils_1.date)("14-04-2022"),
-        Thumbnail: "https://lh3.googleusercontent.com/kZr12S4nm0aMA3bmBlTGNEmoR66H49HXIItUBJH9B5CbZclV-AGhSNroRqqv8_AL0e_c0g6pY01I_gDsCg=w544-h544-l90-rj",
-        Tracks: [
-            {
-                _trackId: "6259037958dbf6b6438fda7f",
-                Title: "Toofan",
-                Artist: "Santhosh Venky, Mohan Krishna, Sachin Basrur, Ravi Basrur, Puneeth Rudranag, Varsha Acharya",
-                Duration: "3: 33",
-                url: `${utils_1.server[3]}/listen/Toofan - KGF Chapter 2 (Kannada)`
-            },
-            {
-                _trackId: "6259038277f8d15e97eb4b25",
-                Title: "Gagana Nee",
-                Artist: "Suchetha Basrur",
-                Duration: "2: 51",
-                url: `${utils_1.server[3]}/listen/Gagana Nee - KGF Chapter 2 (Kannada)`
-            },
-            {
-                _trackId: "6259038a99e930b513d0ae12",
-                Title: "Sulthana",
-                Artist: "Santhosh Venky, Mohan Krishna, Sachin Basrur, Ravi Basrur, Puneeth Rudranag, Manish Dinakar, Varsha Acharya",
-                Duration: "3: 45",
-                url: `${utils_1.server[3]}/listen/Sulthana - KGF Chapter 2 (Kannada)`
-            },
-            {
-                _trackId: "62590393102331fd318808a2",
-                Title: "Mehabooba",
-                Artist: "Ananya Bhat",
-                Duration: "3: 33",
-                url: `${utils_1.server[3]}/listen/Mehabooba - KGF Chapter 2 (Kannada)`
-            }
-        ]
-    },
-    {
         _albumId: "626ff94d7b39fa0d05d9560e",
         _trackId: "626ff94d7b39fa0d05d9560e",
         Album: 'Bhool Bhulaiyaa 2 Title Track (From "Bhool Bhulaiyaa 2")',
@@ -1550,20 +1046,6 @@ const songlist = [
         url: `${utils_1.server[3]}/listen/Lil Bunty - KR$NA`
     },
     {
-        _albumId: "62c280d74a6ee8dd01efb0a5",
-        _trackId: "62c280d74a6ee8dd01efb0a5",
-        Album: 'Ji Huzoor (From "Shamshera")',
-        AlbumArtist: "Mithoon",
-        Type: "Single",
-        Year: "2022",
-        Color: "rgba(8,96,64,1)",
-        releaseDate: (0, utils_1.date)("29-06-2022"),
-        Thumbnail: "https://lh3.googleusercontent.com/b6oHLfQ_zQjKgtcIS-PO3VGDJCiS-XuJ0q6muMuS3CpPCoza5WiDOLpMDpzHhPS8RsUr_TbDZGM2E4Sy=w544-h544-l90-rj",
-        Artist: "Aditya Narayan",
-        Duration: "4: 09",
-        url: `${utils_1.server[3]}/listen/Ji Huzoor - Shamshera`
-    },
-    {
         _albumId: "62cc269f521470695eb32ce5",
         _trackId: "62cc269f521470695eb32ce5",
         Album: 'Machayenge 4',
@@ -1578,32 +1060,6 @@ const songlist = [
         url: `${utils_1.server[3]}/listen/Machayenge 4 - KR$NA`,
         lyrics: true,
         sync: true
-    },
-    {
-        _albumId: "62df9478097f86bd84c07841",
-        Album: "Nishu",
-        AlbumArtist: "Ikka",
-        Type: "Album",
-        Year: "2022",
-        Color: "rgba(56,56,56,1)",
-        releaseDate: (0, utils_1.date)("26-07-2022"),
-        Thumbnail: "https://lh3.googleusercontent.com/_tHQAzcP0XS5jCHTq383PIaY4Lf2xLHEMvcDsuDNgFIrHYYxCR4vJJZ7SibIb8WfYL5YOxi9JoCi3WeOog=w544-h544-l90-rj",
-        Tracks: [
-            {
-                _trackId: "62df947d1535f92a1ccd4920",
-                Title: "Nishu",
-                Artist: "Ikka",
-                Duration: "3: 32",
-                url: `${utils_1.server[3]}/listen/Nishu - Ikka`
-            },
-            {
-                _trackId: "62df947f8e9a83df07ad1ccd",
-                Title: "Sab Jaanta Hai",
-                Artist: "Ikka",
-                Duration: "3: 00",
-                url: `${utils_1.server[3]}/listen/Sab Jaanta Hai - Ikka`
-            }
-        ]
     },
     {
         _albumId: "62e3827fffa64d48ecf4356b",
@@ -1688,20 +1144,6 @@ const songlist = [
         ]
     },
     {
-        _albumId: "63d782b738cd53aaa1b217b7",
-        _trackId: "63d782b738cd53aaa1b217b7",
-        Album: "Chedkhaniyan (From 'Shehzada')",
-        AlbumArtist: "Pritam, Arijit Singh, Nikhita Gandhi",
-        Type: "Single",
-        Year: "2023",
-        Color: "rgba(88,32,184,1)",
-        releaseDate: (0, utils_1.date)("24-01-2023"),
-        Thumbnail: "https://lh3.googleusercontent.com/MtPnfbzVk2bSpesLYUMQznOb3ImLqBqS-fYe3WN9rDnAb0jOsht4F7oHgjQ8NfSXgUmvgmNS_gfu1XAthA=w544-h544-l90-rj",
-        Artist: "Pritam, Arijit Singh, Nikhita Gandhi",
-        Duration: "3: 51",
-        url: `${utils_1.server[2]}/listen/Chedkhaniyan - Shehzada`
-    },
-    {
         _albumId: "63da71fd42e734af91ee21c3",
         Album: "Two Hearts Never Break The Same",
         AlbumArtist: "AP Dhillon",
@@ -1779,25 +1221,6 @@ const songlist = [
         ]
     },
     {
-        _albumId: "64880f543304cd1240275fa9",
-        Album: "Zara Hatke Zara Bachke",
-        AlbumArtist: "Sachin-Jigar",
-        Type: "Album",
-        Year: "2023",
-        Color: "rgba(240,88,64,1)",
-        releaseDate: (0, utils_1.date)("26-05-2023"),
-        Thumbnail: "https://lh3.googleusercontent.com/9eX2SpMZLrfKhE7tLAssoeS-rw1WrWEw8wHSG_V1cLpJgff9LMFy8IjYcg6OF--C9T6eeTTb1ckerhfLbQ=w544-h544-l90-rj",
-        Tracks: [
-            {
-                _trackId: "64880f5f9fcc0a2956449570",
-                Title: "Phir Aur Kya Chahiye",
-                Artist: "Arijit Singh",
-                Duration: "4: 26",
-                url: `${utils_1.server[3]}/listen/Phir Aur Kya Chahiye - Arijit Singh`
-            }
-        ]
-    },
-    {
         _albumId: "648fe8bf8811d884880efb89",
         Album: "Spider-Man: Across The Spider Verse (SOUNDTRACK FROM THE MOTION PICTURE)",
         AlbumArtist: "Metro Boomin",
@@ -1815,36 +1238,6 @@ const songlist = [
                 url: `${utils_1.server[3]}/listen/Annihilate - Spider Man Across The Spider Verse`
             }
         ]
-    },
-    {
-        _albumId: "64ae8a15785fb86646739e20",
-        _trackId: "64ae8a15785fb86646739e20",
-        Album: "Obsessed",
-        AlbumArtist: "Riar Saab, Abhijay Sharma",
-        Type: "Single",
-        Year: "2022",
-        Color: "rgba(8,136,192,1)",
-        releaseDate: (0, utils_1.date)("29-09-2022"),
-        Thumbnail: "https://lh3.googleusercontent.com/T4LRcQwrigppA4iZC_ANtb8ibGUCjAq3IK8Jf1oUOliY2Hsl1CqoKHVdfoErYg-NDus0kaSnQgw6URpY=w544-h544-l90-rj",
-        Artist: "Riar Saab, Abhijay Sharma",
-        Duration: "3: 10",
-        url: `${utils_1.server[3]}/listen/Obsessed`
-    },
-    {
-        _albumId: "64ad589bc9928e32fe4ab3e3",
-        _trackId: "64ad589bc9928e32fe4ab3e3",
-        Album: 'Le Aaunga (From "Satyaprem Ki Katha")',
-        AlbumArtist: "Tanishk Bagchi, Arijit Singh",
-        Type: "Single",
-        Year: "2023",
-        Color: "rgba(80,40,32,1)",
-        releaseDate: (0, utils_1.date)("01-07-2023"),
-        Thumbnail: "https://lh3.googleusercontent.com/orby46otQWPMrwEEUIca-VBx6o8k1C4p-B1g4sHlEVtZFyC3V1CDfvf0hwh_ANXNV1pSe2kKr8FpRYw=w544-h544-l90-rj",
-        Artist: "Tanishk Bagchi, Arijit Singh",
-        Duration: "4: 03",
-        url: `${utils_1.server[3]}/listen/Le Aaunga - Satyaprem Ki Katha`,
-        lyrics: true,
-        sync: true
     },
     {
         _albumId: "64b53418febfcb823e932e7b",
@@ -1925,38 +1318,6 @@ const songlist = [
         ]
     },
     {
-        _albumId: "64ca1b61c26f1a71fb601cca",
-        _trackId: "64ca1b61c26f1a71fb601cca",
-        Album: "Lo Aayi Barsaat",
-        AlbumArtist: "Darshan Raval",
-        Type: "Single",
-        Year: "2023",
-        Color: "rgba(200,8,8,1)",
-        releaseDate: (0, utils_1.date)("18-07-2023"),
-        Thumbnail: "https://lh3.googleusercontent.com/MzomIUUKzIAuOSkahug2ZGPU7jlqxO-odCLJBgEQMhY_3oiGsxC8Ybz8rGFi1RxdXNzj2DR3kpVWNeav=w544-h544-l90-rj",
-        Artist: "Darshan Raval",
-        Duration: "3: 42",
-        url: `${utils_1.server[3]}/listen/Lo Aayi Barsaat - Darshan Raval`,
-        lyrics: true,
-        sync: true
-    },
-    {
-        _albumId: "64cc9a321e73e8d380f8dfa4",
-        _trackId: "64cc9a321e73e8d380f8dfa4",
-        Album: "Mahiye Jinna Sohna",
-        AlbumArtist: "Darshan Raval",
-        Type: "Single",
-        Year: "2023",
-        Color: "rgba(240,96,0,1)",
-        releaseDate: (0, utils_1.date)("22-06-2023"),
-        Thumbnail: "https://lh3.googleusercontent.com/qQSneMiFfF2m4wgDwZmBUj1FHGAxXTfvLcBjq7z5nJp-Gz-IrbM_Em6Aj3Twv5gdM_y1RxCQd--laA=w544-h544-l90-rj",
-        Artist: "Darshan Raval",
-        Duration: "3: 01",
-        url: `${utils_1.server[3]}/listen/Mahiye Jinna Sohna - Darshan Raval`,
-        lyrics: true,
-        sync: true
-    },
-    {
         _albumId: "64d1017676dcba781b8ca9de",
         _trackId: "64d1017676dcba781b8ca9de",
         Album: "Sleepless",
@@ -1971,20 +1332,6 @@ const songlist = [
         url: `${utils_1.server[3]}/listen/Sleepless - AP Dhillon`,
         lyrics: true,
         sync: true
-    },
-    {
-        _albumId: "64d25967786c97e9c7b86377",
-        _trackId: "64d25967786c97e9c7b86377",
-        Album: "Gone Girl",
-        AlbumArtist: "Badshah, Payal Dev",
-        Type: "Single",
-        Year: "2023",
-        Color: "rgba(200,120,112,1)",
-        releaseDate: (0, utils_1.date)("08-08-2023"),
-        Thumbnail: "https://lh3.googleusercontent.com/dBUZ_c_h5KPkFWjhYx-B-nkbU5Wh_JE1zN8e4Wm5mpJwdh9uFxHbm53UDoQwB99sWvA3DG2UEnhpdGo=w544-h544-l90-rj",
-        Artist: "Badshah, Payal Dev",
-        Duration: "2: 47",
-        url: `${utils_1.server[3]}/listen/Gone Girl - Badshah`
     },
     {
         _albumId: "64d262be6abab9aaa8fb15f0",
@@ -2143,20 +1490,6 @@ const songlist = [
         sync: true
     },
     {
-        _albumId: "64fdbd804cb0d601957818b6",
-        _trackId: "64fdbd804cb0d601957818b6",
-        Album: "Palpita",
-        AlbumArtist: "Camilo, Diljit Dosanjh",
-        Type: "Single",
-        Year: "2023",
-        Color: "rgba(128,152,104,1)",
-        releaseDate: (0, utils_1.date)("31-08-2023"),
-        Thumbnail: "https://lh3.googleusercontent.com/_HIVUCxENu47x-7a3F2sBfTWqWELqeEhsWIXKcdFS7sXuQKpMK3l74_zANef1HcPzGyb5MPOpZ6FjY2I=w544-h544-l90-rj",
-        Artist: "Camilo, Diljit Dosanjh",
-        Duration: "2: 31",
-        url: `${utils_1.server[3]}/listen/Palpita`
-    },
-    {
         _albumId: "652f9232162331b12f7322aa",
         Album: "NEW LIFE",
         AlbumArtist: "King",
@@ -2201,24 +1534,6 @@ const songlist = [
         Artist: "Emiway Bantai",
         Duration: "3: 55",
         url: `${utils_1.server[3]}/hls/listen/Still Number 1 - Emiway Bantai/output.m3u8`
-    },
-    {
-        _albumId: "6543cd8ec7a5929070e7b0e5",
-        _trackId: "6543cd8ec7a5929070e7b0e5",
-        Album: 'Kuley Kuley (From "Honey 3.0")',
-        AlbumArtist: "Yo Yo Honey Singh, Apache Indian",
-        Type: "Single",
-        Year: "2023",
-        Color: "rgba(176,72,88,1)",
-        DarkColor: "rgba(176,72,88,1)",
-        LightColor: "rgba(196,80,98,1)",
-        releaseDate: (0, utils_1.date)("15-09-2023"),
-        Thumbnail: "https://lh3.googleusercontent.com/Z8ItAImJ2fTQDa_IyAcTYvZsN1BMPNkPX4V4_thw5-UlDwGa4rFy_0Momf_yxc-Ee9xEL6QWIgGKUl1b=w544-h544-l90-rj",
-        Artist: "Yo Yo Honey Singh, Apache Indian",
-        Duration: "3: 09",
-        url: `${utils_1.server[3]}/hls/listen/Kuley Kuley - Yo Yo Honey Singh/output.m3u8`,
-        lyrics: true,
-        sync: true
     },
     {
         _albumId: "654b49ea0d4af4a8301beaa5",
@@ -2298,15 +1613,6 @@ const songlist = [
                 Artist: "Vishal Mishra",
                 url: `${utils_1.server[3]}/hls/listen/Pehle Bhi Main - Animal/output.m3u8`,
                 Duration: "4: 10"
-            },
-            {
-                _trackId: "6560ef14e8b3ec9a11572e61",
-                Title: "Saari Duniya Jalaa Denge",
-                Artist: "Jaani, B Praak",
-                url: `${utils_1.server[3]}/hls/listen/Saari Duniya Jalaa Denge - Animal/output.m3u8`,
-                Duration: "3: 02",
-                lyrics: true,
-                sync: true
             }
         ]
     },
@@ -2558,22 +1864,6 @@ const songlist = [
                 Duration: "1: 22"
             }
         ]
-    },
-    {
-        _albumId: "65e7124942f5788c3bb71aaf",
-        _trackId: "65e7124942f5788c3bb71aaf",
-        Album: "Zaalim",
-        AlbumArtist: "Badshah, Payal Dev",
-        Type: "Single",
-        Year: "2024",
-        Color: "rgba(72,240,240,1)",
-        DarkColor: "rgba(39,131,131,1)",
-        LightColor: "rgba(72,240,240,1)",
-        releaseDate: (0, utils_1.date)("24-02-2024"),
-        Thumbnail: "https://lh3.googleusercontent.com/L4WkkfC7MGmFgQllMkduNVcjA9pXOPd6RIGcCcAao6kmpOe8Vr8f58Rx89nRUmIL6Cm_r6CaLV1QVoKZ=w544-h544-l90-rj",
-        Artist: "Badshah, Payal Dev",
-        Duration: "2: 49",
-        url: `${utils_1.server[3]}/hls/listen/Zaalim - Badshah/output.m3u8`
     },
     {
         _albumId: "6603ac4e2bb6062d677faea9",
