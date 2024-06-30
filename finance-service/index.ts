@@ -32,11 +32,11 @@ const categories = [
 
 
 router.get("/", async (req: Request, res: Response) => {
-    return res.status(200).sendFile(path.join(__dirname, "account.html"));
+    return res.status(200).sendFile(path.join(process.cwd(), "finance-service", "account.html"));
 });
 
 router.get("/js", async (req: Request, res: Response) => {
-    return res.status(200).sendFile(path.join(__dirname, "account.js"));
+    return res.status(200).sendFile(path.join(process.cwd(), "finance-service", "account.js"));
 });
 
 router.get("/category", async (req: Request, res: Response) => {

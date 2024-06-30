@@ -27,10 +27,10 @@ const categories = [
     "Refunds"
 ];
 router.get("/", async (req, res) => {
-    return res.status(200).sendFile(path_1.default.join(__dirname, "account.html"));
+    return res.status(200).sendFile(path_1.default.join(process.cwd(), "finance-service", "account.html"));
 });
 router.get("/js", async (req, res) => {
-    return res.status(200).sendFile(path_1.default.join(__dirname, "account.js"));
+    return res.status(200).sendFile(path_1.default.join(process.cwd(), "finance-service", "account.js"));
 });
 router.get("/category", async (req, res) => {
     return res.status(200).send(categories);
