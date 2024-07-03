@@ -40,7 +40,8 @@ app.use("/api", api_service_1.default);
 app.use("/android", android_service_1.default);
 app.use("/finance/accounts", finance_service_1.default);
 app.get("/login/google", passport_1.default.authenticate("google", {
-    scope: ["profile", "email"]
+    scope: ["profile", "email"],
+    session: false
 }));
 app.get("/.well-known/assetlinks.json", (_, response) => {
     const file_path = path_1.default.join(process.cwd(), "data", "assetlinks.json");

@@ -94,7 +94,7 @@ router.get(
 
 router.get(
     "/google-signin",
-    passport.authenticate("google", { failureRedirect: "/login?status=failed" }),
+    passport.authenticate("google", { failureRedirect: "/login?status=failed", session: false }),
     googleAuthCheck,
     (_:any, response: Response) => {
         if (response.user.error) {

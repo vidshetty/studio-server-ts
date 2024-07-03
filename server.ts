@@ -50,7 +50,8 @@ app.use("/android", androidservice);
 app.use("/finance/accounts", accountsservice);
 
 app.get("/login/google", passport.authenticate("google", {
-    scope: ["profile","email"]
+    scope: ["profile","email"],
+    session: false
 }));
 
 app.get("/.well-known/assetlinks.json", (_:Request, response:Response) => {

@@ -83,7 +83,7 @@ router.get("/google-oauth-signin/*", middlewares_1.userAgentCheck,
 (_, response) => {
     return response.sendFile(path_1.default.join(process.cwd(), utils_1.buildroot, "build", "index.html"));
 });
-router.get("/google-signin", passport_1.default.authenticate("google", { failureRedirect: "/login?status=failed" }), functions_1.googleAuthCheck, (_, response) => {
+router.get("/google-signin", passport_1.default.authenticate("google", { failureRedirect: "/login?status=failed", session: false }), functions_1.googleAuthCheck, (_, response) => {
     if (response.user.error) {
         return response.redirect("/login?status=success&email=exists");
     }
