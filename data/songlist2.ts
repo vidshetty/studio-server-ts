@@ -1922,22 +1922,6 @@ const songlist: (Single|Album)[] = [
         url: `${server[3]}/hls/listen/Laado - MC SQUARE/output.m3u8`
     },
     {
-        _albumId: "66509961c7c0b5336986686e",
-        _trackId: "66509961c7c0b5336986686e",
-        Album: "GOAT SHIT",
-        AlbumArtist: "King, Karma",
-        Type: "Single",
-        Year: "2024",
-        Color: "rgba(192,24,16,1)",
-        DarkColor: "rgba(192,24,16,1)",
-        LightColor: "rgba(233,29,19,1)",
-        releaseDate: date("31-05-2024"),
-        Thumbnail: "https://lh3.googleusercontent.com/dSwLtEe0wXpSgAxBEOw10pbPEy0JfmVkc-vOYcnP880936_YUcuuXNKL2jcEdpetSTlnTpZo7lFPFgU=w544-h544-l90-rj",
-        Artist: "King, Karma",
-        Duration: "3: 51",
-        url: `${server[3]}/hls/listen/GOAT SHIT - King/output.m3u8`
-    },
-    {
         _albumId: "666027591eb4af927b7856aa",
         Album: "Zehen",
         AlbumArtist: "Mitraz",
@@ -1959,21 +1943,33 @@ const songlist: (Single|Album)[] = [
         ]
     },
     {
-        _albumId: "66814fa02cf274f8be710a6c",
-        _trackId: "66814fa02cf274f8be710a6c",
-        Album: "STILL THE SAME",
-        AlbumArtist: "King, Abhijay Sharma",
-        Type: "Single",
+        _albumId: "66bca3c8795de468bab9be0f",
+        Album: "MONOPOLY MOVES",
+        AlbumArtist: "King",
+        Type: "Album",
         Year: "2024",
-        Color: "rgba(128,64,8,1)",
-        DarkColor: "rgba(128,64,8,1)",
-        LightColor: "rgba(187,93,12,1)",
-        releaseDate: date("07-06-2024"),
-        Thumbnail: "https://lh3.googleusercontent.com/-pqAQ5JfUDRRPSTQ_ykVF9gJcN_KPIni5l5ZLQB8_bFmHoREqgzvoPaguN49eAexr9bCtKu_T2rzuxvM5A=w544-h544-l90-rj",
-        Artist: "King, Abhijay Sharma",
-        Duration: "2: 45",
-        url: `${server[3]}/hls/listen/Still The Same - King/output.m3u8`
-    }
+        Color: "rgba(120,24,24,1)",
+        LightColor: "rgba(227,45,45,1)",
+        DarkColor: "rgba(120,24,24,1)",
+        releaseDate: date("02-08-2024"),
+        Thumbnail: "https://lh3.googleusercontent.com/kTgRWBzSinIX8y7h_XOeaD3fpRZMWznCuFRwi3Iqyky1ZtuNLCmPWdYqdt7WYd8zxrpQaIOEtGWPjaU=w544-h544-l90-rj",
+        Tracks: [
+            {
+                _trackId: "66bca3d0964b1c100393acb7",
+                Title: "STILL THE SAME",
+                Artist: "King, Abhijay Sharma",
+                url: `${server[3]}/hls/listen/Still The Same - King/output.m3u8`,
+                Duration: "2: 45"
+            },
+            {
+                _trackId: "66bca3d7505441eaf5599439",
+                Title: "WARCRY",
+                Artist: "King, Raftaar",
+                url: `${server[3]}/hls/listen/Warcry - King/output.m3u8`,
+                Duration: "5: 00"
+            }
+        ]
+    },
 ];
 
 
