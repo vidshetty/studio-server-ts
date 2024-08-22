@@ -1986,7 +1986,9 @@ const songlist = [
                 Title: "Somebody Save Me",
                 Artist: "Eminem, Jelly Roll",
                 url: `${utils_1.server[3]}/hls/listen/Somebody Save Me - Eminem/output.m3u8`,
-                Duration: "3: 50"
+                Duration: "3: 50",
+                lyrics: true,
+                sync: true
             }
         ]
     }
