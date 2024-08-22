@@ -1970,6 +1970,27 @@ const songlist: (Single|Album)[] = [
             }
         ]
     },
+    {
+        _albumId: "66c6fe84344af07a8bc0b464",
+        Album: "The Death of Slim Shady (Coup de Grâce)",
+        AlbumArtist: "Eminem",
+        Type: "Album",
+        Year: "2024",
+        Color: "rgba(8,48,72,1)",
+        LightColor: "rgba(21,124,187,1)",
+        DarkColor: "rgba(8,48,72,1)",
+        releaseDate: date("12-07-2024"),
+        Thumbnail: "https://lh3.googleusercontent.com/Xx3dX1EJDirqwpfQL05uAgmKGYpzTcFDXjjHqjNpIhgY5MWTJRLSlOjaYVtup2Ku6gBYEqXoxw5aGKC3=w544-h544-l90-rj",
+        Tracks: [
+            {
+                _trackId: "66c6fe8ba6d373d7162115a7",
+                Title: "Somebody Save Me",
+                Artist: "Eminem, Jelly Roll",
+                url: `${server[3]}/hls/listen/Somebody Save Me - Eminem/output.m3u8`,
+                Duration: "3: 50"
+            }
+        ]
+    }
 ];
 
 
