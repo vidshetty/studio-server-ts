@@ -1967,6 +1967,13 @@ const songlist: (Single|Album)[] = [
                 Artist: "King, Raftaar",
                 url: `${server[3]}/hls/listen/Warcry - King/output.m3u8`,
                 Duration: "5: 00"
+            },
+            {
+                _trackId: "66d1f1bdeed04bbf8e67b6ff",
+                Title: "TERE HO KE",
+                Artist: "King, Bella",
+                url: `${server[3]}/hls/listen/Tere Ho Ke - King/output.m3u8`,
+                Duration: "3: 43"
             }
         ]
     },
