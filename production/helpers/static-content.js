@@ -9,132 +9,123 @@ const functions_1 = require("../auth-service/functions");
 const utils_1 = require("../helpers/utils");
 const passport_1 = __importDefault(require("passport"));
 const path_1 = __importDefault(require("path"));
-const staticrouter_1 = __importDefault(require("./staticrouter"));
-const playerstaticrouter_1 = __importDefault(require("./playerstaticrouter"));
+const fs_1 = __importDefault(require("fs"));
 const router = (0, express_1.Router)();
-const exists = (file, path) => {
-    return path.includes(file);
-};
-const getpath = (file) => {
-    return path_1.default.join(process.cwd(), utils_1.buildroot, "player-build", file);
-};
-router.use("/static", staticrouter_1.default);
-router.use([
-    "/player/static",
-    "/player/album/static",
-    "/player/album/*/static",
-    "/player/track/*/static"
-], playerstaticrouter_1.default);
-router.get("/*", (request, response, next) => {
-    let returnpath = null;
-    if (exists("preview-studio-black.png", request.path))
-        returnpath = getpath("preview-studio-black.png");
-    if (exists("preview-studio-white.png", request.path))
-        returnpath = getpath("preview-studio-white.png");
-    if (exists("preview-studiomusic-black.png", request.path))
-        returnpath = getpath("preview-studiomusic-black.png");
-    if (exists("preview-studiomusic-white.png", request.path))
-        returnpath = getpath("preview-studiomusic-white.png");
-    if (exists("preview-studiomusic-white.svg", request.path))
-        returnpath = getpath("preview-studiomusic-white.svg");
-    if (exists("latest-bluewhite.png", request.path))
-        returnpath = getpath("latest-bluewhite.png");
-    if (exists("latest-bluewhite.svg", request.path))
-        returnpath = getpath("latest-bluewhite.svg");
-    if (exists("latest-bluetransparent.png", request.path))
-        returnpath = getpath("latest-bluetransparent.png");
-    if (exists("latest-bluetransparent.svg", request.path))
-        returnpath = getpath("latest-bluetransparent.svg");
-    if (exists("latest-blueblack.png", request.path))
-        returnpath = getpath("latest-blueblack.png");
-    if (exists("latest-blueblack-black.png", request.path))
-        returnpath = getpath("latest-blueblack-black.png");
-    if (exists("latest-blueblack-black.svg", request.path))
-        returnpath = getpath("latest-blueblack-black.svg");
-    if (exists("latest-blueblack-transparent.png", request.path))
-        returnpath = getpath("latest-blueblack-transparent.png");
-    if (exists("latest-blueblack-transparent.svg", request.path))
-        returnpath = getpath("latest-blueblack-transparent.svg");
-    if (exists("latest-blueblack.svg", request.path))
-        returnpath = getpath("latest-blueblack.svg");
-    if (exists("latest-blueblack.jpg", request.path))
-        returnpath = getpath("latest-blueblack.jpg");
-    if (exists("latest-blueblack.ico", request.path))
-        returnpath = getpath("latest-blueblack.ico");
-    if (exists("16x16.png", request.path))
-        returnpath = getpath("16x16.png");
-    if (exists("32x32.png", request.path))
-        returnpath = getpath("32x32.png");
-    if (exists("192x192.png", request.path))
-        returnpath = getpath("192x192.png");
-    if (exists("manifest.json", request.url))
-        returnpath = getpath("manifest.json");
-    if (exists("registerSW.js", request.url))
-        returnpath = getpath("registerSW.js");
-    if (exists("sw.js", request.url))
-        returnpath = getpath("sw.js");
-    if (!returnpath)
-        return next();
-    else
-        return response.sendFile(returnpath);
-});
-router.get("/google-oauth-signin/*", middlewares_1.userAgentCheck, 
-// httpsRedirect,
-(_, response) => {
-    return response.sendFile(path_1.default.join(process.cwd(), utils_1.buildroot, "build", "index.html"));
-});
-router.get("/google-signin", passport_1.default.authenticate("google", { failureRedirect: "/login?status=failed", session: false }), functions_1.googleAuthCheck, (_, response) => {
-    if (response.user.error) {
-        return response.redirect("/login?status=success&email=exists");
+// static assets file handler
+router.get([
+    "/mobile/assets/static/*",
+    "/main/assets/static/*",
+    "/player/assets/static/*"
+], (req, res, next) => {
+    const url = req.path;
+    const url_split = url.split("/");
+    const folder_name = (() => {
+        if (url.includes("/css"))
+            return "css";
+        if (url.includes("/js"))
+            return "js";
+        if (url.includes("/media"))
+            return "media";
+        return null;
+    })();
+    const build_name = (() => {
+        if (url_split[1] === "mobile")
+            return "mobile-build";
+        if (url_split[1] === "main")
+            return "main-build";
+        if (url_split[1] === "player")
+            return "player-build";
+        return null;
+    })();
+    if (folder_name === null || build_name === null) {
+        return res.status(404).end();
     }
-    return response.redirect(`/google-oauth-signin/${response.user._id}`);
+    const file_path = path_1.default.join(process.cwd(), utils_1.buildroot, build_name, "static", folder_name, url_split[url_split.length - 1]);
+    if (!fs_1.default.existsSync(file_path))
+        return res.status(404).end();
+    return res.status(200).sendFile(file_path);
 });
+// global assets file handler
+router.get([
+    "/mobile/assets/*",
+    "/main/assets/*",
+    "/player/assets/*"
+], (req, res, next) => {
+    const url_split = req.path.split("/");
+    const file_path = path_1.default.join(process.cwd(), utils_1.buildroot, "player-build", url_split[url_split.length - 1]);
+    if (!fs_1.default.existsSync(file_path))
+        return res.status(404).end();
+    return res.status(200).sendFile(file_path);
+});
+// main index html
+router.get("/", middlewares_1.userAgentCheck, (req, res, next) => {
+    const file_path = path_1.default.join(process.cwd(), utils_1.buildroot, "main-build", "index.html");
+    if (!fs_1.default.existsSync(file_path))
+        return res.status(404).end();
+    return res.status(200).sendFile(file_path);
+});
+// player index html
 router.get([
     "/player",
     "/player/search",
     "/player/album/:albumId",
-    "/player/album/:albumId/*",
+    "/player/album/:albumId/playable",
     "/player/track/:albumId/:trackId",
-    "/player/track/:albumId/:trackId/*"
-], middlewares_1.ipAddress, middlewares_1.userAgentCheck, 
-// httpsRedirect,
-functions_1.rootAuthCheck, functions_1.rootAccessCheck, async (request, response) => {
-    const { result } = request;
-    // if (!result.found) {
-    //     setRedirectUriCookie(request.url, response);
-    //     return response.redirect("/");
+    "/player/track/:albumId/:trackId/playable"
+], middlewares_1.userAgentCheck, functions_1.rootAuthCheck, functions_1.rootAccessCheck, (req, res, next) => {
+    const { result } = req;
+    if (!result.found) {
+        (0, utils_1.setRedirectUriCookie)(req.url, res);
+        return res.redirect("/");
+    }
+    const file_path = path_1.default.join(process.cwd(), utils_1.buildroot, "player-build", "index.html");
+    if (!fs_1.default.existsSync(file_path))
+        return res.status(404).end();
+    return res.status(200).sendFile(file_path);
+    // if (
+    //     request.path === "/player" ||
+    //     request.path === "/player/search"
+    // ) {
+    //     if (!result.found) {
+    //         setRedirectUriCookie(request.url, response);
+    //         return response.redirect("/");
+    //     }
+    //     return response.sendFile(path.join(process.cwd(), buildroot, "player-build", "index.html"));
     // }
-    // return response.sendFile(path.join(process.cwd(), buildroot, "player-build", "index.html"));
-    if (request.path === "/player" ||
-        request.path === "/player/search") {
-        if (!result.found) {
-            (0, utils_1.setRedirectUriCookie)(request.url, response);
-            return response.redirect("/");
-        }
-        return response.sendFile(path_1.default.join(process.cwd(), utils_1.buildroot, "player-build", "index.html"));
+    // else {
+    //     if (!result.found) setRedirectUriCookie(request.url, response);
+    //     const data: string = await updateHtmlHead(request);
+    //     return response.send(data);
+    // }
+});
+// player redirect
+router.get("/player*", (req, res, next) => {
+    return res.redirect("/player");
+});
+// mobile index html
+router.get("/mobileview", (req, res, next) => {
+    const file_path = path_1.default.join(process.cwd(), utils_1.buildroot, "mobile-build", "index.html");
+    if (!fs_1.default.existsSync(file_path))
+        return res.status(404).end();
+    return res.status(200).sendFile(file_path);
+});
+// google sign in
+router.get("/google-signin", passport_1.default.authenticate("google", { failureRedirect: "/login?status=failed", session: false }), functions_1.googleAuthCheck, (req, res, next) => {
+    if (res.user.error) {
+        return res.redirect("/login?status=success&email=exists");
     }
-    else {
-        if (!result.found)
-            (0, utils_1.setRedirectUriCookie)(request.url, response);
-        const data = await (0, middlewares_1.updateHtmlHead)(request);
-        return response.send(data);
-    }
+    return res.redirect(`/google-oauth-signin/${res.user._id}`);
 });
-router.get("/", middlewares_1.ipAddress, middlewares_1.userAgentCheck, 
-// httpsRedirect,
-(_, response) => {
-    return response.sendFile(path_1.default.join(process.cwd(), utils_1.buildroot, "build", "index.html"));
+// google auth
+router.get("/google-oauth-signin/*", middlewares_1.userAgentCheck, (req, res, next) => {
+    const file_path = path_1.default.join(process.cwd(), utils_1.buildroot, "build", "index.html");
+    if (!fs_1.default.existsSync(file_path))
+        return res.status(404).end();
+    return res.status(200).sendFile(file_path);
 });
-router.get("/player*", (_, response) => {
-    return response.redirect("/player");
-});
-router.get("/mobileview", 
-// httpsRedirect,
-(_, response) => {
-    return response.sendFile(path_1.default.join(process.cwd(), utils_1.buildroot, "mobile-build", "index.html"));
-});
-router.get("/*", (_, response) => {
-    return response.redirect("/");
+// anything else
+router.get("/*", (req, res, next) => {
+    return res.redirect("/");
 });
 exports.default = router;
 //# sourceMappingURL=static-content.js.map
