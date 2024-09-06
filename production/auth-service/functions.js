@@ -125,7 +125,7 @@ const googleAuthCheck = async (request, response, next) => {
     const sessionId = (0, uuid_1.v4)();
     if (user) {
         const { activeSessions = [] } = user;
-        activeSessions.push({
+        activeSessions.unshift({
             seen: false,
             device: (0, utils_1.getDevice)(request),
             sessionId,
@@ -136,7 +136,7 @@ const googleAuthCheck = async (request, response, next) => {
                 name,
                 email,
                 picture }),
-            activeSessions
+            activeSessions: activeSessions.slice(0, 5)
         });
         await user.save();
         response.user = {
