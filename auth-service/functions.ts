@@ -35,6 +35,7 @@ import {
     ActiveSession
 } from "../helpers/interfaces";
 import { sendEmail } from "../nodemailer-service";
+import { ObjectId } from "mongodb";
 
 
 
@@ -239,6 +240,7 @@ export const googleAuthCheck = async (request: Request, response: Response, next
         //signup
 
         const new_user = await new Users({
+            _id: new ObjectId(),
             username: null,
             accountAccess: {
                 type: "allowed",

@@ -11,6 +11,7 @@ const moment_timezone_1 = __importDefault(require("moment-timezone"));
 const Users_1 = require("../models/Users");
 const utils_1 = require("../helpers/utils");
 const nodemailer_service_1 = require("../nodemailer-service");
+const mongodb_1 = require("mongodb");
 const ACCESS_TOKEN_SECRET = (0, utils_1.ENV)("ACCESS_TOKEN_SECRET");
 const REFRESH_TOKEN_SECRET = (0, utils_1.ENV)("REFRESH_TOKEN_SECRET");
 ;
@@ -150,6 +151,7 @@ const googleAuthCheck = async (request, response, next) => {
     else {
         //signup
         const new_user = await new Users_1.Users({
+            _id: new mongodb_1.ObjectId(),
             username: null,
             accountAccess: {
                 type: "allowed",
