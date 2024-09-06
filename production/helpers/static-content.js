@@ -118,7 +118,7 @@ router.get("/google-signin", passport_1.default.authenticate("google", { failure
 });
 // google auth
 router.get("/google-oauth-signin/*", middlewares_1.userAgentCheck, (req, res, next) => {
-    const file_path = path_1.default.join(process.cwd(), utils_1.buildroot, "build", "index.html");
+    const file_path = path_1.default.join(process.cwd(), utils_1.buildroot, "main-build", "index.html");
     if (!fs_1.default.existsSync(file_path))
         return res.status(404).end();
     return res.status(200).sendFile(file_path);

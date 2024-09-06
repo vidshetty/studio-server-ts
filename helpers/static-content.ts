@@ -180,7 +180,7 @@ router.get(
     "/google-oauth-signin/*",
     userAgentCheck,
     (req, res, next) => {
-        const file_path = path.join(process.cwd(), buildroot, "build", "index.html");
+        const file_path = path.join(process.cwd(), buildroot, "main-build", "index.html");
         if (!fs.existsSync(file_path)) return res.status(404).end();
         return res.status(200).sendFile(file_path);
     }
