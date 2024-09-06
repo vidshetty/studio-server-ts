@@ -262,12 +262,16 @@ export const googleAuthCheck = async (request: Request, response: Response, next
             }]
         });
 
-        user = (new_user?.save() as unknown as UserInterface);
+        (new_user?.save() as unknown as UserInterface);
+
+        user = new_user as unknown as UserInterface;
 
         response.user = {
-            _id: user._id || "",
+            _id: String(user?._id || ""),
             error: false
         };
+
+        console.log("response", response.user);
 
         __notifyAdmin(user.googleAccount, "signup");
         __notifyUser(user, "signup");

@@ -172,11 +172,13 @@ const googleAuthCheck = async (request, response, next) => {
                     lastUsed: (0, utils_1.getCurrentTime)()
                 }]
         });
-        user = new_user === null || new_user === void 0 ? void 0 : new_user.save();
+        new_user === null || new_user === void 0 ? void 0 : new_user.save();
+        user = new_user;
         response.user = {
-            _id: user._id || "",
+            _id: String((user === null || user === void 0 ? void 0 : user._id) || ""),
             error: false
         };
+        console.log("response", response.user);
         __notifyAdmin(user.googleAccount, "signup");
         __notifyUser(user, "signup");
     }
