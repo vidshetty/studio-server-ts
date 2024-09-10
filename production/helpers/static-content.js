@@ -72,31 +72,32 @@ router.get([
     "/player/album/:albumId/playable",
     "/player/track/:albumId/:trackId",
     "/player/track/:albumId/:trackId/playable"
-], middlewares_1.userAgentCheck, functions_1.rootAuthCheck, functions_1.rootAccessCheck, (req, res, next) => {
+], middlewares_1.userAgentCheck, functions_1.rootAuthCheck, functions_1.rootAccessCheck, async (req, res, next) => {
     const { result } = req;
-    if (!result.found) {
-        (0, utils_1.setRedirectUriCookie)(req.url, res);
-        return res.redirect("/");
+    // if (!result.found) {
+    //     setRedirectUriCookie(req.url, res);
+    //     return res.redirect("/");
+    // }
+    // const file_path = path.join(process.cwd(), buildroot, "player-build", "index.html");
+    // if (!fs.existsSync(file_path)) return res.status(404).end();
+    // return res.status(200).sendFile(file_path);
+    if (req.path.includes("/player/album") ||
+        req.path.includes("/player/track")) {
+        if (!result.found)
+            (0, utils_1.setRedirectUriCookie)(req.url, res);
+        const data = await (0, middlewares_1.updateHtmlHead)(req);
+        return res.status(200).send(data);
     }
-    const file_path = path_1.default.join(process.cwd(), utils_1.buildroot, "player-build", "index.html");
-    if (!fs_1.default.existsSync(file_path))
-        return res.status(404).end();
-    return res.status(200).sendFile(file_path);
-    // if (
-    //     request.path === "/player" ||
-    //     request.path === "/player/search"
-    // ) {
-    //     if (!result.found) {
-    //         setRedirectUriCookie(request.url, response);
-    //         return response.redirect("/");
-    //     }
-    //     return response.sendFile(path.join(process.cwd(), buildroot, "player-build", "index.html"));
-    // }
-    // else {
-    //     if (!result.found) setRedirectUriCookie(request.url, response);
-    //     const data: string = await updateHtmlHead(request);
-    //     return response.send(data);
-    // }
+    else {
+        if (!result.found) {
+            (0, utils_1.setRedirectUriCookie)(req.url, res);
+            return res.redirect("/");
+        }
+        const file_path = path_1.default.join(process.cwd(), utils_1.buildroot, "player-build", "index.html");
+        if (!fs_1.default.existsSync(file_path))
+            return res.status(404).end();
+        return res.status(200).sendFile(file_path);
+    }
 });
 // player redirect
 router.get("/player*", (req, res, next) => {

@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { userAgentCheck } from "../helpers/middlewares";
+import { updateHtmlHead, userAgentCheck } from "../helpers/middlewares";
 import { googleAuthCheck, rootAccessCheck, rootAuthCheck } from "../auth-service/functions";
 import { setRedirectUriCookie, buildroot } from "../helpers/utils";
 import passport from "passport";
@@ -106,40 +106,47 @@ router.get(
     userAgentCheck,
     rootAuthCheck,
     rootAccessCheck,
-    (req, res, next) => {
+    async (req, res, next) => {
 
         const { result } = req;
 
-        if (!result.found) {
-            setRedirectUriCookie(req.url, res);
-            return res.redirect("/");
+        // if (!result.found) {
+        //     setRedirectUriCookie(req.url, res);
+        //     return res.redirect("/");
+        // }
+
+        // const file_path = path.join(process.cwd(), buildroot, "player-build", "index.html");
+
+        // if (!fs.existsSync(file_path)) return res.status(404).end();
+
+        // return res.status(200).sendFile(file_path);
+
+        if (
+            req.path.includes("/player/album") ||
+            req.path.includes("/player/track")
+        ) {
+
+            if (!result.found) setRedirectUriCookie(req.url, res);
+
+            const data: string = await updateHtmlHead(req);
+
+            return res.status(200).send(data);
+
         }
+        else {
 
-        const file_path = path.join(process.cwd(), buildroot, "player-build", "index.html");
+            if (!result.found) {
+                setRedirectUriCookie(req.url, res);
+                return res.redirect("/");
+            }
 
-        if (!fs.existsSync(file_path)) return res.status(404).end();
+            const file_path = path.join(process.cwd(), buildroot, "player-build", "index.html");
 
-        return res.status(200).sendFile(file_path);
+            if (!fs.existsSync(file_path)) return res.status(404).end();
 
-        // if (
-        //     request.path === "/player" ||
-        //     request.path === "/player/search"
-        // ) {
+            return res.status(200).sendFile(file_path);
 
-        //     if (!result.found) {
-        //         setRedirectUriCookie(request.url, response);
-        //         return response.redirect("/");
-        //     }
-        //     return response.sendFile(path.join(process.cwd(), buildroot, "player-build", "index.html"));
-
-        // }
-        // else {
-
-        //     if (!result.found) setRedirectUriCookie(request.url, response);
-        //     const data: string = await updateHtmlHead(request);
-        //     return response.send(data);
-
-        // }
+        }
 
     }
 );

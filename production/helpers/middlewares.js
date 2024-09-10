@@ -8,6 +8,7 @@ const functions_1 = require("../api-service/functions");
 const geoip_lite_1 = require("geoip-lite");
 const utils_1 = require("../helpers/utils");
 const path_1 = __importDefault(require("path"));
+const fs_1 = __importDefault(require("fs"));
 const userAgentCheck = (request, response, next) => {
     const ua = (request.headers["user-agent"] || "").toLowerCase();
     let found = false;
@@ -69,11 +70,14 @@ const ipAddress = (request, response, next) => {
 };
 exports.ipAddress = ipAddress;
 const updateHtmlHead = async (request) => {
-    const defaultImageUrl = "https://studiomusic.app/preview-studio-black.png";
+    const defaultImageUrl = "https://studiomusic.app/player/assets/preview-studio-black.png";
     if (request.url.includes("album")) {
         request.query = { albumId: request.params.albumId };
         const album = (0, functions_1.getAlbum)(request);
-        return await (0, utils_1.ejsRender)(path_1.default.join(process.cwd(), utils_1.buildroot, "views", "index.ejs"), {
+        const file_path = path_1.default.join(process.cwd(), utils_1.buildroot, "player-build", "index.ejs");
+        if (!fs_1.default.existsSync(file_path))
+            return "";
+        return await (0, utils_1.ejsRender)(file_path, {
             title: album !== null ? `${album.Album} - ${album.AlbumArtist}` : "StudioMusic",
             image: album !== null ? album.Thumbnail : defaultImageUrl
         });
@@ -84,7 +88,10 @@ const updateHtmlHead = async (request) => {
             trackId: request.params.trackId
         };
         const track = (0, functions_1.getTrack)(request);
-        return await (0, utils_1.ejsRender)(path_1.default.join(process.cwd(), utils_1.buildroot, "views", "index.ejs"), {
+        const file_path = path_1.default.join(process.cwd(), utils_1.buildroot, "player-build", "index.ejs");
+        if (!fs_1.default.existsSync(file_path))
+            return "";
+        return await (0, utils_1.ejsRender)(file_path, {
             title: track !== null ? `${track.Title || track.Album} - ${track.AlbumArtist}` : "StudioMusic",
             image: track !== null ? track.Thumbnail : defaultImageUrl
         });

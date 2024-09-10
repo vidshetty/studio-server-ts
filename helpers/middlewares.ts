@@ -3,6 +3,7 @@ import { getAlbum, getTrack } from "../api-service/functions";
 import { lookup, Lookup } from "geoip-lite";
 import { ejsRender, buildroot, CustomError } from "../helpers/utils";
 import path from "path";
+import fs from "fs";
 
 
 export const userAgentCheck = (request: Request, response: Response, next: NextFunction) => {
@@ -77,15 +78,19 @@ export const ipAddress = (request: Request, response: Response, next: NextFuncti
 
 export const updateHtmlHead = async (request: Request) : Promise<string> => {
 
-    const defaultImageUrl: string = "https://studiomusic.app/preview-studio-black.png";
+    const defaultImageUrl: string = "https://studiomusic.app/player/assets/preview-studio-black.png";
 
     if (request.url.includes("album")) {
 
         request.query = { albumId: request.params.albumId };
         const album = getAlbum(request);
 
+        const file_path = path.join(process.cwd(), buildroot, "player-build", "index.ejs");
+
+        if (!fs.existsSync(file_path)) return "";
+
         return await ejsRender(
-            path.join(process.cwd(), buildroot, "views", "index.ejs"),
+            file_path,
             {
                 title: album !== null ? `${album.Album} - ${album.AlbumArtist}` : "StudioMusic",
                 image: album !== null ? album.Thumbnail : defaultImageUrl
@@ -102,8 +107,12 @@ export const updateHtmlHead = async (request: Request) : Promise<string> => {
         };
         const track: any = getTrack(request);
 
+        const file_path = path.join(process.cwd(), buildroot, "player-build", "index.ejs");
+
+        if (!fs.existsSync(file_path)) return "";
+
         return await ejsRender(
-            path.join(process.cwd(), buildroot, "views", "index.ejs"),
+            file_path,
             {
                 title: track !== null ? `${track.Title || track.Album} - ${track.AlbumArtist}` : "StudioMusic",
                 image: track !== null ? track.Thumbnail : defaultImageUrl
