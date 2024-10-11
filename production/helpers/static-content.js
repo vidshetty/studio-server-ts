@@ -59,19 +59,20 @@ router.get([
 });
 // main index html
 router.get("/", middlewares_1.userAgentCheck, (req, res, next) => {
-    const file_path = path_1.default.join(process.cwd(), utils_1.buildroot, "main-build", "index.html");
+    const file_path = req.headers.host === "player.studiomusic.app" ?
+        path_1.default.join(process.cwd(), utils_1.buildroot, "player-build", "index.html") :
+        path_1.default.join(process.cwd(), utils_1.buildroot, "main-build", "index.html");
     if (!fs_1.default.existsSync(file_path))
         return res.status(404).end();
     return res.status(200).sendFile(file_path);
 });
 // player index html
 router.get([
-    "/player",
-    "/player/search",
-    "/player/album/:albumId",
-    "/player/album/:albumId/playable",
-    "/player/track/:albumId/:trackId",
-    "/player/track/:albumId/:trackId/playable"
+    "/search",
+    "/album/:albumId",
+    "/album/:albumId/playable",
+    "/track/:albumId/:trackId",
+    "/track/:albumId/:trackId/playable"
 ], middlewares_1.userAgentCheck, functions_1.rootAuthCheck, functions_1.rootAccessCheck, async (req, res, next) => {
     const { result } = req;
     // if (!result.found) {
@@ -81,8 +82,8 @@ router.get([
     // const file_path = path.join(process.cwd(), buildroot, "player-build", "index.html");
     // if (!fs.existsSync(file_path)) return res.status(404).end();
     // return res.status(200).sendFile(file_path);
-    if (req.path.includes("/player/album") ||
-        req.path.includes("/player/track")) {
+    if (req.path.includes("/album") ||
+        req.path.includes("/track")) {
         if (!result.found)
             (0, utils_1.setRedirectUriCookie)(req.url, res);
         const data = await (0, middlewares_1.updateHtmlHead)(req);
@@ -91,7 +92,7 @@ router.get([
     else {
         if (!result.found) {
             (0, utils_1.setRedirectUriCookie)(req.url, res);
-            return res.redirect("/");
+            return res.redirect("https://studiomusic.app");
         }
         const file_path = path_1.default.join(process.cwd(), utils_1.buildroot, "player-build", "index.html");
         if (!fs_1.default.existsSync(file_path))
@@ -100,8 +101,11 @@ router.get([
     }
 });
 // player redirect
-router.get("/player*", (req, res, next) => {
-    return res.redirect("/player");
+router.get("/*", (req, res, next) => {
+    if (req.headers.host === "player.studiomusic.app") {
+        return res.redirect("https://player.studiomusic.app");
+    }
+    return res.redirect("https://studiomusic.app");
 });
 // mobile index html
 router.get("/mobileview", (req, res, next) => {
@@ -126,7 +130,7 @@ router.get("/google-oauth-signin/*", middlewares_1.userAgentCheck, (req, res, ne
 });
 // anything else
 router.get("/*", (req, res, next) => {
-    return res.redirect("/");
+    return res.redirect("https://studiomusic.app");
 });
 exports.default = router;
 //# sourceMappingURL=static-content.js.map
