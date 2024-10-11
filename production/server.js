@@ -31,6 +31,10 @@ db_connection_1.MongoAccountsHandler.initialize();
 app.use(passport_1.default.initialize());
 app.use(corshandler_1.default);
 app.use(express_1.default.json());
+app.use((req, res, next) => {
+    console.log("req", req.headers.host);
+    return next();
+});
 app.options("*", (_, res) => {
     return res.status(200).end();
 });

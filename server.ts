@@ -34,6 +34,11 @@ app.use(corshandler);
 app.use(express.json());
 
 
+app.use((req,res,next) => {
+    console.log("req", req.headers.host);
+    return next();
+});
+
 
 app.options("*", (_:Request, res:Response) => {
     return res.status(200).end();
