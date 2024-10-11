@@ -28,7 +28,7 @@
             "sizes": "512x512"
         }
     ],
-    "start_url": "https://player.studiomusic.app",
+    "start_url": "/player",
     "background_color": "#030303",
     "display": "minimal-ui",
     "theme_color": "#030303",

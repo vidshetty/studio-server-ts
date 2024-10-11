@@ -87,7 +87,9 @@ router.get(
     "/",
     userAgentCheck,
     (req, res, next) => {
-        const file_path = path.join(process.cwd(), buildroot, "main-build", "index.html");
+        const file_path = req.headers.host === "player.studiomusic.app" ?
+            path.join(process.cwd(), buildroot, "player-build", "index.html") :
+            path.join(process.cwd(), buildroot, "main-build", "index.html");
         if (!fs.existsSync(file_path)) return res.status(404).end();
         return res.status(200).sendFile(file_path);
     }
@@ -96,12 +98,11 @@ router.get(
 // player index html
 router.get(
     [
-        "/player",
-        "/player/search",
-        "/player/album/:albumId",
-        "/player/album/:albumId/playable",
-        "/player/track/:albumId/:trackId",
-        "/player/track/:albumId/:trackId/playable"
+        "/search",
+        "/album/:albumId",
+        "/album/:albumId/playable",
+        "/track/:albumId/:trackId",
+        "/track/:albumId/:trackId/playable"
     ],
     userAgentCheck,
     rootAuthCheck,
@@ -122,8 +123,8 @@ router.get(
         // return res.status(200).sendFile(file_path);
 
         if (
-            req.path.includes("/player/album") ||
-            req.path.includes("/player/track")
+            req.path.includes("/album") ||
+            req.path.includes("/track")
         ) {
 
             if (!result.found) setRedirectUriCookie(req.url, res);
@@ -137,7 +138,7 @@ router.get(
 
             if (!result.found) {
                 setRedirectUriCookie(req.url, res);
-                return res.redirect("/");
+                return res.redirect("https://studiomusic.app");
             }
 
             const file_path = path.join(process.cwd(), buildroot, "player-build", "index.html");
@@ -153,9 +154,12 @@ router.get(
 
 // player redirect
 router.get(
-    "/player*",
+    "/*",
     (req, res, next) => {
-        return res.redirect("/player");
+        if (req.headers.host === "player.studiomusic.app") {
+            return res.redirect("https://player.studiomusic.app");
+        }
+        return res.redirect("https://studiomusic.app");
     }
 );
 
@@ -197,7 +201,7 @@ router.get(
 router.get(
     "/*",
     (req, res, next) => {
-        return res.redirect("/");
+        return res.redirect("https://studiomusic.app");
     }
 );
 
