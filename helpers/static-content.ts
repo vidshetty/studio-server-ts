@@ -10,6 +10,31 @@ const router = Router();
 
 
 
+// google sign in
+router.get(
+    "/google-signin",
+    passport.authenticate("google", { failureRedirect: MAIN_URL + "/login?status=failed", session: false }),
+    googleAuthCheck,
+    (req, res, next) => {
+        console.log("here");
+        if (res.user.error) {
+            return res.redirect(MAIN_URL + "/login?status=success&email=exists");
+        }
+        return res.redirect(`${MAIN_URL}/google-oauth-signin/${res.user._id}`);
+    }
+);
+
+// google auth
+router.get(
+    "/google-oauth-signin/*",
+    userAgentCheck,
+    (req, res, next) => {
+        const file_path = path.join(process.cwd(), buildroot, "main-build", "index.html");
+        if (!fs.existsSync(file_path)) return res.status(404).end();
+        return res.status(200).sendFile(file_path);
+    }
+);
+
 // static assets file handler
 router.get(
     [
@@ -152,17 +177,6 @@ router.get(
     }
 );
 
-// player redirect
-router.get(
-    "/*",
-    (req, res, next) => {
-        if (req.headers.host === "player.studiomusic.app") {
-            return res.redirect(PLAYER_URL);
-        }
-        return res.redirect(MAIN_URL);
-    }
-);
-
 // mobile index html
 router.get(
     "/mobileview",
@@ -173,27 +187,14 @@ router.get(
     }
 );
 
-// google sign in
+// player redirect
 router.get(
-    "/google-signin",
-    passport.authenticate("google", { failureRedirect: MAIN_URL + "/login?status=failed", session: false }),
-    googleAuthCheck,
+    "/*",
     (req, res, next) => {
-        if (res.user.error) {
-            return res.redirect(MAIN_URL + "/login?status=success&email=exists");
+        if (req.headers.host === "player.studiomusic.app") {
+            return res.redirect(PLAYER_URL);
         }
-        return res.redirect(`${MAIN_URL}/google-oauth-signin/${res.user._id}`);
-    }
-);
-
-// google auth
-router.get(
-    "/google-oauth-signin/*",
-    userAgentCheck,
-    (req, res, next) => {
-        const file_path = path.join(process.cwd(), buildroot, "main-build", "index.html");
-        if (!fs.existsSync(file_path)) return res.status(404).end();
-        return res.status(200).sendFile(file_path);
+        return res.redirect(MAIN_URL);
     }
 );
 

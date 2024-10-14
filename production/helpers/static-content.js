@@ -11,6 +11,21 @@ const passport_1 = __importDefault(require("passport"));
 const path_1 = __importDefault(require("path"));
 const fs_1 = __importDefault(require("fs"));
 const router = (0, express_1.Router)();
+// google sign in
+router.get("/google-signin", passport_1.default.authenticate("google", { failureRedirect: utils_1.MAIN_URL + "/login?status=failed", session: false }), functions_1.googleAuthCheck, (req, res, next) => {
+    console.log("here");
+    if (res.user.error) {
+        return res.redirect(utils_1.MAIN_URL + "/login?status=success&email=exists");
+    }
+    return res.redirect(`${utils_1.MAIN_URL}/google-oauth-signin/${res.user._id}`);
+});
+// google auth
+router.get("/google-oauth-signin/*", middlewares_1.userAgentCheck, (req, res, next) => {
+    const file_path = path_1.default.join(process.cwd(), utils_1.buildroot, "main-build", "index.html");
+    if (!fs_1.default.existsSync(file_path))
+        return res.status(404).end();
+    return res.status(200).sendFile(file_path);
+});
 // static assets file handler
 router.get([
     "/mobile/assets/static/*",
@@ -100,13 +115,6 @@ router.get([
         return res.status(200).sendFile(file_path);
     }
 });
-// player redirect
-router.get("/*", (req, res, next) => {
-    if (req.headers.host === "player.studiomusic.app") {
-        return res.redirect(utils_1.PLAYER_URL);
-    }
-    return res.redirect(utils_1.MAIN_URL);
-});
 // mobile index html
 router.get("/mobileview", (req, res, next) => {
     const file_path = path_1.default.join(process.cwd(), utils_1.buildroot, "mobile-build", "index.html");
@@ -114,19 +122,12 @@ router.get("/mobileview", (req, res, next) => {
         return res.status(404).end();
     return res.status(200).sendFile(file_path);
 });
-// google sign in
-router.get("/google-signin", passport_1.default.authenticate("google", { failureRedirect: utils_1.MAIN_URL + "/login?status=failed", session: false }), functions_1.googleAuthCheck, (req, res, next) => {
-    if (res.user.error) {
-        return res.redirect(utils_1.MAIN_URL + "/login?status=success&email=exists");
+// player redirect
+router.get("/*", (req, res, next) => {
+    if (req.headers.host === "player.studiomusic.app") {
+        return res.redirect(utils_1.PLAYER_URL);
     }
-    return res.redirect(`${utils_1.MAIN_URL}/google-oauth-signin/${res.user._id}`);
-});
-// google auth
-router.get("/google-oauth-signin/*", middlewares_1.userAgentCheck, (req, res, next) => {
-    const file_path = path_1.default.join(process.cwd(), utils_1.buildroot, "main-build", "index.html");
-    if (!fs_1.default.existsSync(file_path))
-        return res.status(404).end();
-    return res.status(200).sendFile(file_path);
+    return res.redirect(utils_1.MAIN_URL);
 });
 // anything else
 router.get("/*", (req, res, next) => {
