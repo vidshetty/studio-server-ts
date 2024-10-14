@@ -73,10 +73,10 @@ export const server = (() : string[] => {
     }
 
     return [
-        "https://studiomusic.app",
-        "https://studiomusic.app",
-        "https://studiomusic.app",
-        "https://studiomusic.app",
+        "https://player.studiomusic.app",
+        "https://player.studiomusic.app",
+        "https://player.studiomusic.app",
+        "https://player.studiomusic.app",
     ];
 
     // if (SERVER === "MAIN") {
