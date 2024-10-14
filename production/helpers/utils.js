@@ -3,11 +3,13 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.convertToAndroidTrack = exports.convertToAndroidAlbum = exports.randomize = exports.getCurrentTime = exports.CustomError = exports.getDevice = exports.writeFileAsync = exports.readFileAsync = exports.__replace = exports.checkRedirectUri = exports.calcPeriod = exports.setRedirectUriCookie = exports.redirectUriCookieConfig = exports.standardCookieConfig = exports.cookieParser = exports.server = exports.date = exports.ejsRender = exports.wait = exports.requestUrlCheck = exports.ENV = exports.BUILD_TYPE = exports.defaultUserId = exports.buildroot = exports.issuer = exports.refreshTokenExpiry = exports.accessTokenExpiry = exports.androidAccessTokenExpiry = exports.timezone = exports.defaultAccess = exports.PASSPORT_REDIRECT_APP_URL = exports.APP_URL = void 0;
+exports.convertToAndroidTrack = exports.convertToAndroidAlbum = exports.randomize = exports.getCurrentTime = exports.CustomError = exports.getDevice = exports.writeFileAsync = exports.readFileAsync = exports.__replace = exports.checkRedirectUri = exports.calcPeriod = exports.setRedirectUriCookie = exports.redirectUriCookieConfig = exports.standardCookieConfig = exports.cookieParser = exports.server = exports.date = exports.ejsRender = exports.wait = exports.requestUrlCheck = exports.ENV = exports.BUILD_TYPE = exports.defaultUserId = exports.buildroot = exports.issuer = exports.refreshTokenExpiry = exports.accessTokenExpiry = exports.androidAccessTokenExpiry = exports.timezone = exports.defaultAccess = exports.PASSPORT_REDIRECT_APP_URL = exports.PLAYER_URL = exports.MAIN_URL = exports.APP_URL = void 0;
 const moment_timezone_1 = __importDefault(require("moment-timezone"));
 const ejs_1 = __importDefault(require("ejs"));
 const fs_1 = __importDefault(require("fs"));
 exports.APP_URL = "studiomusic.app";
+exports.MAIN_URL = "https://studiomusic.app";
+exports.PLAYER_URL = "https://player.studiomusic.app";
 exports.PASSPORT_REDIRECT_APP_URL = "https://studiomusic.app";
 exports.defaultAccess = 30 * 24 * 60 * 60;
 exports.timezone = "Asia/Kolkata";

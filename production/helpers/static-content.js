@@ -92,7 +92,7 @@ router.get([
     else {
         if (!result.found) {
             (0, utils_1.setRedirectUriCookie)(req.url, res);
-            return res.redirect("https://studiomusic.app");
+            return res.redirect(utils_1.MAIN_URL);
         }
         const file_path = path_1.default.join(process.cwd(), utils_1.buildroot, "player-build", "index.html");
         if (!fs_1.default.existsSync(file_path))
@@ -103,9 +103,9 @@ router.get([
 // player redirect
 router.get("/*", (req, res, next) => {
     if (req.headers.host === "player.studiomusic.app") {
-        return res.redirect("https://player.studiomusic.app");
+        return res.redirect(utils_1.PLAYER_URL);
     }
-    return res.redirect("https://studiomusic.app");
+    return res.redirect(utils_1.MAIN_URL);
 });
 // mobile index html
 router.get("/mobileview", (req, res, next) => {
@@ -115,11 +115,11 @@ router.get("/mobileview", (req, res, next) => {
     return res.status(200).sendFile(file_path);
 });
 // google sign in
-router.get("/google-signin", passport_1.default.authenticate("google", { failureRedirect: "/login?status=failed", session: false }), functions_1.googleAuthCheck, (req, res, next) => {
+router.get("/google-signin", passport_1.default.authenticate("google", { failureRedirect: utils_1.MAIN_URL + "/login?status=failed", session: false }), functions_1.googleAuthCheck, (req, res, next) => {
     if (res.user.error) {
-        return res.redirect("/login?status=success&email=exists");
+        return res.redirect(utils_1.MAIN_URL + "/login?status=success&email=exists");
     }
-    return res.redirect(`/google-oauth-signin/${res.user._id}`);
+    return res.redirect(`${utils_1.MAIN_URL}/google-oauth-signin/${res.user._id}`);
 });
 // google auth
 router.get("/google-oauth-signin/*", middlewares_1.userAgentCheck, (req, res, next) => {
@@ -130,7 +130,7 @@ router.get("/google-oauth-signin/*", middlewares_1.userAgentCheck, (req, res, ne
 });
 // anything else
 router.get("/*", (req, res, next) => {
-    return res.redirect("https://studiomusic.app");
+    return res.redirect(utils_1.MAIN_URL);
 });
 exports.default = router;
 //# sourceMappingURL=static-content.js.map

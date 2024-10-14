@@ -4,6 +4,7 @@ const express_1 = require("express");
 const functions_1 = require("../auth-service/functions");
 const responsehandler_1 = require("../helpers/responsehandler");
 const functions_2 = require("./functions");
+const utils_1 = require("../helpers/utils");
 const router = (0, express_1.Router)();
 router.use("/getLatestUpdate", (0, responsehandler_1.responseMid)(functions_2.getLatestUpdate));
 router.use(functions_1.apiAuthCheck);
@@ -20,7 +21,7 @@ router.post("/addToRecentlyPlayed", (0, responsehandler_1.responseMid)(functions
 router.get("/getLyrics", (0, responsehandler_1.responseMid)(functions_2.getLyrics));
 router.get("/sign-out", (0, responsehandler_1.responseMid)(functions_2.signOut));
 router.get("/startradio", (0, responsehandler_1.responseMid)(functions_2.startRadio));
-router.get("/goToRedirect", (_, res) => res.redirect("/login"));
+router.get("/goToRedirect", (_, res) => res.redirect(utils_1.MAIN_URL + "/login"));
 router.use("*", (_, response) => {
     return response.status(404).end();
 });

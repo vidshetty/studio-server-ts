@@ -16,6 +16,7 @@ import {
     startRadio,
     getLatestUpdate
 } from "./functions";
+import { MAIN_URL } from "../helpers/utils";
 
 
 const router = Router();
@@ -51,7 +52,7 @@ router.get("/sign-out", responseMid(signOut));
 
 router.get("/startradio", responseMid(startRadio));
 
-router.get("/goToRedirect", (_,res) => res.redirect("/login"));
+router.get("/goToRedirect", (_,res) => res.redirect(MAIN_URL + "/login"));
 
 router.use("*", (_:any, response: Response) => {
     return response.status(404).end();

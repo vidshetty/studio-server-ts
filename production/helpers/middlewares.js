@@ -24,7 +24,7 @@ const userAgentCheck = (request, response, next) => {
         }
     }
     if (found)
-        return response.redirect("/mobileview");
+        return response.redirect(utils_1.MAIN_URL + "/mobileview");
     return next();
 };
 exports.userAgentCheck = userAgentCheck;

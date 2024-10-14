@@ -22,7 +22,9 @@ import {
     cookieParser,
     CustomError,
     getDevice,
-    getCurrentTime
+    getCurrentTime,
+    MAIN_URL,
+    PLAYER_URL
 } from "../helpers/utils";
 import {
     UserInterface,
@@ -351,7 +353,7 @@ export const apiAuthCheck = async (request: Request, response: Response, next: N
             return next();
         }
         else {
-            return response.status(200).send({ redirect: true, to: "/" });
+            return response.status(200).send({ redirect: true, to: MAIN_URL + "/" });
         }
 
     }
@@ -367,14 +369,14 @@ export const apiAuthCheck = async (request: Request, response: Response, next: N
                     return next();
                 }
                 else {
-                    return response.status(200).send({ redirect: true, to: "/" });
+                    return response.status(200).send({ redirect: true, to: MAIN_URL + "/" });
                 }
             } catch(e) {
-                return response.status(200).send({ redirect: true, to: "/" });
+                return response.status(200).send({ redirect: true, to: MAIN_URL + "/" });
             }
         }
 
-        return response.status(200).send({ redirect: true, to: "/" });
+        return response.status(200).send({ redirect: true, to: MAIN_URL + "/" });
 
     }
 
@@ -407,7 +409,7 @@ export const apiAccessCheck = async (request: Request, response: Response, next:
 
     if (type === "under_review" || type === "revoked" || !seen) {
         // const uid = await __uidToRedirect(user._id);
-        return response.status(200).send({ redirect: true, to: `/google-oauth-signin/${id}` });
+        return response.status(200).send({ redirect: true, to: `${MAIN_URL}/google-oauth-signin/${id}` });
     }
 
     const diff = moment.duration(moment(timeLimit).diff(moment().tz(timezone)));
@@ -416,7 +418,7 @@ export const apiAccessCheck = async (request: Request, response: Response, next:
     if (secs <= 30) {
         // const uid = await __uidToRedirect(user._id);
         __setExpired(id);
-        return response.status(200).send({ redirect: true, to: `/google-oauth-signin/${id}` });
+        return response.status(200).send({ redirect: true, to: `${MAIN_URL}/google-oauth-signin/${id}` });
     }
     else return next();
 
@@ -488,7 +490,7 @@ export const rootAccessCheck = async (request: Request, response: Response, next
 
     if (shouldRedirect) {
         setRedirectUriCookie(request.path, response);
-        return response.redirect(`/google-oauth-signin/${id}`);
+        return response.redirect(`${MAIN_URL}/google-oauth-signin/${id}`);
     }
 
     return next();
@@ -638,7 +640,7 @@ export const continueAuthSignin = async (request: Request, response: Response) =
         email: googleAccount.email,
         picture: googleAccount.picture,
         status: "loggedin",
-        redirectUri: redirectUri || "/player"
+        redirectUri: redirectUri || PLAYER_URL
     };
     
 };

@@ -1,7 +1,7 @@
 import { Request, Response, NextFunction } from "express";
 import { getAlbum, getTrack } from "../api-service/functions";
 import { lookup, Lookup } from "geoip-lite";
-import { ejsRender, buildroot, CustomError } from "../helpers/utils";
+import { ejsRender, buildroot, CustomError, MAIN_URL } from "../helpers/utils";
 import path from "path";
 import fs from "fs";
 
@@ -23,7 +23,7 @@ export const userAgentCheck = (request: Request, response: Response, next: NextF
         }
     }
 
-    if (found) return response.redirect("/mobileview");
+    if (found) return response.redirect(MAIN_URL + "/mobileview");
 
     return next();
 

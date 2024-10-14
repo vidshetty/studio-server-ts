@@ -1,7 +1,7 @@
 import { Router } from "express";
 import { updateHtmlHead, userAgentCheck } from "../helpers/middlewares";
 import { googleAuthCheck, rootAccessCheck, rootAuthCheck } from "../auth-service/functions";
-import { setRedirectUriCookie, buildroot } from "../helpers/utils";
+import { setRedirectUriCookie, buildroot, MAIN_URL, PLAYER_URL } from "../helpers/utils";
 import passport from "passport";
 import path from "path";
 import fs from "fs";
@@ -138,7 +138,7 @@ router.get(
 
             if (!result.found) {
                 setRedirectUriCookie(req.url, res);
-                return res.redirect("https://studiomusic.app");
+                return res.redirect(MAIN_URL);
             }
 
             const file_path = path.join(process.cwd(), buildroot, "player-build", "index.html");
@@ -157,9 +157,9 @@ router.get(
     "/*",
     (req, res, next) => {
         if (req.headers.host === "player.studiomusic.app") {
-            return res.redirect("https://player.studiomusic.app");
+            return res.redirect(PLAYER_URL);
         }
-        return res.redirect("https://studiomusic.app");
+        return res.redirect(MAIN_URL);
     }
 );
 
@@ -176,13 +176,13 @@ router.get(
 // google sign in
 router.get(
     "/google-signin",
-    passport.authenticate("google", { failureRedirect: "/login?status=failed", session: false }),
+    passport.authenticate("google", { failureRedirect: MAIN_URL + "/login?status=failed", session: false }),
     googleAuthCheck,
     (req, res, next) => {
         if (res.user.error) {
-            return res.redirect("/login?status=success&email=exists");
+            return res.redirect(MAIN_URL + "/login?status=success&email=exists");
         }
-        return res.redirect(`/google-oauth-signin/${res.user._id}`);
+        return res.redirect(`${MAIN_URL}/google-oauth-signin/${res.user._id}`);
     }
 );
 
@@ -201,7 +201,7 @@ router.get(
 router.get(
     "/*",
     (req, res, next) => {
-        return res.redirect("https://studiomusic.app");
+        return res.redirect(MAIN_URL);
     }
 );
 
