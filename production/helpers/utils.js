@@ -128,7 +128,6 @@ exports.redirectUriCookieConfig = {
     httpOnly: true
 };
 const setRedirectUriCookie = (path, response) => {
-    path = encodeURIComponent(path);
     response.cookie("REDIRECT_URI", path, exports.redirectUriCookieConfig);
 };
 exports.setRedirectUriCookie = setRedirectUriCookie;

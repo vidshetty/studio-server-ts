@@ -147,7 +147,6 @@ export const redirectUriCookieConfig: CookieOptions = {
 };
 
 export const setRedirectUriCookie = (path: string, response: Response) => {
-    path = encodeURIComponent(path);
     response.cookie("REDIRECT_URI", path, redirectUriCookieConfig);
 };
 
