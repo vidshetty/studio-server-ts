@@ -9,9 +9,9 @@ export const LATEST_APP_UPDATE = {
         "filePath": path.join(process.cwd(), "builds", "apk", "studiomusic-debug-4-1.0.0.apk")
     },
     "RELEASE": {
-        "versionCode": 13,
-        "versionName": "1.0.7",
-        "filename": "studiomusic-release-13-1.0.7.apk",
-        "filePath": path.join(process.cwd(), "builds", "apk", "studiomusic-release-13-1.0.7.apk")
+        "versionCode": 14,
+        "versionName": "1.1.0",
+        "filename": "studiomusic-release-14-1.1.0.apk",
+        "filePath": path.join(process.cwd(), "builds", "apk", "studiomusic-release-14-1.1.0.apk")
     }
 };
