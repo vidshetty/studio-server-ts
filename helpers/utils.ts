@@ -147,6 +147,7 @@ export const redirectUriCookieConfig: CookieOptions = {
 };
 
 export const setRedirectUriCookie = (path: string, response: Response) => {
+    path = encodeURIComponent(path);
     response.cookie("REDIRECT_URI", path, redirectUriCookieConfig);
 };
 
@@ -220,12 +221,16 @@ export const checkRedirectUri = (request: Request): string | null => {
 
     const uri = obj["REDIRECT_URI"];
 
-    return (
-        uri && 
-        uri.replace(/%2F/g, "/").replace(/%3F/g,"?").
-            replace(/%3D/g,"=").replace(/%26/g,"&").
-            replace(/%3A/g, ":")
-    ) || null;
+    if (uri === undefined) return null;
+
+    return decodeURIComponent(uri);
+
+    // return (
+    //     uri && 
+    //     uri.replace(/%2F/g, "/").replace(/%3F/g,"?").
+    //         replace(/%3D/g,"=").replace(/%26/g,"&").
+    //         replace(/%3A/g, ":")
+    // ) || null;
 
 };
 

@@ -128,6 +128,7 @@ exports.redirectUriCookieConfig = {
     httpOnly: true
 };
 const setRedirectUriCookie = (path, response) => {
+    path = encodeURIComponent(path);
     response.cookie("REDIRECT_URI", path, exports.redirectUriCookieConfig);
 };
 exports.setRedirectUriCookie = setRedirectUriCookie;
@@ -191,10 +192,15 @@ const checkRedirectUri = (request) => {
         obj[split[0]] = split[1];
     }
     const uri = obj["REDIRECT_URI"];
-    return (uri &&
-        uri.replace(/%2F/g, "/").replace(/%3F/g, "?").
-            replace(/%3D/g, "=").replace(/%26/g, "&").
-            replace(/%3A/g, ":")) || null;
+    if (uri === undefined)
+        return null;
+    return decodeURIComponent(uri);
+    // return (
+    //     uri && 
+    //     uri.replace(/%2F/g, "/").replace(/%3F/g,"?").
+    //         replace(/%3D/g,"=").replace(/%26/g,"&").
+    //         replace(/%3A/g, ":")
+    // ) || null;
 };
 exports.checkRedirectUri = checkRedirectUri;
 const __replace = (string = "", list = [], replaceWith = "") => {
