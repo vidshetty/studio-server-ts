@@ -223,7 +223,8 @@ export const checkRedirectUri = (request: Request): string | null => {
     return (
         uri && 
         uri.replace(/%2F/g, "/").replace(/%3F/g,"?").
-            replace(/%3D/g,"=").replace(/%26/g,"&")
+            replace(/%3D/g,"=").replace(/%26/g,"&").
+            replace(/%3A/g, ":")
     ) || null;
 
 };

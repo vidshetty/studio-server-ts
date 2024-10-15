@@ -193,7 +193,8 @@ const checkRedirectUri = (request) => {
     const uri = obj["REDIRECT_URI"];
     return (uri &&
         uri.replace(/%2F/g, "/").replace(/%3F/g, "?").
-            replace(/%3D/g, "=").replace(/%26/g, "&")) || null;
+            replace(/%3D/g, "=").replace(/%26/g, "&").
+            replace(/%3A/g, ":")) || null;
 };
 exports.checkRedirectUri = checkRedirectUri;
 const __replace = (string = "", list = [], replaceWith = "") => {
