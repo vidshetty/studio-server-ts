@@ -107,7 +107,7 @@ router.get(
     }
 );
 
-// main index html
+// index html
 router.get(
     "/",
     userAgentCheck,
@@ -129,6 +129,12 @@ router.get(
         "/track/:albumId/:trackId",
         "/track/:albumId/:trackId/playable"
     ],
+    (req,res,next) => {
+        if (req.headers.host !== "player.studiomusic.app") {
+            return res.status(404).end();
+        }
+        return next();
+    },
     userAgentCheck,
     rootAuthCheck,
     rootAccessCheck,
@@ -147,12 +153,14 @@ router.get(
 
         // return res.status(200).sendFile(file_path);
 
+        const url = new URL(req.url, `https://${req.headers.host}`);
+
         if (
             req.path.includes("/album") ||
             req.path.includes("/track")
         ) {
 
-            if (!result.found) setRedirectUriCookie(req.url, res);
+            if (!result.found) setRedirectUriCookie(url.href, res);
 
             const data: string = await updateHtmlHead(req);
 
@@ -162,7 +170,7 @@ router.get(
         else {
 
             if (!result.found) {
-                setRedirectUriCookie(req.url, res);
+                setRedirectUriCookie(url.href, res);
                 return res.redirect(MAIN_URL);
             }
 
@@ -187,21 +195,13 @@ router.get(
     }
 );
 
-// player redirect
+// anything else
 router.get(
     "/*",
     (req, res, next) => {
         if (req.headers.host === "player.studiomusic.app") {
             return res.redirect(PLAYER_URL);
         }
-        return res.redirect(MAIN_URL);
-    }
-);
-
-// anything else
-router.get(
-    "/*",
-    (req, res, next) => {
         return res.redirect(MAIN_URL);
     }
 );

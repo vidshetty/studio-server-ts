@@ -72,7 +72,7 @@ router.get([
         return res.status(404).end();
     return res.status(200).sendFile(file_path);
 });
-// main index html
+// index html
 router.get("/", middlewares_1.userAgentCheck, (req, res, next) => {
     const file_path = req.headers.host === "player.studiomusic.app" ?
         path_1.default.join(process.cwd(), utils_1.buildroot, "player-build", "index.html") :
@@ -88,7 +88,12 @@ router.get([
     "/album/:albumId/playable",
     "/track/:albumId/:trackId",
     "/track/:albumId/:trackId/playable"
-], middlewares_1.userAgentCheck, functions_1.rootAuthCheck, functions_1.rootAccessCheck, async (req, res, next) => {
+], (req, res, next) => {
+    if (req.headers.host !== "player.studiomusic.app") {
+        return res.status(404).end();
+    }
+    return next();
+}, middlewares_1.userAgentCheck, functions_1.rootAuthCheck, functions_1.rootAccessCheck, async (req, res, next) => {
     const { result } = req;
     // if (!result.found) {
     //     setRedirectUriCookie(req.url, res);
@@ -97,16 +102,17 @@ router.get([
     // const file_path = path.join(process.cwd(), buildroot, "player-build", "index.html");
     // if (!fs.existsSync(file_path)) return res.status(404).end();
     // return res.status(200).sendFile(file_path);
+    const url = new URL(req.url, `https://${req.headers.host}`);
     if (req.path.includes("/album") ||
         req.path.includes("/track")) {
         if (!result.found)
-            (0, utils_1.setRedirectUriCookie)(req.url, res);
+            (0, utils_1.setRedirectUriCookie)(url.href, res);
         const data = await (0, middlewares_1.updateHtmlHead)(req);
         return res.status(200).send(data);
     }
     else {
         if (!result.found) {
-            (0, utils_1.setRedirectUriCookie)(req.url, res);
+            (0, utils_1.setRedirectUriCookie)(url.href, res);
             return res.redirect(utils_1.MAIN_URL);
         }
         const file_path = path_1.default.join(process.cwd(), utils_1.buildroot, "player-build", "index.html");
@@ -122,15 +128,11 @@ router.get("/mobileview", (req, res, next) => {
         return res.status(404).end();
     return res.status(200).sendFile(file_path);
 });
-// player redirect
+// anything else
 router.get("/*", (req, res, next) => {
     if (req.headers.host === "player.studiomusic.app") {
         return res.redirect(utils_1.PLAYER_URL);
     }
-    return res.redirect(utils_1.MAIN_URL);
-});
-// anything else
-router.get("/*", (req, res, next) => {
     return res.redirect(utils_1.MAIN_URL);
 });
 exports.default = router;
