@@ -1998,6 +1998,24 @@ const songlist = [
                 sync: true
             }
         ]
+    },
+    {
+        _albumId: "6728595ad37db113426cd1c5",
+        _trackId: "6728595ad37db113426cd1c5",
+        Album: "Jo Tum Mere Ho",
+        AlbumArtist: "Anuv Jain",
+        Type: "Single",
+        Year: "2024",
+        Color: "rgba(32,40,72,1)",
+        DarkColor: "rgba(32,40,72,1)",
+        LightColor: "rgba(90,113,203,1)",
+        releaseDate: (0, utils_1.date)("02-08-2024"),
+        Thumbnail: "https://lh3.googleusercontent.com/BU2wudOgpgn3sa2kO2MfEvfHeMTDZjZwPZlugNy89o_PtFbdCuXAJCZm8asRa9V9Y7cMZVw4FhqAQ_4=w544-h544-l90-rj",
+        Artist: "Anuv Jain",
+        Duration: "4: 11",
+        url: `${utils_1.server[3]}/hls/listen/Jo Tum Mere Ho - Anuv Jain/output.m3u8`,
+        lyrics: true,
+        sync: true
     }
 ];
 exports.default = songlist;
