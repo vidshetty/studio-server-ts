@@ -2016,6 +2016,27 @@ const songlist = [
         url: `${utils_1.server[3]}/hls/listen/Jo Tum Mere Ho - Anuv Jain/output.m3u8`,
         lyrics: true,
         sync: true
+    },
+    {
+        _albumId: "67334a501155ebd9e3cc36bc",
+        Album: "MoonChild Era",
+        AlbumArtist: "Diljit Dosanjh",
+        Type: "Album",
+        Year: "2021",
+        Color: "rgba(184,80,96,1)",
+        LightColor: "rgba(192,83,100,1)",
+        DarkColor: "rgba(184,80,96,1)",
+        releaseDate: (0, utils_1.date)("22-08-2021"),
+        Thumbnail: "https://lh3.googleusercontent.com/iiKQZvRUWz-LYFs2rjqOYeTcZgRQJdL0iyPrefQ5-6oWON0_aXbLgPYDEmKL-KIww87pXzOg5qK9s_7U=w544-h544-l90-rj",
+        Tracks: [
+            {
+                _trackId: "67334a5d38b70ec383f3b89a",
+                Title: "Lover",
+                Artist: "Diljit Dosanjh",
+                url: `${utils_1.server[3]}/hls/listen/Lover - Diljit Dosanjh/output.m3u8`,
+                Duration: "3: 10"
+            }
+        ]
     }
 ];
 exports.default = songlist;
