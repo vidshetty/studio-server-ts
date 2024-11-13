@@ -2037,6 +2037,22 @@ const songlist = [
                 Duration: "3: 10"
             }
         ]
+    },
+    {
+        _albumId: "67346d754b648412e62d53ec",
+        _trackId: "67346d754b648412e62d53ec",
+        Album: 'Mayavi (From "Bhoomi 2024")',
+        AlbumArtist: "Sanjith Hegde, Sonu Nigam",
+        Type: "Single",
+        Year: "2024",
+        Color: "rgba(8,128,192,1)",
+        DarkColor: "rgba(8,125,187,1)",
+        LightColor: "rgba(8,128,192,1)",
+        releaseDate: (0, utils_1.date)("06-11-2024"),
+        Thumbnail: "https://lh3.googleusercontent.com/rpH8GWkLFNmlljmotC8-BunT0Ct2KLS36Q4ds5BNx1mmKtbEKrdZjzanTflGIK3twEZ45kSD5ist5TH_=w544-h544-l90-rj",
+        Artist: "Sanjith Hegde, Sonu Nigam",
+        Duration: "4: 18",
+        url: `${utils_1.server[3]}/hls/listen/Mayavi - Sanjith Hegde/output.m3u8`
     }
 ];
 exports.default = songlist;
