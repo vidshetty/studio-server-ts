@@ -2034,7 +2034,9 @@ const songlist = [
                 Title: "Lover",
                 Artist: "Diljit Dosanjh",
                 url: `${utils_1.server[3]}/hls/listen/Lover - Diljit Dosanjh/output.m3u8`,
-                Duration: "3: 10"
+                Duration: "3: 10",
+                lyrics: true,
+                sync: true
             }
         ]
     },
