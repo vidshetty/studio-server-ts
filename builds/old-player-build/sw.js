@@ -1,4 +1,4 @@
-const cacheName = "v8";
+const cacheName = "v9";
 
 
 self.addEventListener("install", e => {
@@ -49,7 +49,10 @@ self.addEventListener("fetch", e => {
         url.includes("googleusercontent") ||
         url === "https://studiomusic.app" ||
         url === "https://studiomusic.app/" ||
-        url === "https://studiomusic.app/player"
+        url === "https://studiomusic.app/player" ||
+        url === "https://player.studiomusic.app" ||
+        url === "https://player.studiomusic.app/" ||
+        url === "https://player.studiomusic.app/player"
         // url.includes("/player/album") ||
         // url.includes("/player/track") ||
         // url.includes("/player/search")
