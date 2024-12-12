@@ -2069,7 +2069,7 @@ const songlist = [
         releaseDate: (0, utils_1.date)("14-11-2024"),
         Thumbnail: "https://lh3.googleusercontent.com/n163MhLOuOmDuLI5XWPBKRqzgjg_dnK3-_-ayS4k9dc1_4Yxqx9M5WvICyqu7SRWj5S9ycbTMXZvQ0al=w544-h544-l90-rj",
         Artist: "Badshah",
-        Duration: "2: 51",
+        Duration: "2: 52",
         url: `${utils_1.server[3]}/hls/listen/Morni - Badshah/output.m3u8`
     }
 ];
