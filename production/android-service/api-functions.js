@@ -24,6 +24,7 @@ const utils_1 = require("../helpers/utils");
 const Users_1 = require("../models/Users");
 const archiveGateway_1 = __importStar(require("../data/archiveGateway"));
 const latestUpdate_1 = require("../data/latestUpdate");
+const nodemailer_service_1 = require("../nodemailer-service");
 const getMostPlayed = async (userId) => {
     const user = await Users_1.Users.findOne({ _id: userId }).lean();
     const { recentlyPlayed: recents } = user;
@@ -120,6 +121,19 @@ const getAlbums = (name) => {
         final.push(albums[rand]);
     }
     return final;
+};
+const notifyAdmin = async () => {
+    try {
+        const options = {
+            to: "toriumcar@gmail.com",
+            subject: "App Download",
+            html: "Someone tried to download the apk!"
+        };
+        await (0, nodemailer_service_1.sendEmail)(options);
+    }
+    catch (e) {
+        console.log("error sending email to admin on aok download", e);
+    }
 };
 const checkServer = (req) => {
     return { status: "active", server: utils_1.server };
@@ -340,6 +354,7 @@ const downloadLatestUpdate = async (request, response) => {
     const filePath = buildType === utils_1.BUILD_TYPE.DEBUG ?
         latestUpdate_1.LATEST_APP_UPDATE.DEBUG.filePath :
         latestUpdate_1.LATEST_APP_UPDATE.RELEASE.filePath;
+    notifyAdmin();
     response.setHeader("Content-Disposition", "attachment;filename=" + filename);
     response.sendFile(filePath);
 };

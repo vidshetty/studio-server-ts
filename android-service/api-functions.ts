@@ -1,5 +1,6 @@
 import { Request, Response } from "express";
 import {
+    NodemailerOptions,
     UserInterface,
     AndroidAlbum,
     Album,
@@ -17,6 +18,7 @@ import {
 import { Users } from "../models/Users";
 import ALBUMLIST, { NewReleases, RecentlyAdded, ALBUM_MAP, ALBUM_LIST_TRACKS } from "../data/archiveGateway";
 import { LATEST_APP_UPDATE } from "../data/latestUpdate";
+import { sendEmail } from "../nodemailer-service";
 
 
 
@@ -147,6 +149,25 @@ const getAlbums = (name: string): AndroidAlbum[] => {
     }
 
     return final;
+
+};
+
+const notifyAdmin = async () => {
+
+    try {
+
+        const options: NodemailerOptions = {
+            to: "toriumcar@gmail.com",
+            subject: "App Download",
+            html: "Someone tried to download the apk!"
+        };
+
+        await sendEmail(options);
+
+    }
+    catch(e: any) {
+        console.log("error sending email to admin on aok download", e);
+    }
 
 };
 
@@ -424,6 +445,8 @@ export const downloadLatestUpdate = async (request: Request, response: Response)
     const filePath = buildType === BUILD_TYPE.DEBUG ?
         LATEST_APP_UPDATE.DEBUG.filePath :
         LATEST_APP_UPDATE.RELEASE.filePath;
+
+    notifyAdmin();
 
     response.setHeader("Content-Disposition", "attachment;filename=" + filename);
     response.sendFile(filePath);
