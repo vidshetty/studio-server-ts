@@ -13,10 +13,10 @@ exports.LATEST_APP_UPDATE = {
         "filePath": path_1.default.join(process.cwd(), "builds", "apk", "studiomusic-debug-4-1.0.0.apk")
     },
     "RELEASE": {
-        "versionCode": 14,
-        "versionName": "1.1.0",
-        "filename": "studiomusic-release-14-1.1.0.apk",
-        "filePath": path_1.default.join(process.cwd(), "builds", "apk", "studiomusic-release-14-1.1.0.apk")
+        "versionCode": 15,
+        "versionName": "1.1.1",
+        "filename": "studiomusic-release-15-1.1.1.apk",
+        "filePath": path_1.default.join(process.cwd(), "builds", "apk", "studiomusic-release-15-1.1.1.apk")
     }
 };
 //# sourceMappingURL=latestUpdate.js.map
