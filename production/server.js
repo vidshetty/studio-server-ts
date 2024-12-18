@@ -48,6 +48,12 @@ app.get("/.well-known/assetlinks.json", (_, response) => {
     response.setHeader("Content-Type", "application/json");
     response.sendFile(file_path);
 });
+app.get("/links/demo-videos", (_, res) => {
+    const drive_url = process.env.DRIVE_LINK || null;
+    if (drive_url === null)
+        return res.status(404).end();
+    return res.redirect(drive_url);
+});
 app.use("/", static_content_1.default);
 if (PROTOCOL === "http") {
     http_1.default
