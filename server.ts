@@ -60,12 +60,6 @@ app.get("/.well-known/assetlinks.json", (_:Request, response:Response) => {
     response.sendFile(file_path);
 });
 
-app.get("/links/demo-videos", (_:Request, res:Response) => {
-    const drive_url = process.env.DRIVE_LINK || null;
-    if (drive_url === null) return res.status(404).end();
-    return res.redirect(drive_url);
-});
-
 app.use("/", staticservice);
 
 

@@ -1,4 +1,6 @@
 import { Request, Response } from "express";
+import { NodemailerOptions } from "../helpers/interfaces";
+import { sendEmail } from "../nodemailer-service";
 import { Users } from "../models/Users";
 import {
     AlbumlistMap,
@@ -452,6 +454,25 @@ const __rp = async (toBeExcluded: string, userId: string): Promise<(AlbumWithTra
 
 };
 
+const __notifyOfAccessingLinks = async () => {
+
+    try {
+
+        const options: NodemailerOptions = {
+            to: "toriumcar@gmail.com",
+            subject: "Drive Link Accessed",
+            html: "Someone accessed your drive link!"
+        };
+
+        await sendEmail(options);
+
+    }
+    catch(e: any) {
+        console.log("error sending email to admin on drive access", e);
+    }
+
+};
+
 
 
 export const getAlbum = (request: Request) => {
@@ -777,5 +798,17 @@ export const getLatestUpdate = async (request: Request, _:any) => {
         versionCode: latest.versionCode,
         versionName: latest.versionName
     };
+
+};
+
+export const demoVideosLink = async (_: Request, res: Response) => {
+
+    const drive_url = process.env.DRIVE_LINK || null;
+
+    if (drive_url === null) return res.status(404).end();
+
+    __notifyOfAccessingLinks();
+
+    return res.redirect(drive_url);
 
 };

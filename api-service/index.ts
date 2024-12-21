@@ -14,7 +14,8 @@ import {
     getLyrics,
     signOut,
     startRadio,
-    getLatestUpdate
+    getLatestUpdate,
+    demoVideosLink
 } from "./functions";
 import { MAIN_URL } from "../helpers/utils";
 
@@ -22,7 +23,9 @@ import { MAIN_URL } from "../helpers/utils";
 const router = Router();
 
 
-router.use("/getLatestUpdate", responseMid(getLatestUpdate));
+router.get("/getLatestUpdate", responseMid(getLatestUpdate));
+
+router.get("/links/demo-videos", demoVideosLink);
 
 router.use(apiAuthCheck);
 

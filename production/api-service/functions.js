@@ -3,7 +3,8 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.getLatestUpdate = exports.signOut = exports.getProfile = exports.activateCheck = exports.recordTime = exports.startRadio = exports.getLyrics = exports.removeFromRecentlyPlayed = exports.addToRecentlyPlayed = exports.search = exports.getAlbumDetails = exports.getTrackDetails = exports.getLibrary = exports.homeAlbums = exports.getTrack = exports.getAlbum = void 0;
+exports.demoVideosLink = exports.getLatestUpdate = exports.signOut = exports.getProfile = exports.activateCheck = exports.recordTime = exports.startRadio = exports.getLyrics = exports.removeFromRecentlyPlayed = exports.addToRecentlyPlayed = exports.search = exports.getAlbumDetails = exports.getTrackDetails = exports.getLibrary = exports.homeAlbums = exports.getTrack = exports.getAlbum = void 0;
+const nodemailer_service_1 = require("../nodemailer-service");
 const Users_1 = require("../models/Users");
 const utils_1 = require("../helpers/utils");
 const moment_timezone_1 = __importDefault(require("moment-timezone"));
@@ -326,6 +327,19 @@ const __rp = async (toBeExcluded, userId) => {
     ;
     return final;
 };
+const __notifyOfAccessingLinks = async () => {
+    try {
+        const options = {
+            to: "toriumcar@gmail.com",
+            subject: "Drive Link Accessed",
+            html: "Someone accessed your drive link!"
+        };
+        await (0, nodemailer_service_1.sendEmail)(options);
+    }
+    catch (e) {
+        console.log("error sending email to admin on drive access", e);
+    }
+};
 const getAlbum = (request) => {
     const { albumId } = request.query;
     if (!albumId)
@@ -559,4 +573,12 @@ const getLatestUpdate = async (request, _) => {
     };
 };
 exports.getLatestUpdate = getLatestUpdate;
+const demoVideosLink = async (_, res) => {
+    const drive_url = process.env.DRIVE_LINK || null;
+    if (drive_url === null)
+        return res.status(404).end();
+    __notifyOfAccessingLinks();
+    return res.redirect(drive_url);
+};
+exports.demoVideosLink = demoVideosLink;
 //# sourceMappingURL=functions.js.map
