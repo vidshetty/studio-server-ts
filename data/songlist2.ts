@@ -2072,7 +2072,35 @@ const songlist: (Single|Album)[] = [
         Artist: "Badshah",
         Duration: "2: 52",
         url: `${server[3]}/hls/listen/Morni - Badshah/output.m3u8`
-    }
+    },
+    {
+        _albumId: "67797cbacb9723276f1e593d",
+        Album: "Drive Thru",
+        AlbumArtist: "Diljit Dosanjh",
+        Type: "Album",
+        Year: "2022",
+        Color: "rgba(192,88,120,1)",
+        LightColor: "rgba(192,88,120,1)",
+        DarkColor: "rgba(187,86,117,1)",
+        releaseDate: date("15-07-2022"),
+        Thumbnail: "https://lh3.googleusercontent.com/RbDRUchWOaZADk3AhGUJsxO-XYS9yWalzXbTEUMFv1vRnNll3HTNjzRi9XhdJOSWuKQ7oVVPDRUPI7YyHQ=w544-h544-l90-rj",
+        Tracks: [
+            {
+                _trackId: "67797cc1d53516b15f087224",
+                Title: "Peaches",
+                Artist: "Diljit Dosanjh",
+                url: `${server[3]}/hls/listen/Peaches - Diljit Dosanjh/output.m3u8`,
+                Duration: "3: 09"
+            },
+            {
+                _trackId: "67797cc782ca5166e1a707fe",
+                Title: "Lemonade",
+                Artist: "Diljit Dosanjh",
+                url: `${server[3]}/hls/listen/Lemonade - Diljit Dosanjh/output.m3u8`,
+                Duration: "2: 56"
+            }
+        ]
+    },
 ];
 
 
