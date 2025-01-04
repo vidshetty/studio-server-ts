@@ -2097,7 +2097,7 @@ const songlist: (Single|Album)[] = [
                 Title: "Lemonade",
                 Artist: "Diljit Dosanjh",
                 url: `${server[3]}/hls/listen/Lemonade - Diljit Dosanjh/output.m3u8`,
-                Duration: "2: 56"
+                Duration: "2: 46"
             }
         ]
     },
