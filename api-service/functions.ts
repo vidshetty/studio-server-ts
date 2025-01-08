@@ -31,6 +31,7 @@ import path from "path";
 import ALBUMLIST from "../data/archiveGateway";
 import { LATEST_APP_UPDATE } from "../data/latestUpdate";
 import { MongoStudioHandler } from "../helpers/mongodb-connection";
+import { TracksSchema } from "../helpers/schema";
 
 
 interface RecentsMap {
@@ -477,16 +478,31 @@ const __notifyOfAccessingLinks = async () => {
 
 
 
-export const getAlbum = (request: Request) => {
+export const getAlbum = async (request: Request) => {
 
     const { albumId }: RequestQuery = request.query as unknown as RequestQuery;
 
     if (!albumId) return null;
 
-    const album = ALBUMLIST.find(each => each._albumId === albumId);
-    if (!album) return null;
+    const { Albums, Tracks } = MongoStudioHandler.getCollectionSet();
+
+    const album = await Albums.findOne({
+        _albumId: new ObjectId(albumId)
+    }) as any;
+
+    const tracks = await Tracks.find({
+        _albumId: new ObjectId(albumId)
+    })
+    .toArray() as TracksSchema[];
+
+    album.Tracks = tracks;
 
     return album;
+
+    // const album = ALBUMLIST.find(each => each._albumId === albumId);
+    // if (!album) return null;
+
+    // return album;
 
 };
 
@@ -561,7 +577,7 @@ export const getTrackDetails = async (request: Request, _:any) => {
 };
 
 export const getAlbumDetails = async (request: Request, _:any) => {
-    return { album: getAlbum(request) };
+    return { album: await getAlbum(request) };
 };
 
 export const search = async (request: Request, _:any) => {

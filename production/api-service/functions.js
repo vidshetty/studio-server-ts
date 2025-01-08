@@ -343,14 +343,23 @@ const __notifyOfAccessingLinks = async () => {
         console.log("error sending email to admin on drive access", e);
     }
 };
-const getAlbum = (request) => {
+const getAlbum = async (request) => {
     const { albumId } = request.query;
     if (!albumId)
         return null;
-    const album = archiveGateway_1.default.find(each => each._albumId === albumId);
-    if (!album)
-        return null;
+    const { Albums, Tracks } = mongodb_connection_1.MongoStudioHandler.getCollectionSet();
+    const album = await Albums.findOne({
+        _albumId: new mongodb_1.ObjectId(albumId)
+    });
+    const tracks = await Tracks.find({
+        _albumId: new mongodb_1.ObjectId(albumId)
+    })
+        .toArray();
+    album.Tracks = tracks;
     return album;
+    // const album = ALBUMLIST.find(each => each._albumId === albumId);
+    // if (!album) return null;
+    // return album;
 };
 exports.getAlbum = getAlbum;
 const getTrack = (request) => {
@@ -408,7 +417,7 @@ const getTrackDetails = async (request, _) => {
 };
 exports.getTrackDetails = getTrackDetails;
 const getAlbumDetails = async (request, _) => {
-    return { album: (0, exports.getAlbum)(request) };
+    return { album: await (0, exports.getAlbum)(request) };
 };
 exports.getAlbumDetails = getAlbumDetails;
 const search = async (request, _) => {

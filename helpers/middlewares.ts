@@ -83,7 +83,7 @@ export const updateHtmlHead = async (request: Request) : Promise<string> => {
     if (request.url.includes("album")) {
 
         request.query = { albumId: request.params.albumId };
-        const album = getAlbum(request);
+        const album = await getAlbum(request);
 
         const file_path = path.join(process.cwd(), buildroot, "player-build", "index.ejs");
 

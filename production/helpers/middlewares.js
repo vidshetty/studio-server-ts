@@ -73,7 +73,7 @@ const updateHtmlHead = async (request) => {
     const defaultImageUrl = "https://studiomusic.app/player/assets/preview-studio-black.png";
     if (request.url.includes("album")) {
         request.query = { albumId: request.params.albumId };
-        const album = (0, functions_1.getAlbum)(request);
+        const album = await (0, functions_1.getAlbum)(request);
         const file_path = path_1.default.join(process.cwd(), utils_1.buildroot, "player-build", "index.ejs");
         if (!fs_1.default.existsSync(file_path))
             return "";
