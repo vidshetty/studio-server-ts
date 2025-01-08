@@ -495,9 +495,16 @@ export const getAlbum = async (request: Request) => {
     })
     .toArray() as TracksSchema[];
 
-    album.Tracks = tracks;
-
-    return album;
+    if (album.Type === "Album") {
+        album.Tracks = tracks;
+        return album;
+    }
+    else {
+        return {
+            ...album,
+            ...(tracks?.[0] || {})
+        };
+    }
 
     // const album = ALBUMLIST.find(each => each._albumId === albumId);
     // if (!album) return null;

@@ -355,8 +355,13 @@ const getAlbum = async (request) => {
         _albumId: new mongodb_1.ObjectId(albumId)
     })
         .toArray();
-    album.Tracks = tracks;
-    return album;
+    if (album.Type === "Album") {
+        album.Tracks = tracks;
+        return album;
+    }
+    else {
+        return Object.assign(Object.assign({}, album), ((tracks === null || tracks === void 0 ? void 0 : tracks[0]) || {}));
+    }
     // const album = ALBUMLIST.find(each => each._albumId === albumId);
     // if (!album) return null;
     // return album;
