@@ -22,7 +22,7 @@ import { MongoAccountsHandler } from "./helpers/db-connection";
 import { MongoStudioHandler } from "./helpers/mongodb-connection";
 
 const app: Application = express();
-const PORT: number = parseInt(process.env.PORT || "5002");
+const PORT: number = parseInt(process.env.PORT || "5000");
 const PROTOCOL: string = process.env.PROTOCOL || "http";
 
 

@@ -25,7 +25,7 @@ const finance_service_1 = __importDefault(require("./finance-service"));
 const db_connection_1 = require("./helpers/db-connection");
 const mongodb_connection_1 = require("./helpers/mongodb-connection");
 const app = (0, express_1.default)();
-const PORT = parseInt(process.env.PORT || "5002");
+const PORT = parseInt(process.env.PORT || "5000");
 const PROTOCOL = process.env.PROTOCOL || "http";
 (async () => {
     (0, mongohandler_1.default)();
