@@ -2,6 +2,7 @@ import { Request, Response, CookieOptions } from "express";
 import moment, { Duration } from "moment-timezone";
 import ejs from "ejs";
 import fs from "fs";
+import _ from "lodash";
 import {
     AlbumList,
     AndroidAlbum,
@@ -12,6 +13,7 @@ import {
     AndroidTrack,
     Track
 } from "../helpers/interfaces";
+import { AlbumSchema, TracksSchema } from "./schema";
 
 
 
@@ -63,14 +65,14 @@ export const server = (() : string[] => {
 
     const SERVER: string = ENV("SERVER");
 
-    if (SERVER === "LOCAL") {
-        return [
-            `http://localhost:4000`, //0
-            `http://localhost:7000`, //1
-            `http://localhost:8000`, //2
-            `http://localhost:9000`  //3
-        ];
-    }
+    // if (SERVER === "LOCAL") {
+    //     return [
+    //         `http://localhost:4000`, //0
+    //         `http://localhost:7000`, //1
+    //         `http://localhost:8000`, //2
+    //         `http://localhost:9000`  //3
+    //     ];
+    // }
 
     return [
         "https://player.studiomusic.app",
@@ -324,6 +326,7 @@ export const convertToAndroidAlbum = (arr: readonly AlbumList[] = []): AndroidAl
             Tracks: (() => {
                 if (each.Type === "Album") {
                     return album.Tracks.map(track => {
+                        track.streamCount = 0;
                         track.lyrics = track.lyrics || false;
                         track.sync = track.sync || false;
                         return track;
@@ -336,6 +339,7 @@ export const convertToAndroidAlbum = (arr: readonly AlbumList[] = []): AndroidAl
                         Artist: single.Artist,
                         Duration: single.Duration,
                         url: single.url,
+                        streamCount: 0,
                         lyrics: single.lyrics || false,
                         sync: single.sync || false
                     }];
@@ -373,6 +377,7 @@ export const convertToAndroidTrack = (arr: readonly AlbumList[] = []): AndroidTr
                 Artist: single.Artist,
                 Duration: single.Duration,
                 url: single.url,
+                streamCount: 0,
                 lyrics: single.lyrics || false,
                 sync: single.sync || false
             });
@@ -394,11 +399,87 @@ export const convertToAndroidTrack = (arr: readonly AlbumList[] = []): AndroidTr
                     Artist: track.Artist,
                     Duration: track.Duration,
                     url: track.url,
+                    streamCount: 0,
                     lyrics: track.lyrics || false,
                     sync: track.sync || false
                 });
             });
         }
+
+        return acc;
+
+    }, []);
+
+};
+
+export const convertToAndroidAlbumFromDB = (albums: AlbumSchema[], tracks: TracksSchema[]): AndroidAlbum[] => {
+
+    return albums.reduce<AndroidAlbum[]>((acc: AndroidAlbum[], each) => {
+
+        acc.push({
+            _albumId: String(each._albumId),
+            Album: each.Album,
+            AlbumArtist: String(each.AlbumArtist),
+            Type: each.Type,
+            Year: each.Year,
+            Color: each.Color,
+            LightColor: each?.LightColor || null,
+            DarkColor: each?.DarkColor || null,
+            Thumbnail: each.Thumbnail,
+            releaseDate: moment(each.releaseDate, "YYYY-MM-DD").toDate(),
+            Tracks: _.reduce(tracks, (acc: AndroidAlbum["Tracks"], t: TracksSchema) => {
+                if (String(t._albumId) !== String(each._albumId)) return acc;
+                acc.push({
+                    _trackId: String(t._trackId),
+                    Title: each.Album,
+                    Artist: t.Artist,
+                    Duration: t.Duration,
+                    url: t.url,
+                    streamCount: t.streamCount,
+                    lyrics: t.lyrics || false,
+                    sync: t.sync || false
+                });
+                return acc;
+            }, [])
+        });
+
+        return acc;
+
+    }, []);
+
+};
+
+export const convertToAndroidTrackFromDB = (albums: AlbumSchema[], tracks: TracksSchema[]): AndroidTrack[] => {
+
+    return _.reduce(tracks, (acc: AndroidTrack[], each) => {
+
+        const album = (
+            _.filter(albums, (a: AlbumSchema) => {
+                return String(a._albumId) === String(each._albumId);
+            })
+        )?.[0] || null;
+
+        if (_.isEmpty(album)) return acc;
+
+        acc.push({
+            _albumId: String(each._albumId),
+            Album: album.Album,
+            Color: album.Color,
+            LightColor: album?.LightColor || null,
+            DarkColor: album?.DarkColor || null,
+            Thumbnail: album.Thumbnail,
+            Year: album.Year,
+            Type: album.Type,
+            releaseDate: moment(album.releaseDate, "YYYY-MM-DD").toDate(),
+            _trackId: String(each._trackId),
+            Title: each.Title,
+            Artist: each.Artist,
+            Duration: each.Duration,
+            url: each.url,
+            streamCount: each.streamCount,
+            lyrics: each?.lyrics || false,
+            sync: each?.sync || false
+        });
 
         return acc;
 

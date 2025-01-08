@@ -1,4 +1,6 @@
 import { Request, Response } from "express";
+import _ from "lodash";
+import { ObjectId } from "mongodb";
 import {
     NodemailerOptions,
     UserInterface,
@@ -13,12 +15,16 @@ import {
     server,
     randomize,
     convertToAndroidAlbum,
-    BUILD_TYPE
+    BUILD_TYPE,
+    convertToAndroidAlbumFromDB,
+    convertToAndroidTrackFromDB
 } from "../helpers/utils";
 import { Users } from "../models/Users";
 import ALBUMLIST, { NewReleases, RecentlyAdded, ALBUM_MAP, ALBUM_LIST_TRACKS } from "../data/archiveGateway";
 import { LATEST_APP_UPDATE } from "../data/latestUpdate";
 import { sendEmail } from "../nodemailer-service";
+import { MongoStudioHandler } from "../helpers/mongodb-connection";
+import { AlbumSchema, TracksSchema } from "../helpers/schema";
 
 
 
@@ -36,32 +42,76 @@ const getMostPlayed = async (userId: string): Promise<AndroidAlbum[]> => {
     const top_recents = sorted_recents.slice(0,6);
     if (top_recents.length < 6) return [];
 
-    return top_recents.reduce<AndroidAlbum[]>((albums: AndroidAlbum[], each) => {
-        const album = ALBUM_MAP[each.albumId] || null;
-        if (album) albums.push(...convertToAndroidAlbum([album]));
-        return albums;
+    const { Albums, Tracks } = MongoStudioHandler.getCollectionSet();
+
+    const db_albums = await Albums.find({
+        _albumId: {
+            $in: _.map(top_recents, e => new ObjectId(e.albumId))
+        }
+    }).toArray() as AlbumSchema[];
+
+    const db_tracks = await Tracks.find({
+        _albumId: {
+            $in: _.map(top_recents, e => new ObjectId(e.albumId))
+        }
+    }).toArray() as TracksSchema[];
+
+    return _.reduce(top_recents, (acc: AndroidAlbum[], each) => {
+
+        const album = (
+            _.filter(db_albums, (a: AlbumSchema) => {
+                return String(a._albumId) === String(each.albumId);
+            })
+        )?.[0] || null;
+
+        const tracks = _.filter(db_tracks, (t: TracksSchema) => {
+            return String(t._albumId) === String(each.albumId);
+        });
+
+        if (album) acc.push(...convertToAndroidAlbumFromDB([album], tracks));
+
+        return acc;
+
+        // const album = ALBUM_MAP[each.albumId] || null;
+        // if (album) albums.push(...convertToAndroidAlbum([album]));
+        // return albums;
+        
     }, []);
 
 };
 
-const getQuickPicks = (): AndroidTrack[] => {
+const getQuickPicks = async (): Promise<AndroidTrack[]> => {
 
-    const final: AndroidTrack[] = [];
-    const uniqNums: number[] = [];
+    // const final: AndroidTrack[] = [];
+    // const uniqNums: number[] = [];
 
-    for (let i=1; i<=12; i++) {
-        let gotUniqueRandomNum = false, rand: number = 0;
-        while (!gotUniqueRandomNum) {
-            rand = Math.floor(Math.random() * ALBUM_LIST_TRACKS.length);
-            if (!uniqNums.includes(rand)) {
-                uniqNums.push(rand);
-                gotUniqueRandomNum = true;
-            }
-        }
-        final.push(ALBUM_LIST_TRACKS[rand]);
-    }
+    // for (let i=1; i<=12; i++) {
+    //     let gotUniqueRandomNum = false, rand: number = 0;
+    //     while (!gotUniqueRandomNum) {
+    //         rand = Math.floor(Math.random() * ALBUM_LIST_TRACKS.length);
+    //         if (!uniqNums.includes(rand)) {
+    //             uniqNums.push(rand);
+    //             gotUniqueRandomNum = true;
+    //         }
+    //     }
+    //     final.push(ALBUM_LIST_TRACKS[rand]);
+    // }
 
-    return final;
+    // return final;
+
+    const { Albums, Tracks } = MongoStudioHandler.getCollectionSet();
+
+    const tracks = await Tracks.aggregate([
+        { $sample: { size: 12 } }
+    ])
+    .toArray() as TracksSchema[];
+
+    const albums = await Albums.find({
+        _albumId: { $in: _.map(tracks, t => new ObjectId(t._albumId)) }
+    })
+    .toArray() as AlbumSchema[];
+
+    return convertToAndroidTrackFromDB(albums, tracks);
 
 };
 
@@ -225,42 +275,55 @@ export const getAlbum = async (request: Request) => {
 
     const { albumId = "" } = request.query as unknown as { albumId: string };
 
-    const album = ALBUMLIST.find(each => each._albumId === albumId);
+    const { Albums, Tracks } = MongoStudioHandler.getCollectionSet();
 
-    if (!album) return null;
+    const album = await Albums.findOne({
+        _albumId: new ObjectId(albumId)
+    }) as AlbumSchema;
 
-    return {
-        _albumId: album._albumId,
-        Album: album.Album,
-        AlbumArtist: album.AlbumArtist,
-        Type: album.Type,
-        Year: album.Year,
-        Color: album.Color,
-        Thumbnail: album.Thumbnail,
-        releaseDate: album.releaseDate,
-        Tracks: (() => {
-            if (album.Type === "Album") {
-                return (album as Album).Tracks.map(track => {
-                    track.lyrics = track.lyrics || false;
-                    track.sync = track.sync || false;
-                    return track;
-                });
-            }
-            if (album.Type === "Single") {
-                const single = (album as Single);
-                return [{
-                    _trackId: single._trackId,
-                    Title: single.Album,
-                    Artist: single.Artist,
-                    Duration: single.Duration,
-                    url: single.url,
-                    lyrics: single.lyrics || false,
-                    sync: single.sync || false
-                }];
-            }
-            return [];
-        })()
-    };
+    const tracks = await Tracks.find({
+        _albumId: new ObjectId(albumId)
+    })
+    .toArray() as TracksSchema[];
+
+    return (convertToAndroidAlbumFromDB([album], tracks))?.[0] || null;
+
+    // const album = ALBUMLIST.find(each => each._albumId === albumId);
+
+    // if (!album) return null;
+
+    // return {
+    //     _albumId: album._albumId,
+    //     Album: album.Album,
+    //     AlbumArtist: album.AlbumArtist,
+    //     Type: album.Type,
+    //     Year: album.Year,
+    //     Color: album.Color,
+    //     Thumbnail: album.Thumbnail,
+    //     releaseDate: album.releaseDate,
+    //     Tracks: (() => {
+    //         if (album.Type === "Album") {
+    //             return (album as Album).Tracks.map(track => {
+    //                 track.lyrics = track.lyrics || false;
+    //                 track.sync = track.sync || false;
+    //                 return track;
+    //             });
+    //         }
+    //         if (album.Type === "Single") {
+    //             const single = (album as Single);
+    //             return [{
+    //                 _trackId: single._trackId,
+    //                 Title: single.Album,
+    //                 Artist: single.Artist,
+    //                 Duration: single.Duration,
+    //                 url: single.url,
+    //                 lyrics: single.lyrics || false,
+    //                 sync: single.sync || false
+    //             }];
+    //         }
+    //         return [];
+    //     })()
+    // };
 
 };
 
@@ -276,7 +339,7 @@ export const homeAlbums = async (request: Request, _:any) => {
 
     homeList["Recently Added"] = convertToAndroidAlbum(RecentlyAdded);
 
-    return { albums: homeList, mostPlayed, quickPicks: getQuickPicks() };
+    return { albums: homeList, mostPlayed, quickPicks: await getQuickPicks() };
 
 };
 

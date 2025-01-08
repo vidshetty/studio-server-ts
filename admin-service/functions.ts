@@ -2,6 +2,7 @@ import { Users } from "../models/Users";
 import { Request, Response } from "express";
 import moment from "moment-timezone";
 import path from "path";
+import { ObjectId } from "mongodb";
 import {
     UserInterface,
     AlbumList,
@@ -21,6 +22,8 @@ import {
     __replace,
     defaultUserId
 } from "../helpers/utils";
+import { MongoStudioHandler } from "../helpers/mongodb-connection";
+import { AlbumSchema, TracksSchema } from "../helpers/schema";
 
 
 interface updateBody {
@@ -262,6 +265,118 @@ export const fixJson = async (request: Request, _:any) => {
                 msg: e.message
             };
         }
+    }
+
+};
+
+export const albumsInsert = async () => {
+
+    const { Albums, Tracks } = MongoStudioHandler.getCollectionSet();
+
+    console.log("TOTAL", ALBUMLIST.length);
+
+    for (let i=0; i<ALBUMLIST.length; i++) {
+
+        console.log(i+1);
+
+        const each = ALBUMLIST[i];
+
+        if (each.Type === "Single") {
+
+            const single = each as Single;
+
+            const new_album: AlbumSchema = {
+                _id: new ObjectId(),
+                _albumId: new ObjectId(single._albumId),
+                Album: single.Album,
+                AlbumArtist: single.AlbumArtist,
+                Year: single.Year,
+                Color: single.Color,
+                releaseDate: moment(single.releaseDate).format("YYYY-MM-DD"),
+                Thumbnail: single.Thumbnail,
+                Type: "Single",
+                ...(() => {
+                    const obj: { LightColor?: string; DarkColor?: string } = {};
+                    if (single.LightColor) obj.LightColor = single.LightColor;
+                    if (single.DarkColor) obj.DarkColor = single.DarkColor;
+                    return obj;
+                })()
+            };
+
+            const new_track: TracksSchema = {
+                _id: new ObjectId(),
+                _albumId: new ObjectId(single._albumId),
+                _trackId: new ObjectId(single._trackId),
+                Title: single.Album,
+                Artist: single.Artist,
+                url: single.url,
+                Duration: single.Duration,
+                ...(() => {
+                    const obj: { lyrics?: boolean; sync?: boolean; } = {};
+                    if (single.lyrics) obj.lyrics = single.lyrics;
+                    if (single.sync) obj.sync = single.sync;
+                    return obj;
+                })(),
+                streamCount: 0
+            };
+
+            await Albums.insertOne(new_album);
+            await Tracks.insertOne(new_track);
+
+        }
+        else if (each.Type === "Album") {
+
+            const album = each as Album;
+
+            const new_album: AlbumSchema = {
+                _id: new ObjectId(),
+                _albumId: new ObjectId(album._albumId),
+                Album: album.Album,
+                AlbumArtist: album.AlbumArtist,
+                Year: album.Year,
+                Color: album.Color,
+                releaseDate: moment(album.releaseDate).format("YYYY-MM-DD"),
+                Thumbnail: album.Thumbnail,
+                Type: "Album",
+                ...(() => {
+                    const obj: { LightColor?: string; DarkColor?: string } = {};
+                    if (album.LightColor) obj.LightColor = album.LightColor;
+                    if (album.DarkColor) obj.DarkColor = album.DarkColor;
+                    return obj;
+                })()
+            };
+
+            await Albums.insertOne(new_album);
+
+            for (let t=0; t<album.Tracks.length; t++) {
+
+                const track = album.Tracks[t];
+
+                const new_track: TracksSchema = {
+                    _id: new ObjectId(),
+                    _albumId: new ObjectId(album._albumId),
+                    _trackId: new ObjectId(track._trackId),
+                    Title: track.Title,
+                    Artist: track.Artist,
+                    url: track.url,
+                    Duration: track.Duration,
+                    ...(() => {
+                        const obj: { lyrics?: boolean; sync?: boolean; } = {};
+                        if (track.lyrics) obj.lyrics = track.lyrics;
+                        if (track.sync) obj.sync = track.sync;
+                        return obj;
+                    })(),
+                    streamCount: 0
+                };
+
+                await Tracks.insertOne(new_track);
+
+            }
+
+        }
+
+        console.log("-------------------");
+
     }
 
 };

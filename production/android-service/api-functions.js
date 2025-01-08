@@ -1,7 +1,11 @@
 "use strict";
 var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
     if (k2 === undefined) k2 = k;
-    Object.defineProperty(o, k2, { enumerable: true, get: function() { return m[k]; } });
+    var desc = Object.getOwnPropertyDescriptor(m, k);
+    if (!desc || ("get" in desc ? !m.__esModule : desc.writable || desc.configurable)) {
+      desc = { enumerable: true, get: function() { return m[k]; } };
+    }
+    Object.defineProperty(o, k2, desc);
 }) : (function(o, m, k, k2) {
     if (k2 === undefined) k2 = k;
     o[k2] = m[k];
@@ -18,13 +22,19 @@ var __importStar = (this && this.__importStar) || function (mod) {
     __setModuleDefault(result, mod);
     return result;
 };
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.downloadLatestUpdate = exports.checkForUpdates = exports.getMostPlayedRadio = exports.startRadio = exports.search = exports.homeAlbums = exports.getAlbum = exports.getLibrary = exports.activeSessions = exports.checkServer = void 0;
+const lodash_1 = __importDefault(require("lodash"));
+const mongodb_1 = require("mongodb");
 const utils_1 = require("../helpers/utils");
 const Users_1 = require("../models/Users");
 const archiveGateway_1 = __importStar(require("../data/archiveGateway"));
 const latestUpdate_1 = require("../data/latestUpdate");
 const nodemailer_service_1 = require("../nodemailer-service");
+const mongodb_connection_1 = require("../helpers/mongodb-connection");
 const getMostPlayed = async (userId) => {
     const user = await Users_1.Users.findOne({ _id: userId }).lean();
     const { recentlyPlayed: recents } = user;
@@ -36,28 +46,58 @@ const getMostPlayed = async (userId) => {
     const top_recents = sorted_recents.slice(0, 6);
     if (top_recents.length < 6)
         return [];
-    return top_recents.reduce((albums, each) => {
-        const album = archiveGateway_1.ALBUM_MAP[each.albumId] || null;
+    const { Albums, Tracks } = mongodb_connection_1.MongoStudioHandler.getCollectionSet();
+    const db_albums = await Albums.find({
+        _albumId: {
+            $in: lodash_1.default.map(top_recents, e => new mongodb_1.ObjectId(e.albumId))
+        }
+    }).toArray();
+    const db_tracks = await Tracks.find({
+        _albumId: {
+            $in: lodash_1.default.map(top_recents, e => new mongodb_1.ObjectId(e.albumId))
+        }
+    }).toArray();
+    return lodash_1.default.reduce(top_recents, (acc, each) => {
+        var _a;
+        const album = ((_a = (lodash_1.default.filter(db_albums, (a) => {
+            return String(a._albumId) === String(each.albumId);
+        }))) === null || _a === void 0 ? void 0 : _a[0]) || null;
+        const tracks = lodash_1.default.filter(db_tracks, (t) => {
+            return String(t._albumId) === String(each.albumId);
+        });
         if (album)
-            albums.push(...(0, utils_1.convertToAndroidAlbum)([album]));
-        return albums;
+            acc.push(...(0, utils_1.convertToAndroidAlbumFromDB)([album], tracks));
+        return acc;
+        // const album = ALBUM_MAP[each.albumId] || null;
+        // if (album) albums.push(...convertToAndroidAlbum([album]));
+        // return albums;
     }, []);
 };
-const getQuickPicks = () => {
-    const final = [];
-    const uniqNums = [];
-    for (let i = 1; i <= 12; i++) {
-        let gotUniqueRandomNum = false, rand = 0;
-        while (!gotUniqueRandomNum) {
-            rand = Math.floor(Math.random() * archiveGateway_1.ALBUM_LIST_TRACKS.length);
-            if (!uniqNums.includes(rand)) {
-                uniqNums.push(rand);
-                gotUniqueRandomNum = true;
-            }
-        }
-        final.push(archiveGateway_1.ALBUM_LIST_TRACKS[rand]);
-    }
-    return final;
+const getQuickPicks = async () => {
+    // const final: AndroidTrack[] = [];
+    // const uniqNums: number[] = [];
+    // for (let i=1; i<=12; i++) {
+    //     let gotUniqueRandomNum = false, rand: number = 0;
+    //     while (!gotUniqueRandomNum) {
+    //         rand = Math.floor(Math.random() * ALBUM_LIST_TRACKS.length);
+    //         if (!uniqNums.includes(rand)) {
+    //             uniqNums.push(rand);
+    //             gotUniqueRandomNum = true;
+    //         }
+    //     }
+    //     final.push(ALBUM_LIST_TRACKS[rand]);
+    // }
+    // return final;
+    const { Albums, Tracks } = mongodb_connection_1.MongoStudioHandler.getCollectionSet();
+    const tracks = await Tracks.aggregate([
+        { $sample: { size: 12 } }
+    ])
+        .toArray();
+    const albums = await Albums.find({
+        _albumId: { $in: lodash_1.default.map(tracks, t => new mongodb_1.ObjectId(t._albumId)) }
+    })
+        .toArray();
+    return (0, utils_1.convertToAndroidTrackFromDB)(albums, tracks);
 };
 const getSongs = (name) => {
     const lower = name.toLowerCase();
@@ -173,42 +213,51 @@ const getLibrary = async (request) => {
 };
 exports.getLibrary = getLibrary;
 const getAlbum = async (request) => {
+    var _a;
     const { albumId = "" } = request.query;
-    const album = archiveGateway_1.default.find(each => each._albumId === albumId);
-    if (!album)
-        return null;
-    return {
-        _albumId: album._albumId,
-        Album: album.Album,
-        AlbumArtist: album.AlbumArtist,
-        Type: album.Type,
-        Year: album.Year,
-        Color: album.Color,
-        Thumbnail: album.Thumbnail,
-        releaseDate: album.releaseDate,
-        Tracks: (() => {
-            if (album.Type === "Album") {
-                return album.Tracks.map(track => {
-                    track.lyrics = track.lyrics || false;
-                    track.sync = track.sync || false;
-                    return track;
-                });
-            }
-            if (album.Type === "Single") {
-                const single = album;
-                return [{
-                        _trackId: single._trackId,
-                        Title: single.Album,
-                        Artist: single.Artist,
-                        Duration: single.Duration,
-                        url: single.url,
-                        lyrics: single.lyrics || false,
-                        sync: single.sync || false
-                    }];
-            }
-            return [];
-        })()
-    };
+    const { Albums, Tracks } = mongodb_connection_1.MongoStudioHandler.getCollectionSet();
+    const album = await Albums.findOne({
+        _albumId: new mongodb_1.ObjectId(albumId)
+    });
+    const tracks = await Tracks.find({
+        _albumId: new mongodb_1.ObjectId(albumId)
+    })
+        .toArray();
+    return ((_a = ((0, utils_1.convertToAndroidAlbumFromDB)([album], tracks))) === null || _a === void 0 ? void 0 : _a[0]) || null;
+    // const album = ALBUMLIST.find(each => each._albumId === albumId);
+    // if (!album) return null;
+    // return {
+    //     _albumId: album._albumId,
+    //     Album: album.Album,
+    //     AlbumArtist: album.AlbumArtist,
+    //     Type: album.Type,
+    //     Year: album.Year,
+    //     Color: album.Color,
+    //     Thumbnail: album.Thumbnail,
+    //     releaseDate: album.releaseDate,
+    //     Tracks: (() => {
+    //         if (album.Type === "Album") {
+    //             return (album as Album).Tracks.map(track => {
+    //                 track.lyrics = track.lyrics || false;
+    //                 track.sync = track.sync || false;
+    //                 return track;
+    //             });
+    //         }
+    //         if (album.Type === "Single") {
+    //             const single = (album as Single);
+    //             return [{
+    //                 _trackId: single._trackId,
+    //                 Title: single.Album,
+    //                 Artist: single.Artist,
+    //                 Duration: single.Duration,
+    //                 url: single.url,
+    //                 lyrics: single.lyrics || false,
+    //                 sync: single.sync || false
+    //             }];
+    //         }
+    //         return [];
+    //     })()
+    // };
 };
 exports.getAlbum = getAlbum;
 const homeAlbums = async (request, _) => {
@@ -217,7 +266,7 @@ const homeAlbums = async (request, _) => {
     const homeList = {};
     homeList["New Releases"] = (0, utils_1.convertToAndroidAlbum)(archiveGateway_1.NewReleases);
     homeList["Recently Added"] = (0, utils_1.convertToAndroidAlbum)(archiveGateway_1.RecentlyAdded);
-    return { albums: homeList, mostPlayed, quickPicks: getQuickPicks() };
+    return { albums: homeList, mostPlayed, quickPicks: await getQuickPicks() };
 };
 exports.homeAlbums = homeAlbums;
 const search = async (request, _) => {

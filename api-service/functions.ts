@@ -1,4 +1,6 @@
 import { Request, Response } from "express";
+import _ from "lodash";
+import { ObjectId } from "mongodb";
 import { NodemailerOptions } from "../helpers/interfaces";
 import { sendEmail } from "../nodemailer-service";
 import { Users } from "../models/Users";
@@ -28,7 +30,7 @@ import moment from "moment-timezone";
 import path from "path";
 import ALBUMLIST from "../data/archiveGateway";
 import { LATEST_APP_UPDATE } from "../data/latestUpdate";
-
+import { MongoStudioHandler } from "../helpers/mongodb-connection";
 
 
 interface RecentsMap {
@@ -575,10 +577,10 @@ export const search = async (request: Request, _:any) => {
 
 };
 
-export const addToRecentlyPlayed = async (request: Request, _:any) => {
+export const addToRecentlyPlayed = async (request: Request) => {
 
     const { id: userId } = request.ACCOUNT;
-    const { albumId }: { albumId: string } = request.body;
+    const { albumId, trackId }: { albumId: string; trackId: string; } = request.body;
 
     const user: UserInterface | null = await Users.findOne({ _id: userId });
 
@@ -596,6 +598,17 @@ export const addToRecentlyPlayed = async (request: Request, _:any) => {
     }
 
     await Object.assign(user, { recentlyPlayed: recents }).save();
+
+    const { Tracks } = MongoStudioHandler.getCollectionSet();
+
+    await Tracks.updateOne(
+        {
+            _trackId: _.isEmpty(trackId) ?
+                (_.isEmpty(albumId) ? null : new ObjectId(albumId)) :
+                new ObjectId(trackId)
+        },
+        { $inc: { streamCount: 1 } }
+    );
 
     return;
 

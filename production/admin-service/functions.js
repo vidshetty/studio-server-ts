@@ -3,13 +3,15 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.fixJson = exports.deleteAlbumFromRecents = exports.getAlbum = exports.getUser = exports.update = void 0;
+exports.albumsInsert = exports.fixJson = exports.deleteAlbumFromRecents = exports.getAlbum = exports.getUser = exports.update = void 0;
 const Users_1 = require("../models/Users");
 const moment_timezone_1 = __importDefault(require("moment-timezone"));
 const path_1 = __importDefault(require("path"));
+const mongodb_1 = require("mongodb");
 const nodemailer_service_1 = require("../nodemailer-service");
 const archiveGateway_1 = __importDefault(require("../data/archiveGateway"));
 const utils_1 = require("../helpers/utils");
+const mongodb_connection_1 = require("../helpers/mongodb-connection");
 const emailUser = async (user) => {
     try {
         const { accountAccess, googleAccount } = user;
@@ -174,4 +176,59 @@ const fixJson = async (request, _) => {
     }
 };
 exports.fixJson = fixJson;
+const albumsInsert = async () => {
+    const { Albums, Tracks } = mongodb_connection_1.MongoStudioHandler.getCollectionSet();
+    console.log("TOTAL", archiveGateway_1.default.length);
+    for (let i = 0; i < archiveGateway_1.default.length; i++) {
+        console.log(i + 1);
+        const each = archiveGateway_1.default[i];
+        if (each.Type === "Single") {
+            const single = each;
+            const new_album = Object.assign({ _id: new mongodb_1.ObjectId(), _albumId: new mongodb_1.ObjectId(single._albumId), Album: single.Album, AlbumArtist: single.AlbumArtist, Year: single.Year, Color: single.Color, releaseDate: (0, moment_timezone_1.default)(single.releaseDate).format("YYYY-MM-DD"), Thumbnail: single.Thumbnail, Type: "Single" }, (() => {
+                const obj = {};
+                if (single.LightColor)
+                    obj.LightColor = single.LightColor;
+                if (single.DarkColor)
+                    obj.DarkColor = single.DarkColor;
+                return obj;
+            })());
+            const new_track = Object.assign(Object.assign({ _id: new mongodb_1.ObjectId(), _albumId: new mongodb_1.ObjectId(single._albumId), _trackId: new mongodb_1.ObjectId(single._trackId), Title: single.Album, Artist: single.Artist, url: single.url, Duration: single.Duration }, (() => {
+                const obj = {};
+                if (single.lyrics)
+                    obj.lyrics = single.lyrics;
+                if (single.sync)
+                    obj.sync = single.sync;
+                return obj;
+            })()), { streamCount: 0 });
+            await Albums.insertOne(new_album);
+            await Tracks.insertOne(new_track);
+        }
+        else if (each.Type === "Album") {
+            const album = each;
+            const new_album = Object.assign({ _id: new mongodb_1.ObjectId(), _albumId: new mongodb_1.ObjectId(album._albumId), Album: album.Album, AlbumArtist: album.AlbumArtist, Year: album.Year, Color: album.Color, releaseDate: (0, moment_timezone_1.default)(album.releaseDate).format("YYYY-MM-DD"), Thumbnail: album.Thumbnail, Type: "Album" }, (() => {
+                const obj = {};
+                if (album.LightColor)
+                    obj.LightColor = album.LightColor;
+                if (album.DarkColor)
+                    obj.DarkColor = album.DarkColor;
+                return obj;
+            })());
+            await Albums.insertOne(new_album);
+            for (let t = 0; t < album.Tracks.length; t++) {
+                const track = album.Tracks[t];
+                const new_track = Object.assign(Object.assign({ _id: new mongodb_1.ObjectId(), _albumId: new mongodb_1.ObjectId(album._albumId), _trackId: new mongodb_1.ObjectId(track._trackId), Title: track.Title, Artist: track.Artist, url: track.url, Duration: track.Duration }, (() => {
+                    const obj = {};
+                    if (track.lyrics)
+                        obj.lyrics = track.lyrics;
+                    if (track.sync)
+                        obj.sync = track.sync;
+                    return obj;
+                })()), { streamCount: 0 });
+                await Tracks.insertOne(new_track);
+            }
+        }
+        console.log("-------------------");
+    }
+};
+exports.albumsInsert = albumsInsert;
 //# sourceMappingURL=functions.js.map

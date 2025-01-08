@@ -3,10 +3,11 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.convertToAndroidTrack = exports.convertToAndroidAlbum = exports.randomize = exports.getCurrentTime = exports.CustomError = exports.getDevice = exports.writeFileAsync = exports.readFileAsync = exports.__replace = exports.checkRedirectUri = exports.calcPeriod = exports.setRedirectUriCookie = exports.redirectUriCookieConfig = exports.standardCookieConfig = exports.cookieParser = exports.server = exports.date = exports.ejsRender = exports.wait = exports.requestUrlCheck = exports.ENV = exports.BUILD_TYPE = exports.defaultUserId = exports.buildroot = exports.issuer = exports.refreshTokenExpiry = exports.accessTokenExpiry = exports.androidAccessTokenExpiry = exports.timezone = exports.defaultAccess = exports.PASSPORT_REDIRECT_APP_URL = exports.PLAYER_URL = exports.MAIN_URL = exports.APP_URL = void 0;
+exports.convertToAndroidTrackFromDB = exports.convertToAndroidAlbumFromDB = exports.convertToAndroidTrack = exports.convertToAndroidAlbum = exports.randomize = exports.getCurrentTime = exports.CustomError = exports.getDevice = exports.writeFileAsync = exports.readFileAsync = exports.__replace = exports.checkRedirectUri = exports.calcPeriod = exports.setRedirectUriCookie = exports.redirectUriCookieConfig = exports.standardCookieConfig = exports.cookieParser = exports.server = exports.date = exports.ejsRender = exports.wait = exports.requestUrlCheck = exports.ENV = exports.BUILD_TYPE = exports.defaultUserId = exports.buildroot = exports.issuer = exports.refreshTokenExpiry = exports.accessTokenExpiry = exports.androidAccessTokenExpiry = exports.timezone = exports.defaultAccess = exports.PASSPORT_REDIRECT_APP_URL = exports.PLAYER_URL = exports.MAIN_URL = exports.APP_URL = void 0;
 const moment_timezone_1 = __importDefault(require("moment-timezone"));
 const ejs_1 = __importDefault(require("ejs"));
 const fs_1 = __importDefault(require("fs"));
+const lodash_1 = __importDefault(require("lodash"));
 exports.APP_URL = "studiomusic.app";
 exports.MAIN_URL = "https://studiomusic.app";
 exports.PLAYER_URL = "https://player.studiomusic.app";
@@ -55,14 +56,14 @@ const date = (val) => (0, moment_timezone_1.default)(val, "DD-MM-YYYY").toDate()
 exports.date = date;
 exports.server = (() => {
     const SERVER = (0, exports.ENV)("SERVER");
-    if (SERVER === "LOCAL") {
-        return [
-            `http://localhost:4000`,
-            `http://localhost:7000`,
-            `http://localhost:8000`,
-            `http://localhost:9000` //3
-        ];
-    }
+    // if (SERVER === "LOCAL") {
+    //     return [
+    //         `http://localhost:4000`, //0
+    //         `http://localhost:7000`, //1
+    //         `http://localhost:8000`, //2
+    //         `http://localhost:9000`  //3
+    //     ];
+    // }
     return [
         "https://player.studiomusic.app",
         "https://player.studiomusic.app",
@@ -287,6 +288,7 @@ const convertToAndroidAlbum = (arr = []) => {
             Tracks: (() => {
                 if (each.Type === "Album") {
                     return album.Tracks.map(track => {
+                        track.streamCount = 0;
                         track.lyrics = track.lyrics || false;
                         track.sync = track.sync || false;
                         return track;
@@ -299,6 +301,7 @@ const convertToAndroidAlbum = (arr = []) => {
                             Artist: single.Artist,
                             Duration: single.Duration,
                             url: single.url,
+                            streamCount: 0,
                             lyrics: single.lyrics || false,
                             sync: single.sync || false
                         }];
@@ -330,6 +333,7 @@ const convertToAndroidTrack = (arr = []) => {
                 Artist: single.Artist,
                 Duration: single.Duration,
                 url: single.url,
+                streamCount: 0,
                 lyrics: single.lyrics || false,
                 sync: single.sync || false
             });
@@ -351,6 +355,7 @@ const convertToAndroidTrack = (arr = []) => {
                     Artist: track.Artist,
                     Duration: track.Duration,
                     url: track.url,
+                    streamCount: 0,
                     lyrics: track.lyrics || false,
                     sync: track.sync || false
                 });
@@ -360,4 +365,68 @@ const convertToAndroidTrack = (arr = []) => {
     }, []);
 };
 exports.convertToAndroidTrack = convertToAndroidTrack;
+const convertToAndroidAlbumFromDB = (albums, tracks) => {
+    return albums.reduce((acc, each) => {
+        acc.push({
+            _albumId: String(each._albumId),
+            Album: each.Album,
+            AlbumArtist: String(each.AlbumArtist),
+            Type: each.Type,
+            Year: each.Year,
+            Color: each.Color,
+            LightColor: (each === null || each === void 0 ? void 0 : each.LightColor) || null,
+            DarkColor: (each === null || each === void 0 ? void 0 : each.DarkColor) || null,
+            Thumbnail: each.Thumbnail,
+            releaseDate: (0, moment_timezone_1.default)(each.releaseDate, "YYYY-MM-DD").toDate(),
+            Tracks: lodash_1.default.reduce(tracks, (acc, t) => {
+                if (String(t._albumId) !== String(each._albumId))
+                    return acc;
+                acc.push({
+                    _trackId: String(t._trackId),
+                    Title: each.Album,
+                    Artist: t.Artist,
+                    Duration: t.Duration,
+                    url: t.url,
+                    streamCount: t.streamCount,
+                    lyrics: t.lyrics || false,
+                    sync: t.sync || false
+                });
+                return acc;
+            }, [])
+        });
+        return acc;
+    }, []);
+};
+exports.convertToAndroidAlbumFromDB = convertToAndroidAlbumFromDB;
+const convertToAndroidTrackFromDB = (albums, tracks) => {
+    return lodash_1.default.reduce(tracks, (acc, each) => {
+        var _a;
+        const album = ((_a = (lodash_1.default.filter(albums, (a) => {
+            return String(a._albumId) === String(each._albumId);
+        }))) === null || _a === void 0 ? void 0 : _a[0]) || null;
+        if (lodash_1.default.isEmpty(album))
+            return acc;
+        acc.push({
+            _albumId: String(each._albumId),
+            Album: album.Album,
+            Color: album.Color,
+            LightColor: (album === null || album === void 0 ? void 0 : album.LightColor) || null,
+            DarkColor: (album === null || album === void 0 ? void 0 : album.DarkColor) || null,
+            Thumbnail: album.Thumbnail,
+            Year: album.Year,
+            Type: album.Type,
+            releaseDate: (0, moment_timezone_1.default)(album.releaseDate, "YYYY-MM-DD").toDate(),
+            _trackId: String(each._trackId),
+            Title: each.Title,
+            Artist: each.Artist,
+            Duration: each.Duration,
+            url: each.url,
+            streamCount: each.streamCount,
+            lyrics: (each === null || each === void 0 ? void 0 : each.lyrics) || false,
+            sync: (each === null || each === void 0 ? void 0 : each.sync) || false
+        });
+        return acc;
+    }, []);
+};
+exports.convertToAndroidTrackFromDB = convertToAndroidTrackFromDB;
 //# sourceMappingURL=utils.js.map

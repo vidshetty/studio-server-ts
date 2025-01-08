@@ -9,6 +9,7 @@ export interface Track {
     Artist: string;
     Duration: string;
     url: string;
+    streamCount?: number;
     lyrics?: boolean;
     sync?: boolean;
 };
@@ -17,7 +18,7 @@ export interface Album {
     _albumId: string;
     Album: string;
     AlbumArtist: string;
-    Type: string;
+    Type: "Album";
     Year: string;
     Color: string;
     LightColor?: string;
@@ -32,7 +33,7 @@ export interface Single {
     _trackId: string;
     Album: string;
     AlbumArtist: string;
-    Type: string;
+    Type: "Single";
     Year: string;
     Color: string;
     LightColor?: string;
@@ -207,6 +208,7 @@ export interface AndroidTrack {
     Artist: string;
     Duration: string;
     url: string;
+    streamCount: number;
     lyrics?: boolean;
     sync?: boolean;
 };

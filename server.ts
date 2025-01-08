@@ -19,70 +19,80 @@ import adminservice from "./admin-service";
 import androidservice from "./android-service";
 import accountsservice from "./finance-service";
 import { MongoAccountsHandler } from "./helpers/db-connection";
+import { MongoStudioHandler } from "./helpers/mongodb-connection";
 
 const app: Application = express();
-const PORT: number = parseInt(process.env.PORT || "5000");
+const PORT: number = parseInt(process.env.PORT || "5002");
 const PROTOCOL: string = process.env.PROTOCOL || "http";
 
-mongohandler();
-MongoAccountsHandler.initialize();
+
+
+(async () => {
+
+
+    mongohandler();
+    MongoAccountsHandler.initialize();
+
+    await MongoStudioHandler.initialize();
+
+
+    app.use(passport.initialize());
+    app.use(corshandler);
+    app.use(express.json());
 
 
 
-app.use(passport.initialize());
-app.use(corshandler);
-app.use(express.json());
-
-
-
-app.options("*", (_:Request, res:Response) => {
-    return res.status(200).end();
-});
-
-app.use("/admin", adminservice);
-
-app.use("/api/auth", authservice);
-
-app.use("/api", apiservice);
-
-app.use("/android", androidservice);
-
-app.use("/finance/accounts", accountsservice);
-
-app.get("/login/google", passport.authenticate("google", {
-    scope: ["profile","email"],
-    session: false
-}));
-
-app.get("/.well-known/assetlinks.json", (_:Request, response:Response) => {
-    const file_path = path.join(process.cwd(), "data", "assetlinks.json");
-    response.setHeader("Content-Type", "application/json");
-    response.sendFile(file_path);
-});
-
-app.use("/", staticservice);
-
-
-
-if (PROTOCOL === "http") {
-    http
-    .createServer(app)
-    .listen(PORT, () => {
-        console.log(`Running on http port ${PORT}`);
+    app.options("*", (_:Request, res:Response) => {
+        return res.status(200).end();
     });
-}
-else {
-    https.createServer(
-        {
-            key: fs.readFileSync(path.join(process.cwd(), "CERTIFICATES", "key.pem")),
-            cert: fs.readFileSync(path.join(process.cwd(), "CERTIFICATES", "cert.pem"))
-        },
-        app
-    )
-    .listen(PORT, () => {
-        console.log(`Running on https port ${PORT}`);
+
+    app.use("/admin", adminservice);
+
+    app.use("/api/auth", authservice);
+
+    app.use("/api", apiservice);
+
+    app.use("/android", androidservice);
+
+    app.use("/finance/accounts", accountsservice);
+
+    app.get("/login/google", passport.authenticate("google", {
+        scope: ["profile","email"],
+        session: false
+    }));
+
+    app.get("/.well-known/assetlinks.json", (_:Request, response:Response) => {
+        const file_path = path.join(process.cwd(), "data", "assetlinks.json");
+        response.setHeader("Content-Type", "application/json");
+        response.sendFile(file_path);
     });
-}
-// server.listen(PORT, () => {
-//     console.log(`Running on port ${PORT}`);
-// });
+
+    app.use("/", staticservice);
+
+
+
+    if (PROTOCOL === "http") {
+        http
+        .createServer(app)
+        .listen(PORT, () => {
+            console.log(`Running on http port ${PORT}`);
+        });
+    }
+    else {
+        https.createServer(
+            {
+                key: fs.readFileSync(path.join(process.cwd(), "CERTIFICATES", "key.pem")),
+                cert: fs.readFileSync(path.join(process.cwd(), "CERTIFICATES", "cert.pem"))
+            },
+            app
+        )
+        .listen(PORT, () => {
+            console.log(`Running on https port ${PORT}`);
+        });
+    }
+    // server.listen(PORT, () => {
+    //     console.log(`Running on port ${PORT}`);
+    // });
+
+
+})();

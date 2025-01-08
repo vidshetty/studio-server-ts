@@ -4,6 +4,8 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.demoVideosLink = exports.getLatestUpdate = exports.signOut = exports.getProfile = exports.activateCheck = exports.recordTime = exports.startRadio = exports.getLyrics = exports.removeFromRecentlyPlayed = exports.addToRecentlyPlayed = exports.search = exports.getAlbumDetails = exports.getTrackDetails = exports.getLibrary = exports.homeAlbums = exports.getTrack = exports.getAlbum = void 0;
+const lodash_1 = __importDefault(require("lodash"));
+const mongodb_1 = require("mongodb");
 const nodemailer_service_1 = require("../nodemailer-service");
 const Users_1 = require("../models/Users");
 const utils_1 = require("../helpers/utils");
@@ -11,6 +13,7 @@ const moment_timezone_1 = __importDefault(require("moment-timezone"));
 const path_1 = __importDefault(require("path"));
 const archiveGateway_1 = __importDefault(require("../data/archiveGateway"));
 const latestUpdate_1 = require("../data/latestUpdate");
+const mongodb_connection_1 = require("../helpers/mongodb-connection");
 const ALBUM_MAP = archiveGateway_1.default.reduce((acc, each) => {
     acc[each._albumId] = each;
     return acc;
@@ -417,9 +420,9 @@ const search = async (request, _) => {
     return { songs, albums, artists: [] };
 };
 exports.search = search;
-const addToRecentlyPlayed = async (request, _) => {
+const addToRecentlyPlayed = async (request) => {
     const { id: userId } = request.ACCOUNT;
-    const { albumId } = request.body;
+    const { albumId, trackId } = request.body;
     const user = await Users_1.Users.findOne({ _id: userId });
     if (!user)
         return;
@@ -433,6 +436,12 @@ const addToRecentlyPlayed = async (request, _) => {
         recents[index].last = (0, moment_timezone_1.default)().tz(utils_1.timezone).toDate();
     }
     await Object.assign(user, { recentlyPlayed: recents }).save();
+    const { Tracks } = mongodb_connection_1.MongoStudioHandler.getCollectionSet();
+    await Tracks.updateOne({
+        _trackId: lodash_1.default.isEmpty(trackId) ?
+            (lodash_1.default.isEmpty(albumId) ? null : new mongodb_1.ObjectId(albumId)) :
+            new mongodb_1.ObjectId(trackId)
+    }, { $inc: { streamCount: 1 } });
     return;
 };
 exports.addToRecentlyPlayed = addToRecentlyPlayed;
