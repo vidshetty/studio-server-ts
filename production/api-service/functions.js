@@ -7,7 +7,6 @@ exports.demoVideosLink = exports.getLatestUpdate = exports.signOut = exports.get
 const lodash_1 = __importDefault(require("lodash"));
 const mongodb_1 = require("mongodb");
 const nodemailer_service_1 = require("../nodemailer-service");
-const Users_1 = require("../models/Users");
 const utils_1 = require("../helpers/utils");
 const moment_timezone_1 = __importDefault(require("moment-timezone"));
 const path_1 = __importDefault(require("path"));
@@ -74,9 +73,12 @@ const __distribute = (list, type) => {
     return { 1: list };
 };
 const inspectRecentlyPlayed = async (userId) => {
+    const { Users } = mongodb_connection_1.MongoStudioHandler.getCollectionSet();
     if (!userId)
         return;
-    const user = await Users_1.Users.findOne({ _id: userId });
+    const user = await Users.findOne({
+        _id: new mongodb_1.ObjectId(userId)
+    });
     if (!user)
         return;
     const { recentlyPlayed } = user;
@@ -104,14 +106,19 @@ const inspectRecentlyPlayed = async (userId) => {
             acc.push(each);
         return acc;
     }, []);
-    await Object.assign(user, {
+    Object.assign(user, {
         recentlyPlayed: modifiedRecents,
-        recentsLastModified: shouldModify ? (0, moment_timezone_1.default)().tz(utils_1.timezone).startOf("d").toDate() :
+        recentsLastModified: shouldModify ?
+            (0, moment_timezone_1.default)().tz(utils_1.timezone).startOf("d").toDate() :
             recentsLastModified
-    }).save();
+    });
+    await Users.updateOne({ _id: new mongodb_1.ObjectId(user._id) }, { $set: user });
 };
 const getMostPlayed = async (userId) => {
-    const user = await Users_1.Users.findOne({ _id: userId }).lean();
+    const { Users } = mongodb_connection_1.MongoStudioHandler.getCollectionSet();
+    const user = await Users.findOne({
+        _id: new mongodb_1.ObjectId(userId)
+    });
     let { recentlyPlayed: recents } = user;
     recents = recents.sort(compareRecents);
     recents = recents.slice(0, 6);
@@ -224,7 +231,10 @@ const getAlbums = (name) => {
     }, []);
 };
 const __qr = async (toBeExcluded, userId) => {
-    const user = await Users_1.Users.findOne({ _id: userId });
+    const { Users } = mongodb_connection_1.MongoStudioHandler.getCollectionSet();
+    const user = await Users.findOne({
+        _id: new mongodb_1.ObjectId(userId)
+    });
     if (!user)
         return [];
     const { recentlyPlayed: recents = [] } = user;
@@ -282,7 +292,10 @@ const __qr = async (toBeExcluded, userId) => {
     return finalArr;
 };
 const __rp = async (toBeExcluded, userId) => {
-    const user = await Users_1.Users.findOne({ _id: userId });
+    const { Users } = mongodb_connection_1.MongoStudioHandler.getCollectionSet();
+    const user = await Users.findOne({
+        _id: new mongodb_1.ObjectId(userId)
+    });
     if (!user)
         return [];
     const { recentlyPlayed: recents } = user;
@@ -435,9 +448,12 @@ const search = async (request, _) => {
 };
 exports.search = search;
 const addToRecentlyPlayed = async (request) => {
+    const { Users } = mongodb_connection_1.MongoStudioHandler.getCollectionSet();
     const { id: userId } = request.ACCOUNT;
     const { albumId, trackId } = request.body;
-    const user = await Users_1.Users.findOne({ _id: userId });
+    const user = await Users.findOne({
+        _id: new mongodb_1.ObjectId(userId)
+    });
     if (!user)
         return;
     const { recentlyPlayed: recents } = user;
@@ -449,7 +465,8 @@ const addToRecentlyPlayed = async (request) => {
         recents[index].frequency++;
         recents[index].last = (0, moment_timezone_1.default)().tz(utils_1.timezone).toDate();
     }
-    await Object.assign(user, { recentlyPlayed: recents }).save();
+    Object.assign(user, { recentlyPlayed: recents });
+    await Users.updateOne({ _id: new mongodb_1.ObjectId(user._id) }, { $set: user });
     const { Tracks } = mongodb_connection_1.MongoStudioHandler.getCollectionSet();
     await Tracks.updateOne({
         _trackId: lodash_1.default.isEmpty(trackId) ?
@@ -460,16 +477,20 @@ const addToRecentlyPlayed = async (request) => {
 };
 exports.addToRecentlyPlayed = addToRecentlyPlayed;
 const removeFromRecentlyPlayed = async (request, _) => {
+    const { Users } = mongodb_connection_1.MongoStudioHandler.getCollectionSet();
     const { id: userId } = request.ACCOUNT;
     const { albumId } = request.body;
-    const user = await Users_1.Users.findOne({ _id: userId });
+    const user = await Users.findOne({
+        _id: new mongodb_1.ObjectId(userId)
+    });
     if (!user)
         return;
     const { recentlyPlayed: recents } = user;
     const index = recents.findIndex(each => each.albumId === albumId);
     if (index > -1) {
         recents.splice(index, 1);
-        await Object.assign(user, { recentlyPlayed: recents }).save();
+        Object.assign(user, { recentlyPlayed: recents });
+        await Users.updateOne({ _id: new mongodb_1.ObjectId(user._id) }, { $set: user });
     }
     return;
 };
@@ -542,10 +563,13 @@ const activateCheck = async (request, _) => {
 };
 exports.activateCheck = activateCheck;
 const getProfile = async (request, _) => {
+    const { Users } = mongodb_connection_1.MongoStudioHandler.getCollectionSet();
     const { id: userId } = request.ACCOUNT;
     const { from = "" } = request.query;
     const songlist = archiveGateway_1.default;
-    const user = await Users_1.Users.findOne({ _id: userId });
+    const user = await Users.findOne({
+        _id: new mongodb_1.ObjectId(userId)
+    });
     if (!user)
         return {};
     const { googleAccount, accountAccess } = user;
@@ -570,9 +594,12 @@ const getProfile = async (request, _) => {
 };
 exports.getProfile = getProfile;
 const signOut = async (request, response) => {
+    const { Users } = mongodb_connection_1.MongoStudioHandler.getCollectionSet();
     const { ACCOUNT, result } = request;
     const { sessionId = null } = result;
-    const user = await Users_1.Users.findOne({ _id: ACCOUNT.id });
+    const user = await Users.findOne({
+        _id: new mongodb_1.ObjectId(ACCOUNT.id)
+    });
     if (!user)
         return { success: false };
     const { activeSessions = [] } = user;
@@ -581,7 +608,7 @@ const signOut = async (request, response) => {
             return each.sessionId !== sessionId;
         })
     });
-    await user.save();
+    await Users.updateOne({ _id: new mongodb_1.ObjectId(user._id) }, { $set: user });
     response.clearCookie("ACCOUNT", utils_1.standardCookieConfig);
     response.clearCookie("ACCOUNT_REFRESH", utils_1.standardCookieConfig);
     response.clearCookie("REDIRECT_URI", utils_1.redirectUriCookieConfig);

@@ -1,25 +1,24 @@
 import "source-map-support/register";
+import express, { Application, Request, Response } from "express";
 import { config } from "dotenv";
 import path from "path";
 import fs from "fs";
-config({ path: path.join(process.cwd(), "ENV", ".env") });
-
-import express, { Application, Request, Response } from "express";
 import passport from "passport";
 import https from "https";
 import http from "http";
+
+config({ path: path.join(process.cwd(), "ENV", ".env") });
+
 import "./nodemailer-service";
 import "./passport-service";
 import staticservice from "./helpers/static-content";
-import mongohandler from "./helpers/mongohandler";
 import corshandler from "./helpers/corshandler";
 import authservice from "./auth-service";
 import apiservice from "./api-service";
 import adminservice from "./admin-service";
 import androidservice from "./android-service";
-import accountsservice from "./finance-service";
-import { MongoAccountsHandler } from "./helpers/db-connection";
 import { MongoStudioHandler } from "./helpers/mongodb-connection";
+
 
 const app: Application = express();
 const PORT: number = parseInt(process.env.PORT || "5000");
@@ -30,8 +29,6 @@ const PROTOCOL: string = process.env.PROTOCOL || "http";
 (async () => {
 
 
-    mongohandler();
-    MongoAccountsHandler.initialize();
 
     await MongoStudioHandler.initialize();
 
@@ -39,7 +36,6 @@ const PROTOCOL: string = process.env.PROTOCOL || "http";
     app.use(passport.initialize());
     app.use(corshandler);
     app.use(express.json());
-
 
 
     app.options("*", (_:Request, res:Response) => {
@@ -54,8 +50,6 @@ const PROTOCOL: string = process.env.PROTOCOL || "http";
 
     app.use("/android", androidservice);
 
-    app.use("/finance/accounts", accountsservice);
-
     app.get("/login/google", passport.authenticate("google", {
         scope: ["profile","email"],
         session: false
@@ -68,7 +62,6 @@ const PROTOCOL: string = process.env.PROTOCOL || "http";
     });
 
     app.use("/", staticservice);
-
 
 
     if (PROTOCOL === "http") {
@@ -90,9 +83,7 @@ const PROTOCOL: string = process.env.PROTOCOL || "http";
             console.log(`Running on https port ${PORT}`);
         });
     }
-    // server.listen(PORT, () => {
-    //     console.log(`Running on port ${PORT}`);
-    // });
+
 
 
 })();

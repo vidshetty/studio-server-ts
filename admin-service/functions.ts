@@ -1,14 +1,14 @@
-import { Users } from "../models/Users";
 import { Request, Response } from "express";
 import moment from "moment-timezone";
 import path from "path";
+import _ from "lodash";
 import { ObjectId } from "mongodb";
 import {
-    UserInterface,
     AlbumList,
     Album,
     Single,
-    SpotifyLyrics
+    SpotifyLyrics,
+    ActiveSession
 } from "../helpers/interfaces";
 import { sendEmail } from "../nodemailer-service";
 import ALBUMLIST from "../data/archiveGateway";
@@ -23,7 +23,7 @@ import {
     defaultUserId
 } from "../helpers/utils";
 import { MongoStudioHandler } from "../helpers/mongodb-connection";
-import { AlbumSchema, TracksSchema } from "../helpers/schema";
+import { AlbumSchema, TracksSchema, UserSchema } from "../helpers/schema";
 
 
 interface updateBody {
@@ -39,7 +39,7 @@ interface RequestQuery {
     id?: string | string[];
 }
 
-const emailUser = async (user: UserInterface) => {
+const emailUser = async (user: UserSchema) => {
 
     try {
 
@@ -87,6 +87,8 @@ const emailUser = async (user: UserInterface) => {
 
 export const update = async (request: Request, _:any) => {
 
+    const { Users } = MongoStudioHandler.getCollectionSet();
+
     const body: updateBody = {
         email: request.body.email || "",
         duration: request.body.duration || "",
@@ -115,9 +117,9 @@ export const update = async (request: Request, _:any) => {
         body.duration = secs;
     }
 
-    const user: UserInterface | null = await Users.findOne({
+    const user = await Users.findOne({
         "googleAccount.email": email
-    });
+    }) as UserSchema | null;
 
     if (!user) return { msg: "No such user." };
 
@@ -129,13 +131,16 @@ export const update = async (request: Request, _:any) => {
             ...body,
             timeLimit: null
         },
-        activeSessions: activeSessions.map(each => {
+        activeSessions: _.map(activeSessions, (each: ActiveSession) => {
             each.seen = false;
             return each;
         })
     });
 
-    await user.save();
+    await Users.updateOne(
+        { _id: new ObjectId(user._id) },
+        { $set: user }
+    );
 
     if (sendEmail) {
         const sent = await emailUser(user);
@@ -148,7 +153,11 @@ export const update = async (request: Request, _:any) => {
 
 export const getUser = async (_:any, _1:any) => {
 
-    const user: UserInterface | null = await Users.findOne({ _id: defaultUserId });
+    const { Users } = MongoStudioHandler.getCollectionSet();
+
+    const user = await Users.findOne({
+        _id: new ObjectId(defaultUserId)
+    }) as UserSchema | null;
 
     if (!user) return {};
 
@@ -196,15 +205,17 @@ export const getAlbum = async (request: Request, _:any) => {
 
 };
 
-export const deleteAlbumFromRecents = async (request: Request, _:any) => {
+export const deleteAlbumFromRecents = async (request: Request) => {
 
-    const { id }: RequestQuery = request.query as unknown as RequestQuery;
+    const { Users } = MongoStudioHandler.getCollectionSet();
 
-    if (!id) return false;
+    const { id } = request.query as unknown as { id: string | string[] | undefined; };
 
-    const allIds: string[] = Array.isArray(id) ? id : [id];
+    if (_.isEmpty(id)) return false;
 
-    const allUsers: UserInterface[] = await Users.find();
+    const allIds = (_.isArray(id) ? id : [id]) as string[];
+
+    const allUsers = await Users.find({}).toArray() as UserSchema[];
 
     for (let i=0; i<allUsers.length; i++) {
 
@@ -217,9 +228,19 @@ export const deleteAlbumFromRecents = async (request: Request, _:any) => {
         }, []);
 
         if (toBeRemoved.length > 0) {
+            // await Users.updateOne(
+            //     { _id: userId },
+            //     { $pull: { recentlyPlayed: { albumId: { $in: toBeRemoved } } } }
+            // );
             await Users.updateOne(
-                { _id: userId },
-                { $pull: { recentlyPlayed: { albumId: { $in: toBeRemoved } } } }
+                { _id: new ObjectId(userId) },
+                {
+                    $set: {
+                        recentlyPlayed: _.filter(recents, e => {
+                            return !toBeRemoved.includes(e.albumId);
+                        })
+                    }
+                }
             );
         }
 

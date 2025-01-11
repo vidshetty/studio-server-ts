@@ -4,7 +4,8 @@ exports.MongoStudioHandler = void 0;
 const mongodb_1 = require("mongodb");
 const Collection = Object.freeze({
     ALBUMS: "albums",
-    TRACKS: "tracks"
+    TRACKS: "tracks",
+    USERS: "users"
 });
 class MongoStudioHandler {
     // initialise
@@ -22,12 +23,14 @@ class MongoStudioHandler {
             " with preference " + this.__db.readPreference.preference);
         this.__Albums = this.__db.collection(Collection.ALBUMS);
         this.__Tracks = this.__db.collection(Collection.TRACKS);
+        this.__Users = this.__db.collection(Collection.USERS);
     }
     ;
     static getCollectionSet() {
         return Object.freeze({
             Albums: this.__Albums,
-            Tracks: this.__Tracks
+            Tracks: this.__Tracks,
+            Users: this.__Users
         });
     }
 }

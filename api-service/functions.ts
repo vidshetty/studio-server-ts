@@ -3,13 +3,11 @@ import _ from "lodash";
 import { ObjectId } from "mongodb";
 import { NodemailerOptions } from "../helpers/interfaces";
 import { sendEmail } from "../nodemailer-service";
-import { Users } from "../models/Users";
 import {
     AlbumlistMap,
     AlbumList,
     Album,
     Single,
-    UserInterface,
     RecentlyPlayed,
     ModifiedAlbumList,
     AlbumWithTrack,
@@ -31,7 +29,7 @@ import path from "path";
 import ALBUMLIST from "../data/archiveGateway";
 import { LATEST_APP_UPDATE } from "../data/latestUpdate";
 import { MongoStudioHandler } from "../helpers/mongodb-connection";
-import { TracksSchema } from "../helpers/schema";
+import { TracksSchema, UserSchema } from "../helpers/schema";
 
 
 interface RecentsMap {
@@ -117,8 +115,12 @@ const __distribute = (list: AlbumList[], type: string) => {
 
 const inspectRecentlyPlayed = async (userId: string) => {
 
+    const { Users } = MongoStudioHandler.getCollectionSet();
+
     if (!userId) return;
-    const user: UserInterface | null = await Users.findOne({ _id: userId });
+    const user = await Users.findOne({
+        _id: new ObjectId(userId)
+    }) as UserSchema | null;
     if (!user) return;
 
     const { recentlyPlayed } = user;
@@ -154,17 +156,27 @@ const inspectRecentlyPlayed = async (userId: string) => {
     }, []);
 
 
-    await Object.assign(user, {
+    Object.assign(user, {
         recentlyPlayed: modifiedRecents,
-        recentsLastModified: shouldModify ? moment().tz(timezone).startOf("d").toDate() :
-                            recentsLastModified
-    }).save();
+        recentsLastModified: shouldModify ?
+            moment().tz(timezone).startOf("d").toDate() :
+            recentsLastModified
+    });
+
+    await Users.updateOne(
+        { _id: new ObjectId(user._id) },
+        { $set: user }
+    );
 
 };
 
 const getMostPlayed = async (userId: string): Promise<AlbumList[]> => {
 
-    const user: UserInterface = await Users.findOne({ _id: userId }).lean();
+    const { Users } = MongoStudioHandler.getCollectionSet();
+
+    const user = await Users.findOne({
+        _id: new ObjectId(userId)
+    }) as UserSchema;
 
     let { recentlyPlayed: recents } = user;
 
@@ -331,7 +343,11 @@ const getAlbums = (name: string): AlbumList[] => {
 
 const __qr = async (toBeExcluded: string, userId: string): Promise<(AlbumWithTrack|Single)[]> => {
 
-    const user: UserInterface | null = await Users.findOne({ _id: userId });
+    const { Users } = MongoStudioHandler.getCollectionSet();
+
+    const user = await Users.findOne({
+        _id: new ObjectId(userId)
+    }) as UserSchema | null;
 
     if (!user) return [];
 
@@ -401,7 +417,11 @@ const __qr = async (toBeExcluded: string, userId: string): Promise<(AlbumWithTra
 
 const __rp = async (toBeExcluded: string, userId: string): Promise<(AlbumWithTrack|Single)[]> => {
 
-    const user: UserInterface | null = await Users.findOne({ _id: userId });
+    const { Users } = MongoStudioHandler.getCollectionSet();
+
+    const user = await Users.findOne({
+        _id: new ObjectId(userId)
+    }) as UserSchema | null;
 
     if (!user) return [];
 
@@ -602,10 +622,14 @@ export const search = async (request: Request, _:any) => {
 
 export const addToRecentlyPlayed = async (request: Request) => {
 
+    const { Users } = MongoStudioHandler.getCollectionSet();
+
     const { id: userId } = request.ACCOUNT;
     const { albumId, trackId }: { albumId: string; trackId: string; } = request.body;
 
-    const user: UserInterface | null = await Users.findOne({ _id: userId });
+    const user = await Users.findOne({
+        _id: new ObjectId(userId)
+    }) as UserSchema | null;
 
     if (!user) return;
 
@@ -620,7 +644,12 @@ export const addToRecentlyPlayed = async (request: Request) => {
         recents[index].last = moment().tz(timezone).toDate();
     }
 
-    await Object.assign(user, { recentlyPlayed: recents }).save();
+    Object.assign(user, { recentlyPlayed: recents });
+
+    await Users.updateOne(
+        { _id: new ObjectId(user._id) },
+        { $set: user }
+    );
 
     const { Tracks } = MongoStudioHandler.getCollectionSet();
 
@@ -639,10 +668,14 @@ export const addToRecentlyPlayed = async (request: Request) => {
 
 export const removeFromRecentlyPlayed = async (request: Request, _:any) => {
 
+    const { Users } = MongoStudioHandler.getCollectionSet();
+
     const { id: userId } = request.ACCOUNT;
     const { albumId }: { albumId: string } = request.body;
 
-    const user: UserInterface | null = await Users.findOne({ _id: userId });
+    const user = await Users.findOne({
+        _id: new ObjectId(userId)
+    }) as UserSchema | null;
 
     if (!user) return;
 
@@ -652,7 +685,11 @@ export const removeFromRecentlyPlayed = async (request: Request, _:any) => {
 
     if (index > -1) {
         recents.splice(index, 1);
-        await Object.assign(user, { recentlyPlayed: recents }).save();
+        Object.assign(user, { recentlyPlayed: recents });
+        await Users.updateOne(
+            { _id: new ObjectId(user._id) },
+            { $set: user }
+        );
     }
 
     return;
@@ -763,11 +800,16 @@ export const activateCheck = async (request: Request, _:any) => {
 
 export const getProfile = async (request: Request, _:any) => {
 
+    const { Users } = MongoStudioHandler.getCollectionSet();
+
     const { id: userId } = request.ACCOUNT;
     const { from = "" } = request.query;
 
     const songlist = ALBUMLIST;
-    const user: UserInterface | null = await Users.findOne({ _id: userId });
+
+    const user = await Users.findOne({
+        _id: new ObjectId(userId)
+    }) as UserSchema | null;
 
     if (!user) return {};
 
@@ -801,10 +843,14 @@ export const getProfile = async (request: Request, _:any) => {
 
 export const signOut = async (request: Request, response: Response) => {
 
+    const { Users } = MongoStudioHandler.getCollectionSet();
+
     const { ACCOUNT, result } = request;
     const { sessionId = null } = result;
 
-    const user: UserInterface | null = await Users.findOne({ _id: ACCOUNT.id });
+    const user = await Users.findOne({
+        _id: new ObjectId(ACCOUNT.id)
+    }) as UserSchema | null;
 
     if (!user) return { success: false };
 
@@ -816,7 +862,10 @@ export const signOut = async (request: Request, response: Response) => {
         })
     });
 
-    await user.save();
+    await Users.updateOne(
+        { _id: new ObjectId(user._id) },
+        { $set: user }
+    );
 
     response.clearCookie("ACCOUNT", standardCookieConfig);
     response.clearCookie("ACCOUNT_REFRESH", standardCookieConfig);

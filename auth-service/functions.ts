@@ -3,7 +3,6 @@ import { v4 as uuidv4 } from "uuid";
 import jwt from "jsonwebtoken";
 import path from "path";
 import moment, { Duration } from "moment-timezone";
-import { Users } from "../models/Users";
 import {
     server,
     defaultAccess,
@@ -27,7 +26,6 @@ import {
     PLAYER_URL
 } from "../helpers/utils";
 import {
-    UserInterface,
     JwtPayload,
     RefreshTokenResponse,
     FoundResponse,
@@ -38,6 +36,8 @@ import {
 } from "../helpers/interfaces";
 import { sendEmail } from "../nodemailer-service";
 import { ObjectId } from "mongodb";
+import { MongoStudioHandler } from "../helpers/mongodb-connection";
+import { UserSchema } from "../helpers/schema";
 
 
 
@@ -50,12 +50,16 @@ interface RequestQuery {
 
 const __verifyAccessToken = async (token: string): Promise<FoundResponse> => {
 
+    const { Users } = MongoStudioHandler.getCollectionSet();
+
     const obj: JwtPayload = jwt.verify(token, ACCESS_TOKEN_SECRET) as JwtPayload;
     const { _id, sessionId = null } = obj;
 
     if (sessionId === null) return { found: false, id: null, user: null };
 
-    const user: UserInterface | null = await Users.findOne({ _id });
+    const user = await Users.findOne({
+        _id: new ObjectId(_id)
+    }) as UserSchema | null;
 
     if (!user) return { found: false, id: null, user: null };
 
@@ -71,6 +75,8 @@ const __verifyAccessToken = async (token: string): Promise<FoundResponse> => {
 
 const __generateAccessToken = async (token: string): Promise<RefreshTokenResponse> => {
 
+    const { Users } = MongoStudioHandler.getCollectionSet();
+
     let payload: JwtPayload;
 
     try {
@@ -80,12 +86,14 @@ const __generateAccessToken = async (token: string): Promise<RefreshTokenRespons
         throw e;
     }
 
-    const user: UserInterface | null = await Users.findOne({ _id: payload._id });
+    const user = await Users.findOne({
+        _id: new ObjectId(payload._id)
+    }) as UserSchema | null;
 
     if (!user) return { accessToken: null, id: null };
     
     const newPayLoad: JwtPayload = {
-        _id: user._id,
+        _id: String(user._id),
         email: user.googleAccount.email,
         sessionId: payload.sessionId
     };
@@ -139,7 +147,7 @@ const __notifyAdmin = async (googleAccount: GoogleProfileInfo, type: String) => 
 
 };
 
-const __notifyUser = async (user: UserInterface, type: String) => {
+const __notifyUser = async (user: UserSchema, type: String) => {
 
     try {
 
@@ -188,8 +196,10 @@ const __notifyUser = async (user: UserInterface, type: String) => {
 
 const __setExpired = async (userId: string) => {
 
+    const { Users } = MongoStudioHandler.getCollectionSet();
+
     const update = await Users.updateOne(
-        { _id: userId },
+        { _id: new ObjectId(userId) },
         { "accountAccess.type": "expired" }
     );
 
@@ -198,9 +208,13 @@ const __setExpired = async (userId: string) => {
 
 export const googleAuthCheck = async (request: Request, response: Response, next: NextFunction) => {
 
+    const { Users } = MongoStudioHandler.getCollectionSet();
+
     const { sub, name, picture, email, email_verified }: any = request.user?._json;
 
-    let user: UserInterface | null = await Users.findOne({ "email.id": email });
+    let user = await Users.findOne({
+        "email.id": email
+    }) as UserSchema | null;
 
     const sessionId: string = uuidv4();
     
@@ -226,10 +240,13 @@ export const googleAuthCheck = async (request: Request, response: Response, next
             activeSessions: activeSessions.slice(0, 5)
         });
 
-        await user.save();
+        await Users.updateOne(
+            { _id: new ObjectId(user._id) },
+            { $set: user }
+        );
 
         response.user = {
-            _id: user._id || "",
+            _id: String(user._id || ""),
             error: false
         };
 
@@ -241,7 +258,7 @@ export const googleAuthCheck = async (request: Request, response: Response, next
 
         //signup
 
-        const new_user = await new Users({
+        const new_user: UserSchema = {
             _id: new ObjectId(),
             username: null,
             accountAccess: {
@@ -261,12 +278,20 @@ export const googleAuthCheck = async (request: Request, response: Response, next
                 device: getDevice(request),
                 sessionId,
                 lastUsed: getCurrentTime()
-            }]
-        });
+            }],
+            password: {
+                key: ""
+            },
+            recentsLastModified: null,
+            recentlyPlayed: [],
+            installedVersion: null
+        };
 
-        (new_user?.save() as unknown as UserInterface);
+        await Users.insertOne(new_user);
 
-        user = new_user as unknown as UserInterface;
+        user = await Users.findOne({
+            _id: new ObjectId(new_user._id)
+        }) as UserSchema;
 
         response.user = {
             _id: String(user?._id || ""),
@@ -384,6 +409,8 @@ export const apiAuthCheck = async (request: Request, response: Response, next: N
 
 export const apiAccessCheck = async (request: Request, response: Response, next: NextFunction) => {
 
+    const { Users } = MongoStudioHandler.getCollectionSet();
+
     const { result } = request;
     const { found, id, user, sessionId = null } = result;
 
@@ -399,13 +426,18 @@ export const apiAccessCheck = async (request: Request, response: Response, next:
 
     const { seen = false } = curSession || {};
 
-    await Object.assign(user, {
+    Object.assign(user, {
         activeSessions: activeSessions.map(each => {
             if (each.sessionId !== sessionId) return each;
             each.lastUsed = getCurrentTime();
             return each;
         })
-    }).save();
+    });
+
+    await Users.updateOne(
+        { _id: new ObjectId(user._id) },
+        { $set: user }
+    );
 
     if (type === "under_review" || type === "revoked" || !seen) {
         // const uid = await __uidToRedirect(user._id);
@@ -499,6 +531,8 @@ export const rootAccessCheck = async (request: Request, response: Response, next
 
 export const oauthCheck = async (request: Request, _:any) => {
 
+    const { Users } = MongoStudioHandler.getCollectionSet();
+
     const { userId }: { userId: string } = request.body;
 
     const { found, user: userFromCookie, sessionId = null } = await __cookieFound(request);
@@ -506,7 +540,9 @@ export const oauthCheck = async (request: Request, _:any) => {
     if (!found || !userFromCookie) return { error: true };
     if (String(userFromCookie._id) !== userId) return { error: true };
 
-    const user: UserInterface | null = await Users.findOne({ _id: userId });
+    const user = await Users.findOne({
+        _id: new ObjectId(userId)
+    }) as UserSchema | null;
 
     if (!user) return { error: true };
 
@@ -593,6 +629,8 @@ export const oauthCheck = async (request: Request, _:any) => {
 
 export const continueAuthSignin = async (request: Request, response: Response) => {
 
+    const { Users } = MongoStudioHandler.getCollectionSet();
+
     const { username, userId }: { username: string, userId: string } = request.body;
 
     const { found, user: userFromCookie, sessionId = null } = await __cookieFound(request);
@@ -600,7 +638,9 @@ export const continueAuthSignin = async (request: Request, response: Response) =
     if (!found || !userFromCookie) return { error: true };
     if (String(userFromCookie._id) !== userId) return { error: true };
 
-    const user: UserInterface | null = await Users.findOne({ _id: userId });
+    const user = await Users.findOne({
+        _id: new ObjectId(userId)
+    }) as UserSchema | null;
 
     if (!user) return { error: true };
 
@@ -626,7 +666,10 @@ export const continueAuthSignin = async (request: Request, response: Response) =
         activeSessions
     });
     
-    await user.save();
+    await Users.updateOne(
+        { _id: new ObjectId(user._id) },
+        { $set: user }
+    );
 
     const redirectUri = checkRedirectUri(request);
     if (redirectUri !== null) response.clearCookie("REDIRECT_URI", redirectUriCookieConfig);
@@ -647,6 +690,8 @@ export const continueAuthSignin = async (request: Request, response: Response) =
 
 export const signOut = async (request: Request, response: Response) => {
 
+    const { Users } = MongoStudioHandler.getCollectionSet();
+
     const { userId }: { userId: string } = request.body;
 
     const { found, user: userFromCookie, sessionId = null } = await __cookieFound(request);
@@ -654,7 +699,9 @@ export const signOut = async (request: Request, response: Response) => {
     if (!found || !userFromCookie) return { error: true };
     if (String(userFromCookie._id) !== userId) return { error: true };
 
-    const user: UserInterface | null = await Users.findOne({ _id: userId });
+    const user = await Users.findOne({
+        _id: new ObjectId(userId)
+    }) as UserSchema | null;
 
     if (!user) return { success: false };
 
@@ -666,7 +713,10 @@ export const signOut = async (request: Request, response: Response) => {
         })
     });
 
-    await user.save();
+    await Users.updateOne(
+        { _id: new ObjectId(user._id) },
+        { $set: user }
+    );
 
     response.clearCookie("ACCOUNT", standardCookieConfig);
     response.clearCookie("ACCOUNT_REFRESH", standardCookieConfig);
@@ -708,6 +758,8 @@ export const androidApiAuthCheck = async (request: Request, _: Response, next: N
 
 export const androidApiAccessCheck = async (request: Request, _: Response, next: NextFunction) => {
 
+    const { Users } = MongoStudioHandler.getCollectionSet();
+
     const { result } = request;
     const { found, id, user, sessionId = null } = result;
 
@@ -730,13 +782,18 @@ export const androidApiAccessCheck = async (request: Request, _: Response, next:
 
     const { seen = false } = curSession || {};
 
-    await Object.assign(user, {
+    Object.assign(user, {
         activeSessions: activeSessions.map(each => {
             if (each.sessionId !== sessionId) return each;
             each.lastUsed = getCurrentTime();
             return each;
         })
-    }).save();
+    });
+
+    await Users.updateOne(
+        { _id: new ObjectId(user._id) },
+        { $set: user }
+    );
 
     if (type === "under_review" || type === "revoked" || !seen) {
         return next(err2);

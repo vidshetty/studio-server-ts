@@ -8,19 +8,22 @@ const uuid_1 = require("uuid");
 const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
 const path_1 = __importDefault(require("path"));
 const moment_timezone_1 = __importDefault(require("moment-timezone"));
-const Users_1 = require("../models/Users");
 const utils_1 = require("../helpers/utils");
 const nodemailer_service_1 = require("../nodemailer-service");
 const mongodb_1 = require("mongodb");
+const mongodb_connection_1 = require("../helpers/mongodb-connection");
 const ACCESS_TOKEN_SECRET = (0, utils_1.ENV)("ACCESS_TOKEN_SECRET");
 const REFRESH_TOKEN_SECRET = (0, utils_1.ENV)("REFRESH_TOKEN_SECRET");
 ;
 const __verifyAccessToken = async (token) => {
+    const { Users } = mongodb_connection_1.MongoStudioHandler.getCollectionSet();
     const obj = jsonwebtoken_1.default.verify(token, ACCESS_TOKEN_SECRET);
     const { _id, sessionId = null } = obj;
     if (sessionId === null)
         return { found: false, id: null, user: null };
-    const user = await Users_1.Users.findOne({ _id });
+    const user = await Users.findOne({
+        _id: new mongodb_1.ObjectId(_id)
+    });
     if (!user)
         return { found: false, id: null, user: null };
     const index = user.activeSessions.findIndex(each => {
@@ -31,6 +34,7 @@ const __verifyAccessToken = async (token) => {
     return { found: true, id: _id, user, sessionId };
 };
 const __generateAccessToken = async (token) => {
+    const { Users } = mongodb_connection_1.MongoStudioHandler.getCollectionSet();
     let payload;
     try {
         payload = jsonwebtoken_1.default.verify(token, REFRESH_TOKEN_SECRET);
@@ -38,11 +42,13 @@ const __generateAccessToken = async (token) => {
     catch (e) {
         throw e;
     }
-    const user = await Users_1.Users.findOne({ _id: payload._id });
+    const user = await Users.findOne({
+        _id: new mongodb_1.ObjectId(payload._id)
+    });
     if (!user)
         return { accessToken: null, id: null };
     const newPayLoad = {
-        _id: user._id,
+        _id: String(user._id),
         email: user.googleAccount.email,
         sessionId: payload.sessionId
     };
@@ -117,12 +123,16 @@ const __notifyUser = async (user, type) => {
     }
 };
 const __setExpired = async (userId) => {
-    const update = await Users_1.Users.updateOne({ _id: userId }, { "accountAccess.type": "expired" });
+    const { Users } = mongodb_connection_1.MongoStudioHandler.getCollectionSet();
+    const update = await Users.updateOne({ _id: new mongodb_1.ObjectId(userId) }, { "accountAccess.type": "expired" });
 };
 const googleAuthCheck = async (request, response, next) => {
     var _a;
+    const { Users } = mongodb_connection_1.MongoStudioHandler.getCollectionSet();
     const { sub, name, picture, email, email_verified } = (_a = request.user) === null || _a === void 0 ? void 0 : _a._json;
-    let user = await Users_1.Users.findOne({ "email.id": email });
+    let user = await Users.findOne({
+        "email.id": email
+    });
     const sessionId = (0, uuid_1.v4)();
     if (user) {
         const { activeSessions = [] } = user;
@@ -139,9 +149,9 @@ const googleAuthCheck = async (request, response, next) => {
                 picture }),
             activeSessions: activeSessions.slice(0, 5)
         });
-        await user.save();
+        await Users.updateOne({ _id: new mongodb_1.ObjectId(user._id) }, { $set: user });
         response.user = {
-            _id: user._id || "",
+            _id: String(user._id || ""),
             error: false
         };
         __notifyAdmin(user.googleAccount, "login");
@@ -150,7 +160,7 @@ const googleAuthCheck = async (request, response, next) => {
     }
     else {
         //signup
-        const new_user = await new Users_1.Users({
+        const new_user = {
             _id: new mongodb_1.ObjectId(),
             username: null,
             accountAccess: {
@@ -170,10 +180,18 @@ const googleAuthCheck = async (request, response, next) => {
                     device: (0, utils_1.getDevice)(request),
                     sessionId,
                     lastUsed: (0, utils_1.getCurrentTime)()
-                }]
+                }],
+            password: {
+                key: ""
+            },
+            recentsLastModified: null,
+            recentlyPlayed: [],
+            installedVersion: null
+        };
+        await Users.insertOne(new_user);
+        user = await Users.findOne({
+            _id: new mongodb_1.ObjectId(new_user._id)
         });
-        new_user === null || new_user === void 0 ? void 0 : new_user.save();
-        user = new_user;
         response.user = {
             _id: String((user === null || user === void 0 ? void 0 : user._id) || ""),
             error: false
@@ -265,6 +283,7 @@ const apiAuthCheck = async (request, response, next) => {
 };
 exports.apiAuthCheck = apiAuthCheck;
 const apiAccessCheck = async (request, response, next) => {
+    const { Users } = mongodb_connection_1.MongoStudioHandler.getCollectionSet();
     const { result } = request;
     const { found, id, user, sessionId = null } = result;
     if (!found)
@@ -277,14 +296,15 @@ const apiAccessCheck = async (request, response, next) => {
         return each.sessionId === sessionId;
     });
     const { seen = false } = curSession || {};
-    await Object.assign(user, {
+    Object.assign(user, {
         activeSessions: activeSessions.map(each => {
             if (each.sessionId !== sessionId)
                 return each;
             each.lastUsed = (0, utils_1.getCurrentTime)();
             return each;
         })
-    }).save();
+    });
+    await Users.updateOne({ _id: new mongodb_1.ObjectId(user._id) }, { $set: user });
     if (type === "under_review" || type === "revoked" || !seen) {
         // const uid = await __uidToRedirect(user._id);
         return response.status(200).send({ redirect: true, to: `${utils_1.MAIN_URL}/google-oauth-signin/${id}` });
@@ -359,13 +379,16 @@ const rootAccessCheck = async (request, response, next) => {
 };
 exports.rootAccessCheck = rootAccessCheck;
 const oauthCheck = async (request, _) => {
+    const { Users } = mongodb_connection_1.MongoStudioHandler.getCollectionSet();
     const { userId } = request.body;
     const { found, user: userFromCookie, sessionId = null } = await __cookieFound(request);
     if (!found || !userFromCookie)
         return { error: true };
     if (String(userFromCookie._id) !== userId)
         return { error: true };
-    const user = await Users_1.Users.findOne({ _id: userId });
+    const user = await Users.findOne({
+        _id: new mongodb_1.ObjectId(userId)
+    });
     if (!user)
         return { error: true };
     const { accountAccess, googleAccount, username, _id, loggedIn, activeSessions = [] } = user;
@@ -439,13 +462,16 @@ const oauthCheck = async (request, _) => {
 };
 exports.oauthCheck = oauthCheck;
 const continueAuthSignin = async (request, response) => {
+    const { Users } = mongodb_connection_1.MongoStudioHandler.getCollectionSet();
     const { username, userId } = request.body;
     const { found, user: userFromCookie, sessionId = null } = await __cookieFound(request);
     if (!found || !userFromCookie)
         return { error: true };
     if (String(userFromCookie._id) !== userId)
         return { error: true };
-    const user = await Users_1.Users.findOne({ _id: userId });
+    const user = await Users.findOne({
+        _id: new mongodb_1.ObjectId(userId)
+    });
     if (!user)
         return { error: true };
     const { googleAccount, activeSessions = [] } = user;
@@ -465,7 +491,7 @@ const continueAuthSignin = async (request, response) => {
         accountAccess: Object.assign(Object.assign({}, accountAccess), { timeLimit: accountAccess.timeLimit || (0, moment_timezone_1.default)().tz(utils_1.timezone).add(accountAccess.duration, "s").toDate() }),
         activeSessions
     });
-    await user.save();
+    await Users.updateOne({ _id: new mongodb_1.ObjectId(user._id) }, { $set: user });
     const redirectUri = (0, utils_1.checkRedirectUri)(request);
     if (redirectUri !== null)
         response.clearCookie("REDIRECT_URI", utils_1.redirectUriCookieConfig);
@@ -482,13 +508,16 @@ const continueAuthSignin = async (request, response) => {
 };
 exports.continueAuthSignin = continueAuthSignin;
 const signOut = async (request, response) => {
+    const { Users } = mongodb_connection_1.MongoStudioHandler.getCollectionSet();
     const { userId } = request.body;
     const { found, user: userFromCookie, sessionId = null } = await __cookieFound(request);
     if (!found || !userFromCookie)
         return { error: true };
     if (String(userFromCookie._id) !== userId)
         return { error: true };
-    const user = await Users_1.Users.findOne({ _id: userId });
+    const user = await Users.findOne({
+        _id: new mongodb_1.ObjectId(userId)
+    });
     if (!user)
         return { success: false };
     const { activeSessions = [] } = user;
@@ -497,7 +526,7 @@ const signOut = async (request, response) => {
             return each.sessionId !== sessionId;
         })
     });
-    await user.save();
+    await Users.updateOne({ _id: new mongodb_1.ObjectId(user._id) }, { $set: user });
     response.clearCookie("ACCOUNT", utils_1.standardCookieConfig);
     response.clearCookie("ACCOUNT_REFRESH", utils_1.standardCookieConfig);
     return { success: true };
@@ -527,6 +556,7 @@ const androidApiAuthCheck = async (request, _, next) => {
 };
 exports.androidApiAuthCheck = androidApiAuthCheck;
 const androidApiAccessCheck = async (request, _, next) => {
+    const { Users } = mongodb_connection_1.MongoStudioHandler.getCollectionSet();
     const { result } = request;
     const { found, id, user, sessionId = null } = result;
     // access expired -> redirect to profile check page
@@ -545,14 +575,15 @@ const androidApiAccessCheck = async (request, _, next) => {
         return each.sessionId === sessionId;
     });
     const { seen = false } = curSession || {};
-    await Object.assign(user, {
+    Object.assign(user, {
         activeSessions: activeSessions.map(each => {
             if (each.sessionId !== sessionId)
                 return each;
             each.lastUsed = (0, utils_1.getCurrentTime)();
             return each;
         })
-    }).save();
+    });
+    await Users.updateOne({ _id: new mongodb_1.ObjectId(user._id) }, { $set: user });
     if (type === "under_review" || type === "revoked" || !seen) {
         return next(err2);
     }

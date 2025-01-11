@@ -30,13 +30,15 @@ exports.downloadLatestUpdate = exports.checkForUpdates = exports.getMostPlayedRa
 const lodash_1 = __importDefault(require("lodash"));
 const mongodb_1 = require("mongodb");
 const utils_1 = require("../helpers/utils");
-const Users_1 = require("../models/Users");
 const archiveGateway_1 = __importStar(require("../data/archiveGateway"));
 const latestUpdate_1 = require("../data/latestUpdate");
 const nodemailer_service_1 = require("../nodemailer-service");
 const mongodb_connection_1 = require("../helpers/mongodb-connection");
 const getMostPlayed = async (userId) => {
-    const user = await Users_1.Users.findOne({ _id: userId }).lean();
+    const { Users } = mongodb_connection_1.MongoStudioHandler.getCollectionSet();
+    const user = await Users.findOne({
+        _id: new mongodb_1.ObjectId(userId)
+    });
     const { recentlyPlayed: recents } = user;
     const sorted_recents = recents.sort((a, b) => {
         if (a.last < b.last)
@@ -180,9 +182,12 @@ const checkServer = (req) => {
 };
 exports.checkServer = checkServer;
 const activeSessions = async (request) => {
+    const { Users } = mongodb_connection_1.MongoStudioHandler.getCollectionSet();
     const { id = null } = request.ACCOUNT;
     const { sessionId = null } = request.result;
-    const user = await Users_1.Users.findOne({ _id: id });
+    const user = await Users.findOne({
+        _id: id ? new mongodb_1.ObjectId(id) : undefined
+    });
     if (!user)
         return [];
     const { activeSessions = [] } = user;
@@ -308,9 +313,12 @@ const startRadio = async (request, _) => {
 };
 exports.startRadio = startRadio;
 const getMostPlayedRadio = async (request, _) => {
+    const { Users } = mongodb_connection_1.MongoStudioHandler.getCollectionSet();
     const { exclude: toBeExcludedAlbumId = "" } = request.query;
     const { id: userId } = request.ACCOUNT;
-    const user = await Users_1.Users.findOne({ _id: userId });
+    const user = await Users.findOne({
+        _id: new mongodb_1.ObjectId(userId)
+    });
     if (!user)
         return [];
     const { recentlyPlayed: recents } = user;
@@ -348,12 +356,15 @@ const getMostPlayedRadio = async (request, _) => {
 };
 exports.getMostPlayedRadio = getMostPlayedRadio;
 const checkForUpdates = async (request, _) => {
+    const { Users } = mongodb_connection_1.MongoStudioHandler.getCollectionSet();
     const { versionCode = null, versionName = null, buildType = null } = request.query;
     const { id: userId } = request.ACCOUNT;
     if (versionCode === null || versionName === null || buildType === null) {
         throw new Error("incomplete version details!");
     }
-    const user = await Users_1.Users.findOne({ _id: userId });
+    const user = await Users.findOne({
+        _id: new mongodb_1.ObjectId(userId)
+    });
     if (user === null) {
         throw new Error("user not found!");
     }
@@ -362,7 +373,7 @@ const checkForUpdates = async (request, _) => {
         versionName,
         buildType
     };
-    await user.save();
+    await Users.updateOne({ _id: new mongodb_1.ObjectId(user._id) }, { $set: user });
     const updateAvailable = (() => {
         const latest_versionCode = buildType === utils_1.BUILD_TYPE.DEBUG ?
             latestUpdate_1.LATEST_APP_UPDATE.DEBUG.versionCode : latestUpdate_1.LATEST_APP_UPDATE.RELEASE.versionCode;

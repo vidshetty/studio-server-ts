@@ -3,7 +3,6 @@ import { v4 as uuidv4 } from "uuid";
 import moment, { Duration } from "moment-timezone";
 import jwt from "jsonwebtoken";
 import { Request } from "express";
-import { Users } from "../models/Users";
 import {
     ejsRender,
     buildroot,
@@ -19,13 +18,15 @@ import {
     getCurrentTime
 } from "../helpers/utils";
 import {
-    UserInterface,
     JwtPayload,
     GoogleProfileInfo,
     NodemailerOptions,
     ActiveSession
 } from "../helpers/interfaces";
 import { sendEmail } from "../nodemailer-service";
+import { UserSchema } from "../helpers/schema";
+import { MongoStudioHandler } from "../helpers/mongodb-connection";
+import { ObjectId } from "mongodb";
 
 
 
@@ -58,7 +59,7 @@ const __notifyAdmin = async (googleAccount: GoogleProfileInfo, type: String) => 
 
 };
 
-const __notifyUser = async (user: UserInterface, type: String) => {
+const __notifyUser = async (user: UserSchema, type: String) => {
 
     try {
 
@@ -108,9 +109,13 @@ const __notifyUser = async (user: UserInterface, type: String) => {
 
 export const accountCheck = async (request: Request) => {
 
+    const { Users } = MongoStudioHandler.getCollectionSet();
+
     const { name, email, id, photoUrl }: any = request.body;
 
-    let user: UserInterface | null = await Users.findOne({ "email.id": email });
+    let user = await Users.findOne({
+        "email.id": email
+    }) as UserSchema | null;
 
     const sessionId: string = uuidv4();
 
@@ -136,7 +141,10 @@ export const accountCheck = async (request: Request) => {
             activeSessions: activeSessions.slice(0, 5)
         });
 
-        await user.save();
+        await Users.updateOne(
+            { _id: new ObjectId(user._id) },
+            { $set: user }
+        );
 
         __notifyAdmin(user.googleAccount, "login");
         if (user.accountAccess.type !== "expired") __notifyUser(user, "login");
@@ -146,7 +154,8 @@ export const accountCheck = async (request: Request) => {
 
         //signup
 
-        const new_user = await Users.create({
+        const new_user: UserSchema = {
+            _id: new ObjectId(),
             username: null,
             accountAccess: {
                 type: "allowed",
@@ -172,10 +181,20 @@ export const accountCheck = async (request: Request) => {
                 device: getDevice(request),
                 sessionId,
                 lastUsed: getCurrentTime()
-            }]
-        });
+            }],
+            password: {
+                key: ""
+            },
+            recentsLastModified: null,
+            recentlyPlayed: [],
+            installedVersion: null
+        };
 
-        user = (new_user as unknown as UserInterface);
+        await Users.insertOne(new_user);
+
+        user = await Users.findOne({
+            _id: new ObjectId(new_user._id)
+        }) as UserSchema;
 
         __notifyAdmin(user.googleAccount, "signup");
         __notifyUser(user, "signup");
@@ -213,10 +232,14 @@ export const accountCheck = async (request: Request) => {
 
 export const accessCheck = async (request: Request) => {
 
+    const { Users } = MongoStudioHandler.getCollectionSet();
+
     const { user_id = null }: any = request.body;
     const { sessionId = null } = request.result;
 
-    const user: UserInterface | null = await Users.findOne({ _id: user_id });
+    const user = await Users.findOne({
+        _id: new ObjectId(user_id)
+    }) as UserSchema | null;
 
     if (!user) return {};
 
@@ -293,10 +316,14 @@ export const accessCheck = async (request: Request) => {
 
 export const signOut = async (request: Request) => {
 
+    const { Users } = MongoStudioHandler.getCollectionSet();
+
     const { user_id } = request.body;
     const { sessionId = null } = request.result;
 
-    const user: UserInterface | null = await Users.findOne({ _id: user_id });
+    const user = await Users.findOne({
+        _id: new ObjectId(user_id)
+    }) as UserSchema | null;
 
     if (!user) throw new CustomError("user not found!", { user });
 
@@ -308,7 +335,10 @@ export const signOut = async (request: Request) => {
         })
     });
 
-    await user.save();
+    await Users.updateOne(
+        { _id: new ObjectId(user._id) },
+        { $set: user }
+    );
 
     return null;
 
@@ -316,10 +346,14 @@ export const signOut = async (request: Request) => {
 
 export const continueLoginIn = async (request: Request) => {
 
+    const { Users } = MongoStudioHandler.getCollectionSet();
+
     const { username = null, user_id }: { username: string|null, user_id: string } = request.body;
     const { sessionId = null } = request.result;
 
-    const user: UserInterface | null = await Users.findOne({ _id: user_id });
+    const user = await Users.findOne({
+        _id: new ObjectId(user_id)
+    }) as UserSchema | null;
 
     if (!user) throw new CustomError("user not found!", { user });
 
@@ -343,7 +377,10 @@ export const continueLoginIn = async (request: Request) => {
         }
     });
 
-    await user.save();
+    await Users.updateOne(
+        { _id: new ObjectId(user._id) },
+        { $set: user }
+    );
 
     __notifyAdmin(user.googleAccount, "getin");
 
@@ -353,9 +390,13 @@ export const continueLoginIn = async (request: Request) => {
 
 export const requestAccess = async (request: Request, _:any) => {
 
+    const { Users } = MongoStudioHandler.getCollectionSet();
+
     const { id = null } = request.ACCOUNT;
 
-    const user: UserInterface | null = await Users.findOne({ _id: id });
+    const user = await Users.findOne({
+        _id: id ? new ObjectId(id) : undefined
+    }) as UserSchema | null;
 
     if (!user) return { requestSent: false };
 

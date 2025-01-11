@@ -3,7 +3,6 @@ import _ from "lodash";
 import { ObjectId } from "mongodb";
 import {
     NodemailerOptions,
-    UserInterface,
     AndroidAlbum,
     Album,
     Single,
@@ -19,18 +18,21 @@ import {
     convertToAndroidAlbumFromDB,
     convertToAndroidTrackFromDB
 } from "../helpers/utils";
-import { Users } from "../models/Users";
 import ALBUMLIST, { NewReleases, RecentlyAdded, ALBUM_MAP, ALBUM_LIST_TRACKS } from "../data/archiveGateway";
 import { LATEST_APP_UPDATE } from "../data/latestUpdate";
 import { sendEmail } from "../nodemailer-service";
 import { MongoStudioHandler } from "../helpers/mongodb-connection";
-import { AlbumSchema, TracksSchema } from "../helpers/schema";
+import { AlbumSchema, TracksSchema, UserSchema } from "../helpers/schema";
 
 
 
 const getMostPlayed = async (userId: string): Promise<AndroidAlbum[]> => {
 
-    const user: UserInterface = await Users.findOne({ _id: userId }).lean();
+    const { Users } = MongoStudioHandler.getCollectionSet();
+
+    const user = await Users.findOne({
+        _id: new ObjectId(userId)
+    }) as UserSchema;
 
     const { recentlyPlayed: recents } = user;
 
@@ -231,10 +233,14 @@ export const checkServer = (req: Request) => {
 
 export const activeSessions = async (request: Request) => {
 
+    const { Users } = MongoStudioHandler.getCollectionSet();
+
     const { id = null } = request.ACCOUNT;
     const { sessionId = null } = request.result;
 
-    const user: UserInterface | null = await Users.findOne({ _id: id });
+    const user = await Users.findOne({
+        _id: id ? new ObjectId(id) : undefined
+    }) as UserSchema | null;
 
     if (!user) return [];
 
@@ -393,10 +399,15 @@ export const startRadio = async (request: Request, _:any) => {
 
 export const getMostPlayedRadio = async (request: Request, _: any) => {
 
+    const { Users } = MongoStudioHandler.getCollectionSet();
+
     const { exclude: toBeExcludedAlbumId = "" } = request.query as unknown as RequestQuery;
     const { id: userId } = request.ACCOUNT;
 
-    const user: UserInterface | null = await Users.findOne({ _id: userId });
+    const user = await Users.findOne({
+        _id: new ObjectId(userId)
+    }) as UserSchema | null;
+
     if (!user) return [];
 
     const { recentlyPlayed: recents } = user;
@@ -438,6 +449,8 @@ export const getMostPlayedRadio = async (request: Request, _: any) => {
 
 export const checkForUpdates = async (request: Request, _:any) => {
 
+    const { Users } = MongoStudioHandler.getCollectionSet();
+
     const {
         versionCode = null,
         versionName = null,
@@ -449,7 +462,10 @@ export const checkForUpdates = async (request: Request, _:any) => {
         throw new Error("incomplete version details!");
     }
 
-    const user: UserInterface | null = await Users.findOne({ _id: userId });
+    const user = await Users.findOne({
+        _id: new ObjectId(userId)
+    }) as UserSchema | null;
+    
     if (user === null) {
         throw new Error("user not found!");
     }
@@ -460,7 +476,10 @@ export const checkForUpdates = async (request: Request, _:any) => {
         buildType
     };
 
-    await user.save();
+    await Users.updateOne(
+        { _id: new ObjectId(user._id) },
+        { $set: user }
+    );
 
     const updateAvailable = (() => {
 

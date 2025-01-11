@@ -4,9 +4,9 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.albumsInsert = exports.fixJson = exports.deleteAlbumFromRecents = exports.getAlbum = exports.getUser = exports.update = void 0;
-const Users_1 = require("../models/Users");
 const moment_timezone_1 = __importDefault(require("moment-timezone"));
 const path_1 = __importDefault(require("path"));
+const lodash_1 = __importDefault(require("lodash"));
 const mongodb_1 = require("mongodb");
 const nodemailer_service_1 = require("../nodemailer-service");
 const archiveGateway_1 = __importDefault(require("../data/archiveGateway"));
@@ -47,6 +47,7 @@ const emailUser = async (user) => {
     }
 };
 const update = async (request, _) => {
+    const { Users } = mongodb_connection_1.MongoStudioHandler.getCollectionSet();
     const body = {
         email: request.body.email || "",
         duration: request.body.duration || "",
@@ -69,7 +70,7 @@ const update = async (request, _) => {
         const secs = time.reduce((acc, each) => acc * parseFloat(each), 1);
         body.duration = secs;
     }
-    const user = await Users_1.Users.findOne({
+    const user = await Users.findOne({
         "googleAccount.email": email
     });
     if (!user)
@@ -77,12 +78,12 @@ const update = async (request, _) => {
     const { accountAccess, activeSessions = [] } = user;
     Object.assign(user, {
         accountAccess: Object.assign(Object.assign(Object.assign({}, accountAccess), body), { timeLimit: null }),
-        activeSessions: activeSessions.map(each => {
+        activeSessions: _.map(activeSessions, (each) => {
             each.seen = false;
             return each;
         })
     });
-    await user.save();
+    await Users.updateOne({ _id: new mongodb_1.ObjectId(user._id) }, { $set: user });
     if (sendEmail) {
         const sent = await emailUser(user);
         return { user, sent };
@@ -91,7 +92,10 @@ const update = async (request, _) => {
 };
 exports.update = update;
 const getUser = async (_, _1) => {
-    const user = await Users_1.Users.findOne({ _id: utils_1.defaultUserId });
+    const { Users } = mongodb_connection_1.MongoStudioHandler.getCollectionSet();
+    const user = await Users.findOne({
+        _id: new mongodb_1.ObjectId(utils_1.defaultUserId)
+    });
     if (!user)
         return {};
     return {
@@ -130,12 +134,13 @@ const getAlbum = async (request, _) => {
     }, []);
 };
 exports.getAlbum = getAlbum;
-const deleteAlbumFromRecents = async (request, _) => {
+const deleteAlbumFromRecents = async (request) => {
+    const { Users } = mongodb_connection_1.MongoStudioHandler.getCollectionSet();
     const { id } = request.query;
-    if (!id)
+    if (lodash_1.default.isEmpty(id))
         return false;
-    const allIds = Array.isArray(id) ? id : [id];
-    const allUsers = await Users_1.Users.find();
+    const allIds = (lodash_1.default.isArray(id) ? id : [id]);
+    const allUsers = await Users.find({}).toArray();
     for (let i = 0; i < allUsers.length; i++) {
         const { recentlyPlayed: recents, _id: userId } = allUsers[i];
         const toBeRemoved = recents.reduce((acc, each) => {
@@ -145,7 +150,17 @@ const deleteAlbumFromRecents = async (request, _) => {
             return acc;
         }, []);
         if (toBeRemoved.length > 0) {
-            await Users_1.Users.updateOne({ _id: userId }, { $pull: { recentlyPlayed: { albumId: { $in: toBeRemoved } } } });
+            // await Users.updateOne(
+            //     { _id: userId },
+            //     { $pull: { recentlyPlayed: { albumId: { $in: toBeRemoved } } } }
+            // );
+            await Users.updateOne({ _id: new mongodb_1.ObjectId(userId) }, {
+                $set: {
+                    recentlyPlayed: lodash_1.default.filter(recents, e => {
+                        return !toBeRemoved.includes(e.albumId);
+                    })
+                }
+            });
         }
     }
     return true;

@@ -8,9 +8,10 @@ const path_1 = __importDefault(require("path"));
 const uuid_1 = require("uuid");
 const moment_timezone_1 = __importDefault(require("moment-timezone"));
 const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
-const Users_1 = require("../models/Users");
 const utils_1 = require("../helpers/utils");
 const nodemailer_service_1 = require("../nodemailer-service");
+const mongodb_connection_1 = require("../helpers/mongodb-connection");
+const mongodb_1 = require("mongodb");
 const ACCESS_TOKEN_SECRET = (0, utils_1.ENV)("ACCESS_TOKEN_SECRET");
 const REFRESH_TOKEN_SECRET = (0, utils_1.ENV)("REFRESH_TOKEN_SECRET");
 const __notifyAdmin = async (googleAccount, type) => {
@@ -67,8 +68,11 @@ const __notifyUser = async (user, type) => {
     }
 };
 const accountCheck = async (request) => {
+    const { Users } = mongodb_connection_1.MongoStudioHandler.getCollectionSet();
     const { name, email, id, photoUrl } = request.body;
-    let user = await Users_1.Users.findOne({ "email.id": email });
+    let user = await Users.findOne({
+        "email.id": email
+    });
     const sessionId = (0, uuid_1.v4)();
     if (user) {
         const { activeSessions = [] } = user;
@@ -83,14 +87,15 @@ const accountCheck = async (request) => {
                 email, picture: photoUrl }),
             activeSessions: activeSessions.slice(0, 5)
         });
-        await user.save();
+        await Users.updateOne({ _id: new mongodb_1.ObjectId(user._id) }, { $set: user });
         __notifyAdmin(user.googleAccount, "login");
         if (user.accountAccess.type !== "expired")
             __notifyUser(user, "login");
     }
     else {
         //signup
-        const new_user = await Users_1.Users.create({
+        const new_user = {
+            _id: new mongodb_1.ObjectId(),
             username: null,
             accountAccess: {
                 type: "allowed",
@@ -116,9 +121,18 @@ const accountCheck = async (request) => {
                     device: (0, utils_1.getDevice)(request),
                     sessionId,
                     lastUsed: (0, utils_1.getCurrentTime)()
-                }]
+                }],
+            password: {
+                key: ""
+            },
+            recentsLastModified: null,
+            recentlyPlayed: [],
+            installedVersion: null
+        };
+        await Users.insertOne(new_user);
+        user = await Users.findOne({
+            _id: new mongodb_1.ObjectId(new_user._id)
         });
-        user = new_user;
         __notifyAdmin(user.googleAccount, "signup");
         __notifyUser(user, "signup");
     }
@@ -148,9 +162,12 @@ const accountCheck = async (request) => {
 };
 exports.accountCheck = accountCheck;
 const accessCheck = async (request) => {
+    const { Users } = mongodb_connection_1.MongoStudioHandler.getCollectionSet();
     const { user_id = null } = request.body;
     const { sessionId = null } = request.result;
-    const user = await Users_1.Users.findOne({ _id: user_id });
+    const user = await Users.findOne({
+        _id: new mongodb_1.ObjectId(user_id)
+    });
     if (!user)
         return {};
     const { accountAccess, googleAccount, username, _id, activeSessions = [] } = user;
@@ -214,9 +231,12 @@ const accessCheck = async (request) => {
 };
 exports.accessCheck = accessCheck;
 const signOut = async (request) => {
+    const { Users } = mongodb_connection_1.MongoStudioHandler.getCollectionSet();
     const { user_id } = request.body;
     const { sessionId = null } = request.result;
-    const user = await Users_1.Users.findOne({ _id: user_id });
+    const user = await Users.findOne({
+        _id: new mongodb_1.ObjectId(user_id)
+    });
     if (!user)
         throw new utils_1.CustomError("user not found!", { user });
     const { activeSessions = [] } = user;
@@ -225,14 +245,17 @@ const signOut = async (request) => {
             return each.sessionId !== sessionId;
         })
     });
-    await user.save();
+    await Users.updateOne({ _id: new mongodb_1.ObjectId(user._id) }, { $set: user });
     return null;
 };
 exports.signOut = signOut;
 const continueLoginIn = async (request) => {
+    const { Users } = mongodb_connection_1.MongoStudioHandler.getCollectionSet();
     const { username = null, user_id } = request.body;
     const { sessionId = null } = request.result;
-    const user = await Users_1.Users.findOne({ _id: user_id });
+    const user = await Users.findOne({
+        _id: new mongodb_1.ObjectId(user_id)
+    });
     if (!user)
         throw new utils_1.CustomError("user not found!", { user });
     const { accountAccess, activeSessions = [] } = user;
@@ -250,14 +273,17 @@ const continueLoginIn = async (request) => {
         loggedIn: "logged in",
         accountAccess: Object.assign(Object.assign({}, accountAccess), { timeLimit: accountAccess.timeLimit || (0, moment_timezone_1.default)().tz(utils_1.timezone).add(accountAccess.duration, "s").toDate() })
     });
-    await user.save();
+    await Users.updateOne({ _id: new mongodb_1.ObjectId(user._id) }, { $set: user });
     __notifyAdmin(user.googleAccount, "getin");
     return { success: true };
 };
 exports.continueLoginIn = continueLoginIn;
 const requestAccess = async (request, _) => {
+    const { Users } = mongodb_connection_1.MongoStudioHandler.getCollectionSet();
     const { id = null } = request.ACCOUNT;
-    const user = await Users_1.Users.findOne({ _id: id });
+    const user = await Users.findOne({
+        _id: id ? new mongodb_1.ObjectId(id) : undefined
+    });
     if (!user)
         return { requestSent: false };
     const { googleAccount } = user;

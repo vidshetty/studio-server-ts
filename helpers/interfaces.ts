@@ -1,6 +1,6 @@
-import { Document } from "mongoose";
 import { ObjectId } from "mongodb";
 import jwt from "jsonwebtoken";
+import { UserSchema } from "./schema";
 
 
 export interface Track {
@@ -122,42 +122,10 @@ export interface InstalledVersion {
     buildType: string;
 }
 
-export interface UserInterface extends Document {
-    username: string | null;
-    email: {
-        id: string;
-        verificationStatus: string;
-        uuid?: string;
-        uuidExpiry?: Date;
-    };
-    password: {
-        key: string;
-        uuid?: string;
-        uuidExpiry?: Date;
-    };
-    googleAccount: GoogleProfileInfo;
-    accountAccess: {
-        duration: number;
-        timeLimit: Date;
-        type: string;
-        uid?: string;
-    };
-    loggedIn: string;
-    recentsLastModified: Date;
-    recentlyPlayed: RecentlyPlayed[];
-    status: string;
-    activeSessions: ActiveSession[];
-    installedVersion: InstalledVersion | null
-    // recentlySearched: {
-    //     type: Array,
-    //     default: []
-    // }
-};
-
 export interface FoundResponse {
     found?: boolean;
     id: string | null;
-    user?: UserInterface | null;
+    user?: UserSchema | null;
     accessToken?: string | null;
     sessionId?: string | null;
 };

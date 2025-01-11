@@ -4,7 +4,8 @@ import mongodb, { MongoClient } from "mongodb";
 
 const Collection = Object.freeze({
     ALBUMS: "albums",
-    TRACKS: "tracks"
+    TRACKS: "tracks",
+    USERS: "users"
 });
 
 
@@ -17,6 +18,7 @@ export class MongoStudioHandler {
     // all granary collections
     private static __Albums: mongodb.Collection;
     private static __Tracks: mongodb.Collection;
+    private static __Users: mongodb.Collection;
 
     // initialise
     static async initialize() {
@@ -40,13 +42,15 @@ export class MongoStudioHandler {
 
         this.__Albums = this.__db.collection(Collection.ALBUMS);
         this.__Tracks = this.__db.collection(Collection.TRACKS);
+        this.__Users = this.__db.collection(Collection.USERS);
 
     };
 
     static getCollectionSet() {
         return Object.freeze({
             Albums: this.__Albums,
-            Tracks: this.__Tracks
+            Tracks: this.__Tracks,
+            Users: this.__Users
         });
     }
 

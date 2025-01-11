@@ -1,4 +1,10 @@
 import { ObjectId } from "mongodb";
+import {
+    GoogleProfileInfo,
+    RecentlyPlayed,
+    ActiveSession,
+    InstalledVersion
+} from "./interfaces";
 
 
 
@@ -27,4 +33,33 @@ export interface TracksSchema {
     lyrics?: boolean;
     sync?: boolean;
     streamCount: number;
+};
+
+export interface UserSchema {
+    _id: ObjectId;
+    username: string | null;
+    email: {
+        id: string;
+        verificationStatus: string;
+        uuid?: string;
+        uuidExpiry?: Date;
+    };
+    password: {
+        key: string;
+        uuid?: string;
+        uuidExpiry?: Date;
+    };
+    googleAccount: GoogleProfileInfo;
+    accountAccess: {
+        duration: number;
+        timeLimit: Date | null;
+        type: string;
+        uid?: string;
+    };
+    loggedIn: string;
+    recentsLastModified: Date | null;
+    recentlyPlayed: RecentlyPlayed[];
+    status: string;
+    activeSessions: ActiveSession[];
+    installedVersion: InstalledVersion | null;
 };

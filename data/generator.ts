@@ -1,3 +1,5 @@
-import mongoose from "mongoose";
+import { ObjectId } from "mongodb";
 
-console.log(new mongoose.Types.ObjectId().toString());
+
+
+console.log(new ObjectId());
