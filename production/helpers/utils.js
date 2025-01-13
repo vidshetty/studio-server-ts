@@ -245,7 +245,7 @@ const getDevice = (request) => {
     if (deviceInfoString === null)
         return request.headers["user-agent"] || null;
     const deviceInfo = JSON.parse(deviceInfoString);
-    return `${deviceInfo.manufacturer} ${deviceInfo.model}`;
+    return `${deviceInfo.manufacturer} ${deviceInfo.model} ${deviceInfo.device_id}`;
 };
 exports.getDevice = getDevice;
 class CustomError extends Error {

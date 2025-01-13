@@ -114,6 +114,7 @@ export interface DeviceInfo {
     device: string;
     brand: string;
     model: string;
+    device_id: string;
 }
 
 export interface InstalledVersion {

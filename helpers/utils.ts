@@ -278,7 +278,7 @@ export const getDevice = (request: Request) : string|null => {
 
     const deviceInfo: DeviceInfo = JSON.parse(deviceInfoString);
 
-    return `${deviceInfo.manufacturer} ${deviceInfo.model}`;
+    return `${deviceInfo.manufacturer} ${deviceInfo.model} ${deviceInfo.device_id}`;
 
 };
 
