@@ -383,7 +383,7 @@ const convertToAndroidAlbumFromDB = (albums, tracks) => {
                     return acc;
                 acc.push({
                     _trackId: String(t._trackId),
-                    Title: each.Album,
+                    Title: t.Title,
                     Artist: t.Artist,
                     Duration: t.Duration,
                     url: t.url,

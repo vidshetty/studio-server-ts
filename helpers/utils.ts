@@ -431,7 +431,7 @@ export const convertToAndroidAlbumFromDB = (albums: AlbumSchema[], tracks: Track
                 if (String(t._albumId) !== String(each._albumId)) return acc;
                 acc.push({
                     _trackId: String(t._trackId),
-                    Title: each.Album,
+                    Title: t.Title,
                     Artist: t.Artist,
                     Duration: t.Duration,
                     url: t.url,
