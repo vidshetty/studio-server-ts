@@ -45,6 +45,7 @@ export interface Single {
     url: string;
     lyrics?: boolean;
     sync?: boolean;
+    streamCount?: number;
 };
 
 export type AlbumList = Single | Album;

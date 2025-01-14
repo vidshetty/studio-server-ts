@@ -202,7 +202,10 @@ const getLibrary = async (request) => {
     const { page = "1" } = request.query;
     const start = parseInt(page) - 1;
     const no = 7 * 7;
-    const allAlbums = (0, utils_1.convertToAndroidAlbum)(archiveGateway_1.default);
+    const { Albums, Tracks } = mongodb_connection_1.MongoStudioHandler.getCollectionSet();
+    const albums = await Albums.find().sort({ _id: 1 }).toArray();
+    const tracks = await Tracks.find().sort({ _id: 1 }).toArray();
+    const allAlbums = (0, utils_1.convertToAndroidAlbumFromDB)(albums, tracks);
     const sublibrary = allAlbums.slice(start * no, (start * no) + no);
     const random = (0, utils_1.randomize)(sublibrary);
     return {

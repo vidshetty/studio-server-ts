@@ -486,3 +486,87 @@ export const convertToAndroidTrackFromDB = (albums: AlbumSchema[], tracks: Track
     }, []);
 
 };
+
+export const convertToAlbumListFromDB = (albums: AlbumSchema[], tracks: TracksSchema[]): AlbumList[] => {
+
+    let reducingTracks: TracksSchema[] = tracks;
+
+    return _.reduce(albums, (acc: AlbumList[], album: AlbumSchema) => {
+
+        const remainingTracks: TracksSchema[] = [];
+
+        const tracksOfAlbum = _.filter(reducingTracks, (track: TracksSchema) => {
+            if (String(track._albumId) === String(album._albumId)) return true;
+            remainingTracks.push(track);
+            return false;
+        });
+
+        reducingTracks = remainingTracks;
+
+        if (_.isEmpty(tracksOfAlbum)) return acc;
+
+        if (album.Type === "Album") {
+
+            const obj: Album = {
+                _albumId: String(album._albumId),
+                Album: album.Album,
+                AlbumArtist: String(album.AlbumArtist),
+                Type: "Album",
+                Year: album.Year,
+                Color: album.Color,
+                LightColor: album.LightColor,
+                DarkColor: album.DarkColor,
+                releaseDate: moment(album.releaseDate, "YYYY-MM-DD").toDate(),
+                Thumbnail: album.Thumbnail,
+                Tracks: _.reduce(tracksOfAlbum, (acc: Track[], each: TracksSchema) => {
+                    acc.push({
+                        _trackId: String(each._trackId),
+                        Title: each.Title,
+                        Artist: each.Artist,
+                        Duration: each.Duration,
+                        url: each.url,
+                        streamCount: each.streamCount,
+                        lyrics: each.lyrics,
+                        sync: each.sync
+                    });
+                    return acc;
+                }, [])
+            };
+
+            acc.push(obj);
+
+        }
+
+        if (album.Type === "Single") {
+
+            const track = tracksOfAlbum[0];
+
+            const obj: Single = {
+                _albumId: String(album._albumId),
+                _trackId: String(track._trackId),
+                Album: album.Album,
+                AlbumArtist: String(album.AlbumArtist),
+                Type: "Single",
+                Year: album.Year,
+                Color: album.Color,
+                LightColor: album.LightColor,
+                DarkColor: album.DarkColor,
+                releaseDate: moment(album.releaseDate, "YYYY-MM-DD").toDate(),
+                Thumbnail: album.Thumbnail,
+                Artist: track.Artist,
+                Duration: track.Duration,
+                url: track.url,
+                lyrics: track.lyrics,
+                sync: track.sync,
+                streamCount: track.streamCount
+            };
+
+            acc.push(obj);
+
+        }
+
+        return acc;
+
+    }, []); 
+
+};

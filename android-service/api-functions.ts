@@ -261,7 +261,13 @@ export const getLibrary = async (request: Request) => {
     const start = parseInt(page) - 1;
     const no = 7*7;
 
-    const allAlbums = convertToAndroidAlbum(ALBUMLIST);
+    const { Albums, Tracks } = MongoStudioHandler.getCollectionSet();
+
+    const albums = await Albums.find().sort({_id:1}).toArray() as AlbumSchema[];
+
+    const tracks = await Tracks.find().sort({_id:1}).toArray() as TracksSchema[];
+
+    const allAlbums = convertToAndroidAlbumFromDB(albums, tracks);
 
     const sublibrary: AndroidAlbum[] = allAlbums.slice(start*no, (start*no) + no);
     const random: AndroidAlbum[] = (randomize(sublibrary) as AndroidAlbum[]);

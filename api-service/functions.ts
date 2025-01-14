@@ -22,14 +22,15 @@ import {
     redirectUriCookieConfig,
     readFileAsync,
     randomize,
-    __replace
+    __replace,
+    convertToAlbumListFromDB
 } from "../helpers/utils";
 import moment from "moment-timezone";
 import path from "path";
 import ALBUMLIST from "../data/archiveGateway";
 import { LATEST_APP_UPDATE } from "../data/latestUpdate";
 import { MongoStudioHandler } from "../helpers/mongodb-connection";
-import { TracksSchema, UserSchema } from "../helpers/schema";
+import { AlbumSchema, TracksSchema, UserSchema } from "../helpers/schema";
 
 
 interface RecentsMap {
@@ -576,19 +577,29 @@ export const homeAlbums = async (request: Request, _:any) => {
 
 export const getLibrary = async (request: Request, response: Response) => {
 
-    const { page }: RequestQuery = request.query as unknown as RequestQuery;
+    const { page }: RequestQuery = request.query as unknown as { page: string; };
 
     const start = parseInt(page || "1") - 1;
-    const no = 7*7;
+    const no = 7 * 7;
 
-    const arr = ALBUMLIST.map<ModifiedAlbumList>((each,i) => {
-        return { ...each, keyId: i };
+    const { Albums, Tracks } = MongoStudioHandler.getCollectionSet();
+
+    const albums = await Albums.find().sort({_id:1}).toArray() as AlbumSchema[];
+
+    const tracks = await Tracks.find().sort({_id:1}).toArray() as TracksSchema[];
+
+    const albumList = convertToAlbumListFromDB(albums, tracks);
+
+    const arr = _.map(albumList, (e,i): ModifiedAlbumList => {
+        (e as ModifiedAlbumList).keyId = i;
+        return e as ModifiedAlbumList;
     });
 
     const sublibrary = arr.slice(start*no, (start*no) + no);
     const random: ModifiedAlbumList[] = (randomize(sublibrary) as ModifiedAlbumList[]);
 
     let result: { more: boolean, data: ModifiedAlbumList[] };
+
     if ((start*no)+no === arr.length || sublibrary.length < no) {
         result = { more: false, data: random };
     } else {

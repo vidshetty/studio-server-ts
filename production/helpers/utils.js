@@ -3,7 +3,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.convertToAndroidTrackFromDB = exports.convertToAndroidAlbumFromDB = exports.convertToAndroidTrack = exports.convertToAndroidAlbum = exports.randomize = exports.getCurrentTime = exports.CustomError = exports.getDevice = exports.writeFileAsync = exports.readFileAsync = exports.__replace = exports.checkRedirectUri = exports.calcPeriod = exports.setRedirectUriCookie = exports.redirectUriCookieConfig = exports.standardCookieConfig = exports.cookieParser = exports.server = exports.date = exports.ejsRender = exports.wait = exports.requestUrlCheck = exports.ENV = exports.BUILD_TYPE = exports.defaultUserId = exports.buildroot = exports.issuer = exports.refreshTokenExpiry = exports.accessTokenExpiry = exports.androidAccessTokenExpiry = exports.timezone = exports.defaultAccess = exports.PASSPORT_REDIRECT_APP_URL = exports.PLAYER_URL = exports.MAIN_URL = exports.APP_URL = void 0;
+exports.convertToAlbumListFromDB = exports.convertToAndroidTrackFromDB = exports.convertToAndroidAlbumFromDB = exports.convertToAndroidTrack = exports.convertToAndroidAlbum = exports.randomize = exports.getCurrentTime = exports.CustomError = exports.getDevice = exports.writeFileAsync = exports.readFileAsync = exports.__replace = exports.checkRedirectUri = exports.calcPeriod = exports.setRedirectUriCookie = exports.redirectUriCookieConfig = exports.standardCookieConfig = exports.cookieParser = exports.server = exports.date = exports.ejsRender = exports.wait = exports.requestUrlCheck = exports.ENV = exports.BUILD_TYPE = exports.defaultUserId = exports.buildroot = exports.issuer = exports.refreshTokenExpiry = exports.accessTokenExpiry = exports.androidAccessTokenExpiry = exports.timezone = exports.defaultAccess = exports.PASSPORT_REDIRECT_APP_URL = exports.PLAYER_URL = exports.MAIN_URL = exports.APP_URL = void 0;
 const moment_timezone_1 = __importDefault(require("moment-timezone"));
 const ejs_1 = __importDefault(require("ejs"));
 const fs_1 = __importDefault(require("fs"));
@@ -429,4 +429,72 @@ const convertToAndroidTrackFromDB = (albums, tracks) => {
     }, []);
 };
 exports.convertToAndroidTrackFromDB = convertToAndroidTrackFromDB;
+const convertToAlbumListFromDB = (albums, tracks) => {
+    let reducingTracks = tracks;
+    return lodash_1.default.reduce(albums, (acc, album) => {
+        const remainingTracks = [];
+        const tracksOfAlbum = lodash_1.default.filter(reducingTracks, (track) => {
+            if (String(track._albumId) === String(album._albumId))
+                return true;
+            remainingTracks.push(track);
+            return false;
+        });
+        reducingTracks = remainingTracks;
+        if (lodash_1.default.isEmpty(tracksOfAlbum))
+            return acc;
+        if (album.Type === "Album") {
+            const obj = {
+                _albumId: String(album._albumId),
+                Album: album.Album,
+                AlbumArtist: String(album.AlbumArtist),
+                Type: "Album",
+                Year: album.Year,
+                Color: album.Color,
+                LightColor: album.LightColor,
+                DarkColor: album.DarkColor,
+                releaseDate: (0, moment_timezone_1.default)(album.releaseDate, "YYYY-MM-DD").toDate(),
+                Thumbnail: album.Thumbnail,
+                Tracks: lodash_1.default.reduce(tracksOfAlbum, (acc, each) => {
+                    acc.push({
+                        _trackId: String(each._trackId),
+                        Title: each.Title,
+                        Artist: each.Artist,
+                        Duration: each.Duration,
+                        url: each.url,
+                        streamCount: each.streamCount,
+                        lyrics: each.lyrics,
+                        sync: each.sync
+                    });
+                    return acc;
+                }, [])
+            };
+            acc.push(obj);
+        }
+        if (album.Type === "Single") {
+            const track = tracksOfAlbum[0];
+            const obj = {
+                _albumId: String(album._albumId),
+                _trackId: String(track._trackId),
+                Album: album.Album,
+                AlbumArtist: String(album.AlbumArtist),
+                Type: "Single",
+                Year: album.Year,
+                Color: album.Color,
+                LightColor: album.LightColor,
+                DarkColor: album.DarkColor,
+                releaseDate: (0, moment_timezone_1.default)(album.releaseDate, "YYYY-MM-DD").toDate(),
+                Thumbnail: album.Thumbnail,
+                Artist: track.Artist,
+                Duration: track.Duration,
+                url: track.url,
+                lyrics: track.lyrics,
+                sync: track.sync,
+                streamCount: track.streamCount
+            };
+            acc.push(obj);
+        }
+        return acc;
+    }, []);
+};
+exports.convertToAlbumListFromDB = convertToAlbumListFromDB;
 //# sourceMappingURL=utils.js.map

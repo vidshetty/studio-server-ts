@@ -415,8 +415,13 @@ const getLibrary = async (request, response) => {
     const { page } = request.query;
     const start = parseInt(page || "1") - 1;
     const no = 7 * 7;
-    const arr = archiveGateway_1.default.map((each, i) => {
-        return Object.assign(Object.assign({}, each), { keyId: i });
+    const { Albums, Tracks } = mongodb_connection_1.MongoStudioHandler.getCollectionSet();
+    const albums = await Albums.find().sort({ _id: 1 }).toArray();
+    const tracks = await Tracks.find().sort({ _id: 1 }).toArray();
+    const albumList = (0, utils_1.convertToAlbumListFromDB)(albums, tracks);
+    const arr = lodash_1.default.map(albumList, (e, i) => {
+        e.keyId = i;
+        return e;
     });
     const sublibrary = arr.slice(start * no, (start * no) + no);
     const random = (0, utils_1.randomize)(sublibrary);
