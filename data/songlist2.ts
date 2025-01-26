@@ -2121,6 +2121,27 @@ const songlist: (Single|Album)[] = [
                 Duration: "4: 27"
             }
         ]
+    },
+    {
+        _albumId: "6796694b98d954733ca4ba1b",
+        Album: "Music Of The Spheres",
+        AlbumArtist: "Coldplay",
+        Type: "Album",
+        Year: "2021",
+        Color: "rgba(8,24,96,1)",
+        LightColor: "rgba(22,65,255,1)",
+        DarkColor: "rgba(8,24,96,1)",
+        releaseDate: date("15-10-2021"),
+        Thumbnail: "https://lh3.googleusercontent.com/VolJV2juJ41K_RyjDjjF9Btpg27rhHQ42YOypeeCKD4vCS9_ZfEeWPAw6EcxZLLwjPRdh3Z98PnbdvlRPg=w544-h544-l90-rj",
+        Tracks: [
+            {
+                _trackId: "679669511f140e7486f158e6",
+                Title: "Biutyful",
+                Artist: "Coldplay",
+                url: `${server[3]}/hls/listen/Biutyful - Coldplay/output.m3u8`,
+                Duration: "3: 12"
+            }
+        ]
     }
 ];
 
