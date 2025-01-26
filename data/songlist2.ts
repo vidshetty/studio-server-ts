@@ -2101,6 +2101,27 @@ const songlist: (Single|Album)[] = [
             }
         ]
     },
+    {
+        _albumId: "679373e2239f6460e0d2675f",
+        Album: "Ghost Stories",
+        AlbumArtist: "Coldplay",
+        Type: "Album",
+        Year: "2014",
+        Color: "rgba(16,40,64,1)",
+        LightColor: "rgba(49,121,194,1)",
+        DarkColor: "rgba(16,40,64,1)",
+        releaseDate: date("16-05-2014"),
+        Thumbnail: "https://lh3.googleusercontent.com/FrPId047QbNpFZfEtUJQDTC2-MGkgo4JPzasmIkdvFLjbQGNppcmRdOFXo6c3swTP_iP-ozTXhu8OBRSOw=w544-h544-l90-rj",
+        Tracks: [
+            {
+                _trackId: "6795d60d57f8628361ad6d13",
+                Title: "A Sky Full Of Stars",
+                Artist: "Coldplay",
+                url: `${server[3]}/hls/listen/A Sky Full Of Stars - Coldplay/output.m3u8`,
+                Duration: "4: 27"
+            }
+        ]
+    }
 ];
 
 

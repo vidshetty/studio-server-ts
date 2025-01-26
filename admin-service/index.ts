@@ -7,7 +7,8 @@ import {
     getAlbum,
     deleteAlbumFromRecents,
     fixJson,
-    albumsInsert
+    albumsInsert,
+    addTrack
 } from "./functions";
 
 const router = Router();
@@ -41,6 +42,8 @@ router.get("/album", responseMid(getAlbum));
 router.delete("/deleteFromRecents", responseMid(deleteAlbumFromRecents));
 
 router.get("/fixJson", responseMid(fixJson));
+
+router.post("/addTrack", responseMid(addTrack));
 
 // router.post("/albums-insert", responseMid(albumsInsert));
 
