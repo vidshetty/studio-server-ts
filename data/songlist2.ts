@@ -2142,6 +2142,27 @@ const songlist: (Single|Album)[] = [
                 Duration: "3: 12"
             }
         ]
+    },
+    {
+        _albumId: "67973fca72a9ab71b70bd0e5",
+        Album: "Parachutes",
+        AlbumArtist: "Coldplay",
+        Type: "Album",
+        Year: "2000",
+        Color: "rgba(192,104,8,1)",
+        LightColor: "rgba(192,104,8,1)",
+        DarkColor: "rgba(179,97,7,1)",
+        releaseDate: date("10-07-2000"),
+        Thumbnail: "https://lh3.googleusercontent.com/7RK5kFu8RjjulsxsPCJ55wmJLchKaaIRAYih0ldj--RGbnOOdA0U2vmLWyVfjPW82nR-Dwm2r8PhEi61=w544-h544-l90-rj",
+        Tracks: [
+            {
+                _trackId: "67973fd071c36640dfaa900d",
+                Title: "Yellow",
+                Artist: "Coldplay",
+                url: `${server[3]}/hls/listen/Yellow - Coldplay/output.m3u8`,
+                Duration: "4: 26"
+            }
+        ]
     }
 ];
 
