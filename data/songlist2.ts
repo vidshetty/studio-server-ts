@@ -2163,7 +2163,23 @@ const songlist: (Single|Album)[] = [
                 Duration: "4: 26"
             }
         ]
-    }
+    },
+    {
+        _albumId: "679bce10a2ef330ff8eea35b",
+        _trackId: "679bce10a2ef330ff8eea35b",
+        Album: "Afsos",
+        AlbumArtist: "Anuv Jain, AP Dhillon",
+        Type: "Single",
+        Year: "2025",
+        Color: "rgba(240,80,40,1)",
+        DarkColor: "rgba(211,70,35,1)",
+        LightColor: "rgba(240,80,40,1)",
+        releaseDate: date("31-01-2025"),
+        Thumbnail: "https://lh3.googleusercontent.com/RtrisEbMpw0qvN904DsYH4vOMyqHrwPoVlRM_tUcZL0OLqHs_IwPb-F6N_YlBqsqHGfCZdDL-o-99jsl=w544-h544-l90-rj",
+        Artist: "Anuv Jain, AP Dhillon",
+        Duration: "3: 12",
+        url: `${server[3]}/hls/listen/Afsos - Anuv Jain/output.m3u8`
+    },
 ];
 
 
