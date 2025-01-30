@@ -2177,7 +2177,7 @@ const songlist: (Single|Album)[] = [
         releaseDate: date("31-01-2025"),
         Thumbnail: "https://lh3.googleusercontent.com/RtrisEbMpw0qvN904DsYH4vOMyqHrwPoVlRM_tUcZL0OLqHs_IwPb-F6N_YlBqsqHGfCZdDL-o-99jsl=w544-h544-l90-rj",
         Artist: "Anuv Jain, AP Dhillon",
-        Duration: "3: 12",
+        Duration: "3: 11",
         url: `${server[3]}/hls/listen/Afsos - Anuv Jain/output.m3u8`
     },
 ];
