@@ -97,10 +97,12 @@ const getNewReleases = async () => {
     }).toArray();
     return (0, utils_1.convertToAndroidAlbumFromDB)(albums, tracks);
 };
-const getRecentlyAdded = async () => {
+const getRecentlyAdded = async (newReleases) => {
     const { Albums, Tracks } = mongodb_connection_1.MongoStudioHandler.getCollectionSet();
     const albums = await Albums
-        .find({})
+        .find({
+        _albumId: { $nin: lodash_1.default.map(newReleases, e => new mongodb_1.ObjectId(e._albumId)) }
+    })
         .sort({ _id: -1 })
         .limit(6)
         .toArray();
@@ -293,7 +295,7 @@ const homeAlbums = async (request, _) => {
     const mostPlayed = await getMostPlayed(userId);
     const homeList = {};
     homeList["New Releases"] = await getNewReleases();
-    homeList["Recently Added"] = await getRecentlyAdded();
+    homeList["Recently Added"] = await getRecentlyAdded(homeList["New Releases"]);
     return { albums: homeList, mostPlayed, quickPicks: await getQuickPicks() };
 };
 exports.homeAlbums = homeAlbums;

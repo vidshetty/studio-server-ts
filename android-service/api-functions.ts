@@ -100,12 +100,14 @@ const getNewReleases = async (): Promise<AndroidAlbum[]> => {
 
 };
 
-const getRecentlyAdded = async (): Promise<AndroidAlbum[]> => {
+const getRecentlyAdded = async (newReleases: AndroidAlbum[]): Promise<AndroidAlbum[]> => {
 
     const { Albums, Tracks } = MongoStudioHandler.getCollectionSet();
 
     const albums = await Albums
-        .find({})
+        .find({
+            _albumId: { $nin: _.map(newReleases, e => new ObjectId(e._albumId)) }
+        })
         .sort({ _id: -1 })
         .limit(6)
         .toArray() as AlbumSchema[];
@@ -368,7 +370,7 @@ export const homeAlbums = async (request: Request, _:any) => {
 
     homeList["New Releases"] = await getNewReleases();
 
-    homeList["Recently Added"] = await getRecentlyAdded();
+    homeList["Recently Added"] = await getRecentlyAdded(homeList["New Releases"]);
 
     return { albums: homeList, mostPlayed, quickPicks: await getQuickPicks() };
 
