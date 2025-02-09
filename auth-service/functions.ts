@@ -41,9 +41,6 @@ import { UserSchema } from "../helpers/schema";
 
 
 
-const ACCESS_TOKEN_SECRET = ENV("ACCESS_TOKEN_SECRET");
-const REFRESH_TOKEN_SECRET = ENV("REFRESH_TOKEN_SECRET");
-
 interface RequestQuery {
     userId?: string;
 };
@@ -52,7 +49,7 @@ const __verifyAccessToken = async (token: string): Promise<FoundResponse> => {
 
     const { Users } = MongoStudioHandler.getCollectionSet();
 
-    const obj: JwtPayload = jwt.verify(token, ACCESS_TOKEN_SECRET) as JwtPayload;
+    const obj: JwtPayload = jwt.verify(token, ENV().ACCESS_TOKEN_SECRET) as JwtPayload;
     const { _id, sessionId = null } = obj;
 
     if (sessionId === null) return { found: false, id: null, user: null };
@@ -80,7 +77,7 @@ const __generateAccessToken = async (token: string): Promise<RefreshTokenRespons
     let payload: JwtPayload;
 
     try {
-        payload = jwt.verify(token, REFRESH_TOKEN_SECRET) as JwtPayload;
+        payload = jwt.verify(token, ENV().REFRESH_TOKEN_SECRET) as JwtPayload;
     }
     catch(e) {
         throw e;
@@ -98,7 +95,7 @@ const __generateAccessToken = async (token: string): Promise<RefreshTokenRespons
         sessionId: payload.sessionId
     };
 
-    const accessToken: string = jwt.sign(newPayLoad, ACCESS_TOKEN_SECRET, { expiresIn: accessTokenExpiry, issuer });
+    const accessToken: string = jwt.sign(newPayLoad, ENV().ACCESS_TOKEN_SECRET, { expiresIn: accessTokenExpiry, issuer });
 
     return { accessToken, id: String(user._id) };
 
@@ -311,8 +308,8 @@ export const googleAuthCheck = async (request: Request, response: Response, next
         sessionId
     };
 
-    const accessToken: string = jwt.sign(payload, ACCESS_TOKEN_SECRET, { expiresIn: accessTokenExpiry, issuer });
-    const refreshToken: string = jwt.sign(payload, REFRESH_TOKEN_SECRET, { expiresIn: refreshTokenExpiry, issuer });
+    const accessToken: string = jwt.sign(payload, ENV().ACCESS_TOKEN_SECRET, { expiresIn: accessTokenExpiry, issuer });
+    const refreshToken: string = jwt.sign(payload, ENV().REFRESH_TOKEN_SECRET, { expiresIn: refreshTokenExpiry, issuer });
 
     response.cookie("ACCOUNT", accessToken, standardCookieConfig);
     response.cookie("ACCOUNT_REFRESH", refreshToken, standardCookieConfig);

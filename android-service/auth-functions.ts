@@ -30,9 +30,6 @@ import { ObjectId } from "mongodb";
 
 
 
-const ACCESS_TOKEN_SECRET = ENV("ACCESS_TOKEN_SECRET");
-const REFRESH_TOKEN_SECRET = ENV("REFRESH_TOKEN_SECRET");
-
 const __notifyAdmin = async (googleAccount: GoogleProfileInfo, type: String) => { // type [signup,getin]
 
     try {
@@ -207,8 +204,8 @@ export const accountCheck = async (request: Request) => {
         sessionId
     };
 
-    const accessToken: string = jwt.sign(payload, ACCESS_TOKEN_SECRET, { expiresIn: androidAccessTokenExpiry, issuer });
-    const refreshToken: string = jwt.sign(payload, REFRESH_TOKEN_SECRET, { expiresIn: refreshTokenExpiry, issuer });
+    const accessToken: string = jwt.sign(payload, ENV().ACCESS_TOKEN_SECRET, { expiresIn: androidAccessTokenExpiry, issuer });
+    const refreshToken: string = jwt.sign(payload, ENV().REFRESH_TOKEN_SECRET, { expiresIn: refreshTokenExpiry, issuer });
 
     console.log("return", {
         _id: user._id,

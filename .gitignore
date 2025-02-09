@@ -2,3 +2,4 @@ node_modules
 ENV
 CERTIFICATES
 Dockerfile
+nginx_config.txt

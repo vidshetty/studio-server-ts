@@ -1,6 +1,9 @@
 import { Request, Response } from "express";
 import _ from "lodash";
 import { ObjectId } from "mongodb";
+import moment from "moment-timezone";
+import path from "path";
+
 import { NodemailerOptions } from "../helpers/interfaces";
 import { sendEmail } from "../nodemailer-service";
 import {
@@ -25,8 +28,6 @@ import {
     __replace,
     convertToAlbumListFromDB
 } from "../helpers/utils";
-import moment from "moment-timezone";
-import path from "path";
 import ALBUMLIST from "../data/archiveGateway";
 import { LATEST_APP_UPDATE } from "../data/latestUpdate";
 import { MongoStudioHandler } from "../helpers/mongodb-connection";
@@ -43,27 +44,6 @@ const ALBUM_MAP: AlbumlistMap = ALBUMLIST.reduce<AlbumlistMap>((acc,each) => {
     acc[each._albumId] = each;
     return acc;
 }, {});
-
-const compare = (a: AlbumList, b: AlbumList): number => {
-    if (a.releaseDate > b.releaseDate) return -1;
-    return 1;
-};
-
-const [NewReleases, RecentlyAdded] = (() => {
-
-    const newReleases = [...ALBUMLIST].sort(compare).slice(0,6);
-
-    const recentlyAdded = [];
-    const len = ALBUMLIST.length;
-
-    for (let i=len-1; i>=0 && recentlyAdded.length < 6; i--) {
-        const index = newReleases.findIndex(each => each._albumId === ALBUMLIST[i]._albumId);
-        if (index === -1) recentlyAdded.push(ALBUMLIST[i]);
-    }
-
-    return [newReleases, recentlyAdded];
-
-})();
 
 const compareRecents = (a: RecentlyPlayed, b: RecentlyPlayed) => {
     if (a.last < b.last) return 1;
@@ -193,9 +173,24 @@ const getMostPlayed = async (userId: string): Promise<AlbumList[]> => {
 
 };
 
-const getQuickPicks = (): AlbumList[] => {
+const getQuickPicks = async (): Promise<AlbumList[]> => {
 
-    const allSongs = ALBUMLIST.reduce<AlbumList[]>((list, album) => {
+    const { Albums, Tracks } = MongoStudioHandler.getCollectionSet();
+
+    const tracks = await Tracks.aggregate([
+        {
+            $sample: { size: 12 }
+        }
+    ])
+    .toArray() as TracksSchema[];
+
+    const albums = await Albums.find({
+        _albumId: { $in: _.map(tracks, e => new ObjectId(e._albumId)) }
+    }).toArray() as AlbumSchema[];
+
+    const albumList = convertToAlbumListFromDB(albums, tracks);
+
+    return albumList.reduce<AlbumList[]>((list, album) => {
 
         if ((album as Single).Type === "Single") list.push(album);
 
@@ -212,22 +207,41 @@ const getQuickPicks = (): AlbumList[] => {
 
     }, []);
 
-    const final: AlbumList[] = [];
-    const uniqNums: number[] = [];
+};
 
-    for (let i=1; i<=12; i++) {
-        let gotUniqueRandomNum = false, rand: number = 0;
-        while (!gotUniqueRandomNum) {
-            rand = Math.floor(Math.random() * allSongs.length);
-            if (!uniqNums.includes(rand)) {
-                uniqNums.push(rand);
-                gotUniqueRandomNum = true;
-            }
-        }
-        final.push(allSongs[rand]);
-    }
+const getNewReleases = async (): Promise<AlbumList[]> => {
 
-    return final;
+    const { Albums, Tracks } = MongoStudioHandler.getCollectionSet();
+
+    const albums = await Albums
+        .find({})
+        .sort({ releaseDate: -1 })
+        .limit(6)
+        .toArray() as AlbumSchema[];
+
+    const tracks = await Tracks.find({
+        _albumId: { $in: _.map(albums, e => new ObjectId(e._albumId)) }
+    }).toArray() as TracksSchema[];
+
+    return convertToAlbumListFromDB(albums, tracks);
+
+};
+
+const getRecentlyAdded = async (): Promise<AlbumList[]> => {
+
+    const { Albums, Tracks } = MongoStudioHandler.getCollectionSet();
+
+    const albums = await Albums
+        .find({})
+        .sort({ _id: -1 })
+        .limit(6)
+        .toArray() as AlbumSchema[];
+
+    const tracks = await Tracks.find({
+        _albumId: { $in: _.map(albums, e => new ObjectId(e._albumId)) }
+    }).toArray() as TracksSchema[];
+
+    return convertToAlbumListFromDB(albums, tracks);
 
 };
 
@@ -342,49 +356,41 @@ const getAlbums = (name: string): AlbumList[] => {
 
 };
 
-const __qr = async (toBeExcluded: string, userId: string): Promise<(AlbumWithTrack|Single)[]> => {
+const __qr = async (toBeExcluded: string): Promise<(AlbumWithTrack|Single)[]> => {
 
-    const { Users } = MongoStudioHandler.getCollectionSet();
+    const { Albums, Tracks } = MongoStudioHandler.getCollectionSet();
 
-    const user = await Users.findOne({
-        _id: new ObjectId(userId)
-    }) as UserSchema | null;
+    const tracks = await Tracks.aggregate([
+        {
+            $match: {
+                $expr: {
+                    $and: [
+                        { $ne: ["$_albumId", new ObjectId(toBeExcluded)] },
+                        { $ne: ["$_trackId", new ObjectId(toBeExcluded)] }
+                    ]
+                }
+            }
+        },
+        {
+            $sample: { size: 80 }
+        }
+    ]).toArray() as TracksSchema[];
 
-    if (!user) return [];
+    const albums = await Albums.find({
+        _albumId: { $in: _.map(tracks, e => new ObjectId(e._albumId)) }
+    }).toArray() as AlbumSchema[];
 
-    const { recentlyPlayed: recents = [] } = user;
+    const albumList = convertToAlbumListFromDB(albums, tracks);
 
-    let filterRecents = true, recentsMap: RecentsMap;
-
-    const recentlyPlayed = recents.sort(compareRecents).slice(0,6);
-    if (recentlyPlayed.length < 6) filterRecents = false;
-
-    if (filterRecents) {
-        recentsMap = recentlyPlayed.reduce<RecentsMap>((acc, item) => {
-            acc[item.albumId] = true;
-            return acc;
-        }, {});
-    }
-
-    const randomNumberCounter: { [key: number]: boolean } = {};
-    const finalArr = [];
-
-    let rand: number, done: boolean;
-
-    const songlist = ALBUMLIST.reduce<(AlbumWithTrack|Single)[]>((list, song) => {
+    return albumList.reduce<(AlbumWithTrack|Single)[]>((list, song) => {
 
         const album = song as Album;
         const single = song as Single;
-
-        if (song._albumId === toBeExcluded) return list;
-
-        if (filterRecents && recentsMap[song._albumId]) return list;
 
         if (single.Type === "Single") list.push(single);
         
         if (album.Type === "Album") {
             album.Tracks.forEach(track => {
-                if (track._trackId === toBeExcluded) return;
                 const obj = { ...album, ...track };
                 obj.Tracks = [];
                 list.push(obj);
@@ -395,54 +401,44 @@ const __qr = async (toBeExcluded: string, userId: string): Promise<(AlbumWithTra
 
     }, []);
 
-    const len = songlist.length;
-
-    for (let i=0; i<75; i++) {
-        done = false;
-        let limit = 3;
-        while(!done) {
-            if (limit === 0) break;
-            else limit--;
-            rand = Math.floor(Math.random() * len);
-            if (!randomNumberCounter[rand]) {
-                finalArr.push(songlist[rand]);
-                randomNumberCounter[rand] = true;
-                done = true;
-            }
-        }
-    };
-
-    return finalArr;
-
 };
 
 const __rp = async (toBeExcluded: string, userId: string): Promise<(AlbumWithTrack|Single)[]> => {
 
-    const { Users } = MongoStudioHandler.getCollectionSet();
+    const { Users, Albums, Tracks } = MongoStudioHandler.getCollectionSet();
 
     const user = await Users.findOne({
         _id: new ObjectId(userId)
     }) as UserSchema | null;
 
-    if (!user) return [];
+    if (_.isEmpty(user)) return [];
 
-    const { recentlyPlayed: recents } = user;
-    const recentsAlbumIds: string[] = recents.map(each => each.albumId);
+    const { recentlyPlayed = [] } = user;
 
-    const albums = ALBUMLIST.reduce<(AlbumWithTrack|Single)[]>((list, song) => {
+    const recentlyPlayedAlbumIds: string[] = _.map(recentlyPlayed, each => String(each.albumId));
+
+    const albumsFromDb = await Albums.find({
+        _albumId: { $in: _.map(recentlyPlayedAlbumIds, e => new ObjectId(e)) }
+    }).toArray() as AlbumSchema[];
+
+    const tracksFromDb = await Tracks.find({
+        _albumId: { $in: _.map(albumsFromDb, e => new ObjectId(e._albumId)) }
+    }).toArray() as TracksSchema[];
+
+    const albumList = convertToAlbumListFromDB(albumsFromDb, tracksFromDb);
+
+    const albums = albumList.reduce<(AlbumWithTrack|Single)[]>((list, song) => {
 
         const album = song as Album;
         const single = song as Single;
 
-        if (album._albumId === toBeExcluded) return list;
-
-        if (!recentsAlbumIds.includes(album._albumId)) return list;
+        if (String(album._albumId) === toBeExcluded) return list;
 
         if (single.Type === "Single") list.push(single);
         
         if (album.Type === "Album") {
             album.Tracks.forEach(t => {
-                if (t._trackId === toBeExcluded) return;
+                if (String(t._trackId) === toBeExcluded) return;
                 const obj = { ...album, ...t };
                 obj.Tracks = [];
                 list.push(obj);
@@ -527,11 +523,6 @@ export const getAlbum = async (request: Request) => {
         };
     }
 
-    // const album = ALBUMLIST.find(each => each._albumId === albumId);
-    // if (!album) return null;
-
-    // return album;
-
 };
 
 export const getTrack = (request: Request) => {
@@ -567,11 +558,11 @@ export const homeAlbums = async (request: Request, _:any) => {
 
     const homeList: { [key: string]: AlbumList[] } = {};
 
-    homeList["New Releases"] = NewReleases;
+    homeList["New Releases"] = await getNewReleases();
 
-    homeList["Recently Added"] = RecentlyAdded;
+    homeList["Recently Added"] = await getRecentlyAdded();
 
-    return { albums: homeList, mostPlayed, quickPicks: getQuickPicks() };
+    return { albums: homeList, mostPlayed, quickPicks: await getQuickPicks() };
 
 };
 
@@ -773,7 +764,7 @@ export const startRadio = async (request: Request, _:any) => {
     let finalArr: (AlbumWithTrack|Single)[] = [];
 
     if (type === "qr") {
-        finalArr = await __qr(toBeExcluded, userId);
+        finalArr = await __qr(toBeExcluded);
     }
     else if (type === "rp") {
         finalArr = await __rp(toBeExcluded, userId);

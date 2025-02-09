@@ -12,7 +12,6 @@ import {
 } from "./functions";
 
 const router = Router();
-const ADMIN_ACCESS = ENV("ADMIN_ACCESS");
 
 
 
@@ -20,7 +19,7 @@ const accessCheck = (request: Request, response: Response, next: NextFunction) =
 
     const auth = request.headers.authorization;
 
-    if (auth !== ADMIN_ACCESS) {
+    if (auth !== ENV().ADMIN_ACCESS) {
         return response.status(500).send({
             message: "Invalid admin access"
         });

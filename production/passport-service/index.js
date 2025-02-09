@@ -6,13 +6,10 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const passport_1 = __importDefault(require("passport"));
 const passport_google_oauth20_1 = require("passport-google-oauth20");
 const utils_1 = require("../helpers/utils");
-const GOOGLE_CLIENT_ID = (0, utils_1.ENV)("GOOGLE_CLIENT_ID");
-const GOOGLE_CLIENT_SECRET = (0, utils_1.ENV)("GOOGLE_CLIENT_SECRET");
-const ENVIRONMENT = (0, utils_1.ENV)("ENVIRONMENT");
 const googleStrat = {
-    clientID: GOOGLE_CLIENT_ID,
-    clientSecret: GOOGLE_CLIENT_SECRET,
-    callbackURL: ENVIRONMENT === "LOCAL" ? "/google-signin" :
+    clientID: (0, utils_1.ENV)().GOOGLE_CLIENT_ID,
+    clientSecret: (0, utils_1.ENV)().GOOGLE_CLIENT_SECRET,
+    callbackURL: (0, utils_1.ENV)().ENVIRONMENT === "LOCAL" ? "/google-signin" :
         `${utils_1.PASSPORT_REDIRECT_APP_URL}/google-signin`
 };
 passport_1.default.serializeUser((user, done) => {

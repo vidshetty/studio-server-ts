@@ -85,21 +85,31 @@ const getMostPlayed = async (userId) => {
         // return albums;
     }, []);
 };
+const getNewReleases = async () => {
+    const { Albums, Tracks } = mongodb_connection_1.MongoStudioHandler.getCollectionSet();
+    const albums = await Albums
+        .find({})
+        .sort({ releaseDate: -1 })
+        .limit(6)
+        .toArray();
+    const tracks = await Tracks.find({
+        _albumId: { $in: lodash_1.default.map(albums, e => new mongodb_1.ObjectId(e._albumId)) }
+    }).toArray();
+    return (0, utils_1.convertToAndroidAlbumFromDB)(albums, tracks);
+};
+const getRecentlyAdded = async () => {
+    const { Albums, Tracks } = mongodb_connection_1.MongoStudioHandler.getCollectionSet();
+    const albums = await Albums
+        .find({})
+        .sort({ _id: -1 })
+        .limit(6)
+        .toArray();
+    const tracks = await Tracks.find({
+        _albumId: { $in: lodash_1.default.map(albums, e => new mongodb_1.ObjectId(e._albumId)) }
+    }).toArray();
+    return (0, utils_1.convertToAndroidAlbumFromDB)(albums, tracks);
+};
 const getQuickPicks = async () => {
-    // const final: AndroidTrack[] = [];
-    // const uniqNums: number[] = [];
-    // for (let i=1; i<=12; i++) {
-    //     let gotUniqueRandomNum = false, rand: number = 0;
-    //     while (!gotUniqueRandomNum) {
-    //         rand = Math.floor(Math.random() * ALBUM_LIST_TRACKS.length);
-    //         if (!uniqNums.includes(rand)) {
-    //             uniqNums.push(rand);
-    //             gotUniqueRandomNum = true;
-    //         }
-    //     }
-    //     final.push(ALBUM_LIST_TRACKS[rand]);
-    // }
-    // return final;
     const { Albums, Tracks } = mongodb_connection_1.MongoStudioHandler.getCollectionSet();
     const tracks = await Tracks.aggregate([
         { $sample: { size: 12 } }
@@ -282,8 +292,8 @@ const homeAlbums = async (request, _) => {
     const { id: userId } = request.ACCOUNT;
     const mostPlayed = await getMostPlayed(userId);
     const homeList = {};
-    homeList["New Releases"] = (0, utils_1.convertToAndroidAlbum)(archiveGateway_1.NewReleases);
-    homeList["Recently Added"] = (0, utils_1.convertToAndroidAlbum)(archiveGateway_1.RecentlyAdded);
+    homeList["New Releases"] = await getNewReleases();
+    homeList["Recently Added"] = await getRecentlyAdded();
     return { albums: homeList, mostPlayed, quickPicks: await getQuickPicks() };
 };
 exports.homeAlbums = homeAlbums;

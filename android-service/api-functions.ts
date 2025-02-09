@@ -18,7 +18,7 @@ import {
     convertToAndroidAlbumFromDB,
     convertToAndroidTrackFromDB
 } from "../helpers/utils";
-import ALBUMLIST, { NewReleases, RecentlyAdded, ALBUM_MAP, ALBUM_LIST_TRACKS } from "../data/archiveGateway";
+import ALBUMLIST, { ALBUM_LIST_TRACKS } from "../data/archiveGateway";
 import { LATEST_APP_UPDATE } from "../data/latestUpdate";
 import { sendEmail } from "../nodemailer-service";
 import { MongoStudioHandler } from "../helpers/mongodb-connection";
@@ -82,24 +82,43 @@ const getMostPlayed = async (userId: string): Promise<AndroidAlbum[]> => {
 
 };
 
+const getNewReleases = async (): Promise<AndroidAlbum[]> => {
+
+    const { Albums, Tracks } = MongoStudioHandler.getCollectionSet();
+
+    const albums = await Albums
+        .find({})
+        .sort({ releaseDate: -1 })
+        .limit(6)
+        .toArray() as AlbumSchema[];
+
+    const tracks = await Tracks.find({
+        _albumId: { $in: _.map(albums, e => new ObjectId(e._albumId)) }
+    }).toArray() as TracksSchema[];
+
+    return convertToAndroidAlbumFromDB(albums, tracks);
+
+};
+
+const getRecentlyAdded = async (): Promise<AndroidAlbum[]> => {
+
+    const { Albums, Tracks } = MongoStudioHandler.getCollectionSet();
+
+    const albums = await Albums
+        .find({})
+        .sort({ _id: -1 })
+        .limit(6)
+        .toArray() as AlbumSchema[];
+
+    const tracks = await Tracks.find({
+        _albumId: { $in: _.map(albums, e => new ObjectId(e._albumId)) }
+    }).toArray() as TracksSchema[];
+
+    return convertToAndroidAlbumFromDB(albums, tracks);
+
+};
+
 const getQuickPicks = async (): Promise<AndroidTrack[]> => {
-
-    // const final: AndroidTrack[] = [];
-    // const uniqNums: number[] = [];
-
-    // for (let i=1; i<=12; i++) {
-    //     let gotUniqueRandomNum = false, rand: number = 0;
-    //     while (!gotUniqueRandomNum) {
-    //         rand = Math.floor(Math.random() * ALBUM_LIST_TRACKS.length);
-    //         if (!uniqNums.includes(rand)) {
-    //             uniqNums.push(rand);
-    //             gotUniqueRandomNum = true;
-    //         }
-    //     }
-    //     final.push(ALBUM_LIST_TRACKS[rand]);
-    // }
-
-    // return final;
 
     const { Albums, Tracks } = MongoStudioHandler.getCollectionSet();
 
@@ -347,9 +366,9 @@ export const homeAlbums = async (request: Request, _:any) => {
 
     const homeList: { [key: string]: AndroidAlbum[] } = {};
 
-    homeList["New Releases"] = convertToAndroidAlbum(NewReleases);
+    homeList["New Releases"] = await getNewReleases();
 
-    homeList["Recently Added"] = convertToAndroidAlbum(RecentlyAdded);
+    homeList["Recently Added"] = await getRecentlyAdded();
 
     return { albums: homeList, mostPlayed, quickPicks: await getQuickPicks() };
 

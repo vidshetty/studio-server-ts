@@ -12,8 +12,6 @@ const utils_1 = require("../helpers/utils");
 const nodemailer_service_1 = require("../nodemailer-service");
 const mongodb_connection_1 = require("../helpers/mongodb-connection");
 const mongodb_1 = require("mongodb");
-const ACCESS_TOKEN_SECRET = (0, utils_1.ENV)("ACCESS_TOKEN_SECRET");
-const REFRESH_TOKEN_SECRET = (0, utils_1.ENV)("REFRESH_TOKEN_SECRET");
 const __notifyAdmin = async (googleAccount, type) => {
     try {
         const data = await (0, utils_1.ejsRender)(path_1.default.join(process.cwd(), utils_1.buildroot, "views", "newsignup.ejs"), {
@@ -141,8 +139,8 @@ const accountCheck = async (request) => {
         email,
         sessionId
     };
-    const accessToken = jsonwebtoken_1.default.sign(payload, ACCESS_TOKEN_SECRET, { expiresIn: utils_1.androidAccessTokenExpiry, issuer: utils_1.issuer });
-    const refreshToken = jsonwebtoken_1.default.sign(payload, REFRESH_TOKEN_SECRET, { expiresIn: utils_1.refreshTokenExpiry, issuer: utils_1.issuer });
+    const accessToken = jsonwebtoken_1.default.sign(payload, (0, utils_1.ENV)().ACCESS_TOKEN_SECRET, { expiresIn: utils_1.androidAccessTokenExpiry, issuer: utils_1.issuer });
+    const refreshToken = jsonwebtoken_1.default.sign(payload, (0, utils_1.ENV)().REFRESH_TOKEN_SECRET, { expiresIn: utils_1.refreshTokenExpiry, issuer: utils_1.issuer });
     console.log("return", {
         _id: user._id,
         name,

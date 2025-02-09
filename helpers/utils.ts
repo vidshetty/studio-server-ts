@@ -35,8 +35,24 @@ export const BUILD_TYPE = Object.freeze({
     RELEASE: "release"
 });
 
-export const ENV = (type: string) : string => {
-    return process.env[type] || "";
+export const ENV = () => {
+    return Object.freeze({
+        ADMIN_ACCESS: process.env.ADMIN_ACCESS || "",
+        ACCESS_TOKEN_SECRET: process.env.ACCESS_TOKEN_SECRET || "",
+        REFRESH_TOKEN_SECRET: process.env.REFRESH_TOKEN_SECRET || "",
+        SERVER: process.env.SERVER || "",
+        ENVIRONMENT: process.env.ENVIRONMENT || "",
+        PORT: process.env.PORT || "",
+        MONGO_URI: process.env.MONGO_URI || "",
+        GMAIL_USERNAME: process.env.GMAIL_USERNAME || "",
+        GOOGLE_CLIENT_ID: process.env.GOOGLE_CLIENT_ID || "",
+        GOOGLE_CLIENT_SECRET: process.env.GOOGLE_CLIENT_SECRET || "",
+        GMAIL_CLIENT_ID: process.env.GMAIL_CLIENT_ID || "",
+        GMAIL_CLIENT_SECRET: process.env.GMAIL_CLIENT_SECRET || "",
+        GMAIL_REDIRECT_URI: process.env.GMAIL_REDIRECT_URI || "",
+        GMAIL_REFRESH_TOKEN: process.env.GMAIL_REFRESH_TOKEN || "",
+        DRIVE_LINK: process.env.DRIVE_LINK || "",
+    });
 };
 
 export const requestUrlCheck = (req: Request, from: string) : boolean => {
@@ -63,16 +79,7 @@ export const date = (val: string) : Date => moment(val,"DD-MM-YYYY").toDate();
 
 export const server = (() : string[] => {
 
-    const SERVER: string = ENV("SERVER");
-
-    // if (SERVER === "LOCAL") {
-    //     return [
-    //         `http://localhost:4000`, //0
-    //         `http://localhost:7000`, //1
-    //         `http://localhost:8000`, //2
-    //         `http://localhost:9000`  //3
-    //     ];
-    // }
+    const SERVER: string = ENV().SERVER;
 
     return [
         "https://player.studiomusic.app",
@@ -80,33 +87,6 @@ export const server = (() : string[] => {
         "https://player.studiomusic.app",
         "https://player.studiomusic.app",
     ];
-
-    // if (SERVER === "MAIN") {
-    //     return [
-    //         `https://songserver1.herokuapp.com`, //0
-    //         `https://songserver2.herokuapp.com`, //1
-    //         `https://songserver3.herokuapp.com`, //2
-    //         `https://songserver4.herokuapp.com`  //3
-    //     ];
-    // }
-    // if (SERVER === "BACKUP1") {
-    //     return [
-    //         `https://songserver1-backup1.herokuapp.com`, //0
-    //         `https://songserver2-backup1.herokuapp.com`, //1
-    //         `https://songserver3-backup1.herokuapp.com`, //2
-    //         `https://songserver4-backup1.herokuapp.com`  //3
-    //     ];
-    // }
-    // if (SERVER === "BACKUP2") {
-    //     return [
-    //         `https://songserver1-backup2.herokuapp.com`, //0
-    //         `https://songserver2-backup2.herokuapp.com`, //1
-    //         `https://songserver3-backup2.herokuapp.com`, //2
-    //         `https://songserver4-backup2.herokuapp.com`  //3
-    //     ];
-    // }
-
-    // return [];
 
 })();
 
@@ -133,7 +113,7 @@ export const cookieParser = (request: Request): CookieInterface => {
 export const standardCookieConfig: CookieOptions = {
     sameSite: "none",
     secure: true,
-    domain: ENV("ENVIRONMENT") === "LOCAL" ? "localhost" : 
+    domain: ENV().ENVIRONMENT === "LOCAL" ? "localhost" : 
             APP_URL,
     maxAge: 40 * 24 * 60 * 60 * 1000,
     httpOnly: true
@@ -142,7 +122,7 @@ export const standardCookieConfig: CookieOptions = {
 export const redirectUriCookieConfig: CookieOptions = {
     sameSite: "none",
     secure: true,
-    domain: ENV("ENVIRONMENT") === "LOCAL" ? "localhost" : 
+    domain: ENV().ENVIRONMENT === "LOCAL" ? "localhost" : 
             APP_URL,
     maxAge: 5 * 60 * 1000,
     httpOnly: true

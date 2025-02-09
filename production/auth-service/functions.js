@@ -12,12 +12,10 @@ const utils_1 = require("../helpers/utils");
 const nodemailer_service_1 = require("../nodemailer-service");
 const mongodb_1 = require("mongodb");
 const mongodb_connection_1 = require("../helpers/mongodb-connection");
-const ACCESS_TOKEN_SECRET = (0, utils_1.ENV)("ACCESS_TOKEN_SECRET");
-const REFRESH_TOKEN_SECRET = (0, utils_1.ENV)("REFRESH_TOKEN_SECRET");
 ;
 const __verifyAccessToken = async (token) => {
     const { Users } = mongodb_connection_1.MongoStudioHandler.getCollectionSet();
-    const obj = jsonwebtoken_1.default.verify(token, ACCESS_TOKEN_SECRET);
+    const obj = jsonwebtoken_1.default.verify(token, (0, utils_1.ENV)().ACCESS_TOKEN_SECRET);
     const { _id, sessionId = null } = obj;
     if (sessionId === null)
         return { found: false, id: null, user: null };
@@ -37,7 +35,7 @@ const __generateAccessToken = async (token) => {
     const { Users } = mongodb_connection_1.MongoStudioHandler.getCollectionSet();
     let payload;
     try {
-        payload = jsonwebtoken_1.default.verify(token, REFRESH_TOKEN_SECRET);
+        payload = jsonwebtoken_1.default.verify(token, (0, utils_1.ENV)().REFRESH_TOKEN_SECRET);
     }
     catch (e) {
         throw e;
@@ -52,7 +50,7 @@ const __generateAccessToken = async (token) => {
         email: user.googleAccount.email,
         sessionId: payload.sessionId
     };
-    const accessToken = jsonwebtoken_1.default.sign(newPayLoad, ACCESS_TOKEN_SECRET, { expiresIn: utils_1.accessTokenExpiry, issuer: utils_1.issuer });
+    const accessToken = jsonwebtoken_1.default.sign(newPayLoad, (0, utils_1.ENV)().ACCESS_TOKEN_SECRET, { expiresIn: utils_1.accessTokenExpiry, issuer: utils_1.issuer });
     return { accessToken, id: String(user._id) };
 };
 const __refreshAccessToken = async (request) => {
@@ -205,8 +203,8 @@ const googleAuthCheck = async (request, response, next) => {
         email,
         sessionId
     };
-    const accessToken = jsonwebtoken_1.default.sign(payload, ACCESS_TOKEN_SECRET, { expiresIn: utils_1.accessTokenExpiry, issuer: utils_1.issuer });
-    const refreshToken = jsonwebtoken_1.default.sign(payload, REFRESH_TOKEN_SECRET, { expiresIn: utils_1.refreshTokenExpiry, issuer: utils_1.issuer });
+    const accessToken = jsonwebtoken_1.default.sign(payload, (0, utils_1.ENV)().ACCESS_TOKEN_SECRET, { expiresIn: utils_1.accessTokenExpiry, issuer: utils_1.issuer });
+    const refreshToken = jsonwebtoken_1.default.sign(payload, (0, utils_1.ENV)().REFRESH_TOKEN_SECRET, { expiresIn: utils_1.refreshTokenExpiry, issuer: utils_1.issuer });
     response.cookie("ACCOUNT", accessToken, utils_1.standardCookieConfig);
     response.cookie("ACCOUNT_REFRESH", refreshToken, utils_1.standardCookieConfig);
     return next();

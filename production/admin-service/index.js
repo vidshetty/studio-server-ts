@@ -5,10 +5,9 @@ const utils_1 = require("../helpers/utils");
 const responsehandler_1 = require("../helpers/responsehandler");
 const functions_1 = require("./functions");
 const router = (0, express_1.Router)();
-const ADMIN_ACCESS = (0, utils_1.ENV)("ADMIN_ACCESS");
 const accessCheck = (request, response, next) => {
     const auth = request.headers.authorization;
-    if (auth !== ADMIN_ACCESS) {
+    if (auth !== (0, utils_1.ENV)().ADMIN_ACCESS) {
         return response.status(500).send({
             message: "Invalid admin access"
         });
