@@ -73,10 +73,6 @@ const getMostPlayed = async (userId: string): Promise<AndroidAlbum[]> => {
         if (album) acc.push(...convertToAndroidAlbumFromDB([album], tracks));
 
         return acc;
-
-        // const album = ALBUM_MAP[each.albumId] || null;
-        // if (album) albums.push(...convertToAndroidAlbum([album]));
-        // return albums;
         
     }, []);
 

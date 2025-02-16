@@ -2178,8 +2178,26 @@ const songlist: (Single|Album)[] = [
         Thumbnail: "https://lh3.googleusercontent.com/RtrisEbMpw0qvN904DsYH4vOMyqHrwPoVlRM_tUcZL0OLqHs_IwPb-F6N_YlBqsqHGfCZdDL-o-99jsl=w544-h544-l90-rj",
         Artist: "Anuv Jain, AP Dhillon",
         Duration: "3: 11",
-        url: `${server[3]}/hls/listen/Afsos - Anuv Jain/output.m3u8`
+        url: `${server[3]}/hls/listen/Afsos - Anuv Jain/output.m3u8`,
+        lyrics: true,
+        sync: true
     },
+    {
+        _albumId: "67b1a82c6db9368fefacdf03",
+        _trackId: "67b1a82c6db9368fefacdf03",
+        Album: "Water",
+        AlbumArtist: "Diljit Dosanjh",
+        Type: "Single",
+        Year: "2025",
+        Color: "rgba(8,40,64,1)",
+        DarkColor: "rgba(8,40,64,1)",
+        LightColor: "rgba(25,123,197,1)",
+        releaseDate: date("14-02-2025"),
+        Thumbnail: "https://lh3.googleusercontent.com/O9KxjSk79lGtIdRKXHepjwRmryO7yDWg7KtAlS7P1PSvizQCB7lcP0Zo_Yk0PT2Po2T5yr9cpWF9okQ=w544-h544-l90-rj",
+        Artist: "Diljit Dosanjh",
+        Duration: "3: 16",
+        url: `${server[3]}/hls/listen/Water - Diljit Dosanjh/output.m3u8`
+    }
 ];
 
 

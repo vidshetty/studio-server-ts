@@ -80,9 +80,6 @@ const getMostPlayed = async (userId) => {
         if (album)
             acc.push(...(0, utils_1.convertToAndroidAlbumFromDB)([album], tracks));
         return acc;
-        // const album = ALBUM_MAP[each.albumId] || null;
-        // if (album) albums.push(...convertToAndroidAlbum([album]));
-        // return albums;
     }, []);
 };
 const getNewReleases = async () => {
