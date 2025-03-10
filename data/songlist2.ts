@@ -2197,6 +2197,22 @@ const songlist: (Single|Album)[] = [
         Artist: "Diljit Dosanjh",
         Duration: "3: 16",
         url: `${server[3]}/hls/listen/Water - Diljit Dosanjh/output.m3u8`
+    },
+    {
+        _albumId: "67cf20bce653906f17136972",
+        _trackId: "67cf20bce653906f17136972",
+        Album: "Run It Up",
+        AlbumArtist: "Hanumankind",
+        Type: "Single",
+        Year: "2025",
+        Color: "rgba(248,160,24,1)",
+        DarkColor: "rgba(164,106,16,1)",
+        LightColor: "rgba(248,160,24,1)",
+        releaseDate: date("05-03-2025"),
+        Thumbnail: "https://lh3.googleusercontent.com/6DSrfLUE2JEPhwnF-IFuM5IP8rL8DgrpWPtqh0GvCkdT25Vl5lw3nEjLu-dZ3qIByuoEmU7MS3D8PakF=w544-h544-l90-rj",
+        Artist: "Hanumankind",
+        Duration: "2: 53",
+        url: `${server[3]}/hls/listen/Run It Up - Hanumankind/output.m3u8`
     }
 ];
 
