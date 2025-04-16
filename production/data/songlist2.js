@@ -2212,6 +2212,24 @@ const songlist = [
         Artist: "Hanumankind",
         Duration: "2: 53",
         url: `${utils_1.server[3]}/hls/listen/Run It Up - Hanumankind/output.m3u8`
+    },
+    {
+        _albumId: "67ff4e4d48adac7f00e32e5a",
+        _trackId: "67ff4e4d48adac7f00e32e5a",
+        Album: "Weightless",
+        AlbumArtist: "Martin Garrix, Arijit Singh",
+        Type: "Single",
+        Year: "2025",
+        Color: "rgba(160,24,16,1)",
+        DarkColor: "rgba(160,24,16,1)",
+        LightColor: "rgba(231,35,23,1)",
+        releaseDate: (0, utils_1.date)("11-04-2025"),
+        Thumbnail: "https://lh3.googleusercontent.com/e8Yh5oYnEfg9lnT-_gVKRXArNrgVxJB8AXC8MKRw7fWkiam3R5ouHSj3BsRqws6vTBltejcvhAeb8J3oJQ=w544-h544-l90-rj",
+        Artist: "Martin Garrix, Arijit Singh",
+        Duration: "3: 42",
+        url: `${utils_1.server[3]}/hls/listen/Weightless - Martin Garrix/output.m3u8`,
+        lyrics: true,
+        sync: true
     }
 ];
 exports.default = songlist;
