@@ -29,6 +29,16 @@ export const refreshTokenExpiry = "30d";
 export const issuer = "StudioMusic";
 export const buildroot = "builds";
 export const defaultUserId = "620e2e2693c8702fed063743";
+export const defaultResumeLinks: { [key: string]: string } = Object.freeze({
+    LINKEDIN: "https://www.linkedin.com/in/vidhatashetty/",
+    GITHUB: "https://github.com/vidshetty",
+    LEETCODE: "https://leetcode.com/u/vid_shetty/",
+    STUDIOMUSIC_APP: "https://studiomusic.app",
+    STUDIOMUSIC_DEMO_VIDEOS: "https://drive.google.com/drive/folders/1wmwPzsUtm49oDvs6LQlOr7CATfvzTNNX?usp=drive_link",
+    STUDIOMUSIC_BACKEND: "https://github.com/vidshetty/studio-server-ts",
+    STUDIOMUSIC_ANDROID: "https://github.com/vidshetty/studiomusic-java",
+    WASSUPPRO_BACKEND: "https://github.com/vidshetty/wassuppro"
+});
 
 export const BUILD_TYPE = Object.freeze({
     DEBUG: "debug",

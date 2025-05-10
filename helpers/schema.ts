@@ -63,3 +63,12 @@ export interface UserSchema {
     activeSessions: ActiveSession[];
     installedVersion: InstalledVersion | null;
 };
+
+export interface ResumeConfigSchema {
+    _id: ObjectId;
+    name: string;
+    entries: {
+        linkType: string;
+        date: string;
+    }[];
+};

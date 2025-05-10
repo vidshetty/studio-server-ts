@@ -5,7 +5,8 @@ import mongodb, { MongoClient } from "mongodb";
 const Collection = Object.freeze({
     ALBUMS: "albums",
     TRACKS: "tracks",
-    USERS: "users"
+    USERS: "users",
+    RESUME_CONFIGS: "resumeConfigs"
 });
 
 
@@ -19,6 +20,7 @@ export class MongoStudioHandler {
     private static __Albums: mongodb.Collection;
     private static __Tracks: mongodb.Collection;
     private static __Users: mongodb.Collection;
+    private static __ResumeConfigs: mongodb.Collection;
 
     // initialise
     static async initialize() {
@@ -43,6 +45,7 @@ export class MongoStudioHandler {
         this.__Albums = this.__db.collection(Collection.ALBUMS);
         this.__Tracks = this.__db.collection(Collection.TRACKS);
         this.__Users = this.__db.collection(Collection.USERS);
+        this.__ResumeConfigs = this.__db.collection(Collection.RESUME_CONFIGS);
 
     };
 
@@ -50,7 +53,8 @@ export class MongoStudioHandler {
         return Object.freeze({
             Albums: this.__Albums,
             Tracks: this.__Tracks,
-            Users: this.__Users
+            Users: this.__Users,
+            ResumeConfigs: this.__ResumeConfigs
         });
     }
 

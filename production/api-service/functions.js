@@ -3,7 +3,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.demoVideosLink = exports.getLatestUpdate = exports.signOut = exports.getProfile = exports.activateCheck = exports.recordTime = exports.startRadio = exports.getLyrics = exports.removeFromRecentlyPlayed = exports.addToRecentlyPlayed = exports.search = exports.getAlbumDetails = exports.getTrackDetails = exports.getLibrary = exports.homeAlbums = exports.getTrack = exports.getAlbum = void 0;
+exports.demoVideosLink = exports.getOriginalResumeLink = exports.getLatestUpdate = exports.signOut = exports.getProfile = exports.activateCheck = exports.recordTime = exports.startRadio = exports.getLyrics = exports.removeFromRecentlyPlayed = exports.addToRecentlyPlayed = exports.search = exports.getAlbumDetails = exports.getTrackDetails = exports.getLibrary = exports.homeAlbums = exports.getTrack = exports.getAlbum = void 0;
 const lodash_1 = __importDefault(require("lodash"));
 const mongodb_1 = require("mongodb");
 const moment_timezone_1 = __importDefault(require("moment-timezone"));
@@ -343,6 +343,19 @@ const __notifyOfAccessingLinks = async () => {
         console.log("error sending email to admin on drive access", e);
     }
 };
+const __notifyOfAccessingCustomResumeLinks = async (name, linkType) => {
+    try {
+        const options = {
+            to: "toriumcar@gmail.com",
+            subject: `${name} - ${linkType} accessed!`,
+            html: "Someone accessed your custom link!"
+        };
+        await (0, nodemailer_service_1.sendEmail)(options);
+    }
+    catch (e) {
+        console.log("error sending email to admin on custom link access", e);
+    }
+};
 const getAlbum = async (request) => {
     const { albumId } = request.query;
     if (!albumId)
@@ -612,6 +625,40 @@ const getLatestUpdate = async (request, _) => {
     };
 };
 exports.getLatestUpdate = getLatestUpdate;
+const getOriginalResumeLink = async (req, res) => {
+    try {
+        const { id = null, linkType = null } = ((req === null || req === void 0 ? void 0 : req.params) || {});
+        if (lodash_1.default.isEmpty(id) ||
+            !Object.keys(utils_1.defaultResumeLinks).includes(linkType || "")) {
+            throw new Error("invalid url!");
+        }
+        const { ResumeConfigs } = mongodb_connection_1.MongoStudioHandler.getCollectionSet();
+        const config = await ResumeConfigs.findOne({
+            _id: new mongodb_1.ObjectId(id)
+        });
+        if (lodash_1.default.isEmpty(config)) {
+            throw new Error("no config found, invalid id!");
+        }
+        const u = await ResumeConfigs.updateOne({ _id: new mongodb_1.ObjectId(config._id) }, {
+            $push: {
+                entries: {
+                    $each: [{
+                            linkType,
+                            date: (0, moment_timezone_1.default)().tz("Asia/Kolkata").format("YYYY-MM-DD HH:mm:ss")
+                        }]
+                }
+            }
+        });
+        const orig_link = utils_1.defaultResumeLinks[linkType];
+        __notifyOfAccessingCustomResumeLinks(config.name, linkType);
+        res.redirect(orig_link);
+    }
+    catch (e) {
+        console.log("error in resume link", e);
+        res.status(404).end();
+    }
+};
+exports.getOriginalResumeLink = getOriginalResumeLink;
 const demoVideosLink = async (_, res) => {
     const drive_url = process.env.DRIVE_LINK || null;
     if (drive_url === null)

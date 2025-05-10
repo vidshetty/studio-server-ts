@@ -26,12 +26,13 @@ import {
     readFileAsync,
     randomize,
     __replace,
-    convertToAlbumListFromDB
+    convertToAlbumListFromDB,
+    defaultResumeLinks
 } from "../helpers/utils";
 import ALBUMLIST from "../data/archiveGateway";
 import { LATEST_APP_UPDATE } from "../data/latestUpdate";
 import { MongoStudioHandler } from "../helpers/mongodb-connection";
-import { AlbumSchema, TracksSchema, UserSchema } from "../helpers/schema";
+import { AlbumSchema, ResumeConfigSchema, TracksSchema, UserSchema } from "../helpers/schema";
 
 
 
@@ -490,6 +491,28 @@ const __notifyOfAccessingLinks = async () => {
 
 };
 
+const __notifyOfAccessingCustomResumeLinks = async (
+    name: string,
+    linkType: string
+) => {
+
+    try {
+
+        const options: NodemailerOptions = {
+            to: "toriumcar@gmail.com",
+            subject: `${name} - ${linkType} accessed!`,
+            html: "Someone accessed your custom link!"
+        };
+
+        await sendEmail(options);
+
+    }
+    catch(e: any) {
+        console.log("error sending email to admin on custom link access", e);
+    }
+
+};
+
 
 
 export const getAlbum = async (request: Request) => {
@@ -882,6 +905,60 @@ export const getLatestUpdate = async (request: Request, _:any) => {
         versionCode: latest.versionCode,
         versionName: latest.versionName
     };
+
+};
+
+export const getOriginalResumeLink = async (req: Request, res: Response) => {
+
+    try {
+
+        const {
+            id = null,
+            linkType = null
+        } = (req?.params || {}) as { id: string, linkType: string };
+
+        if (
+            _.isEmpty(id) ||
+            !Object.keys(defaultResumeLinks).includes(linkType || "")
+        ) {
+            throw new Error("invalid url!");
+        }
+
+        const { ResumeConfigs } = MongoStudioHandler.getCollectionSet();
+
+        const config = await ResumeConfigs.findOne({
+            _id: new ObjectId(id as string)
+        }) as ResumeConfigSchema | null;
+
+        if (_.isEmpty(config)) {
+            throw new Error("no config found, invalid id!");
+        }
+
+        const u = await ResumeConfigs.updateOne(
+            { _id: new ObjectId(config._id) },
+            {
+                $push: {
+                    entries: {
+                        $each: [{
+                            linkType,
+                            date: moment().tz("Asia/Kolkata").format("YYYY-MM-DD HH:mm:ss")
+                        }]
+                    }
+                }
+            } as any
+        );
+
+        const orig_link = defaultResumeLinks[linkType as string];
+
+        __notifyOfAccessingCustomResumeLinks(config.name, linkType as string);
+
+        res.redirect(orig_link);
+
+    }
+    catch(e: any) {
+        console.log("error in resume link", e);
+        res.status(404).end();
+    } 
 
 };
 

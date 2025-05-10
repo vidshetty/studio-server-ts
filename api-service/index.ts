@@ -15,7 +15,8 @@ import {
     signOut,
     startRadio,
     getLatestUpdate,
-    demoVideosLink
+    demoVideosLink,
+    getOriginalResumeLink
 } from "./functions";
 import { MAIN_URL } from "../helpers/utils";
 
@@ -24,6 +25,8 @@ const router = Router();
 
 
 router.get("/getLatestUpdate", responseMid(getLatestUpdate));
+
+router.get("/link/:id/:linkType", getOriginalResumeLink);
 
 router.get("/links/demo-videos", demoVideosLink);
 
