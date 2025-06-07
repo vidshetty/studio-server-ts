@@ -2231,6 +2231,22 @@ const songlist: (Single|Album)[] = [
         url: `${server[3]}/hls/listen/Weightless - Martin Garrix/output.m3u8`,
         lyrics: true,
         sync: true
+    },
+    {
+        _albumId: "68441195ef280ce74955a4e6",
+        _trackId: "68441195ef280ce74955a4e6",
+        Album: "Sapphire",
+        AlbumArtist: "Ed Sheeran",
+        Type: "Single",
+        Year: "2025",
+        Color: "rgba(72,128,184,1)",
+        DarkColor: "rgba(69,123,176,1)",
+        LightColor: "rgba(72,128,184,1)",
+        releaseDate: date("05-06-2025"),
+        Thumbnail: "https://lh3.googleusercontent.com/gFoL_IiMW-6i63a8FlitjPneJ0Usq1xNj1ZVE6sNgXsZimA3axRCuVCQKvj_300QDfkAQsQfMVguFdE=w544-h544-l90-rj",
+        Artist: "Ed Sheeran",
+        Duration: "2: 59",
+        url: `${server[3]}/hls/listen/Sapphire - Ed Sheeran/output.m3u8`
     }
 ];
 
