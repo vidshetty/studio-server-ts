@@ -2246,7 +2246,9 @@ const songlist: (Single|Album)[] = [
         Thumbnail: "https://lh3.googleusercontent.com/gFoL_IiMW-6i63a8FlitjPneJ0Usq1xNj1ZVE6sNgXsZimA3axRCuVCQKvj_300QDfkAQsQfMVguFdE=w544-h544-l90-rj",
         Artist: "Ed Sheeran",
         Duration: "2: 59",
-        url: `${server[3]}/hls/listen/Sapphire - Ed Sheeran/output.m3u8`
+        url: `${server[3]}/hls/listen/Sapphire - Ed Sheeran/output.m3u8`,
+        lyrics: true,
+        sync: true
     }
 ];
 
