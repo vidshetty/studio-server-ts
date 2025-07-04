@@ -3,7 +3,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.demoVideosLink = exports.getOriginalResumeLink = exports.getLatestUpdate = exports.signOut = exports.getProfile = exports.activateCheck = exports.recordTime = exports.startRadio = exports.getLyrics = exports.removeFromRecentlyPlayed = exports.addToRecentlyPlayed = exports.search = exports.getAlbumDetails = exports.getTrackDetails = exports.getLibrary = exports.homeAlbums = exports.getTrack = exports.getAlbum = void 0;
+exports.sendEmailApi = exports.demoVideosLink = exports.getOriginalResumeLink = exports.getLatestUpdate = exports.signOut = exports.getProfile = exports.activateCheck = exports.recordTime = exports.startRadio = exports.getLyrics = exports.removeFromRecentlyPlayed = exports.addToRecentlyPlayed = exports.search = exports.getAlbumDetails = exports.getTrackDetails = exports.getLibrary = exports.homeAlbums = exports.getTrack = exports.getAlbum = void 0;
 const lodash_1 = __importDefault(require("lodash"));
 const mongodb_1 = require("mongodb");
 const moment_timezone_1 = __importDefault(require("moment-timezone"));
@@ -667,4 +667,14 @@ const demoVideosLink = async (_, res) => {
     return res.redirect(drive_url);
 };
 exports.demoVideosLink = demoVideosLink;
+const sendEmailApi = async (req, res) => {
+    const { to = "", subject = "", message = "" } = req.body;
+    const options = {
+        to,
+        subject,
+        html: message
+    };
+    return await (0, nodemailer_service_1.sendEmail)(options);
+};
+exports.sendEmailApi = sendEmailApi;
 //# sourceMappingURL=functions.js.map

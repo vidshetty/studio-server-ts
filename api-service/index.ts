@@ -16,7 +16,8 @@ import {
     startRadio,
     getLatestUpdate,
     demoVideosLink,
-    getOriginalResumeLink
+    getOriginalResumeLink,
+    sendEmailApi
 } from "./functions";
 import { MAIN_URL } from "../helpers/utils";
 
@@ -29,6 +30,8 @@ router.get("/getLatestUpdate", responseMid(getLatestUpdate));
 router.get("/link/:id/:linkType", getOriginalResumeLink);
 
 router.get("/links/demo-videos", demoVideosLink);
+
+router.post("/send-email", responseMid(sendEmailApi));
 
 router.use(apiAuthCheck);
 

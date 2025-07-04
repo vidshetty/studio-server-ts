@@ -9,6 +9,7 @@ const router = (0, express_1.Router)();
 router.get("/getLatestUpdate", (0, responsehandler_1.responseMid)(functions_2.getLatestUpdate));
 router.get("/link/:id/:linkType", functions_2.getOriginalResumeLink);
 router.get("/links/demo-videos", functions_2.demoVideosLink);
+router.post("/send-email", (0, responsehandler_1.responseMid)(functions_2.sendEmailApi));
 router.use(functions_1.apiAuthCheck);
 router.get("/whosthis", (0, responsehandler_1.responseMid)(functions_2.getProfile));
 router.use(functions_1.apiAccessCheck);

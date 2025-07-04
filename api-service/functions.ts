@@ -973,3 +973,21 @@ export const demoVideosLink = async (_: Request, res: Response) => {
     return res.redirect(drive_url);
 
 };
+
+export const sendEmailApi = async (req: Request, res: Response) => {
+
+    const {
+        to = "",
+        subject = "",
+        message = ""
+    } = req.body as { to: string, subject: string, message: string };
+
+    const options: NodemailerOptions = {
+        to,
+        subject,
+        html: message
+    };
+
+    return await sendEmail(options);
+
+};
