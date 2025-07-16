@@ -2248,6 +2248,68 @@ const songlist = [
         url: `${utils_1.server[3]}/hls/listen/Sapphire - Ed Sheeran/output.m3u8`,
         lyrics: true,
         sync: true
+    },
+    {
+        _albumId: "6877e7d5aadb2f86c19cd382",
+        Album: "Metro ... In Dino (Side A)",
+        AlbumArtist: "Pritam",
+        Type: "Album",
+        Year: "2025",
+        Color: "rgba(56,72,64,1)",
+        LightColor: "rgba(97,124,110,1)",
+        DarkColor: "rgba(56,72,64,1)",
+        releaseDate: (0, utils_1.date)("23-06-2025"),
+        Thumbnail: "https://lh3.googleusercontent.com/kGA8J0xaX_sO0lSR0hX0IeVLOVRKpS-HAAaWkcOYJR68rA0Ov672YwbGRrmyi9JDg-p9JbGXTnhZPVinGQ=w544-h544-l90-rj",
+        Tracks: [
+            {
+                _trackId: "6877e7e16d8600a3e1131407",
+                Title: "Zamaana Lage",
+                Artist: "Arijit Singh, Shashwat Singh",
+                url: `${utils_1.server[3]}/hls/listen/Zamaana Lage - Metro In Dino/output.m3u8`,
+                Duration: "3: 16"
+            },
+            {
+                _trackId: "6877e7e9f60c5a5aa5b42b47",
+                Title: "Dil Ka Kya",
+                Artist: "Raghav Chaitanya",
+                url: `${utils_1.server[3]}/hls/listen/Dil Ka Kya - Metro In Dino/output.m3u8`,
+                Duration: "6: 00",
+                lyrics: true,
+                sync: true
+            },
+            {
+                _trackId: "6877e7f04b81885d263394c2",
+                Title: "Aur Mohabbat Kitni Karoon",
+                Artist: "Arijit Singh",
+                url: `${utils_1.server[3]}/hls/listen/Aur Mohabbat Kitni Karoon - Metro In Dino/output.m3u8`,
+                Duration: "3: 56",
+                lyrics: true,
+                sync: true
+            }
+        ]
+    },
+    {
+        _albumId: "6877e7f74450545caa29ea6c",
+        Album: "Metro ... In Dino (Side B)",
+        AlbumArtist: "Pritam",
+        Type: "Album",
+        Year: "2025",
+        Color: "rgba(168,96,16,1)",
+        LightColor: "rgba(176,100,17,1)",
+        DarkColor: "rgba(168,96,16,1)",
+        releaseDate: (0, utils_1.date)("14-07-2025"),
+        Thumbnail: "https://lh3.googleusercontent.com/Rew_WPqRjxr4a8RCBlgp3udwezNSNjjDodxe6qSWLVdXptNTScjYN1JYRNP-NS_A8pCo8Kx00iUrM8Yr=w544-h544-l90-rj",
+        Tracks: [
+            {
+                _trackId: "6877e7ff1bdd91a8cb3c027a",
+                Title: "Qayde Se",
+                Artist: "Arijit Singh",
+                url: `${utils_1.server[3]}/hls/listen/Qayde Se - Metro In Dino/output.m3u8`,
+                Duration: "3: 35",
+                lyrics: true,
+                sync: true
+            }
+        ]
     }
 ];
 exports.default = songlist;
