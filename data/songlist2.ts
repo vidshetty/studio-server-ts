@@ -2311,6 +2311,27 @@ const songlist: (Single|Album)[] = [
                 sync: true
             }
         ]
+    },
+    {
+        _albumId: "68b1ee5826d8dab16f29b5c2",
+        Album: "The Ba***ds Of Bollywood",
+        AlbumArtist: "Various Artists",
+        Type: "Album",
+        Year: "2025",
+        Color: "rgba(24,32,72,1)",
+        LightColor: "rgba(80,107,240,1)",
+        DarkColor: "rgba(24,32,72,1)",
+        releaseDate: date("29-08-2025"),
+        Thumbnail: "https://lh3.googleusercontent.com/lyNmmgCP_yyn_whaw0Bp9YOqzLSuBPx-Aun6C1wiqZV4TXbVxQC8QwVH4O_UpGcpwvk8FOR3CN1Xx8_s=w544-h544-l90-rj",
+        Tracks: [
+            {
+                _trackId: "68b1ee5e25a92e041a6dfb4b",
+                Title: "Tu Pehli Tu Aakhri",
+                Artist: "Arijit Singh, Shashwat Sachdev",
+                url: `${server[3]}/hls/listen/Tu Pehli Tu Aakhri - Arijit Singh/output.m3u8`,
+                Duration: "3: 20"
+            }
+        ]
     }
 ];
 
