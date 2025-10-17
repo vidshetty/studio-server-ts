@@ -47,7 +47,7 @@ const emailUser = async (user) => {
         return false;
     }
 };
-const update = async (request, _) => {
+const update = async (request, response) => {
     const { Users } = mongodb_connection_1.MongoStudioHandler.getCollectionSet();
     const body = {
         email: request.body.email || "",
@@ -79,7 +79,7 @@ const update = async (request, _) => {
     const { accountAccess, activeSessions = [] } = user;
     Object.assign(user, {
         accountAccess: Object.assign(Object.assign(Object.assign({}, accountAccess), body), { timeLimit: null }),
-        activeSessions: _.map(activeSessions, (each) => {
+        activeSessions: lodash_1.default.map(activeSessions, (each) => {
             each.seen = false;
             return each;
         })

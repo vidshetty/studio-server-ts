@@ -86,7 +86,7 @@ const emailUser = async (user: UserSchema) => {
 
 
 
-export const update = async (request: Request, _:any) => {
+export const update = async (request: Request, response: Response) => {
 
     const { Users } = MongoStudioHandler.getCollectionSet();
 
