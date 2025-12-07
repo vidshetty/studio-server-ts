@@ -2331,6 +2331,27 @@ const songlist = [
                 Duration: "3: 20"
             }
         ]
+    },
+    {
+        _albumId: "69354de24835b1a680d4a9a4",
+        Album: "P-POP CULTURE",
+        AlbumArtist: "Karan Aujla, Ikky",
+        Type: "Album",
+        Year: "2025",
+        Color: "rgba(56,56,56,1)",
+        LightColor: "rgba(118,118,118,1)",
+        DarkColor: "rgba(56,56,56,1)",
+        releaseDate: (0, utils_1.date)("22-08-2025"),
+        Thumbnail: "https://lh3.googleusercontent.com/BzOBERVwxHIkVDpePVN8mnT0MID3cySSHcZvY84FHusBL78dxkdpWBBk8o4O5e8BaenNlHKlI9fWb_Rccw=w544-h544-l90-rj",
+        Tracks: [
+            {
+                _trackId: "69354de9e76aa31e3d2a4f57",
+                Title: "For A Reason",
+                Artist: "Karan Aujla, Ikky",
+                url: `${utils_1.server[3]}/hls/listen/For A Reason - P-POP CULTURE/output.m3u8`,
+                Duration: "3: 00"
+            }
+        ]
     }
 ];
 exports.default = songlist;

@@ -38,7 +38,7 @@ const PROTOCOL: string = process.env.PROTOCOL || "http";
     app.use(express.json());
 
 
-    app.options("*", (_:Request, res:Response) => {
+    app.options("*", (_: Request, res: Response) => {
         return res.status(200).end();
     });
 
@@ -51,11 +51,11 @@ const PROTOCOL: string = process.env.PROTOCOL || "http";
     app.use("/android", androidservice);
 
     app.get("/login/google", passport.authenticate("google", {
-        scope: ["profile","email"],
+        scope: ["profile", "email"],
         session: false
     }));
 
-    app.get("/.well-known/assetlinks.json", (_:Request, response:Response) => {
+    app.get("/.well-known/assetlinks.json", (_: Request, response: Response) => {
         const file_path = path.join(process.cwd(), "data", "assetlinks.json");
         response.setHeader("Content-Type", "application/json");
         response.sendFile(file_path);
@@ -66,10 +66,10 @@ const PROTOCOL: string = process.env.PROTOCOL || "http";
 
     if (PROTOCOL === "http") {
         http
-        .createServer(app)
-        .listen(PORT, () => {
-            console.log(`Running on http port ${PORT}`);
-        });
+            .createServer(app)
+            .listen(PORT, () => {
+                console.log(`Running on http port ${PORT}`);
+            });
     }
     else {
         https.createServer(
@@ -79,9 +79,9 @@ const PROTOCOL: string = process.env.PROTOCOL || "http";
             },
             app
         )
-        .listen(PORT, () => {
-            console.log(`Running on https port ${PORT}`);
-        });
+            .listen(PORT, () => {
+                console.log(`Running on https port ${PORT}`);
+            });
     }
 
 
