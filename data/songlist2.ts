@@ -2353,6 +2353,38 @@ const songlist: (Single | Album)[] = [
                 Duration: "3: 00"
             }
         ]
+    },
+    {
+        _albumId: "693fceaad147e0b429729931",
+        Album: "Dhurandhar",
+        AlbumArtist: "Various Artists",
+        Type: "Album",
+        Year: "2025",
+        Color: "rgba(168,0,0,1)",
+        LightColor: "rgba(239,0,0,1)",
+        DarkColor: "rgba(168,0,0,1)",
+        releaseDate: date("05-12-2025"),
+        Thumbnail: "https://lh3.googleusercontent.com/H6lZYHIsFNq4pSYN4_4ZSW5ZcFjjm2G_CfhLyWnZJhVj1QXJ4hY5R2Lf1k3w7zQ1n3CGZ_UKKcZrf08=w544-h544-l90-rj",
+        Tracks: [
+            {
+                _trackId: "693fceb4b47401a7a7a0ba0d",
+                Title: "Ishq Jalakar - Karvaan",
+                Artist: "Shashwat Sachdev, Various Artists",
+                url: `${server[3]}/hls/listen/Ishq Jalakar - Karvaan - Dhurandhar/output.m3u8`,
+                Duration: "4: 10",
+                lyrics: true,
+                sync: true
+            },
+            {
+                _trackId: "693fcebdd764e9f716bef2fa",
+                Title: "Gehra Hua",
+                Artist: "Shashwat Sachdev, Arijit Singh, Various Artists",
+                url: `${server[3]}/hls/listen/Gehra Hua - Dhurandhar/output.m3u8`,
+                Duration: "6: 02",
+                lyrics: true,
+                sync: true
+            }
+        ]
     }
 ];
 
