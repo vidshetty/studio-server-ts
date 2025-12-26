@@ -2383,6 +2383,27 @@ const songlist: (Single | Album)[] = [
                 Duration: "6: 02",
                 lyrics: true,
                 sync: true
+            },
+            {
+                _trackId: "694eb4d356b30ee982c6d32f",
+                Title: "Ez-Ez",
+                Artist: "Shashwat Sachdev, Diljit Dosanjh, Hanumankind, Various Artists",
+                url: `${server[3]}/hls/listen/Ez-Ez - Dhurandhar/output.m3u8`,
+                Duration: "3: 02"
+            },
+            {
+                _trackId: "694eb4dba0dd27264214afa6",
+                Title: "Move - Yeh Ishq Ishq",
+                Artist: "Shashwat Sachdev, Sonu Nigam, Various Artists",
+                url: `${server[3]}/hls/listen/Move - Yeh Ishq Ishq - Dhurandhar/output.m3u8`,
+                Duration: "3: 24"
+            },
+            {
+                _trackId: "694eb4e2ff48fff29fbc27c0",
+                Title: "Naal Nachna",
+                Artist: "Shashwat Sachdev, Various Artists",
+                url: `${server[3]}/hls/listen/Naal Nachna - Dhurandhar/output.m3u8`,
+                Duration: "2: 25"
             }
         ]
     }
