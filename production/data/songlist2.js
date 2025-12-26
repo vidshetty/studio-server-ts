@@ -2405,7 +2405,25 @@ const songlist = [
                 Duration: "2: 25"
             }
         ]
-    }
+    },
+    {
+        _albumId: "694ed7d8b270eb0e05b4bd9f",
+        _trackId: "694ed7d8b270eb0e05b4bd9f",
+        Album: 'Sitaare (From "Ikkis")',
+        AlbumArtist: "White Noise Collectives",
+        Type: "Single",
+        Year: "2025",
+        Color: "rgba(184,96,8,1)",
+        DarkColor: "rgba(184,96,8,1)",
+        LightColor: "rgba(184,96,8,1)",
+        releaseDate: (0, utils_1.date)("03-12-2025"),
+        Thumbnail: "https://lh3.googleusercontent.com/XvvdvvJF54vqL_1FSspuGguIKMMz5OhyhXMRls0jrBra5OcVujKFCHdI-hKxtnwbO-v-lDKdPmSUD_h33w=w544-h544-l90-rj",
+        Artist: "Arijit Singh",
+        Duration: "4: 02",
+        url: `${utils_1.server[3]}/hls/listen/Sitaare - Ikkis/output.m3u8`,
+        lyrics: true,
+        sync: true
+    },
 ];
 exports.default = songlist;
 //# sourceMappingURL=songlist2.js.map
