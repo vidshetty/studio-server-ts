@@ -2425,6 +2425,24 @@ const songlist: (Single | Album)[] = [
         lyrics: true,
         sync: true
     },
+    {
+        _albumId: "69540a62cb20197858c6d1ae",
+        _trackId: "69540a62cb20197858c6d1ae",
+        Album: 'By My Side',
+        AlbumArtist: "AP Dhillon & Shinda Kahlon",
+        Type: "Single",
+        Year: "2025",
+        Color: "rgba(248,136,48,1)",
+        DarkColor: "rgba(179,98,35,1)",
+        LightColor: "rgba(248,136,48,1)",
+        releaseDate: date("24-10-2025"),
+        Thumbnail: "https://lh3.googleusercontent.com/Wcs-0uu0rSZDWEGN7XECXMw5NjlMbD5oNi27fASVk1WMRPcNhvP5NU3v4M_dZa1BwCQQ47OlbE4wb_YJ1g=w544-h544-l90-rj",
+        Artist: "AP Dhillon & Shinda Kahlon",
+        Duration: "2: 56",
+        url: `${server[3]}/hls/listen/By My Side - AP Dhillon/output.m3u8`,
+        lyrics: true,
+        sync: true
+    }
 ];
 
 
