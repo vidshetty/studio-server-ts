@@ -2442,6 +2442,22 @@ const songlist: (Single | Album)[] = [
         url: `${server[3]}/hls/listen/By My Side - AP Dhillon/output.m3u8`,
         lyrics: true,
         sync: true
+    },
+    {
+        _albumId: "698c8346b1fed4de2f1b2005",
+        _trackId: "698c8346b1fed4de2f1b2005",
+        Album: "Thinking of You",
+        AlbumArtist: "AP Dhillon",
+        Type: "Single",
+        Year: "2026",
+        Color: "rgba(216,168,168,1)",
+        DarkColor: "rgba(143,111,111,1)",
+        LightColor: "rgba(216,168,168,1)",
+        releaseDate: date("06-02-2026"),
+        Thumbnail: "https://lh3.googleusercontent.com/0M8blHCtwxvreARVVz_T7a3nRpfSHjC5p_AfpgWPgCDWba_CeaWkdU4qD1LC3RDIW_e9a6JhKJhPgSk=w544-h544-l90-rj",
+        Artist: "AP Dhillon",
+        Duration: "3: 00",
+        url: `${server[3]}/hls/listen/Thinking of You - AP Dhillon/output.m3u8`
     }
 ];
 
