@@ -2458,6 +2458,55 @@ const songlist: (Single | Album)[] = [
         Artist: "AP Dhillon",
         Duration: "3: 00",
         url: `${server[3]}/hls/listen/Thinking of You - AP Dhillon/output.m3u8`
+    },
+    {
+        _albumId: "69c93d2e9dd18eb5acf485e0",
+        Album: "Dhurandhar The Revenge",
+        AlbumArtist: "Shashwat Sachdev",
+        Type: "Album",
+        Year: "2026",
+        Color: "rgba(176,72,8,1)",
+        LightColor: "rgba(200,82,9,1)",
+        DarkColor: "rgba(176,72,8,1)",
+        releaseDate: date("24-03-2026"),
+        Thumbnail: "https://yt3.googleusercontent.com/o0VCkTQynMGGvlqcJiCpgRZx9RPR9AtdAA-U49rHh4gaTIO4hDo4N-t3dT_xvRVsKIlE_cHHs129GC4=w544-h544-l90-rj",
+        Tracks: [
+            {
+                _trackId: "69c93d38a7f6ebb7b65f2048",
+                Title: "Dhurandhar The Revenge - Aari Aari",
+                Artist: "Shashwat Sachdev, Various Artists",
+                url: `${server[3]}/hls/listen/Dhurandhar The Revenge - Aari Aari - Dhurandhar The Revenge/output.m3u8`,
+                Duration: "3: 30"
+            },
+            {
+                _trackId: "69c93d3f3a98936c24e79789",
+                Title: "Aakhri Ishq",
+                Artist: "Shashwat Sachdev, Jubin Nautiyal",
+                url: `${server[3]}/hls/listen/Aakhri Ishq - Dhurandhar The Revenge/output.m3u8`,
+                Duration: "4: 21"
+            },
+            {
+                _trackId: "69c93d481648d3878ff08535",
+                Title: "Phir Se",
+                Artist: "Shashwat Sachdev, Arijit Singh",
+                url: `${server[3]}/hls/listen/Phir Se - Dhurandhar The Revenge/output.m3u8`,
+                Duration: "5: 53"
+            },
+            {
+                _trackId: "69c93d5012d5d3c42fc0d529",
+                Title: "Destiny - Mann Atkeya",
+                Artist: "Shashwat Sachdev, Various Artists",
+                url: `${server[3]}/hls/listen/Destiny - Mann Atkeya - Dhurandhar The Revenge/output.m3u8`,
+                Duration: "3: 46"
+            },
+            {
+                _trackId: "69c93d58a554a1df2d3b69c5",
+                Title: "Jaiye Sajana",
+                Artist: "Shashwat Sachdev, Jasmine Sandlas, Satinder Sartaaj",
+                url: `${server[3]}/hls/listen/Jaiye Sajana - Dhurandhar The Revenge/output.m3u8`,
+                Duration: "3: 00"
+            }
+        ]
     }
 ];
 
