@@ -1,27 +1,4 @@
 "use strict";
-var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
-    if (k2 === undefined) k2 = k;
-    var desc = Object.getOwnPropertyDescriptor(m, k);
-    if (!desc || ("get" in desc ? !m.__esModule : desc.writable || desc.configurable)) {
-      desc = { enumerable: true, get: function() { return m[k]; } };
-    }
-    Object.defineProperty(o, k2, desc);
-}) : (function(o, m, k, k2) {
-    if (k2 === undefined) k2 = k;
-    o[k2] = m[k];
-}));
-var __setModuleDefault = (this && this.__setModuleDefault) || (Object.create ? (function(o, v) {
-    Object.defineProperty(o, "default", { enumerable: true, value: v });
-}) : function(o, v) {
-    o["default"] = v;
-});
-var __importStar = (this && this.__importStar) || function (mod) {
-    if (mod && mod.__esModule) return mod;
-    var result = {};
-    if (mod != null) for (var k in mod) if (k !== "default" && Object.prototype.hasOwnProperty.call(mod, k)) __createBinding(result, mod, k);
-    __setModuleDefault(result, mod);
-    return result;
-};
 var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
@@ -30,7 +7,6 @@ exports.downloadLatestUpdate = exports.checkForUpdates = exports.getMostPlayedRa
 const lodash_1 = __importDefault(require("lodash"));
 const mongodb_1 = require("mongodb");
 const utils_1 = require("../helpers/utils");
-const archiveGateway_1 = __importStar(require("../data/archiveGateway"));
 const latestUpdate_1 = require("../data/latestUpdate");
 const nodemailer_service_1 = require("../nodemailer-service");
 const mongodb_connection_1 = require("../helpers/mongodb-connection");
@@ -110,39 +86,71 @@ const getQuickPicks = async () => {
         .toArray();
     return (0, utils_1.convertToAndroidTrackFromDB)(albums, tracks);
 };
-const getSongs = (name) => {
-    const lower = name.toLowerCase();
-    const tracks = archiveGateway_1.ALBUM_LIST_TRACKS.reduce((acc, track) => {
-        const in_title = track.Title.toLowerCase().includes(lower);
-        const in_artists = track.Artist.toLowerCase().includes(lower);
-        const in_artists_2 = (track.Artist.replace(/$/g, "s")).toLowerCase().includes(lower);
-        const in_albumname = track.Album.toLowerCase().includes(lower);
-        if (in_title || in_albumname || in_artists || in_artists_2) {
-            acc.push(track);
-        }
-        return acc;
-    }, []);
-    if (tracks.length <= 50)
-        return tracks;
+const sampleRandom50 = (items) => {
+    if (items.length <= 50)
+        return items;
     const final = [];
     const uniqNums = [];
     for (let i = 1; i <= 50; i++) {
         let gotUniqueRandomNum = false, rand = 0;
         while (!gotUniqueRandomNum) {
-            rand = Math.floor(Math.random() * tracks.length);
+            rand = Math.floor(Math.random() * items.length);
             if (!uniqNums.includes(rand)) {
                 uniqNums.push(rand);
                 gotUniqueRandomNum = true;
             }
         }
-        final.push(tracks[rand]);
+        final.push(items[rand]);
     }
     return final;
 };
-const getAlbums = (name) => {
+const fetchSearchResults = async (name) => {
+    const regex = new RegExp(lodash_1.default.escapeRegExp(name), "i");
+    const { Albums, Tracks } = mongodb_connection_1.MongoStudioHandler.getCollectionSet();
+    const [trackMatches, albumMatches] = await Promise.all([
+        Tracks.find({
+            $or: [
+                { Title: regex },
+                { Artist: regex }
+            ]
+        }).toArray(),
+        Albums.find({
+            $or: [
+                { Album: regex },
+                { AlbumArtist: regex }
+            ]
+        }).toArray()
+    ]);
+    const allAlbumIds = lodash_1.default.uniqBy([
+        ...lodash_1.default.map(trackMatches, t => new mongodb_1.ObjectId(t._albumId)),
+        ...lodash_1.default.map(albumMatches, a => new mongodb_1.ObjectId(a._albumId))
+    ], id => String(id));
+    if (allAlbumIds.length === 0)
+        return { albums: [], tracks: [] };
+    const [albums, tracks] = await Promise.all([
+        Albums.find({
+            _albumId: { $in: allAlbumIds }
+        }).toArray(),
+        Tracks.find({
+            _albumId: { $in: allAlbumIds }
+        }).toArray()
+    ]);
+    return { albums, tracks };
+};
+const filterSearchTracks = (albums, tracks, name) => {
     const lower = name.toLowerCase();
-    const ANDROID_ALBUMS = (0, utils_1.convertToAndroidAlbum)(archiveGateway_1.default);
-    const albums = ANDROID_ALBUMS.reduce((acc, album) => {
+    const filtered = (0, utils_1.convertToAndroidTrackFromDB)(albums, tracks).filter(track => {
+        const in_title = track.Title.toLowerCase().includes(lower);
+        const in_artists = track.Artist.toLowerCase().includes(lower);
+        const in_artists_2 = (track.Artist.replace(/$/g, "s")).toLowerCase().includes(lower);
+        const in_albumname = track.Album.toLowerCase().includes(lower);
+        return in_title || in_albumname || in_artists || in_artists_2;
+    });
+    return sampleRandom50(filtered);
+};
+const filterSearchAlbums = (albums, tracks, name) => {
+    const lower = name.toLowerCase();
+    const filtered = (0, utils_1.convertToAndroidAlbumFromDB)(albums, tracks).filter(album => {
         const in_tracktitles = album.Tracks.reduce((acc, track) => {
             if (track.Title.toLowerCase().includes(lower)) {
                 acc = true;
@@ -151,27 +159,9 @@ const getAlbums = (name) => {
         }, false);
         const in_albumartists = album.AlbumArtist.toLowerCase().includes(lower);
         const in_albumname = album.Album.toLowerCase().includes(lower);
-        if (in_tracktitles || in_albumartists || in_albumname) {
-            acc.push(album);
-        }
-        return acc;
-    }, []);
-    if (albums.length <= 50)
-        return albums;
-    const final = [];
-    const uniqNums = [];
-    for (let i = 1; i <= 50; i++) {
-        let gotUniqueRandomNum = false, rand = 0;
-        while (!gotUniqueRandomNum) {
-            rand = Math.floor(Math.random() * albums.length);
-            if (!uniqNums.includes(rand)) {
-                uniqNums.push(rand);
-                gotUniqueRandomNum = true;
-            }
-        }
-        final.push(albums[rand]);
-    }
-    return final;
+        return in_tracktitles || in_albumartists || in_albumname;
+    });
+    return sampleRandom50(filtered);
 };
 const notifyAdmin = async () => {
     try {
@@ -286,46 +276,37 @@ const homeAlbums = async (request, _) => {
     return { albums: homeList, mostPlayed, quickPicks: await getQuickPicks() };
 };
 exports.homeAlbums = homeAlbums;
-const search = async (request, _) => {
+const search = async (request, _res) => {
     const { name } = request.query;
     if (!name)
         return { tracks: [], albums: [], artists: [] };
-    const tracks = getSongs(name);
-    const albums = getAlbums(name);
-    return { tracks, albums, artists: [] };
+    const { albums, tracks } = await fetchSearchResults(name);
+    return {
+        tracks: filterSearchTracks(albums, tracks, name),
+        albums: filterSearchAlbums(albums, tracks, name),
+        artists: []
+    };
 };
 exports.search = search;
-const startRadio = async (request, _) => {
+const startRadio = async (request, _res) => {
     const { exclude: toBeExcludedTrackId = "" } = request.query;
-    const randomNumberCounter = {};
-    const finalArr = [];
-    let rand, done;
-    const songlist = archiveGateway_1.ALBUM_LIST_TRACKS.filter(song => {
-        return String(song._trackId) !== String(toBeExcludedTrackId);
-    });
-    const len = songlist.length;
-    for (let i = 0; i < 75; i++) {
-        done = false;
-        let limit = 3;
-        while (!done) {
-            if (limit === 0)
-                break;
-            else
-                limit--;
-            rand = Math.floor(Math.random() * len);
-            if (!randomNumberCounter[rand]) {
-                finalArr.push(songlist[rand]);
-                randomNumberCounter[rand] = true;
-                done = true;
-            }
-        }
+    const { Albums, Tracks } = mongodb_connection_1.MongoStudioHandler.getCollectionSet();
+    const pipeline = [];
+    if (toBeExcludedTrackId) {
+        pipeline.push({
+            $match: { _trackId: { $ne: new mongodb_1.ObjectId(toBeExcludedTrackId) } }
+        });
     }
-    ;
-    return finalArr;
+    pipeline.push({ $sample: { size: 75 } });
+    const tracks = await Tracks.aggregate(pipeline).toArray();
+    const albums = await Albums.find({
+        _albumId: { $in: lodash_1.default.map(tracks, (t) => new mongodb_1.ObjectId(t._albumId)) }
+    }).toArray();
+    return (0, utils_1.convertToAndroidTrackFromDB)(albums, tracks);
 };
 exports.startRadio = startRadio;
-const getMostPlayedRadio = async (request, _) => {
-    const { Users } = mongodb_connection_1.MongoStudioHandler.getCollectionSet();
+const getMostPlayedRadio = async (request, _res) => {
+    const { Users, Albums, Tracks } = mongodb_connection_1.MongoStudioHandler.getCollectionSet();
     const { exclude: toBeExcludedAlbumId = "" } = request.query;
     const { id: userId } = request.ACCOUNT;
     const user = await Users.findOne({
@@ -334,37 +315,20 @@ const getMostPlayedRadio = async (request, _) => {
     if (!user)
         return [];
     const { recentlyPlayed: recents } = user;
-    const recentsAlbumIdsMap = recents.reduce((acc, each) => {
-        acc[String(each.albumId)] = true;
-        return acc;
-    }, {});
-    const tracks = archiveGateway_1.ALBUM_LIST_TRACKS.filter(each => {
-        const cond1 = String(each._albumId) !== String(toBeExcludedAlbumId);
-        const cond2 = recentsAlbumIdsMap[String(each._albumId)] || false;
-        return cond1 && cond2;
-    });
-    const len = tracks.length;
-    const final = [];
-    const randomNumberCounter = {};
-    let done;
-    for (let i = 0; i < 50; i++) {
-        done = false;
-        let limit = 3;
-        while (!done) {
-            if (limit === 0)
-                break;
-            else
-                limit--;
-            const rand = Math.floor(Math.random() * len);
-            if (!randomNumberCounter[rand]) {
-                final.push(tracks[rand]);
-                randomNumberCounter[rand] = true;
-                done = true;
-            }
-        }
-    }
-    ;
-    return final;
+    const albumIds = recents
+        .map(e => String(e.albumId))
+        .filter(albumId => albumId !== String(toBeExcludedAlbumId))
+        .map(albumId => new mongodb_1.ObjectId(albumId));
+    if (albumIds.length === 0)
+        return [];
+    const tracks = await Tracks.aggregate([
+        { $match: { _albumId: { $in: albumIds } } },
+        { $sample: { size: 50 } }
+    ]).toArray();
+    const albums = await Albums.find({
+        _albumId: { $in: tracks.map(t => new mongodb_1.ObjectId(t._albumId)) }
+    }).toArray();
+    return (0, utils_1.convertToAndroidTrackFromDB)(albums, tracks);
 };
 exports.getMostPlayedRadio = getMostPlayedRadio;
 const checkForUpdates = async (request, _) => {
