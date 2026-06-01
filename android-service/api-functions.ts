@@ -13,12 +13,10 @@ import {
 import {
     server,
     randomize,
-    convertToAndroidAlbum,
     BUILD_TYPE,
     convertToAndroidAlbumFromDB,
     convertToAndroidTrackFromDB
 } from "../helpers/utils";
-import ALBUMLIST, { ALBUM_LIST_TRACKS } from "../data/archiveGateway";
 import { LATEST_APP_UPDATE } from "../data/latestUpdate";
 import { sendEmail } from "../nodemailer-service";
 import { MongoStudioHandler } from "../helpers/mongodb-connection";
@@ -134,54 +132,102 @@ const getQuickPicks = async (): Promise<AndroidTrack[]> => {
 
 };
 
-const getSongs = (name: string): AndroidTrack[] => {
+const sampleRandom50 = <T,>(items: T[]): T[] => {
 
-    const lower = name.toLowerCase();
+    if (items.length <= 50) return items;
 
-    const tracks = ALBUM_LIST_TRACKS.reduce<AndroidTrack[]>((acc: AndroidTrack[], track) => {
-
-        const in_title = track.Title.toLowerCase().includes(lower);
-        const in_artists = track.Artist.toLowerCase().includes(lower);
-        const in_artists_2 = (track.Artist.replace(/$/g, "s")).toLowerCase().includes(lower);
-        const in_albumname = track.Album.toLowerCase().includes(lower);
-
-        if (in_title || in_albumname || in_artists || in_artists_2) {
-            acc.push(track);
-        }
-
-        return acc;
-
-    }, []);
-
-    if (tracks.length <= 50) return tracks;
-
-    const final: AndroidTrack[] = [];
+    const final: T[] = [];
     const uniqNums: number[] = [];
 
-    for (let i=1; i<=50; i++) {
+    for (let i = 1; i <= 50; i++) {
         let gotUniqueRandomNum = false, rand: number = 0;
         while (!gotUniqueRandomNum) {
-            rand = Math.floor(Math.random() * tracks.length);
+            rand = Math.floor(Math.random() * items.length);
             if (!uniqNums.includes(rand)) {
                 uniqNums.push(rand);
                 gotUniqueRandomNum = true;
             }
         }
-        final.push(tracks[rand]);
+        final.push(items[rand]);
     }
 
     return final;
 
 };
 
-const getAlbums = (name: string): AndroidAlbum[] => {
+const fetchSearchResults = async (name: string): Promise<{
+    albums: AlbumSchema[];
+    tracks: TracksSchema[];
+}> => {
+
+    const regex = new RegExp(_.escapeRegExp(name), "i");
+
+    const { Albums, Tracks } = MongoStudioHandler.getCollectionSet();
+
+    const [trackMatches, albumMatches] = await Promise.all([
+        Tracks.find({
+            $or: [
+                { Title: regex },
+                { Artist: regex }
+            ]
+        }).toArray() as Promise<TracksSchema[]>,
+        Albums.find({
+            $or: [
+                { Album: regex },
+                { AlbumArtist: regex }
+            ]
+        }).toArray() as Promise<AlbumSchema[]>
+    ]);
+
+    const allAlbumIds = _.uniqBy([
+        ..._.map(trackMatches, t => new ObjectId(t._albumId)),
+        ..._.map(albumMatches, a => new ObjectId(a._albumId))
+    ], id => String(id));
+
+    if (allAlbumIds.length === 0) return { albums: [], tracks: [] };
+
+    const [albums, tracks] = await Promise.all([
+        Albums.find({
+            _albumId: { $in: allAlbumIds }
+        }).toArray() as Promise<AlbumSchema[]>,
+        Tracks.find({
+            _albumId: { $in: allAlbumIds }
+        }).toArray() as Promise<TracksSchema[]>
+    ]);
+
+    return { albums, tracks };
+
+};
+
+const filterSearchTracks = (
+    albums: AlbumSchema[],
+    tracks: TracksSchema[],
+    name: string
+): AndroidTrack[] => {
 
     const lower = name.toLowerCase();
 
-    const ANDROID_ALBUMS = convertToAndroidAlbum(ALBUMLIST);
+    const filtered = convertToAndroidTrackFromDB(albums, tracks).filter(track => {
+        const in_title = track.Title.toLowerCase().includes(lower);
+        const in_artists = track.Artist.toLowerCase().includes(lower);
+        const in_artists_2 = (track.Artist.replace(/$/g, "s")).toLowerCase().includes(lower);
+        const in_albumname = track.Album.toLowerCase().includes(lower);
+        return in_title || in_albumname || in_artists || in_artists_2;
+    });
 
-    const albums = ANDROID_ALBUMS.reduce<AndroidAlbum[]>((acc: AndroidAlbum[], album) => {
+    return sampleRandom50(filtered);
 
+};
+
+const filterSearchAlbums = (
+    albums: AlbumSchema[],
+    tracks: TracksSchema[],
+    name: string
+): AndroidAlbum[] => {
+
+    const lower = name.toLowerCase();
+
+    const filtered = convertToAndroidAlbumFromDB(albums, tracks).filter(album => {
         const in_tracktitles = album.Tracks.reduce<boolean>((acc: boolean, track) => {
             if (track.Title.toLowerCase().includes(lower)) {
                 acc = true;
@@ -192,32 +238,10 @@ const getAlbums = (name: string): AndroidAlbum[] => {
         const in_albumartists = album.AlbumArtist.toLowerCase().includes(lower);
         const in_albumname = album.Album.toLowerCase().includes(lower);
 
-        if (in_tracktitles || in_albumartists || in_albumname) {
-            acc.push(album);
-        }
+        return in_tracktitles || in_albumartists || in_albumname;
+    });
 
-        return acc;
-
-    }, []);
-
-    if (albums.length <= 50) return albums;
-
-    const final: AndroidAlbum[] = [];
-    const uniqNums: number[] = [];
-
-    for (let i=1; i<=50; i++) {
-        let gotUniqueRandomNum = false, rand: number = 0;
-        while (!gotUniqueRandomNum) {
-            rand = Math.floor(Math.random() * albums.length);
-            if (!uniqNums.includes(rand)) {
-                uniqNums.push(rand);
-                gotUniqueRandomNum = true;
-            }
-        }
-        final.push(albums[rand]);
-    }
-
-    return final;
+    return sampleRandom50(filtered);
 
 };
 
@@ -372,57 +396,52 @@ export const homeAlbums = async (request: Request, _:any) => {
 
 };
 
-export const search = async (request: Request, _:any): Promise<{ tracks:Array<AndroidTrack>, albums:Array<AndroidAlbum>, artists:Array<any> }> => {
+export const search = async (request: Request, _res:any): 
+Promise<{ tracks:Array<AndroidTrack>, albums:Array<AndroidAlbum>, artists:Array<any> }> => {
 
     const { name }: RequestQuery = request.query as unknown as RequestQuery;
 
     if (!name) return { tracks: [], albums: [], artists: [] };
 
-    const tracks: AndroidTrack[] = getSongs(name);
-    const albums: AndroidAlbum[] = getAlbums(name);
+    const { albums, tracks } = await fetchSearchResults(name);
 
-    return { tracks, albums, artists: [] };
+    return {
+        tracks: filterSearchTracks(albums, tracks, name),
+        albums: filterSearchAlbums(albums, tracks, name),
+        artists: []
+    };
 
 };
 
-export const startRadio = async (request: Request, _:any) => {
+export const startRadio = async (request: Request, _res:any) => {
 
     const { exclude: toBeExcludedTrackId = "" }: RequestQuery = request.query as unknown as RequestQuery;
 
-    const randomNumberCounter: { [key: number]: boolean } = {};
+    const { Albums, Tracks } = MongoStudioHandler.getCollectionSet();
 
-    const finalArr = [];
+    const pipeline: object[] = [];
 
-    let rand: number, done: boolean;
+    if (toBeExcludedTrackId) {
+        pipeline.push({
+            $match: { _trackId: { $ne: new ObjectId(toBeExcludedTrackId) } }
+        });
+    }
 
-    const songlist = ALBUM_LIST_TRACKS.filter(song => {
-        return String(song._trackId) !== String(toBeExcludedTrackId);
-    });
+    pipeline.push({ $sample: { size: 75 } });
 
-    const len = songlist.length;
+    const tracks = await Tracks.aggregate(pipeline).toArray() as TracksSchema[];
 
-    for (let i=0; i<75; i++) {
-        done = false;
-        let limit = 3;
-        while(!done) {
-            if (limit === 0) break;
-            else limit--;
-            rand = Math.floor(Math.random() * len);
-            if (!randomNumberCounter[rand]) {
-                finalArr.push(songlist[rand]);
-                randomNumberCounter[rand] = true;
-                done = true;
-            }
-        }
-    };
+    const albums = await Albums.find({
+        _albumId: { $in: _.map(tracks, (t: TracksSchema) => new ObjectId(t._albumId)) }
+    }).toArray() as AlbumSchema[];
 
-    return finalArr;
-    
+    return convertToAndroidTrackFromDB(albums, tracks);
+
 };
 
-export const getMostPlayedRadio = async (request: Request, _: any) => {
+export const getMostPlayedRadio = async (request: Request, _res: any) => {
 
-    const { Users } = MongoStudioHandler.getCollectionSet();
+    const { Users, Albums, Tracks } = MongoStudioHandler.getCollectionSet();
 
     const { exclude: toBeExcludedAlbumId = "" } = request.query as unknown as RequestQuery;
     const { id: userId } = request.ACCOUNT;
@@ -434,39 +453,24 @@ export const getMostPlayedRadio = async (request: Request, _: any) => {
     if (!user) return [];
 
     const { recentlyPlayed: recents } = user;
-    const recentsAlbumIdsMap = recents.reduce<{ [key: string]: boolean }>((acc,each) => {
-        acc[String(each.albumId)] = true;
-        return acc;
-    }, {});
 
-    const tracks = ALBUM_LIST_TRACKS.filter(each => {
-        const cond1 = String(each._albumId) !== String(toBeExcludedAlbumId);
-        const cond2 = recentsAlbumIdsMap[String(each._albumId)] || false;
-        return cond1 && cond2;
-    });
+    const albumIds = recents
+        .map(e => String(e.albumId))
+        .filter(albumId => albumId !== String(toBeExcludedAlbumId))
+        .map(albumId => new ObjectId(albumId));
 
-    const len: number = tracks.length;
+    if (albumIds.length === 0) return [];
 
-    const final: AndroidTrack[] = [];
-    const randomNumberCounter: { [key: number]: boolean } = {};
-    let done: boolean;
+    const tracks = await Tracks.aggregate([
+        { $match: { _albumId: { $in: albumIds } } },
+        { $sample: { size: 50 } }
+    ]).toArray() as TracksSchema[];
 
-    for (let i=0; i<50; i++) {
-        done = false;
-        let limit = 3;
-        while(!done) {
-            if (limit === 0) break;
-            else limit--;
-            const rand = Math.floor(Math.random() * len);
-            if (!randomNumberCounter[rand]) {
-                final.push(tracks[rand]);
-                randomNumberCounter[rand] = true;
-                done = true;
-            }
-        }
-    };
+    const albums = await Albums.find({
+        _albumId: { $in: tracks.map(t => new ObjectId(t._albumId)) }
+    }).toArray() as AlbumSchema[];
 
-    return final;
+    return convertToAndroidTrackFromDB(albums, tracks);
 
 };
 
