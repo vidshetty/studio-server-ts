@@ -403,6 +403,148 @@ export const albumsInsert = async () => {
 
 };
 
+const serializeAlbum = (album: AlbumSchema) => ({
+    ...album,
+    _id: String(album._id),
+    _albumId: String(album._albumId)
+});
+
+const serializeTrack = (track: TracksSchema) => ({
+    ...track,
+    _id: String(track._id),
+    _albumId: String(track._albumId),
+    _trackId: String(track._trackId)
+});
+
+export const listAlbums = async (request: Request) => {
+    const q = String(request.query.q ?? request.query.search ?? "").trim();
+
+    if (!q) {
+        return [];
+    }
+
+    const { Albums } = MongoStudioHandler.getCollectionSet();
+    const escaped = q.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+    const regex = new RegExp(escaped, "i");
+
+    const albums = await Albums.find(
+        { Album: regex },
+        { projection: { _albumId: 1, Album: 1, Type: 1, AlbumArtist: 1, Year: 1 } }
+    )
+        .sort({ Album: 1 })
+        .limit(50)
+        .toArray();
+
+    return albums.map((a) => ({
+        _albumId: String(a._albumId),
+        Album: a.Album,
+        Type: a.Type,
+        AlbumArtist: a.AlbumArtist,
+        Year: a.Year
+    }));
+    
+};
+
+export const createAlbum = async (request: Request) => {
+
+    const body = request.body as Partial<AlbumSchema> & { _albumId?: string };
+
+    if (!body.Album || !body.AlbumArtist || !body.Year || !body.Color || !body.releaseDate || !body.Thumbnail || !body.Type) {
+        throw new Error("Missing required album fields.");
+    }
+
+    if (body.Type !== "Album" && body.Type !== "Single") {
+        throw new Error("Type must be Album or Single.");
+    }
+
+    if (!body._albumId || !ObjectId.isValid(body._albumId)) {
+        throw new Error("Valid _albumId is required.");
+    }
+
+    const { Albums } = MongoStudioHandler.getCollectionSet();
+
+    const new_album: AlbumSchema = {
+        _id: new ObjectId(),
+        _albumId: new ObjectId(body._albumId),
+        Album: body.Album,
+        AlbumArtist: body.AlbumArtist,
+        Year: body.Year,
+        Color: body.Color,
+        releaseDate: moment(body.releaseDate).format("YYYY-MM-DD"),
+        Thumbnail: body.Thumbnail,
+        Type: body.Type,
+        ...(() => {
+            const obj: { LightColor?: string; DarkColor?: string } = {};
+            if (body.LightColor) obj.LightColor = body.LightColor;
+            if (body.DarkColor) obj.DarkColor = body.DarkColor;
+            return obj;
+        })()
+    };
+
+    await Albums.insertOne(new_album);
+
+    return {
+        message: "Album created.",
+        album: serializeAlbum(new_album)
+    };
+
+};
+
+export const createTrack = async (request: Request) => {
+
+    const body = request.body as Partial<TracksSchema> & {
+        _albumId?: string;
+        _trackId?: string;
+    };
+
+    if (!body._albumId || !body.Title || !body.Artist || !body.url || !body.Duration) {
+        throw new Error("Missing required track fields (_albumId, Title, Artist, url, Duration).");
+    }
+
+    if (!ObjectId.isValid(body._albumId)) {
+        throw new Error("Valid _albumId is required.");
+    }
+
+    if (!body._trackId || !ObjectId.isValid(body._trackId)) {
+        throw new Error("Valid _trackId is required.");
+    }
+
+    const { Tracks } = MongoStudioHandler.getCollectionSet();
+
+    const new_track: TracksSchema = {
+        _id: new ObjectId(),
+        _albumId: new ObjectId(body._albumId),
+        _trackId: new ObjectId(body._trackId),
+        Title: body.Title,
+        Artist: body.Artist,
+        url: body.url,
+        Duration: body.Duration,
+        streamCount: typeof body.streamCount === "number" ? body.streamCount : 0,
+        ...(() => {
+            const obj: { lyrics?: boolean; sync?: boolean } = {};
+            if (body.lyrics) obj.lyrics = true;
+            if (body.sync) obj.sync = true;
+            return obj;
+        })()
+    };
+
+    await Tracks.insertOne(new_track);
+
+    return {
+        message: "Track created.",
+        track: serializeTrack(new_track)
+    };
+
+};
+
+export const generateAlbumId = async () => ({
+    objectId: new ObjectId().toHexString()
+});
+
+export const generateTrackId = async () => ({
+    objectId: new ObjectId().toHexString()
+});
+
 export const addTrack = async () => {
 
     const { Albums, Tracks } = MongoStudioHandler.getCollectionSet();

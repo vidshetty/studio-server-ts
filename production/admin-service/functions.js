@@ -3,7 +3,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.addTrack = exports.albumsInsert = exports.fixJson = exports.deleteAlbumFromRecents = exports.getAlbum = exports.getUser = exports.update = void 0;
+exports.addTrack = exports.generateTrackId = exports.generateAlbumId = exports.createTrack = exports.createAlbum = exports.listAlbums = exports.albumsInsert = exports.fixJson = exports.deleteAlbumFromRecents = exports.getAlbum = exports.getUser = exports.update = void 0;
 const moment_timezone_1 = __importDefault(require("moment-timezone"));
 const path_1 = __importDefault(require("path"));
 const lodash_1 = __importDefault(require("lodash"));
@@ -247,6 +247,92 @@ const albumsInsert = async () => {
     }
 };
 exports.albumsInsert = albumsInsert;
+const serializeAlbum = (album) => (Object.assign(Object.assign({}, album), { _id: String(album._id), _albumId: String(album._albumId) }));
+const serializeTrack = (track) => (Object.assign(Object.assign({}, track), { _id: String(track._id), _albumId: String(track._albumId), _trackId: String(track._trackId) }));
+const listAlbums = async (request) => {
+    var _a, _b;
+    const q = String((_b = (_a = request.query.q) !== null && _a !== void 0 ? _a : request.query.search) !== null && _b !== void 0 ? _b : "").trim();
+    if (!q) {
+        return [];
+    }
+    const { Albums } = mongodb_connection_1.MongoStudioHandler.getCollectionSet();
+    const escaped = q.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+    const regex = new RegExp(escaped, "i");
+    const albums = await Albums.find({ Album: regex }, { projection: { _albumId: 1, Album: 1, Type: 1, AlbumArtist: 1, Year: 1 } })
+        .sort({ Album: 1 })
+        .limit(50)
+        .toArray();
+    return albums.map((a) => ({
+        _albumId: String(a._albumId),
+        Album: a.Album,
+        Type: a.Type,
+        AlbumArtist: a.AlbumArtist,
+        Year: a.Year
+    }));
+};
+exports.listAlbums = listAlbums;
+const createAlbum = async (request) => {
+    const body = request.body;
+    if (!body.Album || !body.AlbumArtist || !body.Year || !body.Color || !body.releaseDate || !body.Thumbnail || !body.Type) {
+        throw new Error("Missing required album fields.");
+    }
+    if (body.Type !== "Album" && body.Type !== "Single") {
+        throw new Error("Type must be Album or Single.");
+    }
+    if (!body._albumId || !mongodb_1.ObjectId.isValid(body._albumId)) {
+        throw new Error("Valid _albumId is required.");
+    }
+    const { Albums } = mongodb_connection_1.MongoStudioHandler.getCollectionSet();
+    const new_album = Object.assign({ _id: new mongodb_1.ObjectId(), _albumId: new mongodb_1.ObjectId(body._albumId), Album: body.Album, AlbumArtist: body.AlbumArtist, Year: body.Year, Color: body.Color, releaseDate: (0, moment_timezone_1.default)(body.releaseDate).format("YYYY-MM-DD"), Thumbnail: body.Thumbnail, Type: body.Type }, (() => {
+        const obj = {};
+        if (body.LightColor)
+            obj.LightColor = body.LightColor;
+        if (body.DarkColor)
+            obj.DarkColor = body.DarkColor;
+        return obj;
+    })());
+    await Albums.insertOne(new_album);
+    return {
+        message: "Album created.",
+        album: serializeAlbum(new_album)
+    };
+};
+exports.createAlbum = createAlbum;
+const createTrack = async (request) => {
+    const body = request.body;
+    if (!body._albumId || !body.Title || !body.Artist || !body.url || !body.Duration) {
+        throw new Error("Missing required track fields (_albumId, Title, Artist, url, Duration).");
+    }
+    if (!mongodb_1.ObjectId.isValid(body._albumId)) {
+        throw new Error("Valid _albumId is required.");
+    }
+    if (!body._trackId || !mongodb_1.ObjectId.isValid(body._trackId)) {
+        throw new Error("Valid _trackId is required.");
+    }
+    const { Tracks } = mongodb_connection_1.MongoStudioHandler.getCollectionSet();
+    const new_track = Object.assign({ _id: new mongodb_1.ObjectId(), _albumId: new mongodb_1.ObjectId(body._albumId), _trackId: new mongodb_1.ObjectId(body._trackId), Title: body.Title, Artist: body.Artist, url: body.url, Duration: body.Duration, streamCount: typeof body.streamCount === "number" ? body.streamCount : 0 }, (() => {
+        const obj = {};
+        if (body.lyrics)
+            obj.lyrics = true;
+        if (body.sync)
+            obj.sync = true;
+        return obj;
+    })());
+    await Tracks.insertOne(new_track);
+    return {
+        message: "Track created.",
+        track: serializeTrack(new_track)
+    };
+};
+exports.createTrack = createTrack;
+const generateAlbumId = async () => ({
+    objectId: new mongodb_1.ObjectId().toHexString()
+});
+exports.generateAlbumId = generateAlbumId;
+const generateTrackId = async () => ({
+    objectId: new mongodb_1.ObjectId().toHexString()
+});
+exports.generateTrackId = generateTrackId;
 const addTrack = async () => {
     const { Albums, Tracks } = mongodb_connection_1.MongoStudioHandler.getCollectionSet();
     const ALBUMLIST = [songlist2_1.default[songlist2_1.default.length - 1]];
