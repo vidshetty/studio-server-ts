@@ -51,6 +51,7 @@ const ENV = () => {
         GMAIL_REDIRECT_URI: process.env.GMAIL_REDIRECT_URI || "",
         GMAIL_REFRESH_TOKEN: process.env.GMAIL_REFRESH_TOKEN || "",
         DRIVE_LINK: process.env.DRIVE_LINK || "",
+        SERVER_GO_URL: process.env.SERVER_GO_URL || ""
     });
 };
 exports.ENV = ENV;

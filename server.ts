@@ -18,6 +18,8 @@ import apiservice from "./api-service";
 import adminservice from "./admin-service";
 import androidservice from "./android-service";
 import { MongoStudioHandler } from "./helpers/mongodb-connection";
+import { createProxyMiddleware } from "http-proxy-middleware";
+import { ENV } from "./helpers/utils";
 
 
 const app: Application = express();
@@ -49,6 +51,11 @@ const PROTOCOL: string = process.env.PROTOCOL || "http";
     app.use("/api", apiservice);
 
     app.use("/android", androidservice);
+
+    app.use("/hls", createProxyMiddleware({
+        target: ENV().SERVER_GO_URL,
+        changeOrigin: true
+    }));
 
     app.get("/login/google", passport.authenticate("google", {
         scope: ["profile", "email"],
