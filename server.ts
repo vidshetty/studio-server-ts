@@ -52,10 +52,10 @@ const PROTOCOL: string = process.env.PROTOCOL || "http";
 
     app.use("/android", androidservice);
 
-    app.use("/hls", createProxyMiddleware({
-        target: ENV().SERVER_GO_URL,
-        changeOrigin: true
-    }));
+    // app.use("/hls", createProxyMiddleware({
+    //     target: ENV().SERVER_GO_URL,
+    //     changeOrigin: true
+    // }));
 
     app.get("/login/google", passport.authenticate("google", {
         scope: ["profile", "email"],

@@ -21,8 +21,6 @@ const api_service_1 = __importDefault(require("./api-service"));
 const admin_service_1 = __importDefault(require("./admin-service"));
 const android_service_1 = __importDefault(require("./android-service"));
 const mongodb_connection_1 = require("./helpers/mongodb-connection");
-const http_proxy_middleware_1 = require("http-proxy-middleware");
-const utils_1 = require("./helpers/utils");
 const app = (0, express_1.default)();
 const PORT = parseInt(process.env.PORT || "5000");
 const PROTOCOL = process.env.PROTOCOL || "http";
@@ -38,10 +36,10 @@ const PROTOCOL = process.env.PROTOCOL || "http";
     app.use("/api/auth", auth_service_1.default);
     app.use("/api", api_service_1.default);
     app.use("/android", android_service_1.default);
-    app.use("/hls", (0, http_proxy_middleware_1.createProxyMiddleware)({
-        target: (0, utils_1.ENV)().SERVER_GO_URL,
-        changeOrigin: true
-    }));
+    // app.use("/hls", createProxyMiddleware({
+    //     target: ENV().SERVER_GO_URL,
+    //     changeOrigin: true
+    // }));
     app.get("/login/google", passport_1.default.authenticate("google", {
         scope: ["profile", "email"],
         session: false
