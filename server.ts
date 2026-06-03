@@ -1,5 +1,5 @@
 import "source-map-support/register";
-import express, { Application, Request, Response } from "express";
+import express, { Application, NextFunction, Request, Response } from "express";
 import { config } from "dotenv";
 import path from "path";
 import fs from "fs";
@@ -20,6 +20,13 @@ import androidservice from "./android-service";
 import { MongoStudioHandler } from "./helpers/mongodb-connection";
 import { createProxyMiddleware } from "http-proxy-middleware";
 import { ENV } from "./helpers/utils";
+import { multipleMiddlewares } from "./helpers/middlewares";
+import {
+    apiAuthCheck,
+    apiAccessCheck,
+    androidApiAuthCheck,
+    androidApiAccessCheck
+} from "./auth-service/functions";
 
 
 const app: Application = express();
@@ -52,10 +59,22 @@ const PROTOCOL: string = process.env.PROTOCOL || "http";
 
     app.use("/android", androidservice);
 
-    // app.use("/hls", createProxyMiddleware({
-    //     target: ENV().SERVER_GO_URL,
-    //     changeOrigin: true
-    // }));
+    app.use(
+        "/hls",
+        multipleMiddlewares([
+            apiAuthCheck,
+            apiAccessCheck,
+            androidApiAuthCheck,
+            androidApiAccessCheck
+        ]),
+        createProxyMiddleware({
+            target: ENV().SERVER_GO_URL,
+            changeOrigin: true,
+            pathRewrite: (path: string, req: Request) => {
+                return req.originalUrl;
+            }
+        })
+    );
 
     app.get("/login/google", passport.authenticate("google", {
         scope: ["profile", "email"],
