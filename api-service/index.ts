@@ -1,4 +1,5 @@
-import { Router, Response } from "express";
+import { Router, Request, Response } from "express";
+import { createProxyMiddleware } from "http-proxy-middleware";
 import { apiAuthCheck, apiAccessCheck } from "../auth-service/functions";
 import { responseMid } from "../helpers/responsehandler";
 import {
@@ -19,7 +20,7 @@ import {
     getOriginalResumeLink,
     sendEmailApi
 } from "./functions";
-import { MAIN_URL } from "../helpers/utils";
+import { ENV, MAIN_URL } from "../helpers/utils";
 
 
 const router = Router();
@@ -55,7 +56,13 @@ router.get("/search", responseMid(search));
 
 router.post("/addToRecentlyPlayed", responseMid(addToRecentlyPlayed));
 
-router.get("/getLyrics", responseMid(getLyrics));
+router.get("/getLyrics", createProxyMiddleware({
+    target: ENV().SERVER_GO_URL,
+    changeOrigin: true,
+    pathRewrite: (path: string, req: Request) => {
+        return "/lyrics?" + (String(req.originalUrl || "").split("?")?.[1] || "");
+    }
+}));
 
 router.get("/sign-out", responseMid(signOut));
 

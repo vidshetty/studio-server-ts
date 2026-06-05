@@ -6,6 +6,13 @@ import path from "path";
 import fs from "fs";
 import _ from "lodash";
 
+import {
+    apiAuthCheck,
+    apiAccessCheck,
+    androidApiAuthCheck,
+    androidApiAccessCheck
+} from "../auth-service/functions";
+
 
 export const userAgentCheck = (request: Request, response: Response, next: NextFunction) => {
 
@@ -128,43 +135,4 @@ export const updateHtmlHead = async (request: Request) : Promise<string> => {
 
 export const androidErrorHandler = (err: CustomError, req: Request, res: Response, next: NextFunction) => {
     res.status(500).json(err.body);
-};
-
-export const multipleMiddlewares = (middlewares: Function[] = []) => {
-    return async (req: Request, res: Response, next: NextFunction) => {
-
-        let passed = 0;
-        let failed = 0;
-        const total = middlewares.length;
-        const errors: any[] = [];
-
-        for (let i=0; i<middlewares.length; i++) {
-            try {
-                await middlewares[i](req, res, (err: any = null) => {
-                    if (err !== null) {
-                        failed++;
-                        errors.push(err);
-                    } else {
-                        passed++;
-                    }
-                });
-            }
-            catch(e) {
-                failed++;
-                errors.push(e);
-            }
-        }
-
-        if (passed + failed === total) {
-            if (passed > 0) {
-                next();
-            } else {
-                next(errors);
-            }
-        } else {
-            if (_.isEmpty(errors)) next(new Error("passed + failed !== total"));
-            else next(errors);
-        }
-
-    };
 };

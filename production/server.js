@@ -23,8 +23,6 @@ const android_service_1 = __importDefault(require("./android-service"));
 const mongodb_connection_1 = require("./helpers/mongodb-connection");
 const http_proxy_middleware_1 = require("http-proxy-middleware");
 const utils_1 = require("./helpers/utils");
-const middlewares_1 = require("./helpers/middlewares");
-const functions_1 = require("./auth-service/functions");
 const app = (0, express_1.default)();
 const PORT = parseInt(process.env.PORT || "5000");
 const PROTOCOL = process.env.PROTOCOL || "http";
@@ -40,12 +38,28 @@ const PROTOCOL = process.env.PROTOCOL || "http";
     app.use("/api/auth", auth_service_1.default);
     app.use("/api", api_service_1.default);
     app.use("/android", android_service_1.default);
-    app.use("/hls", (0, middlewares_1.multipleMiddlewares)([
-        functions_1.apiAuthCheck,
-        functions_1.apiAccessCheck,
-        functions_1.androidApiAuthCheck,
-        functions_1.androidApiAccessCheck
-    ]), (0, http_proxy_middleware_1.createProxyMiddleware)({
+    app.use("/hls", 
+    // (req: Request, res: Response, next: NextFunction) => {
+    //     const platform = _.isEmpty(req?.headers?.["accesstoken"] || "") ?
+    //         "web" : "android";
+    //     console.log("accesstoken", req?.headers?.["accesstoken"]);
+    //     if (platform === "android") {
+    //         androidApiAuthCheck(req, res, next);
+    //     } else {
+    //         apiAuthCheck(req, res, next);
+    //     }
+    // },
+    // (req: Request, res: Response, next: NextFunction) => {
+    //     const platform = _.isEmpty(req?.headers?.["accesstoken"] || "") ?
+    //         "web" : "android";
+    //     console.log("accesstoken", req?.headers?.["accesstoken"]);
+    //     if (platform === "android") {
+    //         androidApiAccessCheck(req, res, next);
+    //     } else {
+    //         apiAccessCheck(req, res, next);
+    //     }
+    // },
+    (0, http_proxy_middleware_1.createProxyMiddleware)({
         target: (0, utils_1.ENV)().SERVER_GO_URL,
         changeOrigin: true,
         pathRewrite: (path, req) => {

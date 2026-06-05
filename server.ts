@@ -6,6 +6,7 @@ import fs from "fs";
 import passport from "passport";
 import https from "https";
 import http from "http";
+import _ from "lodash";
 
 config({ path: path.join(process.cwd(), "ENV", ".env") });
 
@@ -20,7 +21,6 @@ import androidservice from "./android-service";
 import { MongoStudioHandler } from "./helpers/mongodb-connection";
 import { createProxyMiddleware } from "http-proxy-middleware";
 import { ENV } from "./helpers/utils";
-import { multipleMiddlewares } from "./helpers/middlewares";
 import {
     apiAuthCheck,
     apiAccessCheck,
@@ -61,12 +61,26 @@ const PROTOCOL: string = process.env.PROTOCOL || "http";
 
     app.use(
         "/hls",
-        multipleMiddlewares([
-            apiAuthCheck,
-            apiAccessCheck,
-            androidApiAuthCheck,
-            androidApiAccessCheck
-        ]),
+        // (req: Request, res: Response, next: NextFunction) => {
+        //     const platform = _.isEmpty(req?.headers?.["accesstoken"] || "") ?
+        //         "web" : "android";
+        //     console.log("accesstoken", req?.headers?.["accesstoken"]);
+        //     if (platform === "android") {
+        //         androidApiAuthCheck(req, res, next);
+        //     } else {
+        //         apiAuthCheck(req, res, next);
+        //     }
+        // },
+        // (req: Request, res: Response, next: NextFunction) => {
+        //     const platform = _.isEmpty(req?.headers?.["accesstoken"] || "") ?
+        //         "web" : "android";
+        //     console.log("accesstoken", req?.headers?.["accesstoken"]);
+        //     if (platform === "android") {
+        //         androidApiAccessCheck(req, res, next);
+        //     } else {
+        //         apiAccessCheck(req, res, next);
+        //     }
+        // },
         createProxyMiddleware({
             target: ENV().SERVER_GO_URL,
             changeOrigin: true,

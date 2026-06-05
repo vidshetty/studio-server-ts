@@ -3,13 +3,12 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.multipleMiddlewares = exports.androidErrorHandler = exports.updateHtmlHead = exports.ipAddress = exports.httpsRedirect = exports.userAgentCheck = void 0;
+exports.androidErrorHandler = exports.updateHtmlHead = exports.ipAddress = exports.httpsRedirect = exports.userAgentCheck = void 0;
 const functions_1 = require("../api-service/functions");
 const geoip_lite_1 = require("geoip-lite");
 const utils_1 = require("../helpers/utils");
 const path_1 = __importDefault(require("path"));
 const fs_1 = __importDefault(require("fs"));
-const lodash_1 = __importDefault(require("lodash"));
 const userAgentCheck = (request, response, next) => {
     const ua = (request.headers["user-agent"] || "").toLowerCase();
     let found = false;
@@ -104,44 +103,4 @@ const androidErrorHandler = (err, req, res, next) => {
     res.status(500).json(err.body);
 };
 exports.androidErrorHandler = androidErrorHandler;
-const multipleMiddlewares = (middlewares = []) => {
-    return async (req, res, next) => {
-        let passed = 0;
-        let failed = 0;
-        const total = middlewares.length;
-        const errors = [];
-        for (let i = 0; i < middlewares.length; i++) {
-            try {
-                await middlewares[i](req, res, (err = null) => {
-                    if (err !== null) {
-                        failed++;
-                        errors.push(err);
-                    }
-                    else {
-                        passed++;
-                    }
-                });
-            }
-            catch (e) {
-                failed++;
-                errors.push(e);
-            }
-        }
-        if (passed + failed === total) {
-            if (passed > 0) {
-                next();
-            }
-            else {
-                next(errors);
-            }
-        }
-        else {
-            if (lodash_1.default.isEmpty(errors))
-                next(new Error("passed + failed !== total"));
-            else
-                next(errors);
-        }
-    };
-};
-exports.multipleMiddlewares = multipleMiddlewares;
 //# sourceMappingURL=middlewares.js.map
